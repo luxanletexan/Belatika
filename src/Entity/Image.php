@@ -73,4 +73,9 @@ class Image
         return $this;
     }
 
+    public function getThumbURI():string
+    {
+        return 'img/uploads/thumbnails/'.$this->getId().'.'.$this->getExt();
+    }
+
 }

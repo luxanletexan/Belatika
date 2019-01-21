@@ -1,7 +1,15 @@
 {% extends "layout.html.twig" %}
-{% block title %}Accueil{% endblock %}
+{% block title %}Home{% endblock %}
 {% block content %}
-    <h1>Belatika</h1>
-    <h2>Commit:</h2>
-    <p>Categories, Items and Images added to database</p>
+    <h1 class="text-center text-info">{{ 'Handcrafted jewelry creations'|trans }}</h1>
+    <p class="alert alert-success">{{ 'Hello! Can you translate this from english?'|gTrans }}</p>
+    <p class="alert alert-success">{{ '¡Hola! ¿Puedes traducir esto desde español?'|gTrans }}</p>
+    <div class="d-flex flex-wrap">
+        {% for item in items %}
+            <figure class="m-2">
+                <img src="{% if item.images|first.thumbURI is onDisk %}{{ asset(item.images|first.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ item.images|first.alt }}">
+                <figcaption>{{ item.name }}</figcaption>
+            </figure>
+        {% endfor %}
+    </div>
 {% endblock %}
