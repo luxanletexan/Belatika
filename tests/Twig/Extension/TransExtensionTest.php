@@ -20,7 +20,7 @@ class TransExtensionTest extends WebTestCase
      * @param string $expected
      * @param Translation|null $translation
      */
-    public function testTranslate($text, $expected, Translation $translation = null):void
+    public function testTranslateFromDB($text, $expected, Translation $translation = null):void
     {
         $translator = $this->getMockBuilder(GoogleTranslate::class)->getMock();
         $translator->method('setTarget')->willReturn($translator);
@@ -44,7 +44,7 @@ class TransExtensionTest extends WebTestCase
         $this->assertSame($expected, $transExtension->gTransDB($text));
     }
 
-    public function testTranslateWithError():void
+    public function testTranslateFromDBWithError():void
     {
         $translator = $this->getMockBuilder(GoogleTranslate::class)->getMock();
         $translator->method('setTarget')->willReturn($translator);
@@ -65,6 +65,45 @@ class TransExtensionTest extends WebTestCase
 
         $transExtension = new TransExtension($translator, $requestStack, $objectManager, $projectDir);
         $this->assertSame('Should return untranslated text on error', $transExtension->gTransDB('Should return untranslated text on error'));
+    }
+
+    public function testTranslate():void
+    {
+        $translator = $this->getMockBuilder(GoogleTranslate::class)->getMock();
+        $translator->method('setTarget')->willReturn($translator);
+        $translator->method('translate')->willReturn('Translated text');
+
+        $requestStack = $this->getMockBuilder(RequestStack::class)->getMock();
+        $request = new Request();
+        $requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
+
+        $objectManager = $this->getMockBuilder(ObjectManager::class)->getMock();
+
+        self::bootKernel();
+        $container = self::$kernel->getContainer();
+        $projectDir = $container->getParameter('kernel.project_dir');
+
+        $transExtension = new TransExtension($translator, $requestStack, $objectManager, $projectDir);
+        $this->assertSame('Translated text', $transExtension->gTrans('Text to translate'));
+    }
+    public function testTranslateWithError():void
+    {
+        $translator = $this->getMockBuilder(GoogleTranslate::class)->getMock();
+        $translator->method('setTarget')->willReturn($translator);
+        $translator->method('translate')->will($this->throwException(new \ErrorException('test')));
+
+        $requestStack = $this->getMockBuilder(RequestStack::class)->getMock();
+        $request = new Request();
+        $requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
+
+        $objectManager = $this->getMockBuilder(ObjectManager::class)->getMock();
+
+        self::bootKernel();
+        $container = self::$kernel->getContainer();
+        $projectDir = $container->getParameter('kernel.project_dir');
+
+        $transExtension = new TransExtension($translator, $requestStack, $objectManager, $projectDir);
+        $this->assertSame('Should return untranslated text on error', $transExtension->gTrans('Should return untranslated text on error'));
     }
 
     public function translations():array
