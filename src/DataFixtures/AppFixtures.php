@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Image;
 use App\Entity\Item;
+use App\Entity\Translation;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use joshtronic\LoremIpsum;
@@ -50,6 +51,14 @@ class AppFixtures extends Fixture
                 $manager->persist($image);
             }
         }
+
+        //Creating 1 translation for testings
+        $translation = new Translation();
+        $translation
+            ->setCrc32(crc32('Hello world'))
+            ->setTarget('fr')
+            ->setTranslation('Bonjour le monde');
+        $manager->persist($translation);
 
         $manager->flush();
     }

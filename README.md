@@ -1,6 +1,6 @@
 # BELATIKA
 
-Project : belatika.com website refactoring
+Project : [belatika.com](https://belatika.com) website refactoring
 
 ## INSTALL
 
@@ -16,5 +16,9 @@ Load dataset for your database :
 
 - run php bin/console doctrine:fixtures:load
 - contribute :)
+
+## TESTINGS
+
+- run php bin\phpunit
 
 Regards, Asura64

@@ -11,6 +11,7 @@
         <ini name="error_reporting" value="-1" />
         <env name="APP_ENV" value="test" />
         <env name="SHELL_VERBOSITY" value="-1" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
 
     <testsuites>
@@ -22,6 +23,13 @@
     <filter>
         <whitelist>
             <directory>src</directory>
+            <exclude>
+                <file>src/Kernel.php</file>
+                <file>src/Repository/CategoryRepository.php</file>
+                <file>src/Repository/ImageRepository.php</file>
+                <directory>src/DataFixtures</directory>
+                <directory>src/Entity</directory>
+            </exclude>
         </whitelist>
     </filter>
 

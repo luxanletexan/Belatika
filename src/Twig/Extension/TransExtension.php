@@ -3,7 +3,7 @@
 namespace App\Twig\Extension;
 
 
-use App\Entity\Traduction;
+use App\Entity\Translation;
 use Doctrine\Common\Persistence\ObjectManager;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -37,25 +37,25 @@ class TransExtension extends AbstractExtension
         $language = $request->getLocale();
         $search = $this->getTranslationFromDatabase($text, $language);
         if(null !== $search) {
-            return $search->getTraduction();
+            return $search->getTranslation();
         }
         try {
-            $traduction = new Traduction();
-            $traduction
-                ->setTraduction($this->translator->setTarget($language)->translate($text))
+            $translation = new Translation();
+            $translation
+                ->setTranslation($this->translator->setTarget($language)->translate($text))
                 ->setCrc32(crc32($text))
                 ->setTarget($language);
-            $this->manager->persist($traduction);
+            $this->manager->persist($translation);
             $this->manager->flush();
-            return $traduction->getTraduction();
+            return $translation->getTranslation();
         }catch (\ErrorException $e) {
             return $text;
         }
     }
 
-    private function getTranslationFromDatabase($text, $language):?Traduction
+    private function getTranslationFromDatabase($text, $language):?Translation
     {
         $crc32 = crc32($text);
-        return $this->manager->getRepository(Traduction::class)->searchTranslation($crc32, $language);
+        return $this->manager->getRepository(Translation::class)->searchTranslation($crc32, $language);
     }
 }

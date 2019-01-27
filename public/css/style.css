@@ -1,0 +1,21 @@
+img.belatika-logo
+{
+    width: 100%;
+    margin: auto;
+    max-height: 66px;
+    max-width: 300px;
+}
+
+.bg-belatika
+{
+    background-image: linear-gradient( #222, #343A40);
+}
+.border-bottom-belatika
+{
+    border-bottom: 3px solid #222;
+}
+
+.shining:hover {
+    background-image: radial-gradient(circle at center, rgb(113, 113, 113) 10%, #343A40 20%);
+    background-size: 200% 200%;
+}

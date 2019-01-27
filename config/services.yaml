@@ -40,7 +40,6 @@ services:
     app.google_translate:
         class: Stichoza\GoogleTranslate\GoogleTranslate
 
-
     App\Twig\Extension\TransExtension:
         tags: ['twig.extension']
         arguments:

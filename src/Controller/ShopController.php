@@ -16,15 +16,9 @@ class ShopController extends AbstractController
      */
     public function index():Response
     {
-
-        $text = "Ceci est un texte de test pour le hachagesfbsdfbef'è(&é'";
-
-        $crc = crc32($text);
-
         $repository = $this->getDoctrine()->getRepository(Item::class);
         $items = $repository->findAllWithImages();
 
         return $this->render('shop/index.html.twig', ['items' => $items]);
     }
-
 }

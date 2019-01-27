@@ -5,12 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TraductionRepository")
- * @ORM\Table(name="traduction", indexes={
+ * @ORM\Entity(repositoryClass="App\Repository\TranslationRepository")
+ * @ORM\Table(name="translation", indexes={
  *     @ORM\Index(name="search", columns={"crc32", "target"})
  * })
  */
-class Traduction
+class Translation
 {
     /**
      * @ORM\Id()
@@ -32,7 +32,7 @@ class Traduction
     /**
      * @ORM\Column(type="text")
      */
-    private $traduction;
+    private $translation;
 
     public function getId(): ?int
     {
@@ -63,14 +63,14 @@ class Traduction
         return $this;
     }
 
-    public function getTraduction(): ?string
+    public function getTranslation(): ?string
     {
-        return $this->traduction;
+        return $this->translation;
     }
 
-    public function setTraduction(string $traduction): self
+    public function setTranslation(string $translation): self
     {
-        $this->traduction = $traduction;
+        $this->translation = $translation;
 
         return $this;
     }

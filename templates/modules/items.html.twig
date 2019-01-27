@@ -1,0 +1,8 @@
+<div class="d-flex flex-wrap">
+    {% for item in items %}
+        <figure class="m-2">
+            <img src="{% if item.images|first.thumbURI is onDisk %}{{ asset(item.images|first.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ item.images|first.alt }}">
+            <figcaption>{{ item.name }}</figcaption>
+        </figure>
+    {% endfor %}
+</div>
