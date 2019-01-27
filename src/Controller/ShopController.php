@@ -7,6 +7,7 @@ use App\Entity\Item;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Yaml\Yaml;
 
 
 class ShopController extends AbstractController
@@ -16,8 +17,8 @@ class ShopController extends AbstractController
      */
     public function index():Response
     {
-        $repository = $this->getDoctrine()->getRepository(Item::class);
-        $items = $repository->findAllWithImages();
+
+        $items = $this->getDoctrine()->getRepository(Item::class)->findAllWithImages();
 
         return $this->render('shop/index.html.twig', ['items' => $items]);
     }

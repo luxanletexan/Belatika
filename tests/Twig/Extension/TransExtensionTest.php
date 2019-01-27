@@ -7,12 +7,12 @@ use App\Entity\Translation;
 use App\Repository\TranslationRepository;
 use App\Twig\Extension\TransExtension;
 use Doctrine\Common\Persistence\ObjectManager;
-use PHPUnit\Framework\TestCase;
 use Stichoza\GoogleTranslate\GoogleTranslate;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class TransExtensionTest extends TestCase
+class TransExtensionTest extends WebTestCase
 {
     /**
      * @dataProvider translations
@@ -36,8 +36,12 @@ class TransExtensionTest extends TestCase
         $objectManager = $this->getMockBuilder(ObjectManager::class)->getMock();
         $objectManager->method('getRepository')->willReturn($translationRepository);
 
-        $transExtension = new TransExtension($translator, $requestStack, $objectManager);
-        $this->assertSame($expected, $transExtension->translate($text));
+        self::bootKernel();
+        $container = self::$kernel->getContainer();
+        $projectDir = $container->getParameter('kernel.project_dir');
+
+        $transExtension = new TransExtension($translator, $requestStack, $objectManager, $projectDir);
+        $this->assertSame($expected, $transExtension->gTransDB($text));
     }
 
     public function testTranslateWithError():void
@@ -55,8 +59,12 @@ class TransExtensionTest extends TestCase
         $objectManager = $this->getMockBuilder(ObjectManager::class)->getMock();
         $objectManager->method('getRepository')->willReturn($translationRepository);
 
-        $transExtension = new TransExtension($translator, $requestStack, $objectManager);
-        $this->assertSame('Should return untranslated text on error', $transExtension->translate('Should return untranslated text on error'));
+        self::bootKernel();
+        $container = self::$kernel->getContainer();
+        $projectDir = $container->getParameter('kernel.project_dir');
+
+        $transExtension = new TransExtension($translator, $requestStack, $objectManager, $projectDir);
+        $this->assertSame('Should return untranslated text on error', $transExtension->gTransDB('Should return untranslated text on error'));
     }
 
     public function translations():array

@@ -46,3 +46,4 @@ services:
             $translator: '@app.google_translate'
             $requestStack: '@request_stack'
             $manager: '@doctrine.orm.entity_manager'
+            $projectDir: '%kernel.project_dir%'

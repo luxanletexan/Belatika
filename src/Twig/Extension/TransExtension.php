@@ -7,6 +7,7 @@ use App\Entity\Translation;
 use Doctrine\Common\Persistence\ObjectManager;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Yaml\Yaml;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -15,22 +16,25 @@ class TransExtension extends AbstractExtension
     private $translator;
     private $requestStack;
     private $manager;
+    private $projectDir;
 
-    public function __construct(GoogleTranslate $translator, RequestStack $requestStack, ObjectManager $manager)
+    public function __construct(GoogleTranslate $translator, RequestStack $requestStack, ObjectManager $manager, $projectDir)
     {
         $this->translator = $translator;
         $this->requestStack = $requestStack;
         $this->manager = $manager;
+        $this->projectDir = $projectDir;
     }
 
     public function getFilters():array
     {
         return [
-            new TwigFilter('gTrans', [$this, 'translate']),
+            new TwigFilter('gTrans', [$this, 'gTrans']),
+            new TwigFilter('gTransDB', [$this, 'gTransDB']),
         ];
     }
 
-    public function translate($text)
+    public function gTransDB($text)
     {
         $request = $this->requestStack->getCurrentRequest();
         if(null === $request) { return $text; }
@@ -57,5 +61,31 @@ class TransExtension extends AbstractExtension
     {
         $crc32 = crc32($text);
         return $this->manager->getRepository(Translation::class)->searchTranslation($crc32, $language);
+    }
+
+    public function gTrans($text):string
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if(null === $request) { return $text; }
+        $language = $request->getLocale();
+
+        $translationFile = $this->projectDir . '\translations\messages.'.$language.'.yaml';
+
+        if(file_exists($translationFile)){
+            $translations = Yaml::parseFile($translationFile);
+
+            if(is_array($translations) && array_key_exists($text, $translations)) {
+                return $translations[$text];
+            }
+        }
+
+        try {
+            $translation = $this->translator->setTarget($language)->translate($text);
+            $yaml = Yaml::dump([$text => $translation]);
+            file_put_contents($translationFile, $yaml, FILE_APPEND);
+            return $translation;
+        }catch (\ErrorException $e) {
+            return $text;
+        }
     }
 }

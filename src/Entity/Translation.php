@@ -34,16 +34,26 @@ class Translation
      */
     private $translation;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTarget(): ?string
     {
         return $this->target;
     }
 
+    /**
+     * @param string $target
+     * @return Translation
+     */
     public function setTarget(string $target): self
     {
         $this->target = $target;
@@ -51,11 +61,18 @@ class Translation
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getCrc32(): ?int
     {
         return $this->crc32;
     }
 
+    /**
+     * @param int $crc32
+     * @return Translation
+     */
     public function setCrc32(int $crc32): self
     {
         $this->crc32 = $crc32;
@@ -63,11 +80,18 @@ class Translation
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTranslation(): ?string
     {
         return $this->translation;
     }
 
+    /**
+     * @param string $translation
+     * @return Translation
+     */
     public function setTranslation(string $translation): self
     {
         $this->translation = $translation;
