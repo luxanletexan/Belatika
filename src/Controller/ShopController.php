@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 
+use App\Entity\Category;
 use App\Entity\Item;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Yaml\Yaml;
 
 
 class ShopController extends AbstractController
@@ -17,9 +17,10 @@ class ShopController extends AbstractController
      */
     public function index():Response
     {
-
         $items = $this->getDoctrine()->getRepository(Item::class)->findAllWithImages();
 
-        return $this->render('shop/index.html.twig', ['items' => $items]);
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
+
+        return $this->render('shop/index.html.twig', ['items' => $items, 'categories' => $categories]);
     }
 }

@@ -16,6 +16,9 @@ class ClientLocaleListener
 
     public function onKernelRequest(GetResponseEvent $event):void
     {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
         $request = $event->getRequest();
         $preferredLanguage = substr($request->getPreferredLanguage(), 0, 2);
         $locale = in_array($preferredLanguage, $this->locales, true) ? $preferredLanguage : 'en';

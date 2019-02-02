@@ -1,3 +1,9 @@
 <div id="belatika-nav" class="rounded p-3 bg-belatika border-bottom-belatika shining text-light">
-    <h2>Sidenav</h2>
+    <ul>
+        <li><a href="{{ path('app_shop_index') }}"><i class="fas fa-home"></i> {{ 'Home'|gTrans }}</a></li>
+        <li><a href="{{ path('app_shop_index') }}"><i class="fas fa-book"></i> {{ 'See the blog'|gTrans }}</a></li>
+        {% for category in categories %}
+            <li><a class="underline" href="#">{{ category.name|gTrans|capitalize }}</a></li>
+        {% endfor %}
+    </ul>
 </div>
