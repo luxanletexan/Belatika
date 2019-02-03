@@ -2,11 +2,12 @@
 
 body
 {
-    padding-top: 100px;
+    padding-top: 85px;
 }
 .bg-belatika
 {
-    background-image: linear-gradient( #222, #343A40);
+    /*background-image: linear-gradient( #222, #343A40);*/
+    background-color: #222;
 }
 .border-bottom-belatika
 {

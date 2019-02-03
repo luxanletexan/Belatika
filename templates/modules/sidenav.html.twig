@@ -1,4 +1,4 @@
-<div id="belatika-nav" class="rounded p-3 bg-belatika border-bottom-belatika shining text-light">
+{#<div id="belatika-nav" class="rounded p-3 bg-belatika border-bottom-belatika shining text-light">
     <ul>
         <li><a href="{{ path('app_shop_index') }}"><i class="fas fa-home"></i> {{ 'Accueil'|gTrans }}</a></li>
         <li><a href="{{ path('app_shop_index') }}"><i class="fas fa-book"></i> {{ 'Voir le blog'|gTrans }}</a></li>
@@ -6,4 +6,49 @@
             <li><a class="underline" href="#">{{ category.name|gTrans|capitalize }}</a></li>
         {% endfor %}
     </ul>
-</div>
+</div>#}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{ path('app_shop_index') }}"><i class="fas fa-home"></i> {{ 'Accueil'|gTrans }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item active dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ 'Femme'|gTrans|upper }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {% for category in categories %}
+                        <a class="dropdown-item" href="#">{{ category.name|gTrans|capitalize }}</a>
+                    {% endfor %}
+                </div>
+            </li>
+            <li class="nav-item active dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ 'Homme'|gTrans|upper }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {% for category in categories %}
+                        <a class="dropdown-item" href="#">{{ category.name|gTrans|capitalize }}</a>
+                    {% endfor %}
+                </div>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">{{ 'Cartes cadeaux'|gTrans|upper }}</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">{{ 'Voir le blog'|gTrans|upper }}</a>
+            </li>
+            <li class="nav-item active dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ 'Avis'|gTrans|upper }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    TODO : afficher les avis
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</nav>
