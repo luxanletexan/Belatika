@@ -25,6 +25,33 @@ h1
     font-weight: bold;
     text-shadow: 2px 2px 5px #c073ac, -1px -1px 3px white;
 }
+
+.belatika-link
+{
+    color: #993366;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.belatika-link:hover
+{
+    text-decoration: none;
+    color:#C073AC;
+}
+
+.belatika-light-link
+{
+    color: pink;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.belatika-light-link:hover
+{
+    text-decoration: none;
+    color:#C073AC;
+}
+
 .underline
 {
     border-bottom: 1px solid pink;
