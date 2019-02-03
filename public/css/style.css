@@ -14,9 +14,11 @@ body
     border-bottom: 3px solid #222;
 }
 
-.shining:hover {
-    background-image: radial-gradient(circle at center, rgb(64, 64, 64) 10%, #343A40 20%);
+.shining:hover
+{
+    background-image: radial-gradient(circle at center, rgb(64, 64, 64) 10%, #222 20%);
     background-size: 200% 200%;
+
 }
 
 h1
@@ -73,29 +75,28 @@ img.belatika-logo
     max-width: 300px;
 }
 
-/* Sidenav */
+/* belatika-menu */
 
-#belatika-nav ul
+.belatika-menu
 {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-#belatika-nav ul li
-{
+    background-color:#222;
 
 }
-#belatika-nav ul li a
+.belatika-menu a
 {
-    white-space: nowrap;
     color: pink;
-    display: block;
-    padding: 4px 8px;
-    transition-property: transform;
-    transition-duration: .2s;
 }
-#belatika-nav ul li a:hover
+
+.belatika-menu a:first-child
 {
-    text-decoration: none;
-    transform: scale(1.1);
+    flex: 1;
+}
+.belatika-menu div:last-child
+{
+    flex: 5;
+}
+
+.belatika-menu .dropdown-menu
+{
+    background-color: #222;
 }
