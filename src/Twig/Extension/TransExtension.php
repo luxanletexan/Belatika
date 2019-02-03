@@ -39,6 +39,7 @@ class TransExtension extends AbstractExtension
         $request = $this->requestStack->getCurrentRequest();
         if(null === $request) { return $text; }
         $language = $request->getLocale();
+        if($language === 'fr') { return $text; }
         $search = $this->getTranslationFromDatabase($text, $language);
         if(null !== $search) {
             return $search->getTranslation();
@@ -68,6 +69,7 @@ class TransExtension extends AbstractExtension
         $request = $this->requestStack->getCurrentRequest();
         if(null === $request) { return $text; }
         $language = $request->getLocale();
+        if($language === 'fr') { return $text; }
 
         $translationFile = $this->projectDir . '\translations\messages.'.$language.'.yaml';
 
