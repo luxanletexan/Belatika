@@ -26,6 +26,11 @@ h1
     text-shadow: 2px 2px 5px #c073ac, -1px -1px 3px white;
 }
 
+h4
+{
+    color:pink;
+}
+
 .belatika-link
 {
     color: #993366;
