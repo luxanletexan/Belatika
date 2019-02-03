@@ -1,6 +1,11 @@
 {% extends "layout.html.twig" %}
 {% block title %}{{ 'Créations artisanales de bijoux'|gTrans }}{% endblock %}
+{% set onSales = true %}
 {% block content %}
-    <h1>{{ 'Créations artisanales de bijoux'|gTrans }}</h1>
+    <h1 class="col-12">{{ 'Créations artisanales de bijoux'|gTrans }}</h1>
+    <p class="text-justify col-12 p-0 font-italic welcome-text">{{ 'Passionnée par la <strong>création de bijoux fantaisie</strong>, j\'ai créé Belatika en tant qu\'auto-entrepreneuse en 2016. <strong>Chacune de mes créations est unique</strong>, je fais en sorte de ne pas reproduire le même bijou, alors si une de mes nouveautés vous plaît, <span id="view-more">n\'hésitez pas trop longtemps à vous faire plaisir! Et si vous arrivez trop tard, ce n\'est pas grave, je suis très active et je propose de <strong>nouveaux bijoux fantaisie</strong> très souvent, je fais même des <strong>bijoux personnalisés</strong>. Vous pouvez même me suivre sur facebook, je suis certaine que vous trouverez votre bonheur tôt ou tard, car mon point fort, c\'est que je ne manque jamais d\'inspiration! Je recherche souvent de nouvelles techniques, de nouveaux accessoires, et c\'est ce qui rend ma boutique aussi variée. Envie d\'y faire un tour? Venez partager mon univers!</span> <a id="view-more-toggler" class="view-more" href="#"><i class="fas fa-eye"></i> lire la suite... </a>'|gTransDB|raw }}</p>
+    {% if onSales %}
+        <p class="text-center col-12 alert alert-sales"><i class="fas fa-gift"></i> Les soldes sont arrivées dans la boutique! Vous pouvez en profiter jusqu'au {#{ sales_end|date('d/m/Y') }#} <i class="fas fa-gift"></i></p>
+    {% endif %}
     {{ include('modules/items.html.twig') }}
 {% endblock %}

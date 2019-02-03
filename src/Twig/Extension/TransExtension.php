@@ -46,8 +46,9 @@ class TransExtension extends AbstractExtension
         }
         try {
             $translation = new Translation();
+            $translatedText = $this->translator->setTarget($language)->translate($text);
             $translation
-                ->setTranslation($this->translator->setTarget($language)->translate($text))
+                ->setTranslation(str_replace('</ ', '</', $translatedText))
                 ->setCrc32(crc32($text))
                 ->setTarget($language);
             $this->manager->persist($translation);

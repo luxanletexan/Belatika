@@ -1,7 +1,43 @@
 /* General */
+.container
+{
+    min-width: 310px !important;
+}
+
+body
+{
+    background-image: radial-gradient(circle at center, rgba(102, 102, 127, 0.7), rgba(255, 255, 255, 0.7));
+}
+strong
+{
+    color: deeppink;
+    font-size: 1.1em;
+    text-shadow: 2px 2px 2px white;
+}
 .bg-belatika
 {
     background-color: #222;
+}
+
+.alert-sales
+{
+    border-color: #ffdbe1;
+    background: linear-gradient(to right, transparent 0%, orchid 50%, transparent 80%);
+    background-size: 200% 200%;
+    animation: sales 3s ease infinite;
+    font-weight: bold;
+}
+
+@keyframes sales {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+@-webkit-keyframes sales {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
 }
 
 .shining:hover
@@ -102,6 +138,29 @@ img.belatika-logo
 {
     padding: 0 8%;
 }
+/*page d'accueil*/
+
+.welcome-text
+{
+    font-size: .8em;
+    font-weight: bold;
+    font-family: '../fonts/amazone-bt.ttf', sans-serif;
+}
+#view-more-toggler.view-more
+{
+    font-family: '../fonts/Calibri.ttf',sans-serif;
+    color: black;
+    font-weight: bold;
+    font-style: normal;
+    text-decoration: underline;
+    font-size: .9em;
+}
+
+a.view-more:visited
+{
+    color:black;
+}
+
 
 /*responsive*/
 

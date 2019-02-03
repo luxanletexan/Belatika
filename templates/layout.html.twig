@@ -16,10 +16,8 @@
         {{ include('modules/header.html.twig') }}
         {{ include('modules/mainnav.html.twig') }}
     </div>
-    <div class="d-flex">
-        <div class="belatika-content">
-            {% block content %}{% endblock %}
-        </div>
+    <div class="row belatika-content">
+        {% block content %}{% endblock %}
     </div>
     <div class="row">
         {{ include('modules/footer.html.twig') }}
