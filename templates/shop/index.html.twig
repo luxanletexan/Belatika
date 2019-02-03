@@ -8,4 +8,5 @@
         <p class="text-center col-12 alert alert-sales"><i class="fas fa-gift"></i> Les soldes sont arrivées dans la boutique! Vous pouvez en profiter jusqu'au {#{ sales_end|date('d/m/Y') }#} <i class="fas fa-gift"></i></p>
     {% endif %}
     {{ include('modules/items.html.twig') }}
+    {{ include('modules/pagination.html.twig') }}
 {% endblock %}

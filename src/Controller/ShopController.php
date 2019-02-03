@@ -13,11 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class ShopController extends AbstractController
 {
     /**
-     * @Route("/", name="app_shop_index")
+     * @Route("/{page<\d+>?1}",name="app_shop_index")
+     * @param $page integer
+     * @return Response
      */
-    public function index():Response
+    public function index($page):Response
     {
-        $items = $this->getDoctrine()->getRepository(Item::class)->findAllWithImages();
+        $items = $this->getDoctrine()->getRepository(Item::class)->findAllWithImages()->setCurrentPage($page);
 
         $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
 

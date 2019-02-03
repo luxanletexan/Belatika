@@ -161,6 +161,33 @@ a.view-more:visited
     color:black;
 }
 
+/* Pagination */
+nav#pagination ul.pagination
+{
+    justify-content: center;
+}
+
+nav#pagination ul.pagination li.page-item .page-link
+{
+    color: pink;
+    background-image: linear-gradient( #222, #343A40);
+    border-color: darkgrey;
+}
+
+nav#pagination ul.pagination li.page-item .page-link:hover
+{
+    background-image: linear-gradient( #343A40, darkslategrey);
+}
+
+nav#pagination ul.pagination li.page-item.active .page-link
+{
+    border-color: orchid;
+    background-color: #c073ac;
+    background-image: none;
+    color: #222;
+    font-weight: bold;
+}
+
 
 /*responsive*/
 
