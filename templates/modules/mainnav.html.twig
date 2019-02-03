@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg belatika-menu mb-4">
+<nav class="navbar navbar-expand-lg belatika-menu bg-belatika mb-4 col-12">
     <a class="navbar-brand" href="{{ path('app_shop_index') }}"><i class="fas fa-home"></i> {{ 'Accueil'|gTrans }}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -9,7 +9,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Femme'|gTrans|upper }}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuLink">
                     {% for category in categories %}
                         <a class="dropdown-item" href="#">{{ category.name|gTrans|capitalize }}</a>
                     {% endfor %}
@@ -19,7 +19,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Homme'|gTrans|upper }}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuLink">
                     {% for category in categories %}
                         <a class="dropdown-item" href="#">{{ category.name|gTrans|capitalize }}</a>
                     {% endfor %}
@@ -35,7 +35,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Avis'|gTrans|upper }}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuLink">
                     TODO : afficher les avis
                 </div>
             </li>
