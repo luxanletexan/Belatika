@@ -1,2 +1,5 @@
 parameters:
-    shop_settings: { sales: { start: '1546297200', end: 1549753200 } }
+    shop_settings:
+        sales:
+            start: 1546297200
+            end: 1549753200

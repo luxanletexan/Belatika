@@ -1,11 +1,22 @@
 <div itemscope itemtype="htpp://schema.org/JewelryStore">
     <h2 class="sr-only" itemprop="brand">Bijoux Belatika</h2>
     <div class="d-flex justify-content-between flex-wrap">
-        {% for item in items %}
-            <figure class="m-2">
-                <img itemprop="image" src="{% if item.images|first.thumbURI is onDisk %}{{ asset(item.images|first.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ item.images|first.alt }}">
-                <figcaption itemprop="name">{{ item.name|gTrans }}</figcaption>
-            </figure>
-        {% endfor %}
+    {% for item in items %}
+        <figure id="item{{item.id}}" class="item{% if item.createdAt|date_modify('+1 week')|date('Ymd') > "now"|date('Ymd') %} new{% endif %}{% if cart[item.id] is defined %} added{% endif %}">
+                <a href="#">
+                    <img class="image" src="{% if item.images|first.thumbURI is onDisk %}{{ asset(item.images|first.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ item.images|first.alt }}">
+                </a>
+                <figcaption>
+                    <p>{{item.name|gTrans}}</p>
+                    {% if item.discount and onSales %}
+                        {% set coeff = (100 - item.discount)/100 %}
+                        <span class="sold-price">{{ item.price|number_format(2, ',') }} €</span> <span class="price">{{ (item.price * coeff)|number_format(2, ',') }} € (-{{ item.sales }}%)</span>
+                    {% else %}
+                        <span class="price">{{ item.price|number_format(2, ',') }} €</span>
+                    {% endif %}
+                </figcaption>
+                <button id="cart-button{{item.id}}" onclick="" class="btn cart-button"><i class="fas fa-shopping-cart"></i> {% if cart[item.id] is not defined %}Ajouter au panier{% else %}Retirer du panier{% endif %}</button>
+        </figure>
+    {% endfor %}
     </div>
 </div>
