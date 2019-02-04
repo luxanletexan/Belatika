@@ -2,8 +2,10 @@
 
     {% if category is defined %}
         {% set category_slug = category.slug %}
+        {% set category_customer = category.customers %}
     {% else %}
         {% set category_slug = null %}
+        {% set category_customer = null %}
     {% endif %}
 
     <nav id="pagination" class="col-12">
@@ -15,17 +17,17 @@
                     {% set previous = 1 %}
                 {% endif %}
                 <li class="page-item">
-                    <a class="page-link d-sm-none d-md-block" href="{{ path(app.request.attributes.get('_route'), {'page': previous, 'slug': category_slug}) }}" title="Page {{ previous }}"><i class="fas fa-angle-double-left"></i></a>
+                    <a class="page-link d-sm-none d-md-block" href="{{ path(app.request.attributes.get('_route'), {'customer' : category_customer, 'page': previous, 'slug': category_slug}) }}" title="Page {{ previous }}"><i class="fas fa-angle-double-left"></i></a>
                 </li>
             {% endif %}
             {% for p in range(1, items.nbPages) %}
                 {% if p > items.currentPage - 3 and p < items.currentPage + 3 %}
                     <li class="page-item{% if p == items.currentPage %} active{% endif %}">
-                        <a class="page-link" href="{{ path(app.request.attributes.get('_route'), {'page': p, 'slug': category_slug}) }}">{{ p }}</a>
+                        <a class="page-link" href="{{ path(app.request.attributes.get('_route'), {'customer' : category_customer, 'page': p, 'slug': category_slug}) }}">{{ p }}</a>
                     </li>
                 {% elseif p < 4 or p > items.nbPages - 3 %}
                     <li class="page-item{% if p == items.currentPage %} active{% endif %} d-none d-sm-block">
-                        <a class="page-link" href="{{ path(app.request.attributes.get('_route'), {'page': p, 'slug': category_slug}) }}">{{ p }}</a>
+                        <a class="page-link" href="{{ path(app.request.attributes.get('_route'), {'customer' : category_customer, 'page': p, 'slug': category_slug}) }}">{{ p }}</a>
                     </li>
                 {% elseif (p == 4 and items.currentPage > 6) or (p == items.nbPages - 3 and items.currentPage < items.nbPages - 3) %}
                     <li class="page-item">
@@ -40,7 +42,7 @@
                     {% set next = items.nbPages %}
                 {% endif %}
                 <li class="page-item">
-                    <a class="page-link d-sm-none d-md-block" href="{{ path(app.request.attributes.get('_route'), {'page': next, 'slug': category_slug	}) }}" title="Page {{ next }}"><i class="fas fa-angle-double-right"></i></a>
+                    <a class="page-link d-sm-none d-md-block" href="{{ path(app.request.attributes.get('_route'), {'customer' : category_customer, 'page': next, 'slug': category_slug	}) }}" title="Page {{ next }}"><i class="fas fa-angle-double-right"></i></a>
                 </li>
             {% endif %}
         </ul>

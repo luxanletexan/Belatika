@@ -1,5 +1,6 @@
 {% extends "layout.html.twig" %}
 {% block title %}{{ category.name|gTrans }}{% endblock %}
+{% set onSales = shop_settings.sales.start < date().timestamp and date().timestamp < shop_settings.sales.end %}
 {% block head %}
     <link rel="canonical" href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}">
     <meta name="description" content="{{ category.description|gTransDB }}">
