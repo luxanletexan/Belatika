@@ -167,6 +167,45 @@ a.view-more:visited
     color:black;
 }
 
+.item-thumbnail
+{
+    width: 250px;
+}
+
+.item-name
+{
+    color:black;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.original-price + .price
+{
+    background-color: yellow;
+    color:black;
+    font-weight: bold;
+    padding: 3px;
+    border-radius:5px;
+}
+
+.original-price
+{
+    text-decoration: line-through;
+    font-weight: bold;
+    color:gray;
+}
+
+.price
+{
+    font-weight: bold;
+    color:pink;
+    background-color:#222;
+    padding: 3px;
+    border-radius:5px;
+}
+
+
 /* Pagination */
 nav#pagination ul.pagination
 {

@@ -32,13 +32,13 @@ class AppFixtures extends Fixture
             $date->modify('-'.random_int(0,365).' day'); //Random date from last year
             $item = new Item();
             $item
-                ->setName($lipsum->words(random_int(1, 5)))
+                ->setName($lipsum->words(random_int(5, 10)))
                 ->setReference($i)
                 ->setDescription($lipsum->sentences(random_int(1, 5)))
                 ->setPrice(random_int(10, 100)/2) //Prices 5€ to 50€ step 0.5€
                 ->setQuantity(random_int(1, 10))
                 ->setCreatedAt($date)
-                ->setDiscount(0) //Sales will be tested in a future commit
+                ->setDiscount(random_int(0, 5)*10) //Sales set from 0% to 50% step 10%
                 ->setCategory($categories[array_rand($categories)]);
             $manager->persist($item);
             $images_number = random_int(1, 3);
