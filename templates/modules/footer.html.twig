@@ -1,12 +1,17 @@
 <footer class="rounded mt-2 bg-belatika col-12">
     <div class="row">
         <div class="col-6 col-md-3">
-            <h4 class="text-center">A propos de Belatika:</h4>
-            <p class="text-center"><a href='https://belatika.com/web/cgv.pdf' target='_blank' class="belatika-link">-Conditions générales de vente et mentions légales.</a></p>
-            <p class="text-center"><a href="mailto:contact@belatika.com" class="belatika-link">contact@belatika.com</a></p>
+            <h3 class="text-center">A propos:</h3>
+            <ul class="about">
+                <li><a href='{{ path('app_shop_cgv') }}' class="belatika-link">Conditions générales de vente</a></li>
+                <li><a href='{{ path('app_shop_legals') }}' class="belatika-link">Mentions légales</a></li>
+                <li><a href="{{ path('app_shop_bloginfos') }}" class="belatika-link">Condition d'utlisation du blog</a></li>
+                <li><a href="mailto:contact@belatika.com" class="belatika-link">contact@belatika.com</a></li>
+
+            </ul>
         </div>
         <div class="col-6 col-md-3">
-            <h4 class="text-center">Suivez-moi:</h4>
+            <h3 class="text-center">Suivez-moi:</h3>
             <figure class="text-center">
                 <a id="facebook-follow" href="https://www.facebook.com/Zazou.belatika" target="_blank" class="belatika-link"><img src="{{ asset('img/ressources/FaceBook.png') }}" alt="Visiter sur Facebook"></a>
                 <a href="https://www.instagram.com/belatikabijoux/" target="_blank" class="belatika-link"><img src="{{ asset('img/ressources/instagram.png') }}" alt="Visiter sur Instagram"></a>

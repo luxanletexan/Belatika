@@ -55,7 +55,7 @@ h1
     text-shadow: 2px 2px 5px #c073ac, -1px -1px 3px white;
 }
 
-h4
+h3
 {
     color:pink;
 }
@@ -137,6 +137,12 @@ img.belatika-logo
 .logo-paypal
 {
     padding: 0 8%;
+}
+
+.about
+{
+    list-style-type: none;
+    padding-left: 0;
 }
 /*page d'accueil*/
 
