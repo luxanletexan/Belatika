@@ -16,12 +16,16 @@ class AppFixtures extends Fixture
     {
         $lipsum = new LoremIpsum();
         $imageExts = ['jpg', 'jpeg', 'png'];
+        $customers = ['femme', 'homme'];
 
         //Creating categories
         $categories = [];
-        for($i=1; $i < 10; $i++) {
+        for($i=1; $i < 20; $i++) {
             $category = new Category();
-            $category->setName($lipsum->words(random_int(1, 3)));
+            $category
+                ->setName($lipsum->words(random_int(1, 3)))
+                ->setDescription($lipsum->sentences(random_int(1, 5)))
+                ->setCustomers($customers[array_rand($customers)]);
             $manager->persist($category);
             $categories[] = $category;
         }

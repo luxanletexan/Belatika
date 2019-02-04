@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Item;
 use phpDocumentor\Reflection\Types\This;
 use Pagerfanta\Pagerfanta;
@@ -24,8 +25,24 @@ class ItemRepository extends AbstractRepository
     {
         $qb = $this->createQueryBuilder('it')
             ->innerJoin('it.images', 'im')
-            ->addSelect('im');
+            ->addSelect('im')
+            ->innerJoin('it.category', 'c')
+            ->addSelect('c');
+        return $this->paginate($qb);
+    }
+
+    public function findCategoryWithImages(Category $category):Pagerfanta
+    {
+        $qb = $this->createQueryBuilder('it')
+            ->innerJoin('it.images', 'im')
+            ->addSelect('im')
+            ->innerJoin('it.category', 'c')
+            ->addSelect('c')
+            ->where('c.id = :id')
+            ->setParameter('id', $category->getId());
 
         return $this->paginate($qb);
     }
+
+
 }

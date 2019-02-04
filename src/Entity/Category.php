@@ -35,6 +35,16 @@ class Category
      */
     private $slug;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $customers;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -96,6 +106,30 @@ class Category
                 $item->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCustomers(): ?string
+    {
+        return $this->customers;
+    }
+
+    public function setCustomers(string $customers): self
+    {
+        $this->customers = $customers;
 
         return $this;
     }

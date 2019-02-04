@@ -11,7 +11,9 @@
                 </a>
                 <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuLink">
                     {% for category in categories %}
-                        <a class="dropdown-item" href="#">{{ category.name|gTrans|capitalize }}</a>
+                        {% if category.customers == 'femme' %}
+                            <a class="dropdown-item" href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}">{{ category.name|gTrans|capitalize }}</a>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </li>
@@ -21,7 +23,9 @@
                 </a>
                 <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuLink">
                     {% for category in categories %}
-                        <a class="dropdown-item" href="#">{{ category.name|gTrans|capitalize }}</a>
+                        {% if category.customers == 'homme' %}
+                            <a class="dropdown-item" href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}">{{ category.name|gTrans|capitalize }}</a>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </li>

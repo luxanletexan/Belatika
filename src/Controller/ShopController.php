@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ShopController extends AbstractController
 {
     /**
-     * @Route("/{page<\d+>?1}",name="app_shop_index")
+     * @Route("/{page<\d+>?1}", name="app_shop_index")
      * @param $page integer
      * @return Response
      */
@@ -24,6 +24,33 @@ class ShopController extends AbstractController
         $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
 
         return $this->render('shop/index.html.twig', ['items' => $items, 'categories' => $categories]);
+    }
+
+    /**
+     * @Route("/bijoux/{customer<femme|homme>}/{slug}/{page<\d+>?1}", name="app_shop_category")
+     * @param Category $category
+     * @param $page integer
+     * @return Response
+     */
+    public function category(Category $category, $page):Response
+    {
+        $items = $this->getDoctrine()->getRepository(Item::class)->findCategoryWithImages($category)->setCurrentPage($page);
+
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
+
+        return $this->render('shop/category.html.twig', ['category' => $category, 'items' => $items, 'categories' => $categories]);
+    }
+
+    /**
+     * @Route("/bijoux/{customer<femme|homme>}/{category_slug}/{slug}", name="app_shop_item")
+     * @param Item $item
+     * @return Response
+     */
+    public function item(Item $item):Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
+
+        return $this->render('shop/item.html.twig', ['item' => $item, 'categories' => $categories]);
     }
 
     /**
