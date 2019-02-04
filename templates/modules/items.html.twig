@@ -1,8 +1,11 @@
-<div class="d-flex justify-content-between flex-wrap">
-    {% for item in items %}
-        <figure class="m-2">
-            <img src="{% if item.images|first.thumbURI is onDisk %}{{ asset(item.images|first.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ item.images|first.alt }}">
-            <figcaption>{{ item.name|gTrans }}</figcaption>
-        </figure>
-    {% endfor %}
+<div itemscope itemtype="htpp://schema.org/JewelryStore">
+    <h2 class="sr-only" itemprop="brand">Bijoux Belatika</h2>
+    <div class="d-flex justify-content-between flex-wrap">
+        {% for item in items %}
+            <figure class="m-2">
+                <img itemprop="image" src="{% if item.images|first.thumbURI is onDisk %}{{ asset(item.images|first.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ item.images|first.alt }}">
+                <figcaption itemprop="name">{{ item.name|gTrans }}</figcaption>
+            </figure>
+        {% endfor %}
+    </div>
 </div>
