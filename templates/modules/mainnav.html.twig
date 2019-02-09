@@ -1,12 +1,14 @@
-<nav class="navbar navbar-expand-lg belatika-menu bg-belatika mb-4 col-12">
-    <a class="navbar-brand" href="{{ path('app_shop_index') }}"><i class="fas fa-home"></i> {{ 'Accueil'|gTrans }}</a>
+<nav class="navbar navbar-expand-lg belatika-menu bg-belatika mb-sm-4 col-12">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav d-flex justify-content-between w-100">
-            <li class="nav-item active dropdown underline">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item active">
+                <a class="nav-link pl-3 pl-lg-0" href="{{ path('app_shop_index') }}"><i class="fas fa-home"></i> {{ 'Accueil'|gTrans }}</a>
+            </li>
+            <li class="nav-item underline active dropdown">
+                <a class="nav-link dropdown-toggle pl-3 pl-lg-0" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Femme'|gTrans|upper }}
                 </a>
                 <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuLink">
@@ -18,7 +20,7 @@
                 </div>
             </li>
             <li class="nav-item active dropdown underline">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle pl-3 pl-lg-0" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Homme'|gTrans|upper }}
                 </a>
                 <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuLink">
@@ -30,13 +32,13 @@
                 </div>
             </li>
             <li class="nav-item active underline">
-                <a class="nav-link" href="#">{{ 'Cartes cadeaux'|gTrans|upper }}</a>
+                <a class="nav-link pl-3 pl-lg-0" href="#">{{ 'Cartes cadeaux'|gTrans|upper }}</a>
             </li>
             <li class="nav-item active underline">
-                <a class="nav-link" href="#">{{ 'Voir le blog'|gTrans|upper }}</a>
+                <a class="nav-link pl-3 pl-lg-0" href="#">{{ 'Voir le blog'|gTrans|upper }}</a>
             </li>
             <li class="nav-item active dropdown underline">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle pl-3 pl-lg-0" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Avis'|gTrans|upper }}
                 </a>
                 <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuLink">

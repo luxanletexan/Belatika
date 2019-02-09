@@ -1,6 +1,6 @@
 <div itemscope itemtype="htpp://schema.org/JewelryStore">
     <h2 class="sr-only" itemprop="brand">Bijoux Belatika</h2>
-    <div class="d-flex justify-content-between flex-wrap">
+    <div class="d-flex justify-content-around justify-content-sm-between flex-wrap">
     {% for item in items %}
         <figure id="item{{item.id}}" class="item-thumbnail {% if item.createdAt|date_modify('+1 week')|date('Ymd') > "now"|date('Ymd') %}new{% endif %}{% if cart[item.id] is defined %} added{% endif %}">
             <a href="{{ path('app_shop_item', {'customer' : item.category.customers, 'category_slug' : item.category.slug, 'slug' : item.slug}) }}">

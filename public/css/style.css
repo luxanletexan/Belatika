@@ -41,22 +41,23 @@ strong
 }
 
 @keyframes test {
-    0%{background-position:0 30px}
-    50%{background-position:100% 30px}
-    100%{background-position:0 30px}
+    0%{background-position:0 25px}
+    50%{background-position:100% 25px}
+    100%{background-position:0 25px}
 }
 
-@-webkit-keyframes test {
-    0%{background-position:0 30px}
-    50%{background-position:100% 30px}
-    100%{background-position:0 30px}
+@-webkit-keyframes moveLight {
+    0%{background-position:0 25px}
+    50%{background-position:100% 25px}
+    100%{background-position:0 25px}
 }
 
 .shining
 {
     background-image: radial-gradient(ellipse at center, rgb(64, 64, 64) 10%, #222 20%);
     background-size: 200% 100%;
-    animation: test 10s infinite ease-in-out;
+    background-repeat: no-repeat;
+    animation: moveLight 10s infinite ease-in-out;
 }
 
 h1
@@ -112,18 +113,22 @@ h3
 
 img.belatika-logo
 {
-    width: 100%;
+    width: 60%;
     margin: auto;
     max-height: 66px;
     max-width: 300px;
+}
+.logo-link
+{
+    text-align: center;
 }
 
 /* belatika-menu */
 
 .belatika-menu
-{
-    border-radius: 0 0 .25rem .25rem;
-}
+ {
+    padding: 0;
+ }
 .belatika-menu a
 {
     color: pink;
@@ -142,6 +147,15 @@ img.belatika-logo
 {
     right: -17px;
     left: auto;
+}
+
+.navbar-toggler
+{
+    border-color: pink;
+    color: pink;
+    position: absolute;
+    top: -50px;
+    left: 10px;
 }
 
 /*footer*/
@@ -249,7 +263,21 @@ nav#pagination ul.pagination li.page-item.active .page-link
 /*responsive*/
 
 @media (min-width: 576px) {
-
+    .navbar-toggler
+    {
+        top: -50px;
+        left: 30px;
+    }
+    img.belatika-logo
+    {
+        width: 100%;
+    }
+    .belatika-menu
+    {
+        border-radius: 0 0 .25rem .25rem;
+        padding: 8px 16px;
+        margin-bottom: 24px;
+    }
 }
 
 /* Medium devices (tablets, 768px and up)*/
