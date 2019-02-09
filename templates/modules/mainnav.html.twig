@@ -1,17 +1,17 @@
-<nav class="navbar navbar-expand-lg belatika-menu bg-belatika mb-sm-4 col-12">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg flex-column flex-lg-row align-content-between belatika-menu bg-belatika mb-sm-4 col-12">
+    <button class="navbar-toggler left-toggler" type="button" data-toggle="collapse" data-target="#navbarNavLeftDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav d-flex justify-content-between w-100">
+    <div class="collapse navbar-collapse" id="navbarNavLeftDropdown">
+        <ul class="navbar-nav d-flex justify-content-around w-100">
             <li class="nav-item active">
                 <a class="nav-link pl-3 pl-lg-0" href="{{ path('app_shop_index') }}"><i class="fas fa-home"></i> {{ 'Accueil'|gTrans }}</a>
             </li>
             <li class="nav-item underline active dropdown">
-                <a class="nav-link dropdown-toggle pl-3 pl-lg-0" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle pl-3 pl-lg-0" href="#" id="navbarDropdownWomen" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Femme'|gTrans|upper }}
                 </a>
-                <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuLink">
+                <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownWomen">
                     {% for category in categories %}
                         {% if category.customers == 'femme' %}
                             <a class="dropdown-item" href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}">{{ category.name|gTrans|capitalize }}</a>
@@ -20,10 +20,10 @@
                 </div>
             </li>
             <li class="nav-item active dropdown underline">
-                <a class="nav-link dropdown-toggle pl-3 pl-lg-0" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle pl-3 pl-lg-0" href="#" id="navbarDropdownMen" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Homme'|gTrans|upper }}
                 </a>
-                <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuLink">
+                <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMen">
                     {% for category in categories %}
                         {% if category.customers == 'homme' %}
                             <a class="dropdown-item" href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}">{{ category.name|gTrans|capitalize }}</a>
@@ -38,14 +38,36 @@
                 <a class="nav-link pl-3 pl-lg-0" href="#">{{ 'Voir le blog'|gTrans|upper }}</a>
             </li>
             <li class="nav-item active dropdown underline">
-                <a class="nav-link dropdown-toggle pl-3 pl-lg-0" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle pl-3 pl-lg-0" href="#" id="navbarDropdownMenuRatings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Avis'|gTrans|upper }}
                 </a>
-                <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuLink">
+                <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownMenuRatings">
                     TODO : afficher les avis
                 </div>
             </li>
 
+        </ul>
+    </div>
+    <button class="navbar-toggler right-toggler" type="button" data-toggle="collapse" data-target="#navbarNavRightDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-user"></i><i class="fas fa-shopping-cart"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavRightDropdown">
+        <ul class="navbar-nav d-flex justify-content-lg-end w-100">
+            <li class="nav-item active dropdown">
+                <a class="nav-link dropdown-toggle menu-user" href="#" id="navbarDropdownUserAccount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i>
+                    <span class="d-lg-none"> {{ 'Mon compte'|gTrans }}</span>
+                </a>
+                <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownUserAccount">
+                    <a class="dropdown-item" href="#">Se connecter</a>
+                </div>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link menu-cart" href="#">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-content">Panier</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

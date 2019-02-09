@@ -133,29 +133,22 @@ img.belatika-logo
 {
     color: pink;
 }
-
-.belatika-menu a:first-child
-{
-    flex: 1;
-}
-.belatika-menu div:last-child
-{
-    flex: 5;
-}
-
-.belatika-menu li.dropdown:last-child .dropdown-menu
-{
-    right: -17px;
-    left: auto;
-}
-
 .navbar-toggler
 {
     border-color: pink;
     color: pink;
     position: absolute;
     top: -50px;
+}
+.navbar-toggler.left-toggler
+{
     left: 10px;
+}
+.navbar-toggler.right-toggler
+{
+    right: 10px;
+    font-size: 1rem;
+    padding: 8px;
 }
 
 /*footer*/
@@ -263,10 +256,13 @@ nav#pagination ul.pagination li.page-item.active .page-link
 /*responsive*/
 
 @media (min-width: 576px) {
-    .navbar-toggler
+    .navbar-toggler.left-toggler
     {
-        top: -50px;
         left: 30px;
+    }
+    .navbar-toggler.right-toggler
+    {
+        right: 30px;
     }
     img.belatika-logo
     {
@@ -290,6 +286,68 @@ nav#pagination ul.pagination li.page-item.active .page-link
 
 /* Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) {
+    #navbarNavLeftDropdown
+    {
+        flex: 5;
+    }
+    #navbarNavRightDropdown
+    {
+        flex: 2;
+    }
+
+    .menu-user
+    {
+        background-color: rgba(255, 192, 203, .5);
+        border-radius: .5rem;
+        margin-right: 8px;
+        border: solid 1px #CCC;
+        transition-property: background-color;
+        transition-duration: .3s;
+    }
+    .menu-user i
+    {
+        padding: 4px;
+        color: #222;
+    }
+    .menu-user::after
+    {
+        color: #222;
+    }
+    .menu-user:hover,
+    .menu-cart i:hover
+    {
+        background-color: pink;
+    }
+    .menu-cart
+    {
+        padding: 0;
+        display: flex;
+    }
+    .menu-cart i
+    {
+        padding: 12px;
+        color: #222;
+        background-color: rgba(255, 192, 203, .5);
+        border-radius: .5rem 0 0 .5rem;
+        border: solid 1px #CCC;
+        transition-property: background-color;
+        transition-duration: .3s;
+    }
+    .menu-cart span
+    {
+        border-radius: 0 .5rem .5rem 0;
+        border: solid 1px #CCC;
+        border-left: none;
+        padding: 6px;
+        font-weight: bold;
+        transition-property: background-color;
+        transition-duration: .3s;
+    }
+    .menu-cart span:hover
+    {
+        background-color: rgba(255, 192, 203, .5);
+        color: #222;
+    }
 }
 
 /* Extra large devices (large desktops, 1200px and up)*/
