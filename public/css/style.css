@@ -206,6 +206,7 @@ a.view-more:visited
     text-decoration: line-through;
     font-weight: bold;
     color:gray;
+    padding: 3px;
 }
 
 .price
@@ -215,8 +216,71 @@ a.view-more:visited
     background-color:#222;
     padding: 3px;
     border-radius:5px;
+    white-space: nowrap;
 }
 
+.item-price
+{
+    border:1px black solid;
+    padding:3px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+/*descriptions articles*/
+
+.card-item
+{
+    height: 100%;
+}
+.card-item h2
+{
+    color:#222;
+    font-size:1rem;
+}
+
+.card-item .card-header
+{
+    background-color:pink;
+    opacity: .8;
+}
+
+.card-item .card-body
+{
+    border: 5px pink solid;
+    opacity: .8;
+    color:white;
+}
+
+.card-item .card-footer
+{
+    background-color: pink;
+    opacity: .8;
+}
+
+.btn-belatika-dark
+{
+    background-color: #222;
+    color:pink;
+    transition-property: all;
+    transition-duration:.3s;
+}
+
+.btn-belatika-dark:hover
+{
+    background-color: pink;
+    color:#222;
+    border: 1px black solid;
+}
+
+.article-view
+{
+    margin-bottom: 0;
+}
+hr
+{
+    border-color: pink;
+    opacity: .3;
+}
 
 /* Pagination */
 nav#pagination ul.pagination
