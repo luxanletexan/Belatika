@@ -151,6 +151,11 @@ img.belatika-logo
     padding: 8px;
 }
 
+.username
+{
+    color: pink;
+}
+
 /*footer*/
 
 .logo-paypal
@@ -286,13 +291,29 @@ nav#pagination ul.pagination li.page-item.active .page-link
 
 /* Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) {
-    #navbarNavLeftDropdown
-    {
-        flex: 5;
-    }
     #navbarNavRightDropdown
     {
-        flex: 2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+    #navbarNavRightDropdown ul li
+    {
+        position: absolute;
+        top: -72px;
+    }
+    #navbarNavRightDropdown ul li:first-child
+    {
+        left: 10px;
+    }
+    #navbarNavRightDropdown ul li:last-child
+    {
+        right: 10px;
+    }
+    .username
+    {
+        color: #222;
     }
 
     .menu-user

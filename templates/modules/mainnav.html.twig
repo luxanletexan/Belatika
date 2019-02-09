@@ -1,3 +1,4 @@
+{% set categories = categories() %}
 <nav class="navbar navbar-expand-lg flex-column flex-lg-row align-content-between belatika-menu bg-belatika mb-sm-4 col-12">
     <button class="navbar-toggler left-toggler" type="button" data-toggle="collapse" data-target="#navbarNavLeftDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
@@ -56,10 +57,19 @@
             <li class="nav-item active dropdown">
                 <a class="nav-link dropdown-toggle menu-user" href="#" id="navbarDropdownUserAccount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-user"></i>
-                    <span class="d-lg-none"> {{ 'Mon compte'|gTrans }}</span>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <span class="username">{{ app.user.username }}</span>
+                    {% else %}
+                        <span class="d-lg-none"> {{ 'Mon compte'|gTrans }}</span>
+                    {% endif %}
                 </a>
                 <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownUserAccount">
-                    <a class="dropdown-item" href="#">Se connecter</a>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">Se déconnecter</a>
+                    {% else %}
+                        <a class="dropdown-item" href="{{ path('fos_user_security_login') }}">Se connecter</a>
+                        <a class="dropdown-item" href="{{ path('fos_user_registration_register') }}">Créer un compte</a>
+                    {% endif %}
                 </div>
             </li>
             <li class="nav-item active">
