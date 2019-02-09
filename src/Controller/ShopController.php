@@ -21,9 +21,7 @@ class ShopController extends AbstractController
     {
         $items = $this->getDoctrine()->getRepository(Item::class)->findAllWithImages()->setCurrentPage($page);
 
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
-
-        return $this->render('shop/index.html.twig', ['items' => $items, 'categories' => $categories]);
+        return $this->render('shop/index.html.twig', ['items' => $items]);
     }
 
     /**
@@ -36,9 +34,7 @@ class ShopController extends AbstractController
     {
         $items = $this->getDoctrine()->getRepository(Item::class)->findCategoryWithImages($category)->setCurrentPage($page);
 
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
-
-        return $this->render('shop/category.html.twig', ['category' => $category, 'items' => $items, 'categories' => $categories]);
+        return $this->render('shop/category.html.twig', ['category' => $category, 'items' => $items]);
     }
 
     /**
@@ -48,9 +44,7 @@ class ShopController extends AbstractController
      */
     public function item(Item $item):Response
     {
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
-
-        return $this->render('shop/item.html.twig', ['item' => $item, 'categories' => $categories]);
+        return $this->render('shop/item.html.twig', ['item' => $item]);
     }
 
     /**
@@ -58,8 +52,7 @@ class ShopController extends AbstractController
      */
     public function cgv(): Response
     {
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
-        return $this->render('shop/cgv.html.twig', ['categories' => $categories]);
+        return $this->render('shop/cgv.html.twig');
     }
 
     /**
@@ -67,8 +60,7 @@ class ShopController extends AbstractController
      */
     public function legals(): Response
     {
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
-        return $this->render('shop/legals.html.twig', ['categories' => $categories]);
+        return $this->render('shop/legals.html.twig');
     }
 
     /**
@@ -76,7 +68,6 @@ class ShopController extends AbstractController
      */
     public function bloginfos(): Response
     {
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
-        return $this->render('shop/bloginfos.html.twig', ['categories' => $categories]);
+        return $this->render('shop/bloginfos.html.twig');
     }
 }

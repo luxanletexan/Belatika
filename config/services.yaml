@@ -41,3 +41,8 @@ services:
             $requestStack: '@request_stack'
             $manager: '@doctrine.orm.entity_manager'
             $projectDir: '%kernel.project_dir%'
+
+    App\Twig\Extension\FunctionExtension:
+        tags: ['twig.extension']
+        arguments:
+            $manager: '@doctrine.orm.entity_manager'
