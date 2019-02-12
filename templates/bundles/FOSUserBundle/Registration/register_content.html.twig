@@ -1,0 +1,53 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<h1 class="col-12">Inscription</h1>
+<p class="col-12 alert alert-warning">Pas encore inscrit? Nous vous invitons à vous inscrire afin de passer votre commande.<br>Créez votre compte à l'aide du formulaire, ou inscrivez-vous en un seul clic avec votre réseau social habituel.</p>
+
+<div class="col-md-5 col-lg-6">
+    <div class="card mb-2">
+        <h2>M'inscrire avec mon compte Facebook ou Google</h2>
+    </div>
+    <a class="btn btn-block btn-social btn-facebook" href="#">
+        <i class="fab fa-facebook-f"></i> S'inscrire avec Facebook
+    </a>
+    <a class="btn btn-block btn-social btn-google" href="#">
+        <i class="fab fa-google"></i> S'inscrire avec Google
+    </a>
+</div>
+<div class="col-md-7 col-lg-6">
+    <div class="card mt-2 mt-md-0">
+        <h2 class="custom-title" >Créer un nouveau compte :</h2>
+        {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register')}) }}
+        <div class="form-group row">
+            {{ form_label(form.email, null, { label_attr: { 'class' : 'col-sm-4 col-form-label' } }) }}
+            <div class="col-sm-8">
+                {{ form_widget(form.email, { attr: { 'class' : 'form-control', 'placeholder' : 'Email' } }) }}
+            </div>
+            {{ form_errors(form.email) }}
+        </div>
+        <div class="form-group row">
+            {{ form_label(form.username, null, { label_attr: { 'class' : 'col-sm-4 col-form-label' } }) }}
+            <div class="col-sm-8">
+                {{ form_widget(form.username, { attr: { 'class' : 'form-control', 'placeholder' : "Nom d'utilisateur" } }) }}
+            </div>
+            {{ form_errors(form.username) }}
+        </div>
+        <div class="form-group row">
+            {{ form_label(form.plainPassword.first, null, { label_attr: { 'class' : 'col-sm-4 col-form-label' } }) }}
+            <div class="col-sm-8">
+                {{ form_widget(form.plainPassword.first, { attr: { 'class' : 'form-control', 'placeholder' : "Mot de passe" } }) }}
+            </div>
+            {{ form_errors(form.plainPassword.first) }}
+        </div>
+        <div class="form-group row">
+            {{ form_label(form.plainPassword.second, null, { label_attr: { 'class' : 'col-sm-4 col-form-label' } }) }}
+            <div class="col-sm-8">
+                {{ form_widget(form.plainPassword.second, { attr: { 'class' : 'form-control', 'placeholder' : "Répéter le mot de passe" } }) }}
+            </div>
+            {{ form_errors(form.plainPassword.second) }}
+        </div>
+        <div class="pull-right">
+            <button type="submit" class="btn btn-belatika" >{{ 'registration.submit'|trans }}</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
