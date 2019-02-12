@@ -169,8 +169,7 @@ img.belatika-logo
     padding-left: 0;
 }
 /*page d'accueil*/
-
-.welcome-text
+welcome-text
 {
     font-size: .8em;
     font-weight: bold;
@@ -185,17 +184,14 @@ img.belatika-logo
     text-decoration: underline;
     font-size: .9em;
 }
-
 a.view-more:visited
 {
     color:black;
 }
-
 .item-thumbnail
 {
     width: 250px;
 }
-
 .item-name
 {
     color:black;
@@ -203,7 +199,6 @@ a.view-more:visited
     font-style: italic;
     font-weight: bold;
 }
-
 .original-price + .price
 {
     background-color: yellow;
@@ -212,7 +207,6 @@ a.view-more:visited
     padding: 3px;
     border-radius:5px;
 }
-
 .original-price
 {
     text-decoration: line-through;
@@ -220,7 +214,6 @@ a.view-more:visited
     color:gray;
     padding: 3px;
 }
-
 .price
 {
     font-weight: bold;
@@ -230,7 +223,6 @@ a.view-more:visited
     border-radius:5px;
     white-space: nowrap;
 }
-
 .item-price
 {
     border:1px black solid;
@@ -249,13 +241,11 @@ a.view-more:visited
     color:#222;
     font-size:1rem;
 }
-
 .card-item .card-header
 {
     background-color:pink;
     opacity: .8;
 }
-
 .card-item .card-body
 {
     border: 5px pink solid;
@@ -268,7 +258,6 @@ a.view-more:visited
     background-color: pink;
     opacity: .8;
 }
-
 .btn-belatika-dark
 {
     background-color: #222;
@@ -276,14 +265,12 @@ a.view-more:visited
     transition-property: all;
     transition-duration:.3s;
 }
-
 .btn-belatika-dark:hover
 {
     background-color: pink;
     color:#222;
-    border: 1px black solid;
+    border: 2px black solid;
 }
-
 .article-view
 {
     margin-bottom: 0;
@@ -293,8 +280,59 @@ hr
     border-color: pink;
     opacity: .3;
 }
+/* login-content*/
+.alert-login
+{
+    background-color: pink;
+    border:2px black solid;
+    color:black;
+    margin-top:50px;
+    margin-bottom:60px;
+}
+.bloc-reseau
+{
+    border: 2px black solid;
+    padding-right: 0;
+    padding-left: 0;
+    background-color:pink;
+}
+.titre-reseau
+{
+    font-size:20px;
+}
+.bloc-titre-reseau
+{
+    background-color:pink;
+}
+.lien-reseau
+{
+    border-radius:0;
+}
 
-/* Pagination */
+.belatika-content
+
+{
+    padding-bottom:50px;
+}
+/*request content*/
+.titre-login
+{
+    padding-top:50px;
+}
+.belatika-content h2
+{
+    font-size:25px;
+}
+
+.bloc-label
+{
+    border: 2px black solid;
+    background-color:#222;
+    border: 2px pink solid;
+    color:pink;
+    padding-bottom: 15px;
+}
+    /* Pagination */
 nav#pagination ul.pagination
 {
     justify-content: center;

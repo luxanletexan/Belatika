@@ -4,23 +4,23 @@
 {% if error %}
     <p class="alert alert-danger col-12">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
 {% endif %}
-<p class="alert alert-warning col-12">Afin de passer votre commande, vous devez vous identifier.</p>
+<p class="alert alert-warning col-12 alert-login">Afin de passer votre commande, vous devez vous identifier.</p>
 
-<div class="col-md-6 pl-md-0">
-    <div class="card p-2 mb-2">
-        <h4>Me connecter avec mon réseau social:</h4>
+<div class="col-md-6 pl-md-0 bloc-reseau">
+    <div class="card p-2 mb-2 bloc-titre-reseau">
+        <h2 class="titre-reseau">Me connecter avec mon réseau social:</h2>
         <p>Connectez-vous d'un simple clic en utilisant le réseau social de votre choix:</p>
     </div>
-    <a class="btn btn-block btn-social btn-facebook" href="#">
+    <a class="btn btn-block btn-social btn-facebook text-center lien-reseau" href="#">
         <i class="fab fa-facebook-f"></i> Se connecter avec Facebook
     </a>
-    <a class="btn btn-block btn-social btn-google" href="#">
+    <a class="btn btn-block btn-social btn-google text-center lien-reseau" href="#">
         <i class="fab fa-google"></i> Se connecter avec Google
     </a>
 </div>
-<div class="col-md-6 pr-md-0">
-    <div class="card p-2 mt-2 mt-md-0">
-        <h4>Me connecter avec mes identifiants :</h4>
+<div class="col-md-6 pr-md-0 bloc-reseau">
+    <div class="card p-2 mt-2 mt-md-0 bloc-titre-reseau">
+        <h2 class="titre-reseau">Me connecter avec mes identifiants :</h2>
         <form action="{{ path("fos_user_security_check") }}" method="post">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
             <div class="form-group row">
@@ -37,7 +37,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <a class="btn btn-secondary" href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
+                    <a class="btn btn-secondary btn-belatika-dark" href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
                 </div>
                 <div class="col-sm-6 mt-2 mt-sm-0">
                     <input class="btn btn-belatika-dark float-sm-right" type="submit" value="{{ 'security.login.submit'|trans }}" />
