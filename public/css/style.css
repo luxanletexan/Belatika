@@ -264,6 +264,7 @@ a.view-more:visited
     color:pink;
     transition-property: all;
     transition-duration:.3s;
+    border-width: 2px;
 }
 .btn-belatika-dark:hover
 {
@@ -280,33 +281,21 @@ hr
     border-color: pink;
     opacity: .3;
 }
-/* login-content*/
-.alert-login
+
+.alert-pink
 {
-    background-color: pink;
+    background-color: rgba(255, 192, 203, .3);
     border:2px black solid;
     color:black;
-    margin-top:50px;
-    margin-bottom:60px;
 }
-.bloc-reseau
+.bloc-belatika
 {
     border: 2px black solid;
-    padding-right: 0;
-    padding-left: 0;
-    background-color:pink;
+    background-color: rgba(255, 192, 203, .3);
 }
-.titre-reseau
+.bloc-belatika h2
 {
     font-size:20px;
-}
-.bloc-titre-reseau
-{
-    background-color:pink;
-}
-.lien-reseau
-{
-    border-radius:0;
 }
 
 .belatika-content
@@ -315,23 +304,23 @@ hr
     padding-bottom:50px;
 }
 /*request content*/
-.titre-login
-{
-    padding-top:50px;
-}
 .belatika-content h2
 {
     font-size:25px;
 }
 
-.bloc-label
+.bloc-belatika-dark
 {
-    border: 2px black solid;
-    background-color:#222;
+    background-color: #222;
     border: 2px pink solid;
-    color:pink;
+    color: pink;
     padding-bottom: 15px;
 }
+.bloc-belatika-dark .btn-belatika-dark
+{
+    border-color: pink;
+}
+
     /* Pagination */
 nav#pagination ul.pagination
 {
