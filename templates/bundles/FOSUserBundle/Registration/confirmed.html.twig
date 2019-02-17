@@ -1,0 +1,12 @@
+{% extends "layout.html.twig" %}
+{% block title %}{{ 'Inscription confirmée'|gTrans }}{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+    <h1 class="col-12">{{ 'Inscription confirmée'|gTrans }}</h1>
+    <p class="col-12 alert alert-pink">{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+    {% if targetUrl %}
+    <p class="col-12 p-0"><a class="btn btn-belatika-dark" href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+    {% endif %}
+{% endblock content %}

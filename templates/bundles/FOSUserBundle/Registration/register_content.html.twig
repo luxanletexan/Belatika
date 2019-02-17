@@ -22,28 +22,28 @@
             <div class="col-sm-8">
                 {{ form_widget(form.email, { attr: { 'class' : 'form-control', 'placeholder' : 'Email' } }) }}
             </div>
-            {{ form_errors(form.email) }}
+            <div class="form-error">{{ form_errors(form.email) }}</div>
         </div>
         <div class="form-group row">
             {{ form_label(form.username, null, { label_attr: { 'class' : 'col-sm-4 col-form-label' } }) }}
             <div class="col-sm-8">
                 {{ form_widget(form.username, { attr: { 'class' : 'form-control', 'placeholder' : "Nom d'utilisateur" } }) }}
             </div>
-            {{ form_errors(form.username) }}
+            <div class="form-error">{{ form_errors(form.username) }}</div>
         </div>
         <div class="form-group row">
             {{ form_label(form.plainPassword.first, null, { label_attr: { 'class' : 'col-sm-4 col-form-label' } }) }}
             <div class="col-sm-8">
                 {{ form_widget(form.plainPassword.first, { attr: { 'class' : 'form-control', 'placeholder' : "Mot de passe" } }) }}
             </div>
-            {{ form_errors(form.plainPassword.first) }}
+            <div class="form-error">{{ form_errors(form.plainPassword.first) }}</div>
         </div>
         <div class="form-group row mb-0">
             {{ form_label(form.plainPassword.second, null, { label_attr: { 'class' : 'col-sm-4 col-form-label' } }) }}
             <div class="col-sm-8">
                 {{ form_widget(form.plainPassword.second, { attr: { 'class' : 'form-control', 'placeholder' : "Répéter le mot de passe" } }) }}
             </div>
-            {{ form_errors(form.plainPassword.second) }}
+            <div class="form-error">{{ form_errors(form.plainPassword.second) }}</div>
         </div>
         <div class="float-right">
             <button type="submit" class="btn btn-belatika-dark" >{{ 'registration.submit'|trans }}</button>
