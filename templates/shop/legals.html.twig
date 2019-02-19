@@ -2,35 +2,34 @@
 {% block title %}{{ 'Mentions légales'|gTrans }}{% endblock %}
 {% block head %}
     <link rel="canonical" href="{{ absolute_url(path('app_shop_legals')) }}">
-    <meta name="description" content="{{ "Les mentions légales de la boutique en ligne Belatika bijoux"|gTransDB }}">
+    <meta name="description" content="{{ "Les mentions légales de la boutique en ligne Belatika bijoux"|gTrans }}">
 {% endblock %}
-{% set onSales = true %}
 {% block content %}
     <h1 class="col-12">{{ 'Mentions légales'|gTrans }}</h1>
-    <h2 class="col-12"> Données personnelles:</h2>
+    <h2 class="col-12">{{ 'Données personnelles'|gTrans }}:</h2>
         <p class="col-12">
-            Conformément à la loi « informatique et libertés » du 6 janvier 1978 modifiée en 2004, vous bénéficiez d’un droit d’accès et de rectification aux informations qui vous concernent, que vous pouvez exercer en me faisant parvenir un message par le biais de l’onglet « Contact ».
+            {{ "Conformément à la loi « informatique et libertés » du 6 janvier 1978 modifiée en 2004, vous bénéficiez d’un droit d’accès et de rectification aux informations qui vous concernent, que vous pouvez exercer en me faisant parvenir un message par le biais de l’onglet « Contact »."|gTransDB|raw }}
         </p>
-    <h2 class="col-12"> Coordonnées du vendeur:</h2>
+    <h2 class="col-12">{{ 'Coordonnées du vendeur'|gTrans }}:</h2>
         <p class="col-12">
             Mme Isabelle Iparaguirre <br>
             25 rue du tuc <br>
             40090 Saint Perdon <br>
             <br>
-            Téléphone: 06 50 27 02 47 <br> <br>
-            Adresse mail: contact@belatika.com
+            {{ 'Téléphone'|gTrans }}: +33 6 50 27 02 47 <br> <br>
+            {{ 'Adresse mail'|gTrans }}: <a class="belatika-link" href="mailto:contact@belatika.com">contact@belatika.com</a>
         </p>
-    <h2 class="col-12">Auto-entrepreneur:</h2>
+    <h2 class="col-12">{{ 'Auto-entrepreneur'|gTrans }}:</h2>
         <p class="col-12">
-            Immatriculation au registre des métiers n° 509 865 515 RM 40<br>
-            siret n° 50986551500043 <br>
-            <br>
-            Site hebergé par ionos :<br>
-            Adresse: 7 place de la gare bp 70109 57200 Sarreguemines cedex<br>
-            Téléphone: 0970808911
+            {{ "Immatriculation au registre des métiers n° 509 865 515 RM 40<br>
+siret n° 50986551500043 <br>
+<br>
+Site hebergé par ionos :<br>
+Adresse:"|gTransDB|raw }} 7 place de la gare bp 70109 57200 Sarreguemines cedex<br>
+{{ 'Téléphone'|gTrans }}: +33970808911
         </p>
     <h2 class="col-12">Cookies:</h2>
         <p class="col-12">
-            Le site belika.com n'utilise aucun cookie.
+            {{ 'Le site belika.com n\'utilise aucun cookie.'|gTrans }}
         </p>
 {% endblock %}

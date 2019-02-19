@@ -1,10 +1,10 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<h1 class="col-12">Mot de passe perdu</h1>
-<h2 class="col-12">Vous avez perdu votre mot de passe ?</h2>
+<h1 class="col-12">{{ 'Mot de passe perdu'|gTrans }}</h1>
+<h2 class="col-12">{{ 'Vous avez perdu votre mot de passe ?'|gTrans }}</h2>
 <div class="col-12 alert alert-pink">
-    Complétez le formulaire, un email vous sera envoyé.
-    Il contiendra la procédure à suivre pour récupérer votre mot de passe.
+    {{ "Complétez le formulaire, un email vous sera envoyé.
+    Il contiendra la procédure à suivre pour récupérer votre mot de passe."|gTrans }}
 </div>
 <div class="col-12">
     <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request pb-4">

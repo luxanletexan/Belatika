@@ -1,0 +1,9 @@
+{% extends "layout.html.twig" %}
+{% block title %}{{ 'Vérification de l\'adresse mail'|gTrans }}{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+    <h1 class="col-12">{{ 'Vérification de l\'adresse mail'|gTrans }}</h1>
+    <p class="col-12 alert alert-pink">{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+{% endblock content %}

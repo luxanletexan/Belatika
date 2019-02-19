@@ -1,5 +1,5 @@
 <div itemscope itemtype="htpp://schema.org/JewelryStore">
-    <h2 class="sr-only" itemprop="brand">Bijoux Belatika</h2>
+    <h2 class="sr-only" itemprop="brand">{{ 'Bijoux Belatika'|gTrans }}</h2>
     <div class="d-flex justify-content-around justify-content-sm-between flex-wrap">
     {% for item in items %}
         <figure id="item{{item.id}}" class="item-thumbnail {% if item.createdAt|date_modify('+1 week')|date('Ymd') > "now"|date('Ymd') %}new{% endif %}{% if cart[item.id] is defined %} added{% endif %}">
@@ -15,7 +15,7 @@
                     <span class="price ">{{ item.price|number_format(2, ',') }} €</span>
                 {% endif %}
             </figcaption>
-            <button id="cart-button{{item.id}}" onclick="" class="btn cart-button mt-2 sr-only"><i class="fas fa-shopping-cart"></i> {% if cart[item.id] is not defined %}Ajouter au panier{% else %}Retirer du panier{% endif %}</button>
+            <button id="cart-button{{item.id}}" onclick="" class="btn cart-button mt-2 sr-only"><i class="fas fa-shopping-cart"></i> {% if cart[item.id] is not defined %}{{ 'Ajouter au panier'|gTrans }}{% else %}{{ 'Retirer du panier'|gTrans }}{% endif %}</button>
         </figure>
     {% endfor %}
     </div>

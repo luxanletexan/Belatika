@@ -65,17 +65,17 @@
                 </a>
                 <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownUserAccount">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">Se déconnecter</a>
+                        <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">{{ 'Déconnexion'|gTrans }}</a>
                     {% else %}
-                        <a class="dropdown-item" href="{{ path('fos_user_security_login') }}">Se connecter</a>
-                        <a class="dropdown-item" href="{{ path('fos_user_registration_register') }}">Créer un compte</a>
+                        <a class="dropdown-item" href="{{ path('fos_user_security_login') }}">{{ 'Connexion'|gTrans }}</a>
+                        <a class="dropdown-item" href="{{ path('fos_user_registration_register') }}">{{ 'Créer un compte'|gTrans }}</a>
                     {% endif %}
                 </div>
             </li>
             <li class="nav-item active">
                 <a class="nav-link menu-cart" href="#">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-content">Panier</span>
+                    <span class="cart-content">{{ 'Panier'|gTrans }}</span>
                 </a>
             </li>
         </ul>

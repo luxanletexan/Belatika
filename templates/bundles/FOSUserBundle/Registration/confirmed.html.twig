@@ -8,5 +8,10 @@
     <p class="col-12 alert alert-pink">{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
     {% if targetUrl %}
     <p class="col-12 p-0"><a class="btn btn-belatika-dark" href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+    {% else %}
+    <p class="col-12 p-0">
+        <a class="btn btn-belatika-dark" href="{{ path('app_shop_index') }}">{{ 'Revenir à l\'accueil'|gTrans }}</a>
+        <a class="btn btn-belatika-dark" href="{{ path('fos_user_profile_show') }}">{{ 'Gérer mon profil'|gTrans }}</a>
+    </p>
     {% endif %}
 {% endblock content %}

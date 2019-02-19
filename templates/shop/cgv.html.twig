@@ -6,7 +6,7 @@
 {% endblock %}
 {% block content %}
     <h1 class="col-12">{{ 'Conditions générales de vente'|gTrans }}</h1>
-    <h2 class="col-12"> Informations légales:</h2>
+    <h2 class="col-12">{{ 'Informations légales'|gTrans }}:</h2>
         <p class="col-12">BELATIKA <br>
             Isabelle Iparaguirre <br>
             25 rue du tuc<br>
@@ -15,98 +15,100 @@
             SIRET 6986551500043<br>
         </p>
         <p class="col-12">
-            Ces présentes Conditions Générales de Vente s’appliquent à la vente d’articles entre Belatika et l’Acheteur. <br>
-            Les CGV sont accessibles à tout moment sur cette Boutique.<br>
-            L’Acheteur s’engage à avoir pris connaissance des CGV, et à les accepter sans réserve en passant commande.<br>
-            Tout, ou une partie de ces CGV, sont susceptibles d’être modifiées ou complétées à tout moment, et ce, sans préavis. Dans ce cas, les conditions applicables seront celles en vigueur à la date de la commande par l’Acheteur.<br>
-            Le Vendeur se réserve le droit de modifier toute présentation des articles de la Boutique, et ce, sans préavis.<br>
-            Chaque article est une pièce unique ou éditée en petite série (6 maxi)<br>
-            Les textes et photographies illustrant les articles de la Boutique ne constituent pas un document contractuel.<br>
-            Chaque écran étant calibré de manière différente par son utilisateur, il peut exister des variations de couleurs d’un article entre la photographie présentée sur la boutique en ligne et l’article livré qui ne peuvent en aucun cas prévaloir d’une annulation de commande ou d’un remboursement de l’article commandé.
+            {{ "Ces présentes Conditions Générales de Vente s’appliquent à la vente d’articles entre Belatika et l’Acheteur.<br>
+Les CGV sont accessibles à tout moment sur cette Boutique.<br>
+L’Acheteur s’engage à avoir pris connaissance des CGV, et à les accepter sans réserve en passant commande.<br>
+Tout, ou une partie de ces CGV, sont susceptibles d’être modifiées ou complétées à tout moment, et ce, sans préavis. Dans ce cas, les conditions applicables seront celles en vigueur à la date de la commande par l’Acheteur.<br>
+Le Vendeur se réserve le droit de modifier toute présentation des articles de la Boutique, et ce, sans préavis.<br>
+Chaque article est une pièce unique ou éditée en petite série (6 maxi)<br>
+Les textes et photographies illustrant les articles de la Boutique ne constituent pas un document contractuel.<br>
+Chaque écran étant calibré de manière différente par son utilisateur, il peut exister des variations de couleurs d’un article entre la photographie présentée sur la boutique en ligne et l’article livré qui ne peuvent en aucun cas prévaloir d’une annulation de commande ou d’un remboursement de l’article commandé."|gTransDB|raw }}
         </p>
-    <h2 class="col-12">Informations:</h2>
+    <h2 class="col-12">{{ 'Informations'|gTrans }}:</h2>
         <p class="col-12">
-            Droit de reproduction : <br>
-            Tous droits réservés. La reproduction du contenu de la Boutique, en tout ou en partie, est interdite sans la permission écrite du Vendeur. <br>
-            Tout matériel contenu sur la Boutique (photos, textes, images, logos, noms de produits ou marques citées…) est la propriété de leurs détenteurs respectifs. <br>
-            Toute reproduction, même partielle est interdite. <br>
-            Litiges :<br>
-            Les présentes conditions de vente en ligne sont soumises à la loi française. <br>
-            En cas de litige seul le Tribunal est reconnu compétent
+            {{ "Droit de reproduction :<br>
+Tous droits réservés. La reproduction du contenu de la Boutique, en tout ou en partie, est interdite sans la permission écrite du Vendeur.<br>
+Tout matériel contenu sur la Boutique (photos, textes, images, logos, noms de produits ou marques citées…) est la propriété de leurs détenteurs respectifs.<br>
+Toute reproduction, même partielle est interdite.<br>
+Litiges :<br>
+Les présentes conditions de vente en ligne sont soumises à la loi française.<br>
+En cas de litige seul le Tribunal est reconnu compétent."|gTransDB|raw }}
         </p>
-    <h2 class="col-12">Paiements:</h2>
+    <h2 class="col-12">{{ 'Paiements'|gTrans|capitalize }}:</h2>
         <p class="col-12">
-            Le paiement est exigible en totalité lors de la confirmation définitive de la commande par l’Acheteur.<br>
-            La commande est validée définitivement lors de la réception de la totalité du paiement.<br>
-            Le Vendeur se réserve le droit de refuser toute commande pour des motifs légitimes.<br>
-            Le Vendeur se réserve la propriété des articles jusqu’au règlement complet de la commande.<br>
-            L’ensemble des données fournies et la confirmation enregistrée vaudront preuve de la transaction. La confirmation et le paiement de la commande vaudront signature et acceptation des opérations effectuées.<br>
-            Prix de vente :<br>
-            Les tarifs figurant sur la boutique en ligne sont des prix TTC en euros.<br>
-            Les frais d’expédition sont compris dans le prix de vente.<br>
-            Les tarifs peuvent être majorés selon les demandes particulières de personnalisation de l’Acheteur. L’Acheteur est alors informé du nouveau tarif et doit confirmer son accord.<br>
-            Le Vendeur se réserve le droit de modifier ses tarifs à tout moment, étant toutefois entendu que le prix indiqué à l’Acheteur lors de la confirmation de la commande sera le seul applicable.<br>
-            Moyens de paiement acceptés: </p>
-            <ul>
-                <li>Paiement sécurisé Stripe pour carte bancaire.</li>
-                <li> Paypal.</li>
-            </ul>
-
-    <h2 class="col-12">Livraisons:</h2>
-        <p class="col-12">
-            La livraison sera effectuée par La Poste en lettre suivie (Indemnisation en cas de perte ou avarie selon les tarifs en vigueur émis par La Poste). <br>
-            Le client reste redevable des taxes ou frais de douane qui pourraient être appliqués à l’occasion de l’importation des produits dans son pays de résidence. <br>
-            Délais d’expédition : <br>
-            Le Vendeur s’engage à expédier toute commande sous 1 joursouvré (après réception du paiement) . <br>
-            Les délais de livraison par les services de La Poste ne sont indiqués à l’Acheteur qu’à titre indicatif et n’engagent en aucune façon le Vendeur dans une obligation de délai. <br>
-            Le Vendeur ne pourra en aucun cas être tenu pour responsable des conséquences dues à un éventuel retard de livraison, notamment pendant la période de Noël. <br>
-            Le Vendeur est dégagé de son obligation de livrer en cas de : </p>
-           <ul>
-                <li> survenance d’un cas de force majeure telle que la guerre, l’émeute, l’incendie, les grèves, les accidents et l’impossibilité d’être approvisionné, notamment en cas d’intempéries sévères (chutes de neige importantes, inondations,…).</li>
-                <li> inexécution par l’Acheteur de l’une de ses obligations : paiement du prix, inexactitude des informations communiquées par l’Acheteur (telle que l’adresse de livraison et/ou un oubli…).</li>
-            </ul>
-        <p class="col-12">
-            Adresse de livraison: <br>
-            Belatika expédie ses commandes à l’adresse de livraison renseignée par le client sur le site https://belatika.com (l’adresse enregistrée sur le site paypal  ne sera pas prise en compte). <br>
-            Sauf mention contraire formulée auprès du vendeur au moment de la commande et AVANT confirmation de la commande par le vendeur et quel que soit le mode de paiement utilisé par l’acheteur, la commande sera envoyée à l’adresse figurant sur le bon de commande. <br>
-            En cas de non distribution du colis pour défaut de transmission des bonnes coordonnées postales, et après retour au vendeur le colis sera réexpédié à l’acheteur à ses frais et après confirmation des bonnes coordonnées. <br>
-            Le règlement des frais de renvoi de la commande se fera par le site. <br>
-            Aucune demande de remboursement ne sera acceptée. <br>
-            En cas d’erreur de transcription de l’adresse d’envoi par le vendeur, ou en cas d’erreur du seul fait du vendeur ayant conduit à la non réception du colis par l’acheteur et APRES retour du colis, le vendeur s’engage à soit réexpédier le colis à ses frais exclusifs, soit à rembourser l’acheteur (prix d’achat + frais d’envoi). <br>
-         </p>
-    <h2 class="col-12">Remboursement et échange:</h2>
-            <p class="col-12">
-            Réclamations : <br>
-            L’Acheteur est tenu de vérifier l’état des produits lors de la réception. <br>
-            Tout colis totalement ou partiellement endommagé et/ou ouvert devra être refusé. <br>
-            Il doit par ailleurs informer le Vendeur dans les deux jours ouvrés suivant la réception du colis de tout dommage et/ou de toute perte totale ou partielle de la commande en joignant tous les justificatifs et documents nécessaires à sa réclamation. <br>
-            Aucune réclamation ne sera acceptée en cas de non-respect de ces formalités. <br>
-            Droit de rétractation : <br>
-            L’Acheteur dispose d’un droit de rétractation de 14 jours à dater de la date à laquelle il a pris physiquement possession des biens achetés. <br>
-            Les articles livrés en France peuvent faire l’objet d’un remboursement, excepté ceux ayant fait l’objet d’une personnalisation à la demande de l’Acheteur conformément à l’article L 21-20-2 du code de la consommation. <br>
-            L’article doit être intact, complet, dans un état neuf et dans son emballage d’origine. <br>
-            L’Acheteur devra notifier au Vendeur son intention de se rétracter par une « déclaration dénuée d’ambiguïté » ou en utilisant le formulaire en ligne. <br>
-            </p>
-    <h2 class="col-12">Chèques cadeaux:</h2>
+            {{ "Le paiement est exigible en totalité lors de la confirmation définitive de la commande par l’Acheteur.<br>
+La commande est validée définitivement lors de la réception de la totalité du paiement.<br>
+Le Vendeur se réserve le droit de refuser toute commande pour des motifs légitimes.<br>
+Le Vendeur se réserve la propriété des articles jusqu’au règlement complet de la commande.<br>
+L’ensemble des données fournies et la confirmation enregistrée vaudront preuve de la transaction. La confirmation et le paiement de la commande vaudront signature et acceptation des opérations effectuées.<br>
+Prix de vente :<br>
+Les tarifs figurant sur la boutique en ligne sont des prix TTC en euros.<br>
+Les frais d’expédition sont compris dans le prix de vente.<br>
+Les tarifs peuvent être majorés selon les demandes particulières de personnalisation de l’Acheteur. L’Acheteur est alors informé du nouveau tarif et doit confirmer son accord.<br>
+Le Vendeur se réserve le droit de modifier ses tarifs à tout moment, étant toutefois entendu que le prix indiqué à l’Acheteur lors de la confirmation de la commande sera le seul applicable.<br>
+Moyens de paiement acceptés:"|gTransDB|raw }}
+        </p>
         <ul>
-            <li>utilisable une seule fois.</li>
-            <li>si l’achat est en dessous du montant du chèque cadeau, aucun remboursement ne sera fait</li>
-            <li>il est non cumulable</li>
-            <li>ne peut pas être utilisé durant les soldes ou toute autre promotion</li>
+            <li>{{ 'Paiement sécurisé Stripe pour carte bancaire'|gTrans }}</li>
+            <li>Paypal</li>
         </ul>
-    <h2 class="col-12">Commandes personnalisées:</h2>
+
+    <h2 class="col-12">{{ 'Livraisons'|gTrans|capitalize }}:</h2>
         <p class="col-12">
-            Les commandes personnalisées ont un délai d’expédition un peu plus long que les autres articles. A cause du temps de préparation de votre bijou et/ou de la livraison de certains articles de matières premières.<br>
-            Vous êtes informé par email ou par message Facebook de l’avancée de votre commande.<br>
-            Les bijoux personnalisés ne sont ni repris ni échangés, ni remboursés et ne bénéficient d’aucune réduction ou solde. Les chèques cadeaux peuvent être utilisés pour une commande de bijoux personnalisés.<br>
+            {{ "La livraison sera effectuée par La Poste en lettre suivie (Indemnisation en cas de perte ou avarie selon les tarifs en vigueur émis par La Poste). <br>
+Le client reste redevable des taxes ou frais de douane qui pourraient être appliqués à l’occasion de l’importation des produits dans son pays de résidence. <br>
+Délais d’expédition : <br>
+Le Vendeur s’engage à expédier toute commande sous 1 joursouvré (après réception du paiement) . <br>
+Les délais de livraison par les services de La Poste ne sont indiqués à l’Acheteur qu’à titre indicatif et n’engagent en aucune façon le Vendeur dans une obligation de délai. <br>
+Le Vendeur ne pourra en aucun cas être tenu pour responsable des conséquences dues à un éventuel retard de livraison, notamment pendant la période de Noël. <br>
+Le Vendeur est dégagé de son obligation de livrer en cas de :"|gTransDB|raw }}
         </p>
-    <h2 class="col-12">Remboursements:</h2>
+       <ul>
+            <li>{{ "survenance d’un cas de force majeure telle que la guerre, l’émeute, l’incendie, les grèves, les accidents et l’impossibilité d’être approvisionné, notamment en cas d’intempéries sévères (chutes de neige importantes, inondations,…)."|gTrans }}</li>
+            <li>{{ "inexécution par l’Acheteur de l’une de ses obligations : paiement du prix, inexactitude des informations communiquées par l’Acheteur (telle que l’adresse de livraison et/ou un oubli…)."|gTrans }}</li>
+        </ul>
         <p class="col-12">
-            Sous réserve du respect des conditions ci-dessus mentionnées, le vendeur remboursera tous les paiements reçus par l’Acheteur lors du retour de la commande. <br>
-            Le remboursement se fera soit par virement, soit par Paypal. <br>
-            Le Vendeur ne remboursera l’Acheteur qu’une fois les articles retournés et reçus. <br>
-            L’Acheteur doit renvoyer le(s) produit(s) au plus tard 14 jours à dater de la date à laquelle il a notifié sa décision de rétractation. Les frais de retour sont à la charge de l’Acheteur. Le(s) produit(s) doit être renvoyé (s) de manière à être protégé (s) au maximum*. Tout produit renvoyé et reçu abimé ou cassé par le vendeur ne sera pas remboursé.<br>
-            Après réception, le Vendeur dispose de 4 jours pour vérifier l’état du produit avant de procéder au remboursement.
+            {{ "Adresse de livraison: <br>
+Belatika expédie ses commandes à l’adresse de livraison renseignée par le client sur le site https://belatika.com (l’adresse enregistrée sur le site paypal  ne sera pas prise en compte). <br>
+Sauf mention contraire formulée auprès du vendeur au moment de la commande et AVANT confirmation de la commande par le vendeur et quel que soit le mode de paiement utilisé par l’acheteur, la commande sera envoyée à l’adresse figurant sur le bon de commande. <br>
+En cas de non distribution du colis pour défaut de transmission des bonnes coordonnées postales, et après retour au vendeur le colis sera réexpédié à l’acheteur à ses frais et après confirmation des bonnes coordonnées. <br>
+Le règlement des frais de renvoi de la commande se fera par le site. <br>
+Aucune demande de remboursement ne sera acceptée. <br>
+En cas d’erreur de transcription de l’adresse d’envoi par le vendeur, ou en cas d’erreur du seul fait du vendeur ayant conduit à la non réception du colis par l’acheteur et APRES retour du colis, le vendeur s’engage à soit réexpédier le colis à ses frais exclusifs, soit à rembourser l’acheteur (prix d’achat + frais d’envoi)."|gTransDB|raw }}
+         </p>
+    <h2 class="col-12">{{ 'Remboursement et échange'|gTrans }}:</h2>
+            <p class="col-12">
+            {{ "Réclamations : <br>
+L’Acheteur est tenu de vérifier l’état des produits lors de la réception. <br>
+Tout colis totalement ou partiellement endommagé et/ou ouvert devra être refusé. <br>
+Il doit par ailleurs informer le Vendeur dans les deux jours ouvrés suivant la réception du colis de tout dommage et/ou de toute perte totale ou partielle de la commande en joignant tous les justificatifs et documents nécessaires à sa réclamation. <br>
+Aucune réclamation ne sera acceptée en cas de non-respect de ces formalités. <br>
+Droit de rétractation : <br>
+L’Acheteur dispose d’un droit de rétractation de 14 jours à dater de la date à laquelle il a pris physiquement possession des biens achetés. <br>
+Les articles livrés en France peuvent faire l’objet d’un remboursement, excepté ceux ayant fait l’objet d’une personnalisation à la demande de l’Acheteur conformément à l’article L 21-20-2 du code de la consommation. <br>
+L’article doit être intact, complet, dans un état neuf et dans son emballage d’origine. <br>
+L’Acheteur devra notifier au Vendeur son intention de se rétracter par une « déclaration dénuée d’ambiguïté » ou en utilisant le formulaire en ligne."|gTransDB|raw }}
+            </p>
+    <h2 class="col-12">{{ 'Chèques cadeaux'|gTrans }}:</h2>
+        <ul>
+            <li>{{ "utilisable une seule fois"|gTrans }}</li>
+            <li>{{ "si l’achat est en dessous du montant du chèque cadeau, aucun remboursement ne sera fait"|gTrans }}</li>
+            <li>{{ "il est non cumulable"|gTrans }}</li>
+            <li>{{ "ne peut pas être utilisé durant les soldes ou toute autre promotion"|gTrans }}</li>
+        </ul>
+    <h2 class="col-12">{{ 'Commandes personnalisées'|gTrans }}:</h2>
+        <p class="col-12">
+            {{ "Les commandes personnalisées ont un délai d’expédition un peu plus long que les autres articles. A cause du temps de préparation de votre bijou et/ou de la livraison de certains articles de matières premières.<br>
+Vous êtes informé par email ou par message Facebook de l’avancée de votre commande.<br>
+Les bijoux personnalisés ne sont ni repris ni échangés, ni remboursés et ne bénéficient d’aucune réduction ou solde. Les chèques cadeaux peuvent être utilisés pour une commande de bijoux personnalisés."|gTransDB|raw }}
+        </p>
+    <h2 class="col-12">{{ 'Remboursements'|gTrans }}:</h2>
+        <p class="col-12">
+            {{ "Sous réserve du respect des conditions ci-dessus mentionnées, le vendeur remboursera tous les paiements reçus par l’Acheteur lors du retour de la commande.<br>
+Le remboursement se fera soit par virement, soit par Paypal.<br>
+Le Vendeur ne remboursera l’Acheteur qu’une fois les articles retournés et reçus.<br>
+L’Acheteur doit renvoyer le(s) produit(s) au plus tard 14 jours à dater de la date à laquelle il a notifié sa décision de rétractation. Les frais de retour sont à la charge de l’Acheteur. Le(s) produit(s) doit être renvoyé (s) de manière à être protégé (s) au maximum*. Tout produit renvoyé et reçu abimé ou cassé par le vendeur ne sera pas remboursé.<br>
+Après réception, le Vendeur dispose de 4 jours pour vérifier l’état du produit avant de procéder au remboursement."|gTransDB|raw }}
         </p>
 
     {% endblock %}

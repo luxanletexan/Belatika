@@ -1,26 +1,26 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<h1 class="col-12">Connexion</h1>
+<h1 class="col-12">{{ 'Connexion'|gTrans }}</h1>
 {% if error %}
     <p class="alert alert-danger col-12">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
 {% endif %}
-<p class="alert col-12 alert-pink">Afin de passer votre commande, vous devez vous identifier.</p>
+<p class="alert col-12 alert-pink">{{ 'Afin de passer votre commande, vous devez vous identifier.'|gTrans }}</p>
 
 <div class="col-md-6 pl-md-0">
     <div class="bloc-belatika p-2 rounded">
-        <h2>Me connecter avec mon réseau social:</h2>
-        <p>Connectez-vous d'un simple clic en utilisant le réseau social de votre choix:</p>
+        <h2>{{ 'Me connecter avec mon réseau social'|gTrans }}:</h2>
+        <p>{{ 'Connectez-vous d\'un simple clic en utilisant le réseau social de votre choix'|gTrans }}:</p>
         <a class="btn btn-block btn-social btn-facebook text-center" href="#">
-            <i class="fab fa-facebook-f"></i> Se connecter avec Facebook
+            <i class="fab fa-facebook-f"></i> {{ 'Se connecter avec Facebook'|gTrans }}
         </a>
         <a class="btn btn-block btn-social btn-google text-center" href="#">
-            <i class="fab fa-google"></i> Se connecter avec Google
+            <i class="fab fa-google"></i> {{ 'Se connecter avec Google'|gTrans }}
         </a>
     </div>
 </div>
 <div class="col-md-6 pr-md-0">
     <div class="bloc-belatika rounded p-2">
-        <h2>Me connecter avec mes identifiants :</h2>
+        <h2>{{ 'Me connecter avec mes identifiants'|gTrans }} :</h2>
         <form action="{{ path("fos_user_security_check") }}" method="post">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
             <div class="form-group row">
@@ -37,7 +37,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <a class="btn btn-secondary btn-belatika-dark" href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
+                    <a class="btn btn-secondary btn-belatika-dark" href="{{ path('fos_user_resetting_request') }}">{{ 'Mot de passe oublié'|gTrans }}</a>
                 </div>
                 <div class="col-sm-6 mt-2 mt-sm-0">
                     <input class="btn btn-belatika-dark float-sm-right" type="submit" value="{{ 'security.login.submit'|trans }}" />
@@ -46,18 +46,3 @@
         </form>
     </div>
 </div>
-{#
-<form action="{{ path("fos_user_security_check") }}" method="post">
-    {% if csrf_token %}
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-    {% endif %}
-
-    <label for="username">{{ "Nom d'utilisateur"|gTrans }}</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
-
-    <label for="password">{{ "Mot de passe"|gTrans }}</label>
-    <input type="password" id="password" name="_password" required="required" autocomplete="current-password" />
-
-    <input class="btn btn-belatika-dark" type="submit" id="_submit" name="_submit" value="{{ "Connexion"|gTrans }}" />
-</form>
-#}
