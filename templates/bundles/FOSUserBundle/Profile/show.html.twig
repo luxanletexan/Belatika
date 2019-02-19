@@ -1,0 +1,6 @@
+{% extends "layout.html.twig" %}
+{% block title %}{{ 'Mon compte'|gTrans }}{% endblock %}
+
+{% block content %}
+{% include "@FOSUser/Profile/show_content.html.twig" %}
+{% endblock content %}

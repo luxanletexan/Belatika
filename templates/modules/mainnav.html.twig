@@ -65,6 +65,7 @@
                 </a>
                 <div class="dropdown-menu bg-belatika" aria-labelledby="navbarDropdownUserAccount">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a class="dropdown-item" href="{{ path('fos_user_profile_show') }}">{{ 'Mon compte'|gTrans }}</a>
                         <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">{{ 'Déconnexion'|gTrans }}</a>
                     {% else %}
                         <a class="dropdown-item" href="{{ path('fos_user_security_login') }}">{{ 'Connexion'|gTrans }}</a>
