@@ -16,6 +16,7 @@
         {{ include('modules/header.html.twig') }}
         {{ include('modules/mainnav.html.twig') }}
     </div>
+    {{ flashAlert() }}
     <div class="row belatika-content">
         {% block content %}{% endblock %}
     </div>
