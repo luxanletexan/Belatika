@@ -37,12 +37,16 @@ services:
     App\Twig\Extension\TransExtension:
         tags: ['twig.extension']
         arguments:
-            $translator: '@app.google_translate'
-            $requestStack: '@request_stack'
-            $manager: '@doctrine.orm.entity_manager'
-            $projectDir: '%kernel.project_dir%'
+            $translator: '@App\Service\GoogleTranslator'
 
     App\Twig\Extension\FunctionExtension:
         tags: ['twig.extension']
         arguments:
             $manager: '@doctrine.orm.entity_manager'
+
+    App\Service\GoogleTranslator:
+        arguments:
+            $translator: '@app.google_translate'
+            $request: '@request_stack'
+            $manager: '@doctrine.orm.entity_manager'
+            $projectDir: '%kernel.project_dir%'

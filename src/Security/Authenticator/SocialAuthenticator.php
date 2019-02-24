@@ -4,6 +4,7 @@ namespace App\Security\Authenticator;
 
 
 use App\Entity\User;
+use App\Service\GoogleTranslator;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator as KnpUOauthAuthenticator;
@@ -44,13 +45,18 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
      * @var Request
      */
     private $request;
+    /**
+     * @var GoogleTranslator
+     */
+    private $googleTranslator;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, EncoderFactoryInterface $encoderFactory)
+    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, EncoderFactoryInterface $encoderFactory, GoogleTranslator $googleTranslator)
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
         $this->encoderFactory = $encoderFactory;
         $this->socials = ['facebook', 'google'];
+        $this->googleTranslator = $googleTranslator;
     }
 
     /**
@@ -153,7 +159,7 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
         //Returns existing social user
         $existingUser = $this->em->getRepository(User::class)->findOneBy([$this->currentSocial.'_id' => $socialUser->getId()]);
         if($existingUser) {
-            $flashBag->add('success', 'Bienvenue, '.$existingUser->getRealname());
+            $flashBag->add('success', $this->googleTranslator->gTrans('Bienvenue, ').$existingUser->getRealname());
             return $existingUser;
         }
 
@@ -166,7 +172,7 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
                 ->$setSocialId($socialUser->getId())
                 ->setRealname($socialUser->getName());
             $this->em->flush();
-            $flashBag->add('success', 'Bienvenue, '.$emailMatchingUser->getRealname());
+            $flashBag->add('success', $this->googleTranslator->gTrans('Bienvenue, ').$emailMatchingUser->getRealname());
             return $emailMatchingUser;
         }
 
@@ -183,7 +189,7 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
             ->setPassword($encodedPassword);
         $this->em->persist($user);
         $this->em->flush();
-        $flashBag->add('success', 'Votre compte a été créé. Bienvenue, '.$user->getRealname());
+        $flashBag->add('success', $this->googleTranslator->gTrans('Votre compte a été créé. Bienvenue, ').$user->getRealname());
         return $user;
     }
 
