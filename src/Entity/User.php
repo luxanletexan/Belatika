@@ -90,4 +90,9 @@ class User extends BaseUser
 
         return $this;
     }
+
+    public function hasSocial():bool
+    {
+        return $this->getFacebookId() !== null || $this->getGoogleId() !== null;
+    }
 }

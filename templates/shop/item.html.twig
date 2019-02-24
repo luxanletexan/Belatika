@@ -4,14 +4,18 @@
 {% block head %}
     <link rel="canonical" href="{{ absolute_url(path('app_shop_item', {'customer' : item.category.customers, 'category_slug' : item.category.slug, 'slug' : item.slug})) }}">
     <meta name="description" content="{{ item.description|gTransDB }}">
+    <link rel="stylesheet" href="{{ asset('css/item-carousel.css') }}">
 {% endblock %}
 {% block content %}
     <h1 class="sr-only">{{ item.name|gTrans }}</h1>
     <div class="row">
+        {% if item.images|length == 1 %}
         <figure id="article{{ item.id }}" class="article-view col-md-6{% if cart[item.id] is defined %} added{% endif %}">
             <img id="image" src="{% if item.images|first.thumbURI is onDisk %}{{ asset(item.images|first.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found_big.png') }}{% endif %}" data-zoom-image="{{ asset(item.images|first.thumbURI) }}" alt="{{ item.name }}" class="img-fluid rounded">
-            <div class="fb-share-button" data-href="https://www.belatika.com/shop/item/{{ item.id }}" data-layout="button" data-size="large"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"></a></div>
         </figure>
+        {% else %}
+        {{ include('modules/item-carousel.html.twig') }}
+        {% endif %}
         <div class="col-md-6">
             <div class="card card-item bg-belatika">
                 <div class="card-header">

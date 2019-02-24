@@ -10,10 +10,10 @@
     <div class="bloc-belatika p-2 rounded">
         <h2>{{ 'Me connecter avec mon réseau social'|gTrans }}:</h2>
         <p>{{ 'Connectez-vous d\'un simple clic en utilisant le réseau social de votre choix'|gTrans }}:</p>
-        <a class="btn btn-block btn-social btn-facebook text-center" href="#">
+        <a class="btn btn-block btn-social btn-facebook text-center" href="{{ path('connect_facebook_start') }}">
             <i class="fab fa-facebook-f"></i> {{ 'Se connecter avec Facebook'|gTrans }}
         </a>
-        <a class="btn btn-block btn-social btn-google text-center" href="#">
+        <a class="btn btn-block btn-social btn-google text-center" href="{{ path('connect_google_start') }}">
             <i class="fab fa-google"></i> {{ 'Se connecter avec Google'|gTrans }}
         </a>
     </div>

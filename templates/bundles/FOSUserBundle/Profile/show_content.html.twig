@@ -5,9 +5,11 @@
 <div class="col-md-4 pl-md-0">
     <div class="bloc-belatika rounded p-2">
         <h2><i class="fas fa-user"></i> {{ 'Mes informations'|gTrans }}</h2>
-        <p><span class="font-weight-bold">{{ 'profile.show.username'|trans }}:</span> {{ user.username }}</p>
+        <p><span class="font-weight-bold">{{ 'profile.show.username'|trans }}:</span> {{ user.realname }}</p>
         <p><span class="font-weight-bold">{{ 'profile.show.email'|trans }}:</span> {{ user.email }}</p>
+        {% if not app.user.hasSocial %}
         <a class="btn btn-sm btn-belatika-dark" href="{{ path('fos_user_profile_edit') }}">{{ 'Modifier'|gTrans }}</a>
+        {% endif %}
     </div>
 </div>
 

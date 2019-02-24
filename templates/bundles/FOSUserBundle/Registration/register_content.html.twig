@@ -8,10 +8,10 @@
 <div class="col-md-6 pl-md-0">
     <div class="bloc-belatika p-2 rounded">
         <h2>{{ 'M\'inscrire avec mon compte Facebook ou Google'|gTrans }}</h2>
-        <a class="btn btn-block btn-social btn-facebook" href="#">
+        <a class="btn btn-block btn-social btn-facebook" href="{{ path('connect_facebook_start') }}">
             <i class="fab fa-facebook-f"></i> {{ 'S\'inscrire avec Facebook'|gTrans }}
         </a>
-        <a class="btn btn-block btn-social btn-google" href="#">
+        <a class="btn btn-block btn-social btn-google" href="{{ path('connect_google_start') }}">
             <i class="fab fa-google"></i> {{ 'S\'inscrire avec Google'|gTrans }}
         </a>
     </div>

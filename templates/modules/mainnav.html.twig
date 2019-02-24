@@ -58,7 +58,7 @@
                 <a class="nav-link dropdown-toggle menu-user" href="#" id="navbarDropdownUserAccount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-user"></i>
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <span class="username">{{ app.user.username }}</span>
+                        <span class="username">{{ app.user.realname }}</span>
                     {% else %}
                         <span class="d-lg-none"> {{ 'Mon compte'|gTrans }}</span>
                     {% endif %}
