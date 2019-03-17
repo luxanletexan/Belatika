@@ -16,3 +16,6 @@ framework:
 
     templating:
         engines: ['twig', 'php']
+
+    serializer:
+        enabled: true

@@ -34,7 +34,7 @@ services:
     app.google_translate:
         class: Stichoza\GoogleTranslate\GoogleTranslate
 
-    App\Twig\Extension\TransExtension:
+    App\Twig\Extension\FilterExtension:
         tags: ['twig.extension']
         arguments:
             $translator: '@App\Service\GoogleTranslator'
@@ -43,6 +43,11 @@ services:
         tags: ['twig.extension']
         arguments:
             $manager: '@doctrine.orm.entity_manager'
+
+    App\Twig\Extension\GlobalExtension:
+        tags: ['twig.extension']
+        arguments:
+            $shopSettings: '%shop_settings%'
 
     App\Service\GoogleTranslator:
         arguments:

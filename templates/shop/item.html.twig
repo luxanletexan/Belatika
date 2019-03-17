@@ -1,8 +1,19 @@
 {% extends "layout.html.twig" %}
-{% set onSales = shop_settings.sales.start < date().timestamp and date().timestamp < shop_settings.sales.end %}
+{% set cart = app.session.get('cart') %}
 {% block title %}{{ item.name|gTrans }}{% endblock %}
 {% block head %}
-    <link rel="canonical" href="{{ absolute_url(path('app_shop_item', {'customer' : item.category.customers, 'category_slug' : item.category.slug, 'slug' : item.slug})) }}">
+    <link
+            rel="canonical"
+            href="{{ absolute_url(
+                path(
+                    'app_shop_item',
+                    {
+                        'customer' : item.category.customers,
+                        'category_slug' : item.category.slug,
+                        'slug' : item.slug
+                    })
+            ) }}"
+    >
     <meta name="description" content="{{ item.description|gTransDB }}">
     <link rel="stylesheet" href="{{ asset('css/item-carousel.css') }}">
 {% endblock %}
@@ -10,8 +21,20 @@
     <h1 class="sr-only">{{ item.name|gTrans }}</h1>
     <div class="row">
         {% if item.images|length == 1 %}
-        <figure id="article{{ item.id }}" class="article-view col-md-6{% if cart[item.id] is defined %} added{% endif %}">
-            <img id="image" src="{% if item.images|first.thumbURI is onDisk %}{{ asset(item.images|first.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found_big.png') }}{% endif %}" data-zoom-image="{{ asset(item.images|first.thumbURI) }}" alt="{{ item.name }}" class="img-fluid rounded">
+        <figure
+                id="article{{ item.id }}"
+                class="article-view col-md-6{% if cart[item.id] is defined %} added{% endif %}"
+        >
+            <img
+                    id="image"
+                    src="{% if item.images|first.thumbURI is onDisk %}
+                            {{ asset(item.images|first.thumbURI) }}
+                        {% else %}
+                            {{ asset('img/ressources/image-not-found.png') }}
+                        {% endif %}"
+                    alt="{{ item.images|first.alt }}"
+                    class="w-100 img-fluid rounded"
+            >
         </figure>
         {% else %}
         {{ include('modules/item-carousel.html.twig') }}
@@ -19,28 +42,41 @@
         <div class="col-md-6">
             <div class="card card-item bg-belatika">
                 <div class="card-header">
-                    <h2>{{ item.name|raw|capitalize }}</h2>
+                    <h2>{{ item.name|gTrans|capitalize }}</h2>
                 </div>
                 <div class="card-body">
-                    <em>Référence n°{{ item.reference }}</em>
+                    <em>{{ 'Référence'|gTrans }} n°{{ item.reference }}</em>
                     <hr>
-                    {{ item.description|raw|capitalize }}
+                    {{ item.description|gTrans|capitalize }}
                 </div>
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-4">
                             {% if item.discount and onSales %}
                                 <span class="original-price">{{ item.price|number_format(2, ',') }} €</span>
-                                <span class="price"> {{ (item.price*(100 - item.discount)/100)|number_format(2, ',') }} € (-{{ item.discount }}%)</span>
+                                <span class="price">
+                                    {{ (item.price*(100 - item.discount)/100)|number_format(2, ',') }} € (-{{ item.discount }}%)
+                                </span>
                             {% else %}
                                 <span class="item-price"> {{ item.price|number_format(2, ',') }} € </span>
                             {% endif %}
                         </div>
                         <div class="col-8">
                             {% if not item.quantity %}
-                                <p class="alert alert-danger">Cet article n'est plus disponible</p>
+                                <p class="alert alert-danger">{{ 'Cet article n\'est plus disponible'|gTrans }}</p>
                             {% else %}
-                                <button id="cart-button{{item.id}}" class="btn btn-sm btn-belatika-dark"><i class="fas fa-shopping-cart"></i> {% if cart[item.id] is not defined %}Ajouter au panier{% else %}Retirer du panier{% endif %}</button>
+                                <button
+                                        id="cart-button-{{ item.id }}"
+                                        class="btn btn-sm btn-belatika-dark cart-button"
+                                        data-add-item-url="{{ absolute_url(path('app_cart_add', {'id':item.id})) }}"
+                                        data-remove-item-url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}"
+                                        data-cart-action="{% if cart[item.id] is not defined %}add{% else %}remove{% endif %}"
+                                >
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span class="add-item">{{ 'Ajouter au panier'|gTrans }}</span>
+                                    <span class="remove-item">{{ 'Retirer du panier'|gTrans }}</span>
+                                    <i class="fas fa-spinner"></i>
+                                </button>
                             {% endif %}
                         </div>
                     </div>

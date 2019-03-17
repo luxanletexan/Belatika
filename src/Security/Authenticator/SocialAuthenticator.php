@@ -50,7 +50,12 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
      */
     private $googleTranslator;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, EncoderFactoryInterface $encoderFactory, GoogleTranslator $googleTranslator)
+    public function __construct(
+        ClientRegistry $clientRegistry,
+        EntityManagerInterface $em,
+        EncoderFactoryInterface $encoderFactory,
+        GoogleTranslator $googleTranslator
+    )
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
@@ -157,9 +162,14 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
         $flashBag = $this->request->getSession()->getFlashBag();
 
         //Returns existing social user
-        $existingUser = $this->em->getRepository(User::class)->findOneBy([$this->currentSocial.'_id' => $socialUser->getId()]);
+        $existingUser = $this
+            ->em
+            ->getRepository(User::class)
+            ->findOneBy([$this->currentSocial.'_id' => $socialUser->getId()]);
         if($existingUser) {
-            $flashBag->add('success', $this->googleTranslator->gTrans('Bienvenue, ').$existingUser->getRealname());
+            $flashBag->add(
+                'success',
+                $this->googleTranslator->gTrans('Bienvenue, ').$existingUser->getRealname());
             return $existingUser;
         }
 
@@ -172,7 +182,10 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
                 ->$setSocialId($socialUser->getId())
                 ->setRealname($socialUser->getName());
             $this->em->flush();
-            $flashBag->add('success', $this->googleTranslator->gTrans('Bienvenue, ').$emailMatchingUser->getRealname());
+            $flashBag->add(
+                'success',
+                $this->googleTranslator->gTrans('Bienvenue, ').$emailMatchingUser->getRealname()
+            );
             return $emailMatchingUser;
         }
 
@@ -189,7 +202,10 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
             ->setPassword($encodedPassword);
         $this->em->persist($user);
         $this->em->flush();
-        $flashBag->add('success', $this->googleTranslator->gTrans('Votre compte a été créé. Bienvenue, ').$user->getRealname());
+        $flashBag->add(
+            'success',
+            $this->googleTranslator->gTrans('Votre compte a été créé. Bienvenue, ').$user->getRealname()
+        );
         return $user;
     }
 

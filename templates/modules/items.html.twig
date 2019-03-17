@@ -1,3 +1,4 @@
+{% set cart = app.session.get('cart') %}
 <div itemscope itemtype="htpp://schema.org/JewelryStore">
     <h2 class="sr-only" itemprop="brand">{{ 'Bijoux Belatika'|gTrans }}</h2>
     <div class="d-flex justify-content-around justify-content-sm-between flex-wrap">
@@ -14,8 +15,19 @@
                 {% else %}
                     <span class="price ">{{ item.price|number_format(2, ',') }} €</span>
                 {% endif %}
+                <button
+                        id="cart-button-{{ item.id }}"
+                        class="btn btn-sm btn-belatika-dark cart-button"
+                        data-add-item-url="{{ absolute_url(path('app_cart_add', {'id':item.id})) }}"
+                        data-remove-item-url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}"
+                        data-cart-action="{% if cart[item.id] is not defined %}add{% else %}remove{% endif %}"
+                >
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="add-item">{{ 'Ajouter au panier'|gTrans }}</span>
+                    <span class="remove-item">{{ 'Retirer du panier'|gTrans }}</span>
+                    <i class="fas fa-spinner"></i>
+                </button>
             </figcaption>
-            <button id="cart-button{{item.id}}" onclick="" class="btn cart-button mt-2 sr-only"><i class="fas fa-shopping-cart"></i> {% if cart[item.id] is not defined %}{{ 'Ajouter au panier'|gTrans }}{% else %}{{ 'Retirer du panier'|gTrans }}{% endif %}</button>
         </figure>
     {% endfor %}
     </div>

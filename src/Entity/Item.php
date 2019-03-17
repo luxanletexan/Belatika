@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ItemRepository")
@@ -16,28 +17,33 @@ class Item
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"item"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="items")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"item"})
      */
     private $category;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="item")
+     * @Groups({"item"})
      */
     private $images;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"item"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"name"})
+     * @Groups({"item"})
      */
     private $slug;
 
@@ -53,11 +59,13 @@ class Item
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"item"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Groups({"item"})
      */
     private $quantity;
 
@@ -218,5 +226,10 @@ class Item
         }
 
         return $this;
+    }
+
+    public function getDiscountPrice()
+    {
+        return $this->price * (100 - $this->discount)/100;
     }
 }

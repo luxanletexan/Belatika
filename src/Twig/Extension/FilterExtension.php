@@ -7,7 +7,7 @@ use App\Service\GoogleTranslator;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-class TransExtension extends AbstractExtension
+class FilterExtension extends AbstractExtension
 {
     private $translator;
 
@@ -21,6 +21,12 @@ class TransExtension extends AbstractExtension
         return [
             new TwigFilter('gTrans', [$this->translator, 'gTrans']),
             new TwigFilter('gTransDB', [$this->translator, 'gTransDB']),
+            new TwigFilter('trunc', [$this, 'trunc']),
         ];
+    }
+
+    public function trunc($text):string
+    {
+        return strlen($text) > 20 ? substr($text, 0, 20).'...' : $text;
     }
 }

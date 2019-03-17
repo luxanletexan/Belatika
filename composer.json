@@ -43,6 +43,7 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "^3.4",
         "symfony/profiler-pack": "*",
+        "symfony/var-dumper": "4.2.3",
         "symfony/web-server-bundle": "^3.4"
     },
     "config": {

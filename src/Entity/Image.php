@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
@@ -13,6 +14,7 @@ class Image
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"item"})
      */
     private $id;
 
@@ -29,6 +31,7 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=4)
+     * @Groups({"item"})
      */
     private $ext;
 

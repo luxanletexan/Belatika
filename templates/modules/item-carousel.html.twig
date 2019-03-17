@@ -9,7 +9,7 @@
     <div class="carousel-inner">
         {% for image in item.images %}
         <div class="carousel-item{% if loop.first %} active{% endif %}">
-            <img class="d-block w-100 rounded" src="{% if image.thumbURI is onDisk %}{{ asset(image.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found_big.png') }}{% endif %}" alt="{{ image.alt }}">
+            <img class="d-block w-100 rounded" src="{% if image.thumbURI is onDisk %}{{ asset(image.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ image.alt }}">
         </div>
         {% endfor %}
     </div>

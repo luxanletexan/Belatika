@@ -1,6 +1,5 @@
 {% extends "layout.html.twig" %}
 {% block title %}{{ category.name|gTrans }}{% endblock %}
-{% set onSales = shop_settings.sales.start < date().timestamp and date().timestamp < shop_settings.sales.end %}
 {% block head %}
     <link rel="canonical" href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}">
     <meta name="description" content="{{ category.description|gTransDB }}">
@@ -9,4 +8,14 @@
     <h1 class="col-12">{{ category.name|gTrans }}</h1>
     {{ include('modules/items.html.twig') }}
     {{ include('modules/pagination.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/Cart.js') }}"></script>
+    <script>
+        $(function () {
+            let cart = new Cart();
+            cart.initButtons();
+        });
+    </script>
 {% endblock %}

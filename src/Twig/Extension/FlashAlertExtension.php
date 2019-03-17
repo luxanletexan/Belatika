@@ -32,7 +32,7 @@ class FlashAlertExtension extends AbstractExtension
 
     public function flashAlert():string
     {
-        $html = '';
+        $html = '<div id="alert-container">';
 
         $types = $this->flashBag->keys();
 
@@ -48,6 +48,6 @@ class FlashAlertExtension extends AbstractExtension
                         </div>";
             }
         }
-        return $html;
+        return $html.'</div>';
     }
 }

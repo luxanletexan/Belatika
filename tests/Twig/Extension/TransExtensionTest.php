@@ -5,7 +5,7 @@ namespace App\Tests\Twig\Extension;
 
 use App\Entity\Translation;
 use App\Repository\TranslationRepository;
-use App\Twig\Extension\TransExtension;
+use App\Twig\Extension\FilterExtension;
 use Doctrine\Common\Persistence\ObjectManager;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -40,7 +40,7 @@ class TransExtensionTest extends WebTestCase
         $container = self::$kernel->getContainer();
         $projectDir = $container->getParameter('kernel.project_dir');
 
-        $transExtension = new TransExtension($translator, $requestStack, $objectManager, $projectDir);
+        $transExtension = new FilterExtension($translator, $requestStack, $objectManager, $projectDir);
         $this->assertSame($expected, $transExtension->gTransDB($text));
     }
 
@@ -63,7 +63,7 @@ class TransExtensionTest extends WebTestCase
         $container = self::$kernel->getContainer();
         $projectDir = $container->getParameter('kernel.project_dir');
 
-        $transExtension = new TransExtension($translator, $requestStack, $objectManager, $projectDir);
+        $transExtension = new FilterExtension($translator, $requestStack, $objectManager, $projectDir);
         $this->assertSame('Should return untranslated text on error', $transExtension->gTransDB('Should return untranslated text on error'));
     }
 
@@ -83,7 +83,7 @@ class TransExtensionTest extends WebTestCase
         $container = self::$kernel->getContainer();
         $projectDir = $container->getParameter('kernel.project_dir');
 
-        $transExtension = new TransExtension($translator, $requestStack, $objectManager, $projectDir);
+        $transExtension = new FilterExtension($translator, $requestStack, $objectManager, $projectDir);
         $this->assertSame('Translated text', $transExtension->gTrans('Text to translate'));
     }
     public function testTranslateWithError():void
@@ -102,7 +102,7 @@ class TransExtensionTest extends WebTestCase
         $container = self::$kernel->getContainer();
         $projectDir = $container->getParameter('kernel.project_dir');
 
-        $transExtension = new TransExtension($translator, $requestStack, $objectManager, $projectDir);
+        $transExtension = new FilterExtension($translator, $requestStack, $objectManager, $projectDir);
         $this->assertSame('Should return untranslated text on error', $transExtension->gTrans('Should return untranslated text on error'));
     }
 

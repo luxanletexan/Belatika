@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
@@ -32,6 +33,7 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"name"})
+     * @Groups({"item"})
      */
     private $slug;
 
@@ -42,6 +44,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"item"})
      */
     private $customers;
 

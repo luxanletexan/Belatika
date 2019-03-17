@@ -1,6 +1,5 @@
 {% extends "layout.html.twig" %}
 {% block title %}{{ 'Créations artisanales de bijoux'|gTrans }}{% endblock %}
-{% set onSales = shop_settings.sales.start < date().timestamp and date().timestamp < shop_settings.sales.end %}
 {% block head %}
     <link rel="canonical" href="{{ absolute_url(path('app_shop_index')) }}">
     <meta name="description" content="{{ "Bijoux uniques pour des femmes d'exceptions. Découvrez les bijoux de la boutique ligne de Belatika. Un large choix de boucles d'oreilles, colliers, bagues et bracelets créés avec passion à des prix tous doux."|gTransDB }}">
