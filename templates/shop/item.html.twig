@@ -68,6 +68,7 @@
                                 <button
                                         id="cart-button-{{ item.id }}"
                                         class="btn btn-sm btn-belatika-dark cart-button"
+                                        data-item-id="{{ item.id }}"
                                         data-add-item-url="{{ absolute_url(path('app_cart_add', {'id':item.id})) }}"
                                         data-remove-item-url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}"
                                         data-cart-action="{% if cart[item.id] is not defined %}add{% else %}remove{% endif %}"

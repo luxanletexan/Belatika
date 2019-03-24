@@ -26,6 +26,8 @@ class Cart {
             let dataAddItemUrl = e.target.getAttribute('data-add-item-url');
             let dataRemoveItemUrl = e.target.getAttribute('data-remove-item-url');
             let dataCartAction = e.target.getAttribute('data-cart-action');
+            let id = e.target.getAttribute('data-item-id');
+            let figureElt = document.getElementById('item'+id);
             let url = dataCartAction === 'add' ? dataAddItemUrl : dataRemoveItemUrl;
             let action = dataCartAction === 'add' ? 'remove' : 'add';
             e.target.classList.add('spinning');
@@ -34,6 +36,11 @@ class Cart {
                 () => {
                     e.target.setAttribute('data-cart-action', action);
                     e.target.classList.remove('spinning');
+                    if(action === 'add'){
+                        figureElt.classList.remove('added');
+                    }else{
+                        figureElt.classList.add('added');
+                    }
                     this.displayCart();
                 },
                 () => {
@@ -58,6 +65,8 @@ class Cart {
             () => {
                 this.displayCart();
                 document.getElementById('cart-button-'+id).setAttribute('data-cart-action', 'add');
+                let figureElt = document.getElementById('item'+id);
+                figureElt.classList.remove('added');
             },
             () => {
                 removeButtonElt.classList.remove('spinning');

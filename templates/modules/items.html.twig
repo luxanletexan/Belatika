@@ -3,7 +3,7 @@
     <h2 class="sr-only" itemprop="brand">{{ 'Bijoux Belatika'|gTrans }}</h2>
     <div class="d-flex justify-content-around justify-content-sm-between flex-wrap">
     {% for item in items %}
-        <figure id="item{{item.id}}" class="item-thumbnail {% if item.createdAt|date_modify('+1 week')|date('Ymd') > "now"|date('Ymd') %}new{% endif %}{% if cart[item.id] is defined %} added{% endif %}">
+        <figure id="item{{item.id}}" class="item-thumbnail{% if item.createdAt|date_modify('+1 week')|date('Ymd') > "now"|date('Ymd') %} new{% endif %}{% if cart[item.id] is defined %} added{% endif %}">
             <a href="{{ path('app_shop_item', {'customer' : item.category.customers, 'category_slug' : item.category.slug, 'slug' : item.slug}) }}">
                 <img class="figure-img img-fluid" src="{% if item.images|first.thumbURI is onDisk %}{{ asset(item.images|first.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ item.images|first.alt }}">
             </a>
@@ -18,6 +18,7 @@
                 <button
                         id="cart-button-{{ item.id }}"
                         class="btn btn-sm btn-belatika-dark cart-button"
+                        data-item-id="{{ item.id }}"
                         data-add-item-url="{{ absolute_url(path('app_cart_add', {'id':item.id})) }}"
                         data-remove-item-url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}"
                         data-cart-action="{% if cart[item.id] is not defined %}add{% else %}remove{% endif %}"
