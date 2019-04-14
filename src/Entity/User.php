@@ -18,6 +18,52 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Address", cascade={"persist", "remove"})
+     */
+    private $deliveryAddress;
+
+    /**
+     * @return mixed
+     */
+    public function getBillingAddress()
+    {
+        return $this->billingAddress;
+    }
+
+    /**
+     * @param mixed $billingAddress
+     * @return User
+     */
+    public function setBillingAddress($billingAddress):User
+    {
+        $this->billingAddress = $billingAddress;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeliveryAddress()
+    {
+        return $this->deliveryAddress;
+    }
+
+    /**
+     * @param mixed $deliveryAddress
+     * @return User
+     */
+    public function setDeliveryAddress($deliveryAddress):User
+    {
+        $this->deliveryAddress = $deliveryAddress;
+        return $this;
+    }
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Address", cascade={"persist", "remove"})
+     */
+    private $billingAddress;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $realname;
@@ -41,6 +87,13 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->created_at = new \DateTime();
+    }
+
+    public function setUsername($username)
+    {
+        $this->setRealname($username);
+
+        return parent::setUsername($username);
     }
 
     public function getRealname(): ?string

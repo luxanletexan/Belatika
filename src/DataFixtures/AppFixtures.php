@@ -6,12 +6,24 @@ use App\Entity\Category;
 use App\Entity\Image;
 use App\Entity\Item;
 use App\Entity\Translation;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use joshtronic\LoremIpsum;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     public function load(ObjectManager $manager):void
     {
         $lipsum = new LoremIpsum();
@@ -63,6 +75,23 @@ class AppFixtures extends Fixture
             ->setTarget('fr')
             ->setTranslation('Bonjour le monde');
         $manager->persist($translation);
+
+        //Creating users
+        $testUser = new User();
+        $testUser
+            ->setUsername('test')
+            ->setEmail('test@mail.com')
+            ->setEnabled(true)
+            ->setPassword($this->encoder->encodePassword($testUser, 'test'));
+        $manager->persist($testUser);
+        $adminUser = new User();
+        $adminUser
+            ->setUsername('admin')
+            ->setEmail('admin@mail.com')
+            ->setEnabled(true)
+            ->setPassword($this->encoder->encodePassword($adminUser, 'admin'))
+            ->addRole('ROLE_ADMIN');
+        $manager->persist($adminUser);
 
         $manager->flush();
     }

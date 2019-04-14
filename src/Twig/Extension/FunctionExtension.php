@@ -19,11 +19,17 @@ class FunctionExtension extends \Twig_Extension
     {
         return [
             new \Twig_Function('categories', [$this, 'getCategories']),
+            new \Twig_Function('env', [$this, 'env']),
         ];
     }
 
     public function getCategories()
     {
         return $this->manager->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
+    }
+
+    public function env(string $key):string
+    {
+        return getenv($key);
     }
 }

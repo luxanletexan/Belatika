@@ -1,0 +1,44 @@
+{% extends "layout.html.twig" %}
+{% block head %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1/leaflet.css"/>
+{% endblock %}
+{% block title %}{{ 'Gérer mes adresses'|gTrans|capitalize }}{% endblock %}
+{% block content %}
+    <h1 class="col-12">{{ 'Gérer mes adresses'|gTrans|capitalize }}</h1>
+    <form id="addresses-form" class="col-12" method="post" action="{{ path('app_user_address') }}">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 bg-belatika text-pink pt-2 rounded">
+                <p>{{ 'Indiquez-moi votre adresse de livraison ci-dessous et cette carte interactive vous aidera à vérifier que l\'adresse est correcte.'|gTrans|capitalize }}</p>
+                <p>{{ 'Ce serait dommage que votre commande n\'arrive pas au bon endroit, ma priorité étant que vous receviez vos achats dans les meilleurs délais et dans les meilleures conditions.'|gTrans|capitalize }}</p>
+                <p>{{ 'Vous pouvez aussi préciser ici une adresse de facturation différente.'|gTrans|capitalize }}</p>
+            </div>
+            <div class="col-12 col-md-6 col-lg-8 rounded" style="height: 300px;" id="map-container"></div>
+            <input name="input-map-delivery" type="search" id="input-map-delivery" class="form-control"
+                   placeholder="{{ 'Votre adresse de livraison'|gTrans|capitalize }}" required>
+            <input name="input-map-billing" type="search" id="input-map-billing" class="form-control"
+                   placeholder="{{ 'Votre adresse de facturation'|gTrans|capitalize }}"/>
+            <p id="address-alert" style="display: none"
+               class="alert alert-danger col-12">{{ 'Aucune adresse trouvée, merci de vérifier la saisie.'|gTrans|capitalize }}</p>
+            <label class="m-2"
+                   for="same-address">{{ 'Utiliser la même adresse pour la facturation'|gTrans|capitalize }}</label>
+            <input class="align-self-center" id="same-address" name="same-address" type="checkbox" checked>
+        </div>
+        <button class="btn btn-sm btn-belatika-dark">{{ 'Valider'|gTrans|capitalize }}</button>
+    </form>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/leaflet.js') }}"></script>
+    <script src="{{ asset('js/places.js') }}"></script>
+    <script src="{{ asset('js/Address.js') }}"></script>
+    <script>
+        $(function () {
+            let address = new Address(
+                '{{ env('ALGOLIA_PLACES_ID') }}',
+                '{{ env('ALGOLIA_PLACES_KEY') }}',
+                ['delivery', 'billing'],
+                '{{ app.request.getSchemeAndHttpHost ~ asset('img/') }}'
+            );
+            address.init();
+        });
+    </script>
+{% endblock %}
