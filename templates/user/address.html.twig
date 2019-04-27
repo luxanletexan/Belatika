@@ -13,9 +13,9 @@
                 <p>{{ 'Vous pouvez aussi préciser ici une adresse de facturation différente.'|gTrans|capitalize }}</p>
             </div>
             <div class="col-12 col-md-6 col-lg-8 rounded" style="height: 300px;" id="map-container"></div>
-            <input name="input-map-delivery" type="search" id="input-map-delivery" class="form-control"
+            <input name="fullAddress-delivery" type="search" id="fullAddress-delivery" class="form-control"
                    placeholder="{{ 'Votre adresse de livraison'|gTrans|capitalize }}" required>
-            <input name="input-map-billing" type="search" id="input-map-billing" class="form-control"
+            <input name="fullAddress-billing" type="search" id="fullAddress-billing" class="form-control"
                    placeholder="{{ 'Votre adresse de facturation'|gTrans|capitalize }}"/>
             <p id="address-alert" style="display: none"
                class="alert alert-danger col-12">{{ 'Aucune adresse trouvée, merci de vérifier la saisie.'|gTrans|capitalize }}</p>

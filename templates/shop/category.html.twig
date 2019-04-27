@@ -9,13 +9,3 @@
     {{ include('modules/items.html.twig') }}
     {{ include('modules/pagination.html.twig') }}
 {% endblock %}
-
-{% block javascripts %}
-    <script src="{{ asset('js/Cart.js') }}"></script>
-    <script>
-        $(function () {
-            let cart = new Cart();
-            cart.initButtons();
-        });
-    </script>
-{% endblock %}

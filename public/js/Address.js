@@ -50,11 +50,12 @@ class Address {
      */
     initTextInputs(inputs) {
         inputs.forEach((name) => {
-            this.textInputs[name] = document.getElementById('input-map-' + name);
+            this.textInputs[name] = document.getElementById('fullAddress-' + name);
             this.placesAutocomplete[name] = places({
                 appId: this.appId,
                 apiKey: this.appKey,
                 container: this.textInputs[name],
+                type: 'address',
             });
         });
     }
@@ -97,7 +98,7 @@ class Address {
             this.placesAutocomplete[name].on('clear', () => { this.handleOnClear(name) });
         } );
         this.formElt.addEventListener('submit', (e) => { this.handleOnSubmit(e) });
-        let inputMapBillingElt = document.getElementById('input-map-billing');
+        let inputMapBillingElt = document.getElementById('fullAddress-billing');
         this.sameAddressCheckboxElt.addEventListener('click',  (e) => {
             this.textInputs.billing.parentElement.style.display = e.target.checked ? 'none' : 'block';
             this.textInputs.billing.required = !e.target.checked;
@@ -156,8 +157,8 @@ class Address {
 
     handleOnSubmit(e)
     {
+        //e.preventDefault();
         this.populate();
-        e.preventDefault();
     }
 
     addMarker(suggestion) {
@@ -180,16 +181,28 @@ class Address {
         if(!this.isValid()) {
             return false;
         }
+
+        let fields = ['countryCode', 'city', 'administrative', 'county', 'country', 'postcode', 'name', 'value'];
+
         this.inputMapNames.forEach((name) => {
-            //TODO: populate the form
+            Object.keys(this.adresses[name]).forEach((key) => {
+                if(fields.indexOf(key) !== -1) {
+                    this.createHiddenInput(key, name, this.adresses[name][key]);
+                } else if (key === 'latlng') {
+                    this.createHiddenInput('lat', name, this.adresses[name][key].lat);
+                    this.createHiddenInput('lng', name, this.adresses[name][key].lng);
+                }
+            });
         });
+
+        return true;
     }
 
     isValid()
     {
         let sameAddressIsChecked = this.sameAddressCheckboxElt.checked;
         this.inputMapNames.forEach((name) => {
-            let fullAdress = this.formElt.elements['input-map-'+name].value;
+            let fullAdress = this.formElt.elements['fullAddress-'+name].value;
             if(fullAdress.length > 0) {
                 this.adresses[name].full = fullAdress;
             } else if (fullAdress.length === 0 && (name === 'delivery' || !sameAddressIsChecked)) {
@@ -197,5 +210,18 @@ class Address {
             }
         });
         return true;
+    }
+
+    createHiddenInput(type, name, value)
+    {
+        if (document.getElementById(type + '-' + name) !== null) {
+            return;
+        }
+        let hiddenInput = document.createElement('input');
+        hiddenInput.value = value;
+        hiddenInput.id = type + '-' + name;
+        hiddenInput.setAttribute('name', type + '-' + name);
+        hiddenInput.setAttribute('type', 'hidden');
+        this.formElt.append(hiddenInput);
     }
 }
