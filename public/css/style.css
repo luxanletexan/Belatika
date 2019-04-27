@@ -25,6 +25,11 @@ strong
     color: pink;
 }
 
+.text-black
+{
+    color: #222;
+}
+
 .alert-sales
 {
     border-color: #ffdbe1;
@@ -375,7 +380,12 @@ hr
 /*request content*/
 .belatika-content h2
 {
-    font-size:25px;
+    font-size:1.5rem;
+}
+
+.belatika-content h3
+{
+    font-size:1.3rem;
 }
 
 .bloc-belatika-dark
