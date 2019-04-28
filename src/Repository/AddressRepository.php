@@ -19,6 +19,21 @@ class AddressRepository extends ServiceEntityRepository
         parent::__construct($registry, Address::class);
     }
 
+    /**
+     * Delete from database unused addresses (neither delivery, billing or linked to any order)
+     * @return mixed
+     */
+    public function clearUnlinkedAddresses()
+    {
+        return $this->_em->createQueryBuilder()
+            ->delete(Address::class, 'a')
+            ->where('a.billingUsers IS EMPTY')
+            ->andWhere('a.deliveryUsers IS EMPTY')
+            //->andWhere('a.orders IS EMPTY') //TODO: uncomment when order entity will be ready
+            ->getQuery()
+            ->execute();
+    }
+
     // /**
     //  * @return Address[] Returns an array of Address objects
     //  */

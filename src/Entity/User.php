@@ -18,7 +18,7 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Address", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="deliveryUsers", cascade={"persist"})
      */
     private $deliveryAddress;
 
@@ -59,7 +59,7 @@ class User extends BaseUser
     }
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Address", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="billingUsers", cascade={"persist"})
      */
     private $billingAddress;
 
@@ -147,5 +147,15 @@ class User extends BaseUser
     public function hasSocial():bool
     {
         return $this->getFacebookId() !== null || $this->getGoogleId() !== null;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function sameAddress(): bool
+    {
+        return $this->deliveryAddress === $this->billingAddress;
     }
 }

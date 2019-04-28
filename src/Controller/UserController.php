@@ -39,6 +39,8 @@ class UserController extends AbstractController
             $em->persist($user);
             $em->flush();
 
+            $em->getRepository(Address::class)->clearUnlinkedAddresses();
+
             $this->addFlash('success', $this->gTrans('Votre adresse a bien été enregistrée.'));
             return $this->redirectToRoute('fos_user_profile_show');
         }

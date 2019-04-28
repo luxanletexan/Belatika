@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,6 +18,16 @@ class Address
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="deliveryAddress")
+     */
+    private $deliveryUsers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="billingAddress")
+     */
+    private $billingUsers;
 
     /**
      * @ORM\Column(type="text")
@@ -71,6 +83,12 @@ class Address
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $postcode;
+
+    public function __construct()
+    {
+        $this->deliveryUsers = new ArrayCollection();
+        $this->billingUsers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -205,6 +223,68 @@ class Address
     public function setPostcode(?string $postcode): self
     {
         $this->postcode = $postcode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getDeliveryUsers(): Collection
+    {
+        return $this->deliveryUsers;
+    }
+
+    public function addDeliveryUser(User $deliveryUser): self
+    {
+        if (!$this->deliveryUsers->contains($deliveryUser)) {
+            $this->deliveryUsers[] = $deliveryUser;
+            $deliveryUser->setDeliveryAddress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeliveryUser(User $deliveryUser): self
+    {
+        if ($this->deliveryUsers->contains($deliveryUser)) {
+            $this->deliveryUsers->removeElement($deliveryUser);
+            // set the owning side to null (unless already changed)
+            if ($deliveryUser->getDeliveryAddress() === $this) {
+                $deliveryUser->setDeliveryAddress(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getBillingUsers(): Collection
+    {
+        return $this->billingUsers;
+    }
+
+    public function addBillingUser(User $billingUser): self
+    {
+        if (!$this->billingUsers->contains($billingUser)) {
+            $this->billingUsers[] = $billingUser;
+            $billingUser->setBillingAddress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBillingUser(User $billingUser): self
+    {
+        if ($this->billingUsers->contains($billingUser)) {
+            $this->billingUsers->removeElement($billingUser);
+            // set the owning side to null (unless already changed)
+            if ($billingUser->getBillingAddress() === $this) {
+                $billingUser->setBillingAddress(null);
+            }
+        }
 
         return $this;
     }

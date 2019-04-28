@@ -1,0 +1,20 @@
+.address-field
+{
+    display: flex;
+    margin: 0 -15px;
+}
+
+.address-label
+{
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    height: 40px;
+    padding: .375rem .75rem;
+    border-radius: .25rem 0 0 .25rem;
+}
+
+.address-field .form-control
+{
+    border-radius: 0 .25rem .25rem 0;
+    border-left: none;
+}

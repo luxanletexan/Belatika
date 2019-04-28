@@ -1,6 +1,7 @@
 {% extends "layout.html.twig" %}
 {% block head %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1/leaflet.css"/>
+    <link rel="stylesheet" href="{{ asset('css/address.css') }}">
 {% endblock %}
 {% block title %}{{ 'Gérer mes adresses'|gTrans|capitalize }}{% endblock %}
 {% block content %}
@@ -13,6 +14,9 @@
                 <p>{{ 'Vous pouvez aussi préciser ici une adresse de facturation différente.'|gTrans|capitalize }}</p>
             </div>
             <div class="col-12 col-md-6 col-lg-8 rounded" style="height: 300px;" id="map-container"></div>
+        </div>
+        <div class="address-field mt-2">
+            <label class="address-label" for="fullAddress-delivery">{{ 'Livraison'|gTrans }}</label>
             <input
                     name="fullAddress-delivery"
                     type="search"
@@ -22,19 +26,29 @@
                     required
                     {% if user.deliveryAddress %}value="{{ user.deliveryAddress.fullAddress }}"{% endif %}
             >
+        </div>
+        <div class="address-field">
+            <label class="address-label" for="fullAddress-billing">{{ 'Facturation'|gTrans }}</label>
             <input
                     name="fullAddress-billing"
                     type="search"
                     id="fullAddress-billing"
                     class="form-control"
                     placeholder="{{ 'Votre adresse de facturation'|gTrans|capitalize }}"
-                    {% if user.billingAddress and user.deliveryAddress and user.deliveryAddress.id != user.billingAddress.id %}value="{{ user.billingAddress.fullAddress }}"{% endif %}
+                    {% if user.billingAddress and user.deliveryAddress and not user.sameAddress %}value="{{ user.billingAddress.fullAddress }}"{% endif %}
             >
-            <p id="address-alert" style="display: none"
-               class="alert alert-danger col-12">{{ 'Aucune adresse trouvée, merci de vérifier la saisie.'|gTrans|capitalize }}</p>
-            <label class="m-2"
-                   for="same-address">{{ 'Utiliser la même adresse pour la facturation'|gTrans|capitalize }}</label>
-            <input class="align-self-center" id="same-address" name="same-address" type="checkbox" checked>
+        </div>
+        <p id="address-alert" style="display: none"
+           class="alert alert-danger col-12">{{ 'Aucune adresse trouvée, merci de vérifier la saisie.'|gTrans|capitalize }}</p>
+        <div class="row">
+            <input
+                    class="m-2"
+                    id="same-address"
+                    name="same-address"
+                    type="checkbox"
+                    {% if not user.deliveryAddress or (user.sameAddress) %}checked{% endif %}
+            >
+            <label for="same-address">{{ 'Utiliser la même adresse pour la facturation'|gTrans|capitalize }}</label>
         </div>
         <a href="{{ path('fos_user_profile_show') }}" class="btn btn-sm btn-belatika-dark">{{ 'Retour'|gTrans|capitalize }}</a>
         <button class="btn btn-sm btn-belatika-dark">{{ 'Enregistrer'|gTrans|capitalize }}</button>

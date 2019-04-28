@@ -108,11 +108,10 @@ class Address {
         this.formElt.addEventListener('submit', () => { this.handleOnSubmit() });
         let inputMapBillingElt = document.getElementById('fullAddress-billing');
         this.sameAddressCheckboxElt.addEventListener('click',  (e) => {
-            this.textInputs.billing.parentElement.style.display = e.target.checked ? 'none' : 'block';
+            this.textInputs.billing.parentElement.parentElement.style.display = e.target.checked ? 'none' : 'flex';
             this.textInputs.billing.required = !e.target.checked;
         });
-
-        inputMapBillingElt.parentElement.style.display = 'none';
+        inputMapBillingElt.parentElement.parentElement.style.display = this.sameAddressCheckboxElt.checked ? 'none' : 'flex';
     }
 
     initDeliveryMarker()
