@@ -20,12 +20,12 @@ class UserController extends AbstractController
      */
     public function address(Request $request):Response
     {
+        $user = $this->getUser();
 
         if($request->isMethod('POST')) {
             $addressDelivery = $this->hydrate(Address::class, $request, '-delivery');
             $addressDelivery = $this->returnAddressIfExists($addressDelivery);
             $sameAddress = $request->get('same-address');
-            $user = $this->getUser();
             $user->setDeliveryAddress($addressDelivery);
             if ($sameAddress === 'on') {
                 $user->setBillingAddress($addressDelivery);
@@ -43,7 +43,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('fos_user_profile_show');
         }
 
-        return $this->render('user/address.html.twig');
+        return $this->render('user/address.html.twig', ['user' => $user]);
     }
 
     /**

@@ -2,6 +2,7 @@ class Address {
     appId;
     appKey;
     imgPath;
+    deliveryLatLng;
     inputMapNames;
     formElt;
     textInputs = {};
@@ -18,13 +19,17 @@ class Address {
     /**
      * @param {string} appId
      * @param {string} appKey
-     * @param {array} inputMapNames
+     * @param {Array} inputMapNames
      * @param {string} imgPath
+     * @param {Object} deliveryLatLng
+     * @param {number} deliveryLatLng.lat
+     * @param {number} deliveryLatLng.lng
      */
-    constructor(appId, appKey, inputMapNames, imgPath) {
+    constructor(appId, appKey, inputMapNames, imgPath, deliveryLatLng = {}) {
         this.appId = appId;
         this.appKey = appKey;
         this.imgPath = imgPath;
+        this.deliveryLatLng = deliveryLatLng;
         this.inputMapNames = inputMapNames;
         this.formElt = document.getElementById('addresses-form');
         this.alertElt = document.getElementById('address-alert');
@@ -43,6 +48,9 @@ class Address {
         this.map.addLayer(this.layer);
         this.initIcon();
         this.initEvents();
+        if (this.deliveryLatLng.hasOwnProperty('lat') && this.deliveryLatLng.hasOwnProperty('lng')) {
+            this.initDeliveryMarker();
+        }
     }
 
     /**
@@ -97,7 +105,7 @@ class Address {
             this.placesAutocomplete[name].on('change', (e) => { this.handleOnChange(e, name) });
             this.placesAutocomplete[name].on('clear', () => { this.handleOnClear(name) });
         } );
-        this.formElt.addEventListener('submit', (e) => { this.handleOnSubmit(e) });
+        this.formElt.addEventListener('submit', () => { this.handleOnSubmit() });
         let inputMapBillingElt = document.getElementById('fullAddress-billing');
         this.sameAddressCheckboxElt.addEventListener('click',  (e) => {
             this.textInputs.billing.parentElement.style.display = e.target.checked ? 'none' : 'block';
@@ -105,6 +113,14 @@ class Address {
         });
 
         inputMapBillingElt.parentElement.style.display = 'none';
+    }
+
+    initDeliveryMarker()
+    {
+        let marker = L.marker(this.deliveryLatLng, {icon: this.icon});
+        marker.addTo(this.map);
+        this.markers.push(marker);
+        this.findBestZoom();
     }
 
     handleOnSuggestions(e) {
@@ -155,9 +171,8 @@ class Address {
             });
     }
 
-    handleOnSubmit(e)
+    handleOnSubmit()
     {
-        //e.preventDefault();
         this.populate();
     }
 

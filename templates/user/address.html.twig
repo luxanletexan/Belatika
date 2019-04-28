@@ -13,17 +13,31 @@
                 <p>{{ 'Vous pouvez aussi préciser ici une adresse de facturation différente.'|gTrans|capitalize }}</p>
             </div>
             <div class="col-12 col-md-6 col-lg-8 rounded" style="height: 300px;" id="map-container"></div>
-            <input name="fullAddress-delivery" type="search" id="fullAddress-delivery" class="form-control"
-                   placeholder="{{ 'Votre adresse de livraison'|gTrans|capitalize }}" required>
-            <input name="fullAddress-billing" type="search" id="fullAddress-billing" class="form-control"
-                   placeholder="{{ 'Votre adresse de facturation'|gTrans|capitalize }}"/>
+            <input
+                    name="fullAddress-delivery"
+                    type="search"
+                    id="fullAddress-delivery"
+                    class="form-control"
+                    placeholder="{{ 'Votre adresse de livraison'|gTrans|capitalize }}"
+                    required
+                    {% if user.deliveryAddress %}value="{{ user.deliveryAddress.fullAddress }}"{% endif %}
+            >
+            <input
+                    name="fullAddress-billing"
+                    type="search"
+                    id="fullAddress-billing"
+                    class="form-control"
+                    placeholder="{{ 'Votre adresse de facturation'|gTrans|capitalize }}"
+                    {% if user.billingAddress and user.deliveryAddress and user.deliveryAddress.id != user.billingAddress.id %}value="{{ user.billingAddress.fullAddress }}"{% endif %}
+            >
             <p id="address-alert" style="display: none"
                class="alert alert-danger col-12">{{ 'Aucune adresse trouvée, merci de vérifier la saisie.'|gTrans|capitalize }}</p>
             <label class="m-2"
                    for="same-address">{{ 'Utiliser la même adresse pour la facturation'|gTrans|capitalize }}</label>
             <input class="align-self-center" id="same-address" name="same-address" type="checkbox" checked>
         </div>
-        <button class="btn btn-sm btn-belatika-dark">{{ 'Valider'|gTrans|capitalize }}</button>
+        <a href="{{ path('fos_user_profile_show') }}" class="btn btn-sm btn-belatika-dark">{{ 'Retour'|gTrans|capitalize }}</a>
+        <button class="btn btn-sm btn-belatika-dark">{{ 'Enregistrer'|gTrans|capitalize }}</button>
     </form>
 {% endblock %}
 {% block javascripts %}
@@ -37,6 +51,12 @@
                 '{{ env('ALGOLIA_PLACES_KEY') }}',
                 ['delivery', 'billing'],
                 '{{ app.request.getSchemeAndHttpHost ~ asset('img/') }}'
+            {% if user.deliveryAddress and user.deliveryAddress.lat and user.deliveryAddress.lng %}
+                ,{
+                    lat: {{ user.deliveryAddress.lat }},
+                    lng: {{ user.deliveryAddress.lng }}
+                }
+            {% endif %}
             );
             address.init();
         });
