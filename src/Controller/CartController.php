@@ -5,14 +5,28 @@ namespace App\Controller;
 use App\Entity\Item;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\SessionUnavailableException;
 
+/**
+ * @Route("/cart")
+ */
 class CartController extends AbstractController
 {
     /**
-     * @Route("/cart/add/{id<\d+>}/{quantity<\d+>?1}", name="app_cart_add")
+     * @Route("/")
+     */
+    public function show():Response
+    {
+        $isOrdering = false;
+
+        return $this->render('cart/index.html.twig', ['isOrdering' => $isOrdering]);
+    }
+
+    /**
+     * @Route("/add/{id<\d+>}/{quantity<\d+>?1}", name="app_cart_add")
      * @param Item $item
      * @param Request $request
      * @param integer $quantity
@@ -56,7 +70,7 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/cart/remove/{item_id<\d+>}/{quantity<\d+>?0}", name="app_cart_remove")
+     * @Route("/remove/{item_id<\d+>}/{quantity<\d+>?0}", name="app_cart_remove")
      * @param int $item_id
      * @param Request $request
      * @param int $quantity

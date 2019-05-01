@@ -3,15 +3,17 @@
 namespace App\Twig\Extension;
 
 
-class TestExtension extends \Twig_Extension
+use Twig\Extension\AbstractExtension;
+use Twig\TwigTest;
+
+class TestExtension extends AbstractExtension
 {
     public function getTests():array
     {
         return [
-            new \Twig_Test('onDisk', function ($file) {
+            new TwigTest('onDisk', static function ($file) {
                 return file_exists($file);
             }),
         ];
     }
-
 }

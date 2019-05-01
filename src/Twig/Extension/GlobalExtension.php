@@ -2,8 +2,10 @@
 
 namespace App\Twig\Extension;
 
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
 
-class GlobalExtension extends \Twig\Extension\AbstractExtension implements \Twig\Extension\GlobalsInterface
+class GlobalExtension extends AbstractExtension implements GlobalsInterface
 {
     private $sales_start;
     private $sales_end;

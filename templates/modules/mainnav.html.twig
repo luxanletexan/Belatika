@@ -76,9 +76,9 @@
             </li>
             <li class="nav-item active">
                 <div class="nav-link menu-cart">
-                    <a href="#"><i class="fas fa-shopping-cart"></i><span class="d-lg-none text-pink"> {{ 'Panier'|gTrans }}</span></a>
+                    <a href="{{ path('app_cart_show') }}"><i class="fas fa-shopping-cart"></i><span class="d-lg-none text-pink"> {{ 'Panier'|gTrans }}</span></a>
                     <div class="cart-content">
-                        <a class="d-none d-lg-block" href="#">{{ 'Panier'|gTrans }}</a>
+                        <a class="d-none d-lg-block" href="{{ path('app_cart_show') }}">{{ 'Panier'|gTrans }}</a>
                         <span class="notification-badge text-pink" id="cart-item-badge" data-item-count="{{ app.session.get('cart')|length }}"></span>
                         <ul id="cart-item-list" class="bg-belatika">{% for item in app.session.get('cart') %}
                                 {% set cart_total = cart_total + item.price %}

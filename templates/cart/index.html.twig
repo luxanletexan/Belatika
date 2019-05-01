@@ -1,0 +1,104 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Votre panier{% endblock %}
+
+{% set total = 0 %}
+{% set sales = 0 %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Votre panier</h1>
+        </div>
+    </div>
+    {% if isOrdering %}
+        <p class="alert alert-info">Vous avez déjà une commande en cours, voulez-vous la finaliser ou l'annuler?</p>
+        <a href="{{ path('bt_cart_validation') }}" class="btn btn-belatika">Voir et finaliser ma commande en cours</a>
+        <a href="{{ path('bt_order_remove', { 'id' : isOrdering.id }) }}" class="btn btn-secondary">Annuler ma commande en cours</a>
+    {% elseif app.session.get('cart')|length > 0 %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Article</th>
+                <th scope="col">Référence</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix unitaire</th>
+                <th scope="col">Sous-total</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for article in app.session.get('cart') %}
+                {% if onSales %}
+                    {% set coeff = (100 - article.discount)/100 %}
+                    {% set sales = sales + article.discount %}
+                {% else %}
+                    {% set coeff = 1 %}
+                {% endif %}
+                <tr>
+                    <td data-label="Article"><a class="belatika-link" href="#" target="_blank" title="Cliquez pour visualiser dans un nouvel onglet."><img src="#" alt="" height="30" width="30" /> {{ article.name }}</a></td>
+                    <td data-label="Référence">{{ article.reference }}</td>
+                    <td data-label="Quantité">
+                        {{ article.quantity }}
+                    </td>
+                    <td data-label="Prix unitaire">{{ (article.price * coeff)|number_format(2, ',') }}€</td>
+                    <td data-label="Sous-total">
+                        {{ (article.price * article.quantity * coeff)|number_format(2, ',') }}€
+                    </td>
+                    <td data-label="">
+                        <a class="belatika-link" href="#" title="Retirer cet article de votre panier."><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+                {% set total = total + (article.price * article.quantity * coeff) %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class='row'>
+            <div class='col-md-7'>
+                <p class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> Les frais de port sont offerts!
+                </p>
+            </div>
+            <div class="col-md-5">
+                <div class='card belatika-card'>
+                    {% if not sales and not giftValue %}
+                        <form method="post" action="{{ path('bt_cart_homepage') }}">
+                            <label for="gift">Utiliser un code chèque-cadeau:</label>
+                            <input type='text' name='gift' id='gift' value='{{ giftCode }}' maxlength='9' size='9' required/>
+                            <input type='submit' value='Vérifier le code' class="btn btn-sm btn-belatika float-right">
+                        </form>
+                        <hr>
+                    {% elseif not sales and giftValue %}
+                        <div class="row">
+                            <div class='col-8'>
+                                <p>Chèque-cadeau :</p>
+                            </div>
+                            <div class='col-4'>
+                                <p>-{{ giftValue|number_format(2, ',') }}€</p>
+                            </div>
+                        </div>
+                        {% set total = total - giftValue %}
+                        {% if total < 0 %}{% set total = 0 %}{% endif %}
+                    {% endif %}
+                    <div class='row'>
+                        <div class='col-8'>
+                            <p>Total HT :</p>
+                            <p><em>T.V.A. non applicable art. 293 B du CGI</em></p>
+                        </div>
+                        <div class='col-4'>
+                            <p>{{ total|number_format(2, ',') }}€</p>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-belatika">Valider mon panier</a>
+                    <div class="text-center">ou</div>
+                    <a href="{{ path('app_shop_index', {'page': '1'}) }}" class="btn btn-secondary">Continuer mes achats</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="col-12">
+            <p class='alert alert-info' >Votre panier est vide.</p>
+            <a href="{{ path('app_shop_index', {'page': '1'}) }}" class="btn btn-secondary">Continuer mes achats</a>
+        </div>
+    {% endif %}
+{% endblock %}

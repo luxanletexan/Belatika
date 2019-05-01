@@ -5,8 +5,10 @@ namespace App\Twig\Extension;
 
 use App\Entity\Category;
 use Doctrine\Common\Persistence\ObjectManager;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class FunctionExtension extends \Twig_Extension
+class FunctionExtension extends AbstractExtension
 {
     private $manager;
 
@@ -18,8 +20,8 @@ class FunctionExtension extends \Twig_Extension
     public function getFunctions():array
     {
         return [
-            new \Twig_Function('categories', [$this, 'getCategories']),
-            new \Twig_Function('env', [$this, 'env']),
+            new TwigFunction('categories', [$this, 'getCategories']),
+            new TwigFunction('env', [$this, 'env']),
         ];
     }
 
