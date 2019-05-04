@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Gift;
 use App\Entity\Item;
+use Doctrine\ORM\NonUniqueResultException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,12 +20,27 @@ class CartController extends AbstractController
 {
     /**
      * @Route("/")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param Request $request
+     * @return Response
      */
-    public function show():Response
+    public function show(Request $request):Response
     {
-        $isOrdering = false;
+        $isOrdering = false; //TODO: check if user has a pending order
 
-        return $this->render('cart/index.html.twig', ['isOrdering' => $isOrdering]);
+        $gift = new Gift();
+        if ($request->isMethod('POST')) {
+            $gift->setCode($request->get('giftCode'));
+            try {
+                $gift = $this->getDoctrine()->getRepository(Gift::class)->checkGift($gift);
+            } catch (NonUniqueResultException $e) {
+                $title = 'Problème site - code de chèque cadeau en doublon';
+                $body = 'L\'utilisateur '.$this->getUser()->getRealname().' n\'a pas pu utiliser le chèque-cadeau n°'.$gift->getCode().' car ce code existe en doublon dans la base.';
+                $this->alertAdmin($title, $body);
+            }
+        }
+
+        return $this->render('cart/index.html.twig', ['isOrdering' => $isOrdering, 'gift' => $gift]);
     }
 
     /**

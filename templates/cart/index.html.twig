@@ -61,10 +61,10 @@
             </div>
             <div class="col-md-5">
                 <div class='card belatika-card'>
-                    {% if not sales and not giftValue %}
-                        <form method="post" action="{{ path('bt_cart_homepage') }}">
-                            <label for="gift">Utiliser un code chèque-cadeau:</label>
-                            <input type='text' name='gift' id='gift' value='{{ giftCode }}' maxlength='9' size='9' required/>
+                    {% if sales and gift %}
+                        <form method="post" action="{{ path('app_cart_show') }}">
+                            <label for="giftCode">Utiliser un code chèque-cadeau:</label>
+                            <input type='text' name='giftCode' id='giftCode' value='{{ gift.code }}' maxlength='9' size='9' required/>
                             <input type='submit' value='Vérifier le code' class="btn btn-sm btn-belatika float-right">
                         </form>
                         <hr>

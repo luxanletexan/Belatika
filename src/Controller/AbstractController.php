@@ -6,6 +6,8 @@ namespace App\Controller;
 use App\Service\GoogleTranslator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use \Swift_Mailer;
+use \Swift_Message;
 
 abstract class AbstractController extends Controller
 {
@@ -14,9 +16,15 @@ abstract class AbstractController extends Controller
      */
     private $googleTranslator;
 
-    public function __construct(GoogleTranslator $googleTranslator)
+    /**
+     * @var Swift_Mailer
+     */
+    private $mailer;
+
+    public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer)
     {
         $this->googleTranslator = $googleTranslator;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -73,5 +81,14 @@ abstract class AbstractController extends Controller
         }
 
         return $entity;
+    }
+
+    protected function alertAdmin($subject, $body):void
+    {
+        $message = (new Swift_Message($subject))
+            ->setFrom('noreply@belatika.com')
+            ->setTo($_ENV['ADMIN_MAIL'], 'Admin Belatika')
+            ->setBody($body);
+        $this->mailer->send($message);
     }
 }
