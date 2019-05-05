@@ -1,0 +1,5 @@
+.nav-link.menu-cart
+{
+    opacity: 0.3;
+    pointer-events: none;
+}

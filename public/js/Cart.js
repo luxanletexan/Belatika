@@ -90,7 +90,8 @@ class Cart {
 
                 error : () => {
                     callbackError();
-                }
+                },
+                method : 'POST'
             }
         )
     }

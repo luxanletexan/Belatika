@@ -81,7 +81,8 @@
                         <a class="d-none d-lg-block" href="{{ path('app_cart_show') }}">{{ 'Panier'|gTrans }}</a>
                         <span class="notification-badge text-pink" id="cart-item-badge" data-item-count="{{ app.session.get('cart')|length }}"></span>
                         <ul id="cart-item-list" class="bg-belatika">{% for item in app.session.get('cart') %}
-                                {% set cart_total = cart_total + item.price %}
+                                {% if onSales %}{% set price = item.discountPrice %}{% else %}{% set price = item.price %}{% endif %}
+                                {% set cart_total = cart_total + price %}
                                 <li class="d-flex align-items-center">
                                     <a class="belatika-link" title="{{ item.name }}" href="{{ path('app_shop_item', {
                                         'category_slug': item.category.slug,
@@ -90,7 +91,7 @@
                                     }) }}">
                                         <img src="{% if item.images|first.thumbURI is onDisk %}{{ item.images|first.thumbURI }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ item.images|first.alt }}" width=20>
                                         {{ item.name|trunc }}
-                                        <span>{{ item.price|number_format(2, ',', '') }}€</span>
+                                        <span>{{ price|number_format(2, ',', '') }}€</span>
                                     </a>
                                     <i class="fas fa-times cart-remove" data-cart-button-id="{{ item.id }}" data-remove-url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}"></i>
                                 </li>

@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use \Swift_Mailer;
 use \Swift_Message;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Exception\SessionUnavailableException;
 
 abstract class AbstractController extends Controller
 {
@@ -90,5 +92,19 @@ abstract class AbstractController extends Controller
             ->setTo($_ENV['ADMIN_MAIL'], 'Admin Belatika')
             ->setBody($body);
         $this->mailer->send($message);
+    }
+
+    protected function getSessionFrom(Request $request): SessionInterface
+    {
+        $session = $request->getSession();
+        if($session === null) {
+            $backtrace = debug_backtrace();
+            $title = 'Problème site - session indisponible';
+            $body = 'Impossible de charger la session. Classe : '.$backtrace[1]['class'].', Méthode : '.$backtrace[1]['function'];
+            $this->alertAdmin($title, $body);
+            throw new SessionUnavailableException('An error occured: the session is unavailable');
+        }
+
+        return $session;
     }
 }

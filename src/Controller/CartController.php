@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Exception\SessionUnavailableException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * @Route("/cart")
@@ -37,7 +37,15 @@ class CartController extends AbstractController
                 $title = 'Problème site - code de chèque cadeau en doublon';
                 $body = 'L\'utilisateur '.$this->getUser()->getRealname().' n\'a pas pu utiliser le chèque-cadeau n°'.$gift->getCode().' car ce code existe en doublon dans la base.';
                 $this->alertAdmin($title, $body);
+                $gift->setStatus('Un problème est survenu avec ce code cadeau. Une notification a été transmise au gestionnaire du site.');
             }
+            $session = $this->getSessionFrom($request);
+            if ($gift->updateStatus()->getValid()) {
+                $session->set('gift', $gift);
+            } else {
+                $session->remove('gift');
+            }
+            $this->addFlash($gift->getValid() ? 'success' : 'danger', $this->gTrans($gift->getStatus()));
         }
 
         return $this->render('cart/index.html.twig', ['isOrdering' => $isOrdering, 'gift' => $gift]);
@@ -52,10 +60,7 @@ class CartController extends AbstractController
      */
     public function add(Item $item, Request $request, $quantity):JsonResponse
     {
-        $session = $request->getSession();
-        if($session === null) {
-            throw new SessionUnavailableException('Unable to add item to cart because the session is unavailable');
-        }
+        $session = $this->getSessionFrom($request);
 
         if(!$session->has('cart')) {
             $session->set('cart', array());
@@ -72,9 +77,6 @@ class CartController extends AbstractController
         $stock = $item->getQuantity();
         $em->detach($item);
         $item->setQuantity($quantity > $stock ? $stock : $quantity);
-        if($this->onSales()){
-            $item->setPrice($item->getDiscountPrice());
-        }
         $cart[$item->getId()] = $item;
         $session->set('cart', $cart);
 
@@ -90,16 +92,13 @@ class CartController extends AbstractController
     /**
      * @Route("/remove/{item_id<\d+>}/{quantity<\d+>?0}", name="app_cart_remove")
      * @param int $item_id
-     * @param Request $request
      * @param int $quantity
-     * @return JsonResponse
+     * @param Request $request
+     * @return JsonResponse|RedirectResponse
      */
-    public function remove(int $item_id, Request $request, int $quantity):JsonResponse
+    public function remove(int $item_id, int $quantity, Request $request):Response
     {
-        $session = $request->getSession();
-        if($session === null) {
-            throw new SessionUnavailableException('Unable to remove item from cart because the session is unavailable');
-        }
+        $session = $this->getSessionFrom($request);
 
         $cart = $session->get('cart');
 
@@ -115,6 +114,11 @@ class CartController extends AbstractController
         }
 
         $message = $this->gTrans('Article Retiré du panier');
+
+        if ($request->isMethod('GET')) {
+            $this->addFlash('success', $message);
+            return $this->redirect($request->headers->get('referer'));
+        }
 
         return new JsonResponse([
             'message' => $message,

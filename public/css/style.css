@@ -4,7 +4,6 @@
     min-width: 310px !important;
 }
 
-
 body
 {
     background-image: radial-gradient(circle at center, rgba(102, 102, 127, 0.7), rgba(255, 255, 255, 0.7));
@@ -28,6 +27,44 @@ strong
 .text-black
 {
     color: #222;
+}
+
+/* Table responsive */
+.table-responsive tr, .table td
+{
+    display: block;
+}
+
+.table-responsive thead
+{
+    display: none;
+}
+
+.table-responsive tr
+{
+    border: solid 2px rgba(47, 79, 79, .5);
+    border-radius: 5px;
+    margin: 8px 0;
+}
+
+.table-responsive td
+{
+    text-align: right;
+    border-color: rgba(47, 79, 79, .3);
+    min-height: 48px;
+}
+
+.table-responsive td:first-child
+{
+    border:0;
+}
+
+.table-responsive td::before
+{
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .alert-sales
@@ -312,6 +349,20 @@ a.view-more:visited
     color:#222;
     border: 2px black solid;
 }
+.btn-belatika-light
+{
+    background-color: #D4C1CB;
+    color:#222;
+    transition-property: all;
+    transition-duration:.3s;
+    border-width: 2px;
+}
+.btn-belatika-light:hover
+{
+    background-color: #222;
+    color:#D4C1CB;
+    border: 2px #D4C1CB solid;
+}
 .article-view
 {
     margin-bottom: 0;
@@ -456,6 +507,31 @@ nav#pagination ul.pagination li.page-item.active .page-link
     .logo-paypal
     {
         padding: 0 4%;
+    }
+
+    .table-responsive thead
+    {
+        display: table-header-group;
+    }
+
+    .table-responsive tr
+    {
+        border: 0;
+        border-radius: 0;
+        margin: 0;
+        display: table-row;
+    }
+
+    .table-responsive td, .table-responsive td:first-child
+    {
+        text-align: left;
+        display: table-cell;
+        border-top: 1px solid #dee2e6
+    }
+
+    .table-responsive td::before
+    {
+        display: none;
     }
 }
 
