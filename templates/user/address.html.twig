@@ -6,73 +6,9 @@
 {% block title %}{{ 'Gérer mes adresses'|gTrans|capitalize }}{% endblock %}
 {% block content %}
     <h1 class="col-12">{{ 'Gérer mes adresses'|gTrans|capitalize }}</h1>
-    <form id="addresses-form" class="col-12" method="post" action="{{ path('app_user_address') }}">
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-4 bg-belatika text-pink pt-2 rounded">
-                <p>{{ 'Indiquez-moi votre adresse de livraison ci-dessous et cette carte interactive vous aidera à vérifier que l\'adresse est correcte.'|gTrans|capitalize }}</p>
-                <p>{{ 'Ce serait dommage que votre commande n\'arrive pas au bon endroit, ma priorité étant que vous receviez vos achats dans les meilleurs délais et dans les meilleures conditions.'|gTrans|capitalize }}</p>
-                <p>{{ 'Vous pouvez aussi préciser ici une adresse de facturation différente.'|gTrans|capitalize }}</p>
-            </div>
-            <div class="col-12 col-md-6 col-lg-8 rounded" style="height: 300px;" id="map-container"></div>
-        </div>
-        <div class="address-field mt-2">
-            <label class="address-label" for="fullAddress-delivery">{{ 'Livraison'|gTrans }}</label>
-            <input
-                    name="fullAddress-delivery"
-                    type="search"
-                    id="fullAddress-delivery"
-                    class="form-control"
-                    placeholder="{{ 'Votre adresse de livraison'|gTrans|capitalize }}"
-                    required
-                    {% if user.deliveryAddress %}value="{{ user.deliveryAddress.fullAddress }}"{% endif %}
-            >
-        </div>
-        <div class="address-field">
-            <label class="address-label" for="fullAddress-billing">{{ 'Facturation'|gTrans }}</label>
-            <input
-                    name="fullAddress-billing"
-                    type="search"
-                    id="fullAddress-billing"
-                    class="form-control"
-                    placeholder="{{ 'Votre adresse de facturation'|gTrans|capitalize }}"
-                    {% if user.billingAddress and user.deliveryAddress and not user.sameAddress %}value="{{ user.billingAddress.fullAddress }}"{% endif %}
-            >
-        </div>
-        <p id="address-alert" style="display: none"
-           class="alert alert-danger col-12">{{ 'Aucune adresse trouvée, merci de vérifier la saisie.'|gTrans|capitalize }}</p>
-        <div class="row">
-            <input
-                    class="m-2"
-                    id="same-address"
-                    name="same-address"
-                    type="checkbox"
-                    {% if not user.deliveryAddress or (user.sameAddress) %}checked{% endif %}
-            >
-            <label for="same-address">{{ 'Utiliser la même adresse pour la facturation'|gTrans|capitalize }}</label>
-        </div>
-        <a href="{{ path('fos_user_profile_show') }}" class="btn btn-sm btn-belatika-dark">{{ 'Retour'|gTrans|capitalize }}</a>
-        <button class="btn btn-sm btn-belatika-dark">{{ 'Enregistrer'|gTrans|capitalize }}</button>
-    </form>
+    {% include 'modules/address.html.twig' with { validate : { url : path('app_user_address'), name : 'Enregistrer' }, back : { url : path('fos_user_profile_show'), name : 'Retour' }} %}
 {% endblock %}
+
 {% block javascripts %}
-    <script src="{{ asset('js/leaflet.js') }}"></script>
-    <script src="{{ asset('js/places.js') }}"></script>
-    <script src="{{ asset('js/Address.js') }}"></script>
-    <script>
-        $(function () {
-            let address = new Address(
-                '{{ env('ALGOLIA_PLACES_ID') }}',
-                '{{ env('ALGOLIA_PLACES_KEY') }}',
-                ['delivery', 'billing'],
-                '{{ app.request.getSchemeAndHttpHost ~ asset('img/') }}'
-            {% if user.deliveryAddress and user.deliveryAddress.lat and user.deliveryAddress.lng %}
-                ,{
-                    lat: {{ user.deliveryAddress.lat }},
-                    lng: {{ user.deliveryAddress.lng }}
-                }
-            {% endif %}
-            );
-            address.init();
-        });
-    </script>
+    {{ block('javascripts', 'modules/address_js.html.twig') }}
 {% endblock %}
