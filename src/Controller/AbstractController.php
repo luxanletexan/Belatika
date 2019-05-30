@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\User;
 use App\Service\GoogleTranslator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,5 +107,13 @@ abstract class AbstractController extends Controller
         }
 
         return $session;
+    }
+
+    /**
+     * @return User
+     */
+    protected function getUser()
+    {
+        return parent::getUser();
     }
 }

@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AddressRepository")
- * @ORM\Table(indexes={@ORM\Index(columns={"full_address"}, flags={"fulltext"})})
+ * @ORM\Table(indexes={
+ *     @ORM\Index(columns={"full_address"}, flags={"fulltext"}),
+ *     @ORM\Index(columns={"additional"})
+ * })
  */
 class Address
 {
@@ -20,14 +21,14 @@ class Address
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="deliveryAddress")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="deliveryAddress")
      */
-    private $deliveryUsers;
+    private $deliveryUser;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="billingAddress")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="billingAddress")
      */
-    private $billingUsers;
+    private $billingUser;
 
     /**
      * @ORM\Column(type="text")
@@ -84,11 +85,10 @@ class Address
      */
     private $postcode;
 
-    public function __construct()
-    {
-        $this->deliveryUsers = new ArrayCollection();
-        $this->billingUsers = new ArrayCollection();
-    }
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $additional;
 
     public function getId(): ?int
     {
@@ -100,7 +100,7 @@ class Address
         return $this->fullAddress;
     }
 
-    public function setFullAddress(string $fullAddress): self
+    public function setFullAddress(?string $fullAddress): self
     {
         $this->fullAddress = $fullAddress;
 
@@ -227,64 +227,38 @@ class Address
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getDeliveryUsers(): Collection
+    public function getDeliveryUser(): ?User
     {
-        return $this->deliveryUsers;
+        return $this->deliveryUser;
     }
 
-    public function addDeliveryUser(User $deliveryUser): self
+    public function setDeliveryUser(?User $deliveryUser): self
     {
-        if (!$this->deliveryUsers->contains($deliveryUser)) {
-            $this->deliveryUsers[] = $deliveryUser;
-            $deliveryUser->setDeliveryAddress($this);
-        }
+        $this->deliveryUser = $deliveryUser;
 
         return $this;
     }
 
-    public function removeDeliveryUser(User $deliveryUser): self
+    public function getBillingUser(): ?User
     {
-        if ($this->deliveryUsers->contains($deliveryUser)) {
-            $this->deliveryUsers->removeElement($deliveryUser);
-            // set the owning side to null (unless already changed)
-            if ($deliveryUser->getDeliveryAddress() === $this) {
-                $deliveryUser->setDeliveryAddress(null);
-            }
-        }
+        return $this->billingUser;
+    }
+
+    public function setBillingUser(?User $billingUser): self
+    {
+        $this->billingUser = $billingUser;
 
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getBillingUsers(): Collection
+    public function getAdditional(): ?string
     {
-        return $this->billingUsers;
+        return $this->additional;
     }
 
-    public function addBillingUser(User $billingUser): self
+    public function setAdditional(?string $additional): self
     {
-        if (!$this->billingUsers->contains($billingUser)) {
-            $this->billingUsers[] = $billingUser;
-            $billingUser->setBillingAddress($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBillingUser(User $billingUser): self
-    {
-        if ($this->billingUsers->contains($billingUser)) {
-            $this->billingUsers->removeElement($billingUser);
-            // set the owning side to null (unless already changed)
-            if ($billingUser->getBillingAddress() === $this) {
-                $billingUser->setBillingAddress(null);
-            }
-        }
+        $this->additional = $additional;
 
         return $this;
     }

@@ -52,6 +52,17 @@ class CartController extends AbstractController
     }
 
     /**
+     * @Route("/validation/")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param Request $request
+     * @return Response
+     */
+    public function validation(Request $request): Response
+    {
+        return $this->render('cart/validation.html.twig');
+    }
+
+    /**
      * @Route("/add/{id<\d+>}/{quantity<\d+>?1}", name="app_cart_add")
      * @param Item $item
      * @param Request $request

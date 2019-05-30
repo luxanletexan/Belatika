@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Address;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -18,48 +19,4 @@ class AddressRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Address::class);
     }
-
-    /**
-     * Delete from database unused addresses (neither delivery, billing or linked to any order)
-     * @return mixed
-     */
-    public function clearUnlinkedAddresses()
-    {
-        return $this->_em->createQueryBuilder()
-            ->delete(Address::class, 'a')
-            ->where('a.billingUsers IS EMPTY')
-            ->andWhere('a.deliveryUsers IS EMPTY')
-            //->andWhere('a.orders IS EMPTY') //TODO: uncomment when order entity will be ready
-            ->getQuery()
-            ->execute();
-    }
-
-    // /**
-    //  * @return Address[] Returns an array of Address objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Address
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

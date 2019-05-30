@@ -58,7 +58,7 @@ class Address {
      */
     initTextInputs(inputs) {
         inputs.forEach((name) => {
-            this.textInputs[name] = document.getElementById('fullAddress-' + name);
+            this.textInputs[name] = document.getElementById('user_addresses_'+name+'Address_fullAddress');
             this.placesAutocomplete[name] = places({
                 appId: this.appId,
                 apiKey: this.appKey,
@@ -105,13 +105,13 @@ class Address {
             this.placesAutocomplete[name].on('change', (e) => { this.handleOnChange(e, name) });
             this.placesAutocomplete[name].on('clear', () => { this.handleOnClear(name) });
         } );
-        this.formElt.addEventListener('submit', () => { this.handleOnSubmit() });
-        let inputMapBillingElt = document.getElementById('fullAddress-billing');
+        let billingFieldsetElt = document.getElementById('billing-fieldset');
         this.sameAddressCheckboxElt.addEventListener('click',  (e) => {
-            this.textInputs.billing.parentElement.parentElement.style.display = e.target.checked ? 'none' : 'flex';
+            billingFieldsetElt.style.display = e.target.checked ? 'none' : 'block';
             this.textInputs.billing.required = !e.target.checked;
         });
-        inputMapBillingElt.parentElement.parentElement.style.display = this.sameAddressCheckboxElt.checked ? 'none' : 'flex';
+        billingFieldsetElt.style.display = this.sameAddressCheckboxElt.checked ? 'none' : 'block';
+        this.textInputs.billing.required = !this.sameAddressCheckboxElt.checked;
     }
 
     initDeliveryMarker()
@@ -145,6 +145,7 @@ class Address {
                     marker.setOpacity(1);
                     this.findBestZoom();
                     this.adresses[name] = e.suggestion;
+                    this.populate();
                 } else {
                     this.removeMarker(marker);
                 }
@@ -163,16 +164,12 @@ class Address {
                 if (markerIndex === e.suggestionIndex) {
                     marker.setOpacity(1);
                     marker.setZIndexOffset(1000);
+                    this.populate();
                 } else {
                     marker.setZIndexOffset(0);
                     marker.setOpacity(0.5);
                 }
             });
-    }
-
-    handleOnSubmit()
-    {
-        this.populate();
     }
 
     addMarker(suggestion) {
@@ -192,50 +189,35 @@ class Address {
 
     populate()
     {
-        if(!this.isValid()) {
-            return false;
-        }
-
-        let fields = ['countryCode', 'city', 'administrative', 'county', 'country', 'postcode', 'name', 'value'];
+        let fields = ['countryCode', 'city', 'administrative', 'county', 'country', 'postcode', 'name', 'value', 'lat', 'lng'];
 
         this.inputMapNames.forEach((name) => {
-            Object.keys(this.adresses[name]).forEach((key) => {
-                if(fields.indexOf(key) !== -1) {
-                    this.createHiddenInput(key, name, this.adresses[name][key]);
-                } else if (key === 'latlng') {
-                    this.createHiddenInput('lat', name, this.adresses[name][key].lat);
-                    this.createHiddenInput('lng', name, this.adresses[name][key].lng);
-                }
-            });
-        });
-
-        return true;
-    }
-
-    isValid()
-    {
-        let sameAddressIsChecked = this.sameAddressCheckboxElt.checked;
-        this.inputMapNames.forEach((name) => {
-            let fullAdress = this.formElt.elements['fullAddress-'+name].value;
-            if(fullAdress.length > 0) {
-                this.adresses[name].full = fullAdress;
-            } else if (fullAdress.length === 0 && (name === 'delivery' || !sameAddressIsChecked)) {
-                return false;
+            if(this.adresses[name].hasOwnProperty('value')){
+                Object.keys(this.adresses[name]).forEach((key) => {
+                    if(fields.indexOf(key) !== -1) {
+                        Address.fillHiddenInput(key, name, this.adresses[name][key]);
+                    } else if (key === 'latlng') {
+                        Address.fillHiddenInput('lat', name, this.adresses[name][key].lat);
+                        Address.fillHiddenInput('lng', name, this.adresses[name][key].lng);
+                    }
+                });
+            } else {
+                fields.forEach((field) => {
+                    document.getElementById('user_addresses_'+name+'Address_'+field).value = '';
+                });
             }
         });
+
         return true;
     }
 
-    createHiddenInput(type, name, value)
+    static fillHiddenInput(type, name, value)
     {
-        if (document.getElementById(type + '-' + name) !== null) {
+        let hiddenInput = document.getElementById('user_addresses_'+name+'Address_'+type);
+        if (hiddenInput === null) {
+            console.log('user_addresses_'+name+'Address_'+type);
             return;
         }
-        let hiddenInput = document.createElement('input');
         hiddenInput.value = value;
-        hiddenInput.id = type + '-' + name;
-        hiddenInput.setAttribute('name', type + '-' + name);
-        hiddenInput.setAttribute('type', 'hidden');
-        this.formElt.append(hiddenInput);
     }
 }

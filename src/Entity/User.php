@@ -18,48 +18,52 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="deliveryUsers", cascade={"persist"})
+     * @var Address
+     * @ORM\OneToOne(targetEntity="App\Entity\Address", inversedBy="deliveryUser", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $deliveryAddress;
 
     /**
-     * @return mixed
+     * @return Address
      */
-    public function getBillingAddress()
+    public function getBillingAddress(): ?Address
     {
         return $this->billingAddress;
     }
 
     /**
-     * @param mixed $billingAddress
+     * @param Address $billingAddress
      * @return User
      */
-    public function setBillingAddress($billingAddress):User
+    public function setBillingAddress(Address $billingAddress):User
     {
         $this->billingAddress = $billingAddress;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return Address
      */
-    public function getDeliveryAddress()
+    public function getDeliveryAddress(): ?Address
     {
         return $this->deliveryAddress;
     }
 
     /**
-     * @param mixed $deliveryAddress
+     * @param Address $deliveryAddress
      * @return User
      */
-    public function setDeliveryAddress($deliveryAddress):User
+    public function setDeliveryAddress(Address $deliveryAddress):User
     {
         $this->deliveryAddress = $deliveryAddress;
         return $this;
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="billingUsers", cascade={"persist"})
+     * @var Address
+     * @ORM\OneToOne(targetEntity="App\Entity\Address", inversedBy="billingUser", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $billingAddress;
 
@@ -156,6 +160,11 @@ class User extends BaseUser
 
     public function sameAddress(): bool
     {
-        return $this->deliveryAddress === $this->billingAddress;
+        return $this->billingAddress === null
+            || $this->deliveryAddress === null
+            || (
+                $this->billingAddress->getFullAddress() === $this->deliveryAddress->getFullAddress()
+                && $this->billingAddress->getAdditional() === $this->deliveryAddress->getAdditional()
+            );
     }
 }

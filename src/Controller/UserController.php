@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Address;
+use App\Form\UserAddressesType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,32 +20,32 @@ class UserController extends AbstractController
      */
     public function address(Request $request):Response
     {
-        $user = $this->getUser();
+        $form = $this->createForm(UserAddressesType::class, $this->getUser());
+        $form->handleRequest($request);
 
-        if($request->isMethod('POST')) {
-            $addressDelivery = $this->hydrate(Address::class, $request, '-delivery');
-            $addressDelivery = $this->returnAddressIfExists($addressDelivery);
-            $sameAddress = $request->get('same-address');
-            $user->setDeliveryAddress($addressDelivery);
-            if ($sameAddress === 'on') {
-                $user->setBillingAddress($addressDelivery);
-            } else {
-                $addressBilling = $this->hydrate(Address::class, $request, '-billing');
-                $addressBilling = $this->returnAddressIfExists($addressBilling);
-                $user->setBillingAddress($addressBilling);
-            }
-
+        if($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
             $em = $this->getDoctrine()->getManager();
+            $sameAddress = $request->get('same-address') === 'on';
+            if ($sameAddress) {
+                $billingAddress = $this->getUser()->getBillingAddress();
+                if($billingAddress instanceof Address) {
+                    $em->remove($billingAddress);
+                    $em->flush();
+                }
+                $user->setBillingAddress(clone $user->getDeliveryAddress());
+            }
             $em->persist($user);
             $em->flush();
 
-            $em->getRepository(Address::class)->clearUnlinkedAddresses();
-
             $this->addFlash('success', $this->gTrans('Votre adresse a bien été enregistrée.'));
+
             return $this->redirectToRoute('fos_user_profile_show');
         }
 
-        return $this->render('user/address.html.twig', ['user' => $user]);
+        return $this->render('user/address.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -57,6 +58,9 @@ class UserController extends AbstractController
             ->getDoctrine()
             ->getManager()
             ->getRepository(Address::class)
-            ->findOneBy(['fullAddress' => $address->getFullAddress()]) ?? $address;
+            ->findOneBy([
+                'fullAddress' => $address->getFullAddress(),
+                'additional' => $address->getAdditional(),
+            ]) ?? $address;
     }
 }
