@@ -1,6 +1,8 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
@@ -87,10 +89,16 @@ class User extends BaseUser
      */
     private $google_id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="CustomerOrder", mappedBy="user", orphanRemoval=true)
+     */
+    private $customerOrders;
+
     public function __construct()
     {
         parent::__construct();
         $this->created_at = new \DateTime();
+        $this->customerOrders = new ArrayCollection();
     }
 
     public function setUsername($username)
@@ -166,5 +174,36 @@ class User extends BaseUser
                 $this->billingAddress->getFullAddress() === $this->deliveryAddress->getFullAddress()
                 && $this->billingAddress->getAdditional() === $this->deliveryAddress->getAdditional()
             );
+    }
+
+    /**
+     * @return Collection|CustomerOrder[]
+     */
+    public function getCustomerOrders(): Collection
+    {
+        return $this->customerOrders;
+    }
+
+    public function addCustomerOrder(CustomerOrder $customerOrder): self
+    {
+        if (!$this->customerOrders->contains($customerOrder)) {
+            $this->customerOrders[] = $customerOrder;
+            $customerOrder->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(CustomerOrder $customerOrder): self
+    {
+        if ($this->customerOrders->contains($customerOrder)) {
+            $this->customerOrders->removeElement($customerOrder);
+            // set the owning side to null (unless already changed)
+            if ($customerOrder->getUser() === $this) {
+                $customerOrder->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -8,7 +8,7 @@
 {% block content %}
     <h1 class="col-12">{{ 'Votre adresse de livraison'|gTrans }}</h1>
     {% include 'modules/address/content.html.twig' with {
-        validate : { url : path('app_user_address'), name : 'Enregistrer' },
+        validate : { url : path('app_cart_delivering'), name : 'Valider' },
         back : { url : path('app_cart_show'), name : 'Retour' }
     } %}
 {%  endblock %}

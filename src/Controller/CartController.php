@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Form\UserAddressesType;
+use App\Entity\Address;
 
 /**
  * @Route("/cart")
@@ -31,14 +33,7 @@ class CartController extends AbstractController
         $gift = new Gift();
         if ($request->isMethod('POST')) {
             $gift->setCode($request->get('giftCode'));
-            try {
-                $gift = $this->getDoctrine()->getRepository(Gift::class)->checkGift($gift);
-            } catch (NonUniqueResultException $e) {
-                $title = 'Problème site - code de chèque cadeau en doublon';
-                $body = 'L\'utilisateur '.$this->getUser()->getRealname().' n\'a pas pu utiliser le chèque-cadeau n°'.$gift->getCode().' car ce code existe en doublon dans la base.';
-                $this->alertAdmin($title, $body);
-                $gift->setStatus('Un problème est survenu avec ce code cadeau. Une notification a été transmise au gestionnaire du site.');
-            }
+            $gift = $this->checkGift($gift);
             $session = $this->getSessionFrom($request);
             if ($gift->updateStatus()->getValid()) {
                 $session->set('gift', $gift);
@@ -52,14 +47,37 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/validation/")
+     * @Route("/delivering/")
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      * @param Request $request
      * @return Response
      */
-    public function validation(Request $request): Response
+    public function delivering(Request $request): Response
     {
-        return $this->render('cart/validation.html.twig');
+        $form = $this->createForm(UserAddressesType::class, $this->getUser());
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $sameAddress = $request->get('same-address') === 'on';
+            if ($sameAddress) {
+                $billingAddress = $this->getUser()->getBillingAddress();
+                if($billingAddress instanceof Address) {
+                    $em->remove($billingAddress);
+                    $em->flush();
+                }
+                $user->setBillingAddress(clone $user->getDeliveryAddress());
+            }
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('app_order_index');
+        }
+
+        return $this->render('cart/delivering.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

@@ -47,20 +47,4 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    /**
-     * @param Address $address
-     * @return Address
-     */
-    private function returnAddressIfExists(Address $address):Address
-    {
-        return $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(Address::class)
-            ->findOneBy([
-                'fullAddress' => $address->getFullAddress(),
-                'additional' => $address->getAdditional(),
-            ]) ?? $address;
-    }
 }

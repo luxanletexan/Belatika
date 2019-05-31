@@ -2,4 +2,5 @@ parameters:
     shop_settings:
         sales:
             start: 1546297200
+            #end: 1546297200
             end: 1560753200

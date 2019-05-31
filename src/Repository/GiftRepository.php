@@ -27,8 +27,11 @@ class GiftRepository extends ServiceEntityRepository
      * @return Gift
      * @throws NonUniqueResultException
      */
-    public function checkGift(Gift $gift):Gift
+    public function checkGift(?Gift $gift): ?Gift
     {
+        if ($gift === null) {
+            return null;
+        }
         try {
             return $this->createQueryBuilder('g')
                 ->where('g.code =:code')

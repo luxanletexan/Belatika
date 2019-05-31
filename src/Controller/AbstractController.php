@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 
+use App\Entity\CustomerOrder;
+use App\Entity\Gift;
 use App\Entity\User;
 use App\Service\GoogleTranslator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,6 +13,7 @@ use \Swift_Mailer;
 use \Swift_Message;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\SessionUnavailableException;
+use Doctrine\ORM\NonUniqueResultException;
 
 abstract class AbstractController extends Controller
 {
@@ -62,28 +65,19 @@ abstract class AbstractController extends Controller
         return $shopSettings['sales']['start'] < time() && time() < $shopSettings['sales']['end'];
     }
 
-    /**
-     * @param $entityClass
-     * @param Request $request
-     * @param string $suffix
-     * @return mixed
-     */
-    protected function hydrate($entityClass, Request $request, $suffix = '')
+    protected function checkGift(?Gift $gift)
     {
-        $setters = array_filter(get_class_methods($entityClass), static function($method) {
-            return 0 === strpos($method, 'set');
-        });
-
-        $entity = new $entityClass();
-        foreach ($setters as $setter) {
-            $key = lcfirst(str_replace('set', '', $setter)).$suffix;
-            if ($request->request->has($key)) {
-                $value = $request->get($key);
-                $entity->$setter($value);
-            }
+        if ($this->onSales()) {
+            return null;
         }
-
-        return $entity;
+        try {
+            return $this->getDoctrine()->getRepository(Gift::class)->checkGift($gift);
+        } catch (NonUniqueResultException $e) {
+            $title = 'Problème site - code de chèque cadeau en doublon';
+            $body = 'L\'utilisateur '.$this->getUser()->getRealname().' n\'a pas pu utiliser le chèque-cadeau n°'.$gift->getCode().' car ce code existe en doublon dans la base.';
+            $this->alertAdmin($title, $body);
+            return $gift->setStatus('Un problème est survenu avec ce code cadeau. Une notification a été transmise au gestionnaire du site.');
+        }
     }
 
     protected function alertAdmin($subject, $body):void
@@ -115,5 +109,10 @@ abstract class AbstractController extends Controller
     protected function getUser()
     {
         return parent::getUser();
+    }
+
+    protected function getPendingOrder()
+    {
+        return $this->getDoctrine()->getManager()->getRepository(CustomerOrder::class)->findOneBy(['is_valid' => 0]);
     }
 }
