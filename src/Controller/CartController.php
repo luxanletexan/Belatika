@@ -28,7 +28,7 @@ class CartController extends AbstractController
      */
     public function show(Request $request):Response
     {
-        $isOrdering = false; //TODO: check if user has a pending order
+        $isOrdering = $this->getPendingOrder() !== null;
 
         $gift = new Gift();
         if ($request->isMethod('POST')) {

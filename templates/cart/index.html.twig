@@ -13,7 +13,7 @@
     {% if isOrdering %}
         <p class="alert alert-pink col-12">{{ 'Vous avez déjà une commande en cours, voulez-vous la finaliser ou l\'annuler?'|gTrans }}</p>
         <div class="col-12 d-flex justify-content-around flex-wrap">
-            <a href="#" class="btn btn-belatika-dark">{{ 'Voir et finaliser ma commande en cours'|gTrans }}</a>
+            <a href="{{ path('app_order_index') }}" class="btn btn-belatika-dark">{{ 'Voir et finaliser ma commande en cours'|gTrans }}</a>
             <a href="#" class="btn btn-belatika-dark">{{ 'Annuler ma commande en cours'|gTrans }}</a>
         </div>
     {% elseif app.session.get('cart')|length > 0 %}

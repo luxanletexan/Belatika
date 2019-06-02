@@ -107,4 +107,9 @@ class CustomerOrderLine
 
         return $this;
     }
+
+    public function getDiscountPrice()
+    {
+        return $this->getPrice() * (100 - $this->getDiscount())/100;
+    }
 }

@@ -51,12 +51,10 @@ class OrderController extends AbstractController
             $order = $pendingOrder;
         }
 
-        dump($order);
         $order = $this->updateOrder($order);
-        dump($order);
 
         return $this->render('order/index.html.twig', [
-            'controller_name' => 'OrderController',
+            'order' => $order,
         ]);
     }
 
