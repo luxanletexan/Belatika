@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Gift;
 use App\Entity\Item;
-use Doctrine\ORM\NonUniqueResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +27,7 @@ class CartController extends AbstractController
      */
     public function show(Request $request):Response
     {
-        $isOrdering = $this->getPendingOrder() !== null;
+        $isOrdering = $this->getPendingOrder($this->getUser()) !== null;
 
         $gift = new Gift();
         if ($request->isMethod('POST')) {

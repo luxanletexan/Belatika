@@ -91,6 +91,11 @@ class CustomerOrder
      */
     private $gift;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Payment", cascade={"persist", "remove"})
+     */
+    private $payment;
+
     public function __construct()
     {
         $this->customerOrderLines = new ArrayCollection();
@@ -289,6 +294,18 @@ class CustomerOrder
     public function setGift(?Gift $gift): self
     {
         $this->gift = $gift;
+
+        return $this;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?Payment $payment): self
+    {
+        $this->payment = $payment;
 
         return $this;
     }

@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\Item;
-use phpDocumentor\Reflection\Types\This;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -43,6 +42,4 @@ class ItemRepository extends AbstractRepository
 
         return $this->paginate($qb);
     }
-
-
 }

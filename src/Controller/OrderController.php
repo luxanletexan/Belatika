@@ -6,12 +6,14 @@ use App\Entity\Gift;
 use App\Entity\Item;
 use App\Entity\CustomerOrder;
 use App\Entity\CustomerOrderLine;
+use App\Entity\User;
 use App\Service\GoogleTranslator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Swift_Mailer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @Route("/order")
@@ -22,11 +24,16 @@ class OrderController extends AbstractController
      * @var ObjectManager
      */
     private $em;
+    /**
+     * @var User
+     */
+    private $user;
 
-    public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer, ObjectManager $em)
+    public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer, ObjectManager $em, TokenStorageInterface $tokenStorage)
     {
         parent::__construct($googleTranslator, $mailer);
         $this->em = $em;
+        $this->user = $tokenStorage->getToken()->getUser();
     }
 
     /**
@@ -36,7 +43,16 @@ class OrderController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $pendingOrder = $this->getPendingOrder();
+        $pendingOrder = $this->getPendingOrder(
+            $this->user,[
+                'gift',
+                [
+                    'customerOrderLines',
+                    'item',
+                    'images',
+                ],
+            ]
+        );
         if ($pendingOrder === null) {
             $session = $this->getSessionFrom($request);
             $items = $session->get('cart');
@@ -55,6 +71,7 @@ class OrderController extends AbstractController
 
         return $this->render('order/index.html.twig', [
             'order' => $order,
+            'stripe_public_key' => getenv('APP_ENV') === 'prod' ? getenv('STRIPE_PUBLIC_KEY') : getenv('STRIPE_PUBLIC_KEY_TEST'),
         ]);
     }
 
@@ -66,12 +83,11 @@ class OrderController extends AbstractController
     private function createOrder(Array $items, ?Gift $gift): CustomerOrder
     {
         $gift = $this->checkGift($gift);
-        $user = $this->getUser();
         $order = new CustomerOrder();
         $order
-            ->setUser($user)
-            ->setDeliveryAddress(clone $user->getDeliveryAddress())
-            ->setBillingAddress(clone $user->getBillingAddress())
+            ->setUser($this->user)
+            ->setDeliveryAddress(clone $this->user->getDeliveryAddress())
+            ->setBillingAddress(clone $this->user->getBillingAddress())
             ->setGift($gift);
         foreach ($items as $cartItem) {
             $item = $this->em->getRepository(Item::class)->find($cartItem->getId());
@@ -84,32 +100,6 @@ class OrderController extends AbstractController
             $order->addCustomerOrderLine($orderLine);
         }
 
-        return $order;
-    }
-
-    /**
-     * @param CustomerOrder $order
-     * @return CustomerOrder
-     */
-    private function updateOrder(CustomerOrder $order): CustomerOrder
-    {
-        $orderLines = $order->getCustomerOrderLines();
-        $total = 0;
-        foreach ($orderLines as $orderLine) {
-            $item = $orderLine->getItem();
-            $orderLine
-                ->setDiscount($this->onSales() ? $item->getDiscount() : 0)
-                ->setPrice($item->getPrice())
-                ->setQuantity(min($orderLine->getQuantity(), $item->getQuantity()));
-
-            $total += $orderLine->getQuantity() * $orderLine->getPrice() * (100 - $orderLine->getDiscount())/100;
-        }
-
-        $order->setTotal($total);
-        $gift = $order->getGift();
-        if(!$this->onSales() && $gift instanceof Gift && $gift->updateStatus()->getValid()) {
-            $order->setGiftValueUsed(min($total, $gift->getValue()));
-        }
         return $order;
     }
 }

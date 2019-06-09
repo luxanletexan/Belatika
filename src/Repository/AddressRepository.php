@@ -3,8 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Address;
-use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -13,7 +11,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Address[]    findAll()
  * @method Address[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AddressRepository extends ServiceEntityRepository
+class AddressRepository extends AbstractRepository
 {
     public function __construct(RegistryInterface $registry)
     {

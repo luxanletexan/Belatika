@@ -1,10 +1,10 @@
 {% extends "layout.html.twig" %}
-{% block title %}{{ 'Récapitulatif de votre commande'|gTrans }}{% endblock %}
+{% block title %}{{ 'Payer votre commande'|gTrans }}{% endblock %}
 {% block head %}
 {% endblock %}
 {% block content %}
-    <h1 class="col-12">{{ 'Récapitulatif de votre commande'|gTrans }}</h1>
-    <div class="bloc-belatika rounded p-2 col-12 col-lg-7 col-xl-8">
+    <h1 class="col-12">{{ 'Payer votre commande'|gTrans }}</h1>
+    <div class="bloc-belatika rounded p-2 col-12 col-lg-7 col-xl-8 align-self-start">
         <table class="table table-responsive bloc-belatika-dark m-0">
             <thead>
             <tr>
@@ -50,11 +50,90 @@
             </p>
             <p><em>{{ 'T.V.A. non applicable art. 293 B du CGI'|gTrans }}</em></p>
             <hr>
-            <p class="d-flex justify-content-between">
-                <span>{{ 'Paiement sécurisé'|gTrans }}<br>3D secure</span>
+            <p class="d-flex justify-content-between align-items-center">
+                <span>{{ 'Paiement sécurisé'|gTrans }}</span>
                 <span class="flex-1"><img class="img-fluid" src="{{ asset('img/ressources/stripe-logo.png') }}" alt="{{ 'Cartes de paiements'|gTrans }}"></span>
             </p>
-
+            <form action="{{ path('app_payment_stripe') }}" method="post" id="payment-form">
+                <div class="form-group">
+                    <div class="bg-light rounded p-2" id="card-element"></div>
+                    <div id="card-errors" role="alert"></div>
+                </div>
+                <button class="btn btn-belatika-light w-100"><i class="far fa-credit-card"></i> {{ 'Régler ma commande' }}</button>
+            </form>
+            <hr>
+            <p>{{ 'Payer avec un compte Paypal' }}</p>
         </div>
     </div>
 {%  endblock %}
+
+
+{% block javascripts %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        $(function() {
+            // Create a Stripe client.
+            var stripe = Stripe('{{ stripe_public_key }}', {locale: '{{ app.request.locale }}'});
+
+            // Create an instance of Elements.
+            var elements = stripe.elements();
+
+            // Custom styling can be passed to options when creating an Element.
+            var style = {
+                base: {
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSmoothing: 'antialiased',
+                    fontSize: '16px',
+                },
+                invalid: {
+                    color: 'red',
+                    iconColor: 'red'
+                },
+            };
+
+            // Create an instance of the card Element.
+            var card = elements.create('card', {style: style});
+
+            // Add an instance of the card Element into the `card-element` <div>.
+            card.mount('#card-element');
+
+            // Handle real-time validation errors from the card Element.
+            var displayError = document.getElementById('card-errors');
+            card.addEventListener('change', function(event) {
+                if (event.error) {
+                    displayError.textContent = event.error.message;
+                } else {
+                    displayError.textContent = '';
+                }
+            });
+
+            // Handle form submission.
+            var form = document.getElementById('payment-form');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                stripe.createToken(card).then(function(result) {
+                    if (result.error) {
+                        // Inform the user if there was an error.
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        // Send the token to your server.
+                        stripeTokenHandler(result.token);
+                    }
+                });
+            });
+
+            function stripeTokenHandler(token){
+                var form = document.getElementById('payment-form');
+                var hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'stripeToken');
+                hiddenInput.setAttribute('value', token.id);
+                form.appendChild(hiddenInput);
+
+                form.submit();
+            }
+        });
+    </script>
+{% endblock %}

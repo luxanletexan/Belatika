@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Translation;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -12,14 +11,20 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Translation[]    findAll()
  * @method Translation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TranslationRepository extends ServiceEntityRepository
+class TranslationRepository extends AbstractRepository
 {
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Translation::class);
     }
 
-    public function searchTranslation($crc32, $language)
+    /**
+     * @param string $crc32
+     * @param string $language
+     * @return Translation|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function searchTranslation($crc32, $language):?Translation
     {
         return $this
             ->createQueryBuilder('t')

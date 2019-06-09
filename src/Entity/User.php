@@ -97,7 +97,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->created_at = new \DateTime();
+        $this->created_at = date_create();
         $this->customerOrders = new ArrayCollection();
     }
 

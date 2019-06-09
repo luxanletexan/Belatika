@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\CustomerOrder;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\User;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -12,39 +14,47 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method CustomerOrder[]    findAll()
  * @method CustomerOrder[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CustomerOrderRepository extends ServiceEntityRepository
+class CustomerOrderRepository extends AbstractRepository
 {
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, CustomerOrder::class);
     }
 
-    // /**
-    //  * @return Order[] Returns an array of Order objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getHighestReferene():int
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        try {
+            $highestReference = $this
+                ->createQueryBuilder('co')
+                ->select('MAX(co.reference)')
+                ->getQuery()
+                ->getSingleScalarResult();
+            return $highestReference === null ? 0 : $highestReference;
+        }catch (NonUniqueResultException $e) {
+            return 0;
+        }
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Order
+    /**
+     * @param User $user
+     * @param array $joins
+     * @return CustomerOrder|null
+     * @throws NonUniqueResultException
+     */
+    public function getPendingOrder(User $user, $joins = []):?CustomerOrder
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb = $this
+            ->createQueryBuilder('co')
+            ->where('co.is_valid = 0')
+            ->andWhere('co.user = :user')
+            ->setParameter('user', $user);
+        foreach ($joins as $join) {
+            $this->with($qb, $join);
+        }
+        try {
+            return $qb->getQuery()->getSingleResult();
+        } catch (NoResultException $e) {
+            return null;
+        }
     }
-    */
 }

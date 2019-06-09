@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Gift;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -14,7 +13,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Gift[]    findAll()
  * @method Gift[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GiftRepository extends ServiceEntityRepository
+class GiftRepository extends AbstractRepository
 {
     public function __construct(RegistryInterface $registry)
     {

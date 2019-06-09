@@ -84,7 +84,7 @@ abstract class AbstractController extends Controller
     {
         $message = (new Swift_Message($subject))
             ->setFrom('noreply@belatika.com')
-            ->setTo($_ENV['ADMIN_MAIL'], 'Admin Belatika')
+            ->setTo(getenv('ADMIN_MAIL'), 'Admin Belatika')
             ->setBody($body);
         $this->mailer->send($message);
     }
@@ -103,16 +103,45 @@ abstract class AbstractController extends Controller
         return $session;
     }
 
-    /**
-     * @return User
-     */
-    protected function getUser()
+    protected function getPendingOrder(User $user, $joins = []):?CustomerOrder
     {
-        return parent::getUser();
+        try {
+            return $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository(CustomerOrder::class)
+                ->getPendingOrder($user, $joins);
+        } catch (NonUniqueResultException $e) {
+            $title = 'Problème site - plusieurs commandes en cours pour l\'utilisateur '.$user->getRealname();
+            $body = 'L\'utilisateur '.$user->getRealname().' a plusieurs commandes non finalisées dans la base.';
+            $this->alertAdmin($title, $body);
+            return null;
+        }
     }
 
-    protected function getPendingOrder()
+    /**
+     * @param CustomerOrder $order
+     * @return CustomerOrder
+     */
+    protected function updateOrder(CustomerOrder $order): CustomerOrder
     {
-        return $this->getDoctrine()->getManager()->getRepository(CustomerOrder::class)->findOneBy(['is_valid' => 0]);
+        $orderLines = $order->getCustomerOrderLines();
+        $total = 0;
+        foreach ($orderLines as $orderLine) {
+            $item = $orderLine->getItem();
+            $orderLine
+                ->setDiscount($this->onSales() ? $item->getDiscount() : 0)
+                ->setPrice($item->getPrice())
+                ->setQuantity(min($orderLine->getQuantity(), $item->getQuantity()));
+
+            $total += $orderLine->getQuantity() * $orderLine->getPrice() * (100 - $orderLine->getDiscount())/100;
+        }
+
+        $order->setTotal($total);
+        $gift = $order->getGift();
+        if(!$this->onSales() && $gift instanceof Gift && $gift->updateStatus()->getValid()) {
+            $order->setGiftValueUsed(min($total, $gift->getValue()));
+        }
+        return $order;
     }
 }
