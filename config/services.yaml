@@ -55,3 +55,10 @@ services:
             $request: '@request_stack'
             $manager: '@doctrine.orm.entity_manager'
             $projectDir: '%kernel.project_dir%'
+
+    item_converter:
+        class: App\Request\ParamConverter\ItemConverter
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: request.param_converter, priority: 1, converter: item_converter }

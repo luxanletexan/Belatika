@@ -30,6 +30,15 @@ class ItemRepository extends AbstractRepository
         return $this->paginate($qb);
     }
 
+    public function findOneWithImages($slug):Item
+    {
+        $qb = $this->createQueryBuilder('i')->where('i.slug = :slug')->setParameter('slug', $slug);
+        $this
+            ->with($qb, 'category')
+            ->with($qb, 'images');
+        return $qb->getQuery()->getSingleResult();
+    }
+
     public function findCategoryWithImages(Category $category):Pagerfanta
     {
         $qb = $this->createQueryBuilder('it')
@@ -37,8 +46,8 @@ class ItemRepository extends AbstractRepository
             ->addSelect('im')
             ->innerJoin('it.category', 'c')
             ->addSelect('c')
-            ->where('c.id = :id')
-            ->setParameter('id', $category->getId());
+            ->where('it.category = :category')
+            ->setParameter('category', $category);
 
         return $this->paginate($qb);
     }
