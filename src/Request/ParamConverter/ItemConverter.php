@@ -24,7 +24,7 @@ class ItemConverter implements ParamConverterInterface
 
     public function apply(Request $request, ParamConverter $configuration)
     {
-        $item = $this->em->getRepository(Item::class)->findOneWithImages($request->attributes->get('slug'));
+        $item = $this->em->getRepository(Item::class)->findOneWithImages($request->attributes);
 
         if (null === $item) {
             throw new NotFoundHttpException(

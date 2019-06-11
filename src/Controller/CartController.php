@@ -15,7 +15,7 @@ use App\Form\UserAddressesType;
 use App\Entity\Address;
 
 /**
- * @Route("/cart")
+ * @Route("/panier")
  */
 class CartController extends AbstractController
 {
@@ -46,7 +46,7 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/delivering/")
+     * @Route("/livraison/")
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      * @param Request $request
      * @return Response
@@ -97,6 +97,7 @@ class CartController extends AbstractController
         $cart = $session->get('cart');
 
         if(array_key_exists($item->getId(), $cart)) {
+            /** @var Item $item_in_cart */
             $item_in_cart = $cart[$item->getId()];
             $quantity += $item_in_cart->getQuantity();
         }

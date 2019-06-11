@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Item;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * @method Item|null find($id, $lockMode = null, $lockVersion = null)
@@ -30,9 +31,15 @@ class ItemRepository extends AbstractRepository
         return $this->paginate($qb);
     }
 
-    public function findOneWithImages($slug):Item
+    public function findOneWithImages(ParameterBag $parameterBag):Item
     {
-        $qb = $this->createQueryBuilder('i')->where('i.slug = :slug')->setParameter('slug', $slug);
+        $qb = $this->createQueryBuilder('i');
+        $params = ['id', 'slug'];
+        foreach ($params as $param) {
+            if ($parameterBag->has($param)) {
+                $qb->where('i.'.$param.' = :'.$param)->setParameter($param, $parameterBag->get($param));
+            }
+        }
         $this
             ->with($qb, 'category')
             ->with($qb, 'images');
