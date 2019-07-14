@@ -7,7 +7,24 @@ use App\Entity\CustomerOrder;
 use App\Entity\Payment;
 use App\Entity\User;
 use App\Service\GoogleTranslator;
+use PayPal\Api\Address;
+use PayPal\Api\Amount;
+use PayPal\Api\BillingInfo;
+use PayPal\Api\Details;
+use PayPal\Api\Item as PaypalItem;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
+use PayPal\Api\PayerInfo;
+use PayPal\Api\Payment as PaypalPayment;
+use PayPal\Api\PaymentExecution;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\ShippingAddress;
+use PayPal\Api\Transaction;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Exception\PayPalConnectionException;
+use PayPal\Rest\ApiContext;
 use Swift_Mailer;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -99,9 +116,71 @@ class PaymentController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/paypal")
+     * @param Request $request
+     * @return Response
+     */
+    public function paypal(Request $request)
+    {
+        $order = $this->getPendingOrder($this->user, ['gift', 'payment', ['customerOrderLines', 'item']]);
+
+        if ($order === null) {
+            $this->addFlash('danger', $this->gTrans('Une erreur est survenue au moment de vérifier votre commande. Aucun paiement n\'a été effectué.'));
+            return $this->redirectToRoute('app_shop_index');
+        }
+        $this->updateOrder($order);
+
+        $paypal_client = getenv('APP_ENV') === 'prod' ? getenv('PAYPAL_CLIENT') : getenv('PAYPAL_CLIENT_TEST');
+        $paypal_secret = getenv('APP_ENV') === 'prod' ? getenv('PAYPAL_SECRET') : getenv('PAYPAL_SECRET_TEST');
+        $apiContext = new ApiContext(new OAuthTokenCredential($paypal_client, $paypal_secret));
+        $mode = getenv('APP_ENV') === 'prod' ? 'live' : 'sandbox';
+        $apiContext->setConfig(['mode' => $mode]);
+
+        $transaction = $this->getTransaction($order);
+
+        if ($request->query->has('paymentId') && $request->query->has('PayerID') && $request->query->has('token')) {
+            $paymentId = $request->get('paymentId');
+            $payerID = $request->get('PayerID');
+
+            $paypalPayment = PaypalPayment::get($paymentId, $apiContext);
+            $paymentExecution = new PaymentExecution();
+            $paymentExecution->setPayerId($payerID)->addTransaction($transaction);
+            try {
+                $paypalPayment->execute($paymentExecution, $apiContext);
+                return $this->validateOrder($order);
+            } catch (\Exception $e) {
+                $message = $e instanceof PayPalConnectionException ? json_decode($e->getData())->message : $e->getMessage();
+                $this->addFlash('warning', $this->gTrans($message, true));
+                return $this->redirectToRoute('app_order_index');
+            }
+        } else {
+            $payerInfo = new PayerInfo();
+            $payer = new Payer();
+            $payer->setPayerInfo($payerInfo)->setPaymentMethod('paypal');
+
+            $redirectUrls = new RedirectUrls();
+            $cancelUrl = $this->generateUrl('app_order_index', [], UrlGeneratorInterface::ABSOLUTE_URL);
+            $returnUrl = $this->generateUrl('app_payment_paypal', [], UrlGeneratorInterface::ABSOLUTE_URL);
+            $redirectUrls->setCancelUrl($cancelUrl)->setReturnUrl($returnUrl);
+
+            $paypalPayment = new PaypalPayment();
+            $paypalPayment->setPayer($payer)->setRedirectUrls($redirectUrls)->addTransaction($transaction)->setIntent('sale');
+
+            try {
+                $paypalPayment->create($apiContext);
+                return $this->redirect($paypalPayment->getApprovalLink());
+            } catch (\Exception $e) {
+                $message = $e instanceof PayPalConnectionException ? json_decode($e->getData())->message : $e->getMessage();
+                $this->addFlash('warning', $this->gTrans($message, true));
+                return $this->redirectToRoute('app_order_index');
+            }
+        }
+    }
+
     private function validateOrder(CustomerOrder $order)
     {
-        $highestReference = $this->getDoctrine()->getRepository(CustomerOrder::class)->getHighestReferene();
+        $highestReference = $this->getDoctrine()->getRepository(CustomerOrder::class)->getHighestReference();
         $order
             ->setIsValid(true)
             ->setOrderedAt(date_create())
@@ -110,5 +189,55 @@ class PaymentController extends AbstractController
         $this->em->flush();
         $this->addFlash('success', $this->gTrans('Merci pour votre commande, vous la recevrez très rapidement!'));
         return $this->redirectToRoute('app_shop_index');
+    }
+
+    private function getTransaction(CustomerOrder $order): Transaction
+    {
+        $deliveryAddress = $order->getDeliveryAddress();
+        $itemList = new ItemList();
+        if ($deliveryAddress->isFullyFilled()) {
+            $shippingAddress = new ShippingAddress();
+            $shippingAddress
+                ->setLine1($deliveryAddress->getValue())
+                ->setLine2($deliveryAddress->getAdditional())
+                ->setCity($deliveryAddress->getCity())
+                ->setCountryCode(strtoupper($deliveryAddress->getCountryCode()))
+                ->setPostalCode($deliveryAddress->getPostcode())
+                ->setState($deliveryAddress->getCountry())
+                ->setRecipientName($order->getUser()->getRealname());
+
+            $itemList->setShippingAddress($shippingAddress);
+        }
+
+        $customerOrderLines = $order->getCustomerOrderLines();
+        $subTotal = 0;
+        foreach ($customerOrderLines as $customerOrderLine) {
+            $paypalItem = new PaypalItem();
+            $item = $customerOrderLine->getItem();
+            $paypalItem
+                ->setName($item->getName())
+                ->setQuantity($customerOrderLine->getQuantity())
+                ->setCurrency('EUR')
+                ->setPrice($customerOrderLine->getDiscountPrice());
+            $itemList->addItem($paypalItem);
+            $subTotal += $customerOrderLine->getQuantity() * $customerOrderLine->getDiscountPrice();
+        }
+
+        $details = new Details();
+        $details->setSubtotal($subTotal)->setShipping($order->getShipping());
+
+        $amount = new Amount();
+        $amount
+            ->setCurrency('EUR')
+            ->setDetails($details)
+            ->setTotal($subTotal + $order->getShipping());
+
+        $transaction = new Transaction();
+        $transaction
+            ->setItemList($itemList)
+            ->setAmount($amount)
+            ->setDescription($this->gTrans('Votre achat sur'). ' belatika.com');
+
+        return $transaction;
     }
 }

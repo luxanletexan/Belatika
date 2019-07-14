@@ -24,7 +24,7 @@ class CustomerOrderLine
 
     /**
      * @ORM\ManyToOne(targetEntity="CustomerOrder", inversedBy="customerOrderLines")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $customerOrder;
 
@@ -110,6 +110,6 @@ class CustomerOrderLine
 
     public function getDiscountPrice()
     {
-        return $this->getPrice() * (100 - $this->getDiscount())/100;
+        return round($this->getPrice() * (100 - $this->getDiscount())/100, 2);
     }
 }

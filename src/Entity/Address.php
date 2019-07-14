@@ -262,4 +262,17 @@ class Address
 
         return $this;
     }
+
+    public function isFullyFilled()
+    {
+        $requiredFields = ['city', 'country', 'countryCode', 'county', 'value', 'postcode'];
+
+        foreach ($requiredFields as $field) {
+            if (is_null($this->$field)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

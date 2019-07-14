@@ -21,7 +21,7 @@ class CustomerOrderRepository extends AbstractRepository
         parent::__construct($registry, CustomerOrder::class);
     }
 
-    public function getHighestReferene():int
+    public function getHighestReference():int
     {
         try {
             $highestReference = $this

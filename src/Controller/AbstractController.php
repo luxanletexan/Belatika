@@ -37,22 +37,24 @@ abstract class AbstractController extends Controller
      * alias for $this->googleTranslator->gTrans($text)
      *
      * @param string $text
+     * @param bool $force
      * @return string
      */
-    protected function gTrans($text):string
+    protected function gTrans($text, $force = false):string
     {
-        return $this->googleTranslator->gTrans($text);
+        return $this->googleTranslator->gTrans($text, $force);
     }
 
     /**
      * alias for $this->googleTranslator->gTransDB($text)
      *
      * @param $text
+     * @param bool $force
      * @return string
      */
-    protected function gTransDB($text):string
+    protected function gTransDB($text, $force = false):string
     {
-        return $this->googleTranslator->gTransDB($text);
+        return $this->googleTranslator->gTransDB($text, $force);
     }
 
     /**

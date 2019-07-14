@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\NonUniqueResultException;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Yaml\Yaml;
@@ -40,14 +41,15 @@ class GoogleTranslator
      * Returns translated text from translations dir, or translate it from google trans and update translation dir
      *
      * @param string $text
+     * @param bool $force
      * @return string
      */
-    public function gTrans($text):string
+    public function gTrans($text, $force = false):string
     {
         $request = $this->request->getCurrentRequest();
         if(null === $request) { return $text; }
         $language = $request->getLocale();
-        if($language === 'fr') { return $text; }
+        if($language === 'fr' && !$force) { return $text; }
 
         $translationFile = $this->projectDir . '\translations\messages.'.$language.'.yaml';
 
@@ -73,14 +75,15 @@ class GoogleTranslator
      * Returns translated text from database, or translate it from google trans and update database
      *
      * @param string $text
+     * @param bool $force
      * @return string
      */
-    public function gTransDB($text):string
+    public function gTransDB($text, $force = false):string
     {
         $request = $this->request->getCurrentRequest();
         if(null === $request) { return $text; }
         $language = $request->getLocale();
-        if($language === 'fr') { return $text; }
+        if($language === 'fr' && !$force) { return $text; }
         $search = $this->getTranslationFromDatabase($text, $language);
         if(null !== $search) {
             return $search->getTranslation();
@@ -106,10 +109,15 @@ class GoogleTranslator
      * @param string $text
      * @param string $language
      * @return Translation|null
+     *
      */
     private function getTranslationFromDatabase($text, $language):?Translation
     {
         $crc32 = crc32($text);
-        return $this->manager->getRepository(Translation::class)->searchTranslation($crc32, $language);
+        try {
+            return $this->manager->getRepository(Translation::class)->searchTranslation($crc32, $language);
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
     }
 }
