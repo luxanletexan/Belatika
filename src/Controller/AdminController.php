@@ -17,11 +17,6 @@ class AdminController extends AbstractController
 {
     private $settingsFile;
 
-    public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer)
-    {
-        parent::__construct($googleTranslator, $mailer);
-    }
-
     /**
      * @Route("/")
      * @return Response
@@ -29,6 +24,15 @@ class AdminController extends AbstractController
     public function index()
     {
         return $this->render('admin/index.html.twig');
+    }
+
+    /**
+     * @Route("/articles")
+     * @return Response
+     */
+    public function articles()
+    {
+        return $this->render('admin/articles.html.twig');
     }
 
     /**

@@ -1,8 +1,10 @@
 {% extends "layout.html.twig" %}
 {% block title %}Administration{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ asset('css/admin/index.css') }}">{% endblock %}
 {% block content %}
     <h1 class="col-12">Administration</h1>
     <div id="admin-menu">
+        <a href="{{ path('app_admin_articles') }}" class="admin-link-access">Articles</a>
         <a href="{{ path('app_admin_settings') }}" class="admin-link-access">Réglages du site</a>
     </div>
 {% endblock %}

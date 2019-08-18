@@ -1,0 +1,27 @@
+#admin-menu
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.admin-link-access
+{
+    display: block;
+    background-color: darkslategray;
+    color: white;
+    font-weight: bold;
+    padding: 16px;
+    border-radius: .25rem;
+    font-size: 1.25rem;
+    margin: 8px;
+    border: 2px solid darkslategray;
+    transition-property: all;
+    transition-duration: .2s;
+}
+
+.admin-link-access:hover
+{
+    text-decoration: none;
+    color: darkslategray;
+    background-color: transparent;
+}
