@@ -27,7 +27,8 @@ class ItemRepository extends AbstractRepository
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
             ->innerJoin('it.category', 'c')
-            ->addSelect('c');
+            ->addSelect('c')
+        ->orderBy('it.created_at', 'DESC');
         return $this->paginate($qb);
     }
 

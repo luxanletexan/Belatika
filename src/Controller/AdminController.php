@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Item;
 use App\Form\SettingsType;
 use App\Service\GoogleTranslator;
 use Swift_Mailer;
@@ -27,12 +28,15 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/articles")
+     * @Route("/items")
      * @return Response
      */
-    public function articles()
+    public function items()
     {
-        return $this->render('admin/articles.html.twig');
+        $items = $this->getDoctrine()->getManager()->getRepository(Item::class)->findAllWithImages();
+
+        dump($items);
+        return $this->render('admin/articles.html.twig', ['items' => $items]);
     }
 
     /**
