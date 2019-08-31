@@ -1,0 +1,20 @@
+{% extends "layout.html.twig" %}
+{% block title %}Ajouter un article{% endblock %}
+{% block head %}
+    <script src="https://cdn.tiny.cloud/1/47s58pgfnp60s3pn4thcvmyigv8ieg4rnduftz0gokhvghlb/tinymce/5/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector:'textarea.tinymce',
+            plugins: [
+                'advlist autolink link lists charmap preview hr anchor pagebreak spellchecker',
+                'searchreplace visualblocks visualchars code fullscreen nonbreaking',
+                'save directionality emoticons paste'
+            ],
+            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | preview | forecolor backcolor emoticons'
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <h1 class="col-12">Ajouter un article</h1>
+    <div class="col-12">{{ form(form) }}</div>
+{% endblock %}

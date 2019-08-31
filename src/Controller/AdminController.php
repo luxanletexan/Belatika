@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Item;
+use App\Form\ItemType;
 use App\Form\SettingsType;
 use App\Service\GoogleTranslator;
 use Swift_Mailer;
@@ -35,8 +36,19 @@ class AdminController extends AbstractController
     {
         $items = $this->getDoctrine()->getManager()->getRepository(Item::class)->findAllWithImages();
 
-        dump($items);
         return $this->render('admin/articles.html.twig', ['items' => $items]);
+    }
+
+    /**
+     * @Route("/item/add")
+     * @return Response
+     */
+    public function addItem()
+    {
+
+        $form = $this->createForm(ItemType::class);
+
+        return $this->render('admin/addItem.html.twig', ['form' => $form->createView()]);
     }
 
     /**

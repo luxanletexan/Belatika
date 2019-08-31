@@ -136,4 +136,9 @@ class Category
 
         return $this;
     }
+
+    public function getNameCustomer(): ?string
+    {
+        return $this->name . ' - ' . $this->customers;
+    }
 }
