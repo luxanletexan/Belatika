@@ -205,6 +205,19 @@ class Item
         return $this->images;
     }
 
+    public function setImages(Image $image): self
+    {
+        $files = $image->getFiles();
+
+        foreach ($files as $file) {
+            $image = new Image();
+            $image->setFile($file)->setItem($this)->setExt($file->guessExtension())->setAlt($this->getName());
+            $this->addImage($image);
+        }
+
+        return $this;
+    }
+
     public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {

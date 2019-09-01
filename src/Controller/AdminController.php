@@ -5,8 +5,6 @@ namespace App\Controller;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Form\SettingsType;
-use App\Service\GoogleTranslator;
-use Swift_Mailer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,12 +39,19 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/item/add")
+     * @param Request $request
      * @return Response
      */
-    public function addItem()
+    public function addItem(Request $request)
     {
 
         $form = $this->createForm(ItemType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            dump($form);die;
+        }
 
         return $this->render('admin/addItem.html.twig', ['form' => $form->createView()]);
     }
