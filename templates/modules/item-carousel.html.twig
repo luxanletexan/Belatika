@@ -2,14 +2,14 @@
     <ol class="carousel-indicators">
         {% for image in item.images %}
         <li data-target="#item-carousel" data-slide-to="{{ loop.index0 }}"{% if loop.first %} class="active"{% endif %}>
-            <img class="d-block w-100" src="{% if image.thumbURI is onDisk %}{{ asset(image.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ image.alt }}">
+            <img class="d-block w-100" src="{% if image.webPath is onDisk %}{{ asset(image.webPath|imagine_filter('icon')) }}{% else %}{{ asset('img/resources/image-not-found.png'|imagine_filter('icon')) }}{% endif %}" alt="{{ image.alt }}">
         </li>
         {% endfor %}
     </ol>
     <div class="carousel-inner">
         {% for image in item.images %}
         <div class="carousel-item{% if loop.first %} active{% endif %}">
-            <img class="d-block w-100 rounded" src="{% if image.thumbURI is onDisk %}{{ asset(image.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ image.alt }}">
+            <img class="d-block w-100 rounded" src="{% if image.webPath is onDisk %}{{ asset(image.webPath|imagine_filter('large')) }}{% else %}{{ asset('img/resources/image-not-found.png'|imagine_filter('large')) }}{% endif %}" alt="{{ image.alt }}">
         </div>
         {% endfor %}
     </div>

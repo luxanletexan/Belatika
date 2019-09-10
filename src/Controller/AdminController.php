@@ -44,13 +44,15 @@ class AdminController extends AbstractController
      */
     public function addItem(Request $request)
     {
-
         $form = $this->createForm(ItemType::class);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form);die;
+            $item = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($item);
+            $em->flush();
+            $this->addFlash('success', 'Nouvel article créé');
         }
 
         return $this->render('admin/addItem.html.twig', ['form' => $form->createView()]);

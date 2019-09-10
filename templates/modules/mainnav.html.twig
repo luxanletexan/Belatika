@@ -93,7 +93,7 @@
                                         'customer' : item.category.customers,
                                         'slug' : item.slug
                                     }) }}">
-                                        <img src="{% if item.images|first.thumbURI is onDisk %}{{ item.images|first.thumbURI }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ item.images|first.alt }}" width=20>
+                                        <img src="{% if item.images|first.webPath is onDisk %}{{ item.images|first.webPath }}{% else %}{{ asset('img/resources/image-not-found.png') }}{% endif %}" alt="{{ item.images|first.alt }}" width=20>
                                         {{ item.name|trunc }}
                                         <span>{{ price|number_format(2, ',', '') }}€</span>
                                     </a>

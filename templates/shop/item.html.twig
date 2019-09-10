@@ -27,10 +27,10 @@
         >
             <img
                     id="image"
-                    src="{% if item.images|first.thumbURI is onDisk %}
-                            {{ asset(item.images|first.thumbURI) }}
+                    src="{% if item.images|first.webPath is onDisk %}
+                            {{ asset(item.images|first.webPath|imagine_filter('large')) }}
                         {% else %}
-                            {{ asset('img/ressources/image-not-found.png') }}
+                            {{ asset('img/resources/image-not-found.png'|imagine_filter('large')) }}
                         {% endif %}"
                     alt="{{ item.images|first.alt }}"
                     class="w-100 img-fluid rounded"
@@ -47,7 +47,7 @@
                 <div class="card-body">
                     <em>{{ 'Référence'|gTrans }} n°{{ item.reference }}</em>
                     <hr>
-                    {{ item.description|gTrans|capitalize }}
+                    {{ item.description|gTrans|capitalize|raw }}
                 </div>
                 <div class="card-footer">
                     <div class="row">

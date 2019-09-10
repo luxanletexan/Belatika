@@ -5,7 +5,7 @@
     {% for item in items %}
         <figure id="item{{item.id}}" class="item-thumbnail{% if item.createdAt|date_modify('+1 week')|date('Ymd') > "now"|date('Ymd') %} new{% endif %}{% if cart[item.id] is defined %} added{% endif %}">
             <a href="{{ path('app_shop_item', {'customer' : item.category.customers, 'category_slug' : item.category.slug, 'slug' : item.slug}) }}">
-                <img class="figure-img img-fluid" src="{% if item.images|first.thumbURI is onDisk %}{{ asset(item.images|first.thumbURI) }}{% else %}{{ asset('img/ressources/image-not-found.png') }}{% endif %}" alt="{{ item.images|first.alt }}">
+                <img class="figure-img img-fluid" src="{% if item.images|first.webPath is onDisk %}{{ asset(item.images|first.webPath|imagine_filter('thumb')) }}{% else %}{{ asset('img/resources/image-not-found.png'|imagine_filter('thumb')) }}{% endif %}" alt="{{ item.images|first.alt }}">
             </a>
             <figcaption class="text-center">
                 <p class="item-name">{{item.name|gTrans}}</p>

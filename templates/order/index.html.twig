@@ -18,7 +18,7 @@
             <tbody>
             {% for line in order.customerOrderLines %}
                 <tr>
-                    <td data-label="{{ 'Article'|gTrans }}"><a class="belatika-light-link" href="#" target="_blank" title="{{ 'Cliquez pour visualiser dans un nouvel onglet.'|gTrans }}">{% if line.item.images|first.thumbUri is onDisk %}<img src="{{ line.item.images|first.thumbUri }}" alt="{{ line.item.images|first.alt }}" height="30" width="30" /> {% endif %}{{ line.item.name }}</a></td>
+                    <td data-label="{{ 'Article'|gTrans }}"><a class="belatika-light-link" href="#" target="_blank" title="{{ 'Cliquez pour visualiser dans un nouvel onglet.'|gTrans }}">{% if line.item.images|first.webPath is onDisk %}<img src="{{ line.item.images|first.webPath }}" alt="{{ line.item.images|first.alt }}" height="30" width="30" /> {% endif %}{{ line.item.name }}</a></td>
                     <td data-label="{{ 'Référence'|gTrans }}">{{ line.item.reference }}</td>
                     <td data-label="{{ 'Quantité'|gTrans }}">
                         {{ line.quantity }}
@@ -52,7 +52,7 @@
             <hr>
             <p class="d-flex justify-content-between align-items-center">
                 <span>{{ 'Paiement sécurisé'|gTrans }}</span>
-                <span class="flex-1"><img class="img-fluid" src="{{ asset('img/ressources/stripe-logo.png') }}" alt="{{ 'Cartes de paiements'|gTrans }}"></span>
+                <span class="flex-1"><img class="img-fluid" src="{{ asset('img/resources/stripe-logo.png') }}" alt="{{ 'Cartes de paiements'|gTrans }}"></span>
             </p>
             <form action="{{ path('app_payment_stripe') }}" method="post" id="payment-form">
                 <div class="form-group">

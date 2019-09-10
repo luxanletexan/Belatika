@@ -5,11 +5,13 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Intervention\Image\Constraint;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Image
 {
@@ -22,8 +24,9 @@ class Image
     private $id;
 
     /**
+     * @var Item
      * @ORM\ManyToOne(targetEntity="App\Entity\Item", inversedBy="images")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $item;
 
@@ -38,7 +41,13 @@ class Image
      */
     private $ext;
 
+    /**
+     * @var ArrayCollection
+     */
     private $files;
+    /**
+     * @var UploadedFile
+     */
     private $file;
 
     public function __construct()
@@ -87,9 +96,14 @@ class Image
         return $this;
     }
 
-    public function getThumbURI():string
+    public function getAbsolutePath()
     {
-        return 'img/uploads/thumbnails/'.$this->getId().'.'.$this->getExt();
+        return $this->getUploadRootDir().$this->makeFileName();
+    }
+
+    public function getWebPath(): string
+    {
+        return $this->getUploadDir().$this->makeFileName();
     }
 
     /**
@@ -127,5 +141,29 @@ class Image
     {
         $this->file = $file;
         return $this;
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        $this->file->move($this->getUploadRootDir(), $this->makeFileName());
+    }
+
+    protected function getUploadRootDir()
+    {
+        return realpath(__DIR__.'/../../public/'.$this->getUploadDir()).'/';
+    }
+
+    protected function getUploadDir()
+    {
+        return 'img/uploads/';
+    }
+
+    protected function makeFileName()
+    {
+        return $this->item->getSlug().'-'.$this->id.'.'.$this->ext;
     }
 }

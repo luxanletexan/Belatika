@@ -38,7 +38,7 @@
                     {% set price = item.price %}
                 {% endif %}
                 <tr>
-                    <td data-label="{{ 'Article'|gTrans }}"><a class="belatika-light-link" href="#" target="_blank" title="{{ 'Cliquez pour visualiser dans un nouvel onglet.'|gTrans }}">{% if item.images|first.thumbUri is onDisk %}<img src="{{ item.images|first.thumbUri }}" alt="{{ item.images|first.alt }}" height="30" width="30" /> {% endif %}{{ item.name }}</a></td>
+                    <td data-label="{{ 'Article'|gTrans }}"><a class="belatika-light-link" href="#" target="_blank" title="{{ 'Cliquez pour visualiser dans un nouvel onglet.'|gTrans }}">{% if item.images|first.webPath is onDisk %}<img src="{{ item.images|first.webPath }}" alt="{{ item.images|first.alt }}" height="30" width="30" /> {% endif %}{{ item.name }}</a></td>
                     <td data-label="{{ 'Référence'|gTrans }}">{{ item.reference }}</td>
                     <td data-label="{{ 'Quantité'|gTrans }}">
                         {{ item.quantity }}

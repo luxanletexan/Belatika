@@ -87,8 +87,8 @@ class Address {
 
     initIcon() {
         this.icon = L.icon({
-            iconUrl: this.imgPath + 'ressources/flower.png',
-            shadowUrl: this.imgPath + 'ressources/flower-shadow.png',
+            iconUrl: this.imgPath + 'resources/flower.png',
+            shadowUrl: this.imgPath + 'resources/flower-shadow.png',
             iconSize: [38, 95], // size of the icon
             shadowSize: [50, 64], // size of the shadow
             iconAnchor: [22, 94], // point of the icon which will correspond to marker's location

@@ -112,7 +112,7 @@ class Cart {
                 + this.cart[item_id].category.slug + '/'
                 + this.cart[item_id].slug;
             let image = this.imgPath+'/uploads/icons/'+this.cart[item_id].images[0].id+'.'+this.cart[item_id].images[0].ext;
-            image = Cart.fileExists(image) ? image : this.imgPath + '/ressources/image-not-found.png';
+            image = Cart.fileExists(image) ? image : this.imgPath + '/resources/image-not-found.png';
             let price = this.cart[item_id].price.toFixed(2).replace('.', ',')+'€';
             this.$cartItemList.append(
                 `<li class="d-flex align-items-center">

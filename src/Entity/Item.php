@@ -29,7 +29,7 @@ class Item
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="item")
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="item", cascade={"persist"})
      * @Groups({"item"})
      */
     private $images;
@@ -82,6 +82,8 @@ class Item
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->created_at = date_create();
+        $this->discount = 0;
     }
 
     public function getId(): ?int
