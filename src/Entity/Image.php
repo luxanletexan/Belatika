@@ -149,7 +149,9 @@ class Image
      */
     public function upload()
     {
-        $this->file->move($this->getUploadRootDir(), $this->makeFileName());
+        if ($this->file instanceof UploadedFile) {
+            $this->file->move($this->getUploadRootDir(), $this->makeFileName());
+        }
     }
 
     protected function getUploadRootDir()
