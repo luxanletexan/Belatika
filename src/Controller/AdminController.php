@@ -27,12 +27,26 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/items")
+     * @Route("/items/{page<\d+>?1}")
+     * @param Request $request
+     * @param int $page
      * @return Response
      */
-    public function items()
+    public function items(Request $request, $page): Response
     {
-        $items = $this->getDoctrine()->getManager()->getRepository(Item::class)->findAllWithImages();
+        if ($request->isMethod('POST')) {
+            $action = $request->get('action');
+            $datas = $request->request->keys();
+            $item_ids = [];
+            foreach ($datas as $data) {
+                if (substr($data,0,5) === 'item-') {
+                    $item_ids[] = str_replace('item-', '', $data);
+                }
+            }
+            $this->itemsAction($action, $item_ids);
+        }
+
+        $items = $this->getDoctrine()->getManager()->getRepository(Item::class)->findAllWithImages()->setCurrentPage($page);
 
         return $this->render('admin/articles.html.twig', ['items' => $items]);
     }
@@ -42,7 +56,7 @@ class AdminController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function addItem(Request $request)
+    public function addItem(Request $request): Response
     {
         $form = $this->createForm(ItemType::class);
         $form->handleRequest($request);
@@ -63,7 +77,7 @@ class AdminController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function settings(Request $request)
+    public function settings(Request $request): Response
     {
         $this->settingsFile = $this->getParameter('kernel.project_dir').'\config\packages\belatika.yaml';
         $shop_settings = $this->getShopSettings();
@@ -79,7 +93,7 @@ class AdminController extends AbstractController
         return $this->render('admin/settings.html.twig', ['form' => $form->createView()]);
     }
 
-    private function getShopSettings()
+    private function getShopSettings(): array
     {
         $belatika_yaml = Yaml::parseFile($this->settingsFile);
         $shop_settings = $belatika_yaml['parameters']['shop_settings'];
@@ -94,7 +108,7 @@ class AdminController extends AbstractController
         return $shop_settings;
     }
 
-    private function setShopSettings($shopSettings)
+    private function setShopSettings($shopSettings): void
     {
         $sales = explode(' - ', $shopSettings['sales']);
         $sales = [
@@ -113,5 +127,23 @@ class AdminController extends AbstractController
         }
 
         file_put_contents($this->settingsFile, Yaml::dump($belatika_yaml));
+    }
+
+    /**
+     * @param string $action
+     * @param array $item_ids
+     */
+    private function itemsAction($action, $item_ids): void
+    {
+        $em = $this->getDoctrine()->getManager();
+        if ($action === 'delete') {
+            $items = $em->getRepository(Item::class)->findBy(['id' => $item_ids]);
+            foreach ($items as $item) {
+                $em->remove($item);
+            }
+            $em->flush();
+            $s = count($items) > 1 ? 's' : '';
+            $this->addFlash('success', count($items)."article$s supprimé$s");
+        }
     }
 }
