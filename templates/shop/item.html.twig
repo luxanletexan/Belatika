@@ -78,11 +78,13 @@
                                 <i class="fas fa-spinner"></i>
                             </button>
                         {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_admin_updateitem', {'id' : item.id}) }}" class="btn btn-sm btn-belatika-dark float-right">Modifier</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
 {% endblock %}

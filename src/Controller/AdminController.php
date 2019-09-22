@@ -73,6 +73,30 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/item/update/{id<\d+>}")
+     * @param Request $request
+     * @param Item $item
+     * @return Response
+     */
+    public function updateItem(Request $request, Item $item)
+    {
+//        dump($item);die;
+        $form = $this->createForm(ItemType::class, $item);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $item = $form->getData();
+            dump($item);die;
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($item);
+            $em->flush();
+            $this->addFlash('success', 'Nouvel article créé');
+        }
+
+        return $this->render('admin/addItem.html.twig', ['form' => $form->createView(), 'images' => $item->getImages()]);
+    }
+
+    /**
      * @Route("/settings")
      * @param Request $request
      * @return Response
