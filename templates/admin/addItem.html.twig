@@ -1,6 +1,7 @@
 {% extends "layout.html.twig" %}
 {% block title %}Ajouter un article{% endblock %}
 {% block head %}
+    <link rel="stylesheet" href="{{ asset('css/admin/item.css') }}">
     <script src="https://cdn.tiny.cloud/1/47s58pgfnp60s3pn4thcvmyigv8ieg4rnduftz0gokhvghlb/tinymce/5/tinymce.min.js"></script>
     <script>
         tinymce.init({
@@ -21,5 +22,78 @@
 {% endblock %}
 {% block content %}
     <h1 class="col-12">Ajouter un article</h1>
-    <div class="col-12">{{ form(form) }}</div>
+    <div class="col-12">
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <div class="row form-group">
+            {{ form_label(form.category, null, {'label_attr': {'class': 'col-md-2'}}) }}
+            <div class="col col-md-10">{{ form_widget(form.category) }}</div>
+            <div class="form_errors col-md-12">
+                {{ form_errors(form.category) }}
+            </div>
+        </div>
+        <div class="row form-group">
+            {{ form_label(form.name, null, {'label_attr': {'class': 'col-md-2'}}) }}
+            <div class="col col-md-10">{{ form_widget(form.name) }}</div>
+            <div class="form_errors col-md-12">
+                {{ form_errors(form.name) }}
+            </div>
+        </div>
+        <div class="row form-group">
+            {{ form_label(form.reference, null, {'label_attr': {'class': 'col-md-2'}}) }}
+            <div class="col col-md-10">{{ form_widget(form.reference) }}</div>
+            <div class="form_errors col-md-12">
+                {{ form_errors(form.reference) }}
+            </div>
+        </div>
+        <div class="row form-group">
+            {{ form_label(form.description, null, {'label_attr': {'class': 'col-md-2'}}) }}
+            <div class="col col-md-10">{{ form_widget(form.description) }}</div>
+            <div class="form_errors col-md-12">
+                {{ form_errors(form.description) }}
+            </div>
+        </div>
+        <div class="row form-group">
+            {{ form_label(form.price, null, {'label_attr': {'class': 'col-md-2'}}) }}
+            <div class="col col-md-10">{{ form_widget(form.price) }}</div>
+            <div class="form_errors col-md-12">
+                {{ form_errors(form.price) }}
+            </div>
+        </div>
+        <div id="filesProto" data-prototype="{{ include('prototype/images.html.twig')|e }}" data-nofile-src="{{ asset('img/resources/image-not-found.png'|imagine_filter('thumb')) }}"></div>
+        <div class="row">
+            <div class="col-12 d-flex flex-wrap align-items-center" id="filesBox" data-content-count="{{ form.images|length }}">
+                {% set pos = 0 %}
+                {% for image in form.images %}
+                    <div class="image-thumb" id="jsPreview{{ pos }}">
+                        <div class="image-remove" id="jsRemove{{ pos }}">
+                            <button type="button" class="btn btn-danger" onclick="removeFile('{{ path('app_admin_removeitemimage', {id : image.vars.value.id}) }}', {{ pos }})"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        </div>
+                        <img src="{{ asset(image.vars.value.webPath|imagine_filter('thumb')) }}" alt="{{ image.vars.value.alt }}">
+                        <div class="sr-only">{{ form_widget(image) }}</div>
+                    </div>
+                    {% set pos = pos + 1 %}
+                {% endfor %}
+            </div>
+
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/admin/item.js') }}"></script>
+    <script>
+        const removeFile = (removeUrl, fileIndex) => {
+            $.ajax(removeUrl, {
+                method : 'POST',
+                success : (response) => {
+                    if (response.success) {
+                        $('#jsPreview'+fileIndex).remove();
+                    } else {
+                        console.error(response.errorMessage);
+                    }
+                }
+            });
+        }
+    </script>
 {% endblock %}

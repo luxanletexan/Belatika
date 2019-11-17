@@ -41,18 +41,9 @@ class Image
     private $ext;
 
     /**
-     * @var ArrayCollection
-     */
-    private $files;
-    /**
      * @var UploadedFile
      */
     private $file;
-
-    public function __construct()
-    {
-        $this->files = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -105,32 +96,6 @@ class Image
         return $this->getUploadDir().$this->makeFileName();
     }
 
-    /**
-     * @return Collection|UploadedFile[]
-     */
-    public function getFiles(): Collection
-    {
-        return $this->files;
-    }
-
-    public function addFile(UploadedFile $file): self
-    {
-        if (!$this->files->contains($file)) {
-            $this->files[] = $file;
-        }
-
-        return $this;
-    }
-
-    public function removeFile(UploadedFile $file): self
-    {
-        if ($this->files->contains($file)) {
-            $this->files->removeElement($file);
-        }
-
-        return $this;
-    }
-
     public function getFile(): ?UploadedFile
     {
         return $this->file;
@@ -140,6 +105,18 @@ class Image
     {
         $this->file = $file;
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if ($this->file instanceof UploadedFile) {
+            $this->ext = $this->file->guessExtension();
+            $this->alt = $this->item->getName();
+        }
     }
 
     /**
@@ -165,6 +142,6 @@ class Image
 
     protected function makeFileName()
     {
-        return $this->item->getSlug().'-'.$this->id.'.'.$this->ext;
+        return $this->id.'.'.$this->ext;
     }
 }

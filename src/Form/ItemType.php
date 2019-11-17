@@ -7,6 +7,7 @@ use App\Entity\Item;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -31,7 +32,16 @@ class ItemType extends AbstractType
             ->add('description', TextareaType::class, ['label' => 'Description', 'attr' => ['class' => 'tinymce']])
             ->add('price', NumberType::class, ['label' => 'Prix'])
             ->add('quantity', HiddenType::class, ['attr' => ['value' => 1]])
-            ->add('images', ImagesType::class)
+            ->add('images', CollectionType::class, [
+                'entry_type' => ImageType::class,
+                'block_name' => 'images',
+                'prototype' => true,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'required' => false,
+                'label' => false,
+            ])
             ->add('Enregistrer', SubmitType::class, ['attr' => ['class' => 'btn btn-belatika-dark float-right']])
         ;
         /*

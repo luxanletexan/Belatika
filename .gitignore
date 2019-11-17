@@ -15,6 +15,12 @@
 /public/build/
 npm-debug.log
 yarn-error.log
+Gemfile
+Gemfile.lock
+Capfile
+/config/deploy/
+/config/deploy.rb
+/log/
 ###< symfony/webpack-encore-pack ###
 ###> symfony/web-server-bundle ###
 /.web-server-pid

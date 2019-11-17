@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Form\SettingsType;
@@ -80,13 +81,11 @@ class AdminController extends AbstractController
      */
     public function updateItem(Request $request, Item $item)
     {
-//        dump($item);die;
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $item = $form->getData();
-            dump($item);die;
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
@@ -94,6 +93,28 @@ class AdminController extends AbstractController
         }
 
         return $this->render('admin/addItem.html.twig', ['form' => $form->createView(), 'images' => $item->getImages()]);
+    }
+
+    /**
+     * @Route("/remove/item-image/{id<\d+>}", methods={"POST"})
+     * @param Image $image
+     * @return Response
+     */
+    public function removeItemImage(Image $image)
+    {
+        if ($image->getItem()->getImages()->count() > 1) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($image);
+            $em->flush();
+            $dataResponse = ['success' => true];
+        } else {
+            $dataResponse = [
+                'success' => false,
+                'errorMessage' => 'Impossible de supprimer la dernière image d\'un article',
+            ];
+        }
+
+        return $this->json($dataResponse);
     }
 
     /**

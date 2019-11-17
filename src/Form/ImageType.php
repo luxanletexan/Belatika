@@ -4,25 +4,24 @@ namespace App\Form;
 
 use App\Entity\Image;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
-class ImagesType extends AbstractType
+class ImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('files', FileType::class, [
-                'multiple' => true,
-                'required' => false,
-                'label_attr' => [
-                    'class' => 'sr-only'
+            ->add('file', FileType::class, [
+                'label' => false,
+                'required' => true,
+                'constraints' => [
+                    new File(),
                 ],
                 'attr' => [
                     'accept' => 'image/*',
-                    'multiple' => 'multiple'
                 ]
             ])
         ;
@@ -32,7 +31,7 @@ class ImagesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => null,
+            'data_class' => Image::class,
         ]);
     }
 }

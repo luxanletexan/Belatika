@@ -1,0 +1,21 @@
+.image-thumb
+{
+    position: relative;
+    cursor: grab;
+    margin: 8px;
+}
+.image-remove,
+.image-add
+{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+.image-remove i.fa
+{
+    transition: all .3s ease;
+}
+.image-remove:hover i.fa
+{
+    transform: rotate(90deg);
+}

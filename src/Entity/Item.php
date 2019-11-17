@@ -29,7 +29,7 @@ class Item
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="item", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="item", cascade={"persist"}, orphanRemoval=true)
      * @Groups({"item"})
      */
     private $images;
@@ -206,7 +206,7 @@ class Item
     {
         return $this->images;
     }
-
+/*
     public function setImages(Image $image): self
     {
         $files = $image->getFiles();
@@ -219,12 +219,12 @@ class Item
 
         return $this;
     }
-
-    public function addImage(Image $image): self
+*/
+    public function addImage($image): self
     {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
+        if ($image instanceof Image && !$this->images->contains($image)) {
             $image->setItem($this);
+            $this->images[] = $image;
         }
 
         return $this;
