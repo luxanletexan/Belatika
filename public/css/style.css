@@ -6,7 +6,8 @@
 
 body
 {
-    background-image: radial-gradient(circle at center, rgba(102, 102, 127, 0.7), rgba(255, 255, 255, 0.7));
+    /*background-image: radial-gradient(circle at center, rgba(102, 102, 127, 0.7), rgba(255, 255, 255, 0.7));*/
+    background-color: white;
 }
 .flex-1
 {
@@ -14,23 +15,27 @@ body
 }
 strong
 {
-    color: deeppink;
+    /*color: deeppink;*/
+    color: black;
     font-size: 1.1em;
     text-shadow: 2px 2px 2px white;
 }
 .bg-belatika
 {
-    background-color: #222;
+    /*background-color: #222;*/
+    background-color: white;
 }
 
 .text-pink
 {
-    color: pink;
+    /*color: pink;*/
+    color: white;
 }
 
 .text-black
 {
-    color: #222;
+    /*color: #222;*/
+    color: black;
 }
 
 /* Table responsive */
@@ -74,7 +79,8 @@ strong
 .alert-sales
 {
     border-color: #ffdbe1;
-    background: linear-gradient(to right, transparent 0%, orchid 50%, transparent 80%);
+    /*background: linear-gradient(to right, transparent 0%, orchid 50%, transparent 80%);*/
+    background: linear-gradient(to right, transparent 0%, #DEB887 50%, transparent 80%);
     background-size: 200% 200%;
     animation: sales 3s ease infinite;
     font-weight: bold;
@@ -100,10 +106,10 @@ strong
 
 .shining
 {
-    background-image: radial-gradient(ellipse at center, rgb(64, 64, 64) 10%, #222 20%);
-    background-size: 200% 100%;
-    background-repeat: no-repeat;
-    animation: moveLight 10s infinite ease-in-out;
+    /*background-image: radial-gradient(ellipse at center, rgb(64, 64, 64) 10%, #222 20%);*/
+    /*background-size: 200% 100%;*/
+    /*background-repeat: no-repeat;*/
+    /*animation: moveLight 10s infinite ease-in-out;*/
 }
 
 h1
@@ -111,17 +117,20 @@ h1
     text-align:center;
     font-family: '../fonts/amazone-bt.ttf', sans-serif;
     font-weight: bold;
-    text-shadow: 2px 2px 5px #c073ac, -1px -1px 3px white;
+    /*text-shadow: 2px 2px 5px #c073ac, -1px -1px 3px white;*/
+    text-shadow: 2px 2px 5px #c0b7b8, -1px -1px 3px white;
 }
 
 h3
 {
-    color:pink;
+    /*color:pink;*/
+    color:black;
 }
 
 .belatika-link
 {
-    color: #993366;
+    /*color: #993366;*/
+    color: #5f3f27;
     font-weight: 500;
     font-style: italic;
 }
@@ -129,12 +138,14 @@ h3
 .belatika-link:hover
 {
     text-decoration: none;
-    color:#C073AC;
+    /*color:#C073AC;*/
+    color: #8e7151;
 }
 
 .belatika-light-link
 {
-    color: pink;
+    /*color: pink;*/
+    color: white;
     font-weight: 500;
     font-style: italic;
 }
@@ -142,13 +153,15 @@ h3
 .belatika-light-link:hover
 {
     text-decoration: none;
-    color:#C073AC;
+    /*color:#C073AC;*/
+    color: #bfbfbf;
 }
 
 .underline
 {
-    border-bottom: 1px solid pink;
-    border-radius: 0 0 10px 10px;
+    /*border-bottom: 1px solid pink;*/
+    /*border-bottom: 1px solid #DEB887;*/
+    /*border-radius: 0 0 10px 10px;*/
 }
 
 .form-error ul
@@ -186,12 +199,15 @@ img.belatika-logo
 }
 .belatika-menu a
 {
-    color: pink;
+    /* color: pink; */
+    color: black;
 }
 .navbar-toggler
 {
-    border-color: pink;
-    color: pink;
+    /*border-color: pink;*/
+    border-color: white;
+    /*color: pink;*/
+    color: white;
     position: absolute;
     top: -50px;
 }
@@ -208,13 +224,15 @@ img.belatika-logo
 
 .username
 {
-    color: pink;
+    /*color: pink;*/
+    color: white;
 }
 
 .notification-badge::after
 {
     display: block;
-    border: 1px solid pink;
+    /*border: 1px solid pink;*/
+    border: 1px solid white;
     background-color: #222;
     border-radius: 50%;
     width: 28px;
@@ -292,7 +310,8 @@ a.view-more:visited
 .price
 {
     font-weight: bold;
-    color:pink;
+    /*color:pink;*/
+    color:white;
     background-color:#222;
     padding: 3px;
     border-radius:5px;
@@ -324,32 +343,37 @@ a.view-more:visited
 }
 .card-item .card-header
 {
-    background-color:pink;
+    /*background-color:pink;*/
+    background-color: transparent;
     opacity: .8;
 }
 .card-item .card-body
 {
-    border: 5px pink solid;
+    /*border: 5px pink solid;*/
     opacity: .8;
-    color:white;
+    /*color:white;*/
+    color:black;
 }
 
 .card-item .card-footer
 {
-    background-color: pink;
+    /*background-color: pink;*/
+    background-color: transparent;
     opacity: .8;
 }
 .btn-belatika-dark
 {
     background-color: #222;
-    color:pink;
+    /*color:pink;*/
+    color:white;
     transition-property: all;
     transition-duration:.3s;
     border-width: 2px;
 }
 .btn-belatika-dark:hover
 {
-    background-color: pink;
+    /*background-color: pink;*/
+    background-color: white;
     color:#222;
     border: 2px black solid;
 }
@@ -373,20 +397,23 @@ a.view-more:visited
 }
 hr
 {
-    border-color: pink;
+    /*border-color: pink;*/
+    border-color: white;
     opacity: .3;
 }
 
 .alert-pink
 {
-    background-color: rgba(255, 192, 203, .3);
+    /*background-color: rgba(255, 192, 203, .3);*/
+    background-color: transparent;
     border:2px black solid;
     color:black;
 }
 .bloc-belatika
 {
     border: 2px black solid;
-    background-color: rgba(255, 192, 203, .3);
+    /*background-color: rgba(255, 192, 203, .3);*/
+    background-color: white;
 }
 .bloc-belatika h2
 {
@@ -446,13 +473,14 @@ hr
 .bloc-belatika-dark
 {
     background-color: #222;
-    border: 2px pink solid;
-    color: pink;
+    /*border: 2px pink solid;*/
+    /*color: pink;*/
+    color: white;
     padding-bottom: 15px;
 }
 .bloc-belatika-dark .btn-belatika-dark
 {
-    border-color: pink;
+    /*border-color: pink;*/
 }
 
 /* Pagination */
@@ -463,7 +491,8 @@ nav#pagination ul.pagination
 
 nav#pagination ul.pagination li.page-item .page-link
 {
-    color: pink;
+    /*color: pink;*/
+    color: white;
     background-image: linear-gradient( #222, #343A40);
     border-color: darkgrey;
 }
@@ -475,10 +504,13 @@ nav#pagination ul.pagination li.page-item .page-link:hover
 
 nav#pagination ul.pagination li.page-item.active .page-link
 {
-    border-color: orchid;
-    background-color: #c073ac;
+    /*border-color: orchid;*/
+    border-color: black;
+    /*background-color: #c073ac;*/
+    background-color: white;
     background-image: none;
-    color: #222;
+    /*color: #222;*/
+    color: black;
     font-weight: bold;
 }
 
@@ -568,7 +600,8 @@ nav#pagination ul.pagination li.page-item.active .page-link
 
     .menu-user
     {
-        background-color: rgba(255, 192, 203, .5);
+        /*background-color: rgba(255, 192, 203, .5);*/
+        background-color: rgba(255, 255, 255, .5);
         border-radius: .5rem;
         margin-right: 8px;
         border: solid 1px #CCC;
@@ -587,7 +620,8 @@ nav#pagination ul.pagination li.page-item.active .page-link
     .menu-user:hover,
     .menu-cart i:hover
     {
-        background-color: pink;
+        /*background-color: pink;*/
+        background-color: white;
     }
     .menu-cart
     {
@@ -598,7 +632,8 @@ nav#pagination ul.pagination li.page-item.active .page-link
     {
         padding: 12px;
         color: #222;
-        background-color: rgba(255, 192, 203, .5);
+        /*background-color: rgba(255, 192, 203, .5);*/
+        background-color: rgba(255, 255, 255, .5);
         border-radius: .5rem 0 0 .5rem;
         border: solid 1px #CCC;
         transition-property: background-color;
@@ -623,12 +658,14 @@ nav#pagination ul.pagination li.page-item.active .page-link
     .menu-cart .cart-content:hover,
     .cart-content:hover > a
     {
-        background-color: rgba(255, 192, 203, .5);
+        /*background-color: rgba(255, 192, 203, .5);*/
+        background-color: rgba(255, 255, 255, .5);
         color: #222;
     }
     .cart-remove
     {
-        color: pink;
+        /*color: pink;*/
+        color: white;
         padding: 4px 6px;
         border-radius: 50%;
     }
@@ -654,7 +691,8 @@ nav#pagination ul.pagination li.page-item.active .page-link
     {
         position: absolute;
         border-radius: 0.5rem;
-        border: 1px solid pink;
+        /*border: 1px solid pink;*/
+        border: 1px solid white;
         margin: 0;
         padding: 0;
         top: 40px;
