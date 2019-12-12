@@ -66,18 +66,21 @@
                 {% set pos = 0 %}
                 {% for image in form.images %}
                     <div class="image-thumb" id="jsPreview{{ pos }}">
+                        {% if image.vars.value.id is defined %}
                         <div class="image-remove" id="jsRemove{{ pos }}">
                             <button type="button" class="btn btn-danger" onclick="removeFile('{{ path('app_admin_removeitemimage', {id : image.vars.value.id}) }}', {{ pos }})"><i class="fa fa-times" aria-hidden="true"></i></button>
                         </div>
                         <img src="{{ asset(image.vars.value.webPath|imagine_filter('thumb')) }}" alt="{{ image.vars.value.alt }}">
                         <div class="sr-only">{{ form_widget(image) }}</div>
+                        {% endif %}
                     </div>
                     {% set pos = pos + 1 %}
                 {% endfor %}
             </div>
 
         </div>
-        {{ form_end(form) }}
+        {{ form_row(form.Enregistrer) }}
+        <div class="sr-only">{{ form_end(form) }}</div>
     </div>
 {% endblock %}
 {% block javascripts %}
@@ -90,7 +93,7 @@
                     if (response.success) {
                         $('#jsPreview'+fileIndex).remove();
                     } else {
-                        console.error(response.errorMessage);
+                        alert(response.errorMessage);
                     }
                 }
             });

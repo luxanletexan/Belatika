@@ -89,7 +89,7 @@ class AdminController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
-            $this->addFlash('success', 'Nouvel article créé');
+            $this->addFlash('success', 'Article modifié');
         }
 
         return $this->render('admin/addItem.html.twig', ['form' => $form->createView(), 'images' => $item->getImages()]);
