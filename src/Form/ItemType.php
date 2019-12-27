@@ -6,7 +6,6 @@ use App\Entity\Category;
 use App\Entity\Item;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -44,18 +43,6 @@ class ItemType extends AbstractType
             ])
             ->add('Enregistrer', SubmitType::class, ['attr' => ['class' => 'btn btn-belatika-dark float-right']])
         ;
-        /*
-        $builder->get('images')->addModelTransformer(new CallbackTransformer(
-            function($imagesToForm) {
-                dump($imagesToForm);
-                return null;
-            },
-            function ($formToArray) {
-                dump($formToArray);
-                return null;
-            }
-        ));
-        */
     }
 
     public function configureOptions(OptionsResolver $resolver)
