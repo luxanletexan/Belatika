@@ -1,0 +1,22 @@
+<header class="btheader">
+    {{ include(shop_settings.template ~ '/modules/mainnav.html.twig') }}
+    <div class="btheader__logo">
+        <img src="{{ asset('img/resources/belatika_logo.png') }}" alt="Logo Belatika">
+    </div>
+    <div class="btheader__title">
+        <h1>Bijoux</h1>
+    </div>
+    <div class="btheader__reviews">
+        <div class="btheader__reviews__sales">123 ventes</div>
+        <div class="btheader__reviews__stars">
+            <a href="#">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <i class="far fa-star"></i>
+                <span class="btheader__reviews__stars--number">(54)</span>
+            </a>
+        </div>
+    </div>
+</header>

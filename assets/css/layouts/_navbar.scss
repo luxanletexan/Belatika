@@ -1,0 +1,63 @@
+.navbar {
+  @include media-breakpoint-up(lg) {
+    display: grid;
+    padding: 0;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+  &__item {
+    font-size: 1.5rem;
+    padding: 4px 12px;
+    &:focus {
+      outline: none;
+    }
+    &--search {
+      @include media-breakpoint-up(lg) {
+        grid-column-start: 5;
+      }
+    }
+  }
+  a {
+    color: black;
+  }
+  &-collapse {
+    &-absolute {
+      position: absolute;
+      background-color: white;
+      width: 100%;
+      top: 100%;
+      left: 0;
+      @include media-breakpoint-up(lg) {
+        position: static;
+        background-color: inherit;
+        width: auto;
+        top: auto;
+        left: auto;
+        grid-row-start: 2;
+        grid-column-start: 1;
+        grid-column-end: 9;
+      }
+    }
+  }
+  //@include media-breakpoint-up(sm) {
+  //  background-color: blue;
+  //}
+  //@include media-breakpoint-up(md) {
+  //  background-color: green;
+  //}
+  //@include media-breakpoint-up(lg) {
+  //  background-color: red;
+  //}
+  //@include media-breakpoint-up(xl) {
+  //  background-color: $gold;
+  //}
+}
+
+.nav-item a::after {
+  transform: rotate(-90deg);
+  transition: transform .2s;
+}
+
+.nav-item.show a::after {
+  transform: rotate(0);
+}

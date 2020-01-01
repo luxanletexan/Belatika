@@ -1,2 +1,6 @@
 parameters:
-    shop_settings: { sales: { start: 1562796000, end: 1567202400 } }
+    shop_settings:
+        template: light
+        sales:
+            start: 1562796000
+            end: 1567202400

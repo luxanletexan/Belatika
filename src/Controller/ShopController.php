@@ -20,7 +20,7 @@ class ShopController extends AbstractController
     {
         $items = $this->getDoctrine()->getRepository(Item::class)->findAllWithImages()->setCurrentPage($page);
 
-        return $this->render('shop/index.html.twig', ['items' => $items]);
+        return $this->render($this->getTemplate('shop/index.html.twig'), ['items' => $items]);
     }
 
     /**

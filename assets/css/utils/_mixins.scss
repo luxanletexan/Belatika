@@ -1,0 +1,13 @@
+@mixin title-font {
+  font-family: 'Marck Script', cursive;
+}
+
+@mixin text-font {
+  font-family: 'PT Sans', sans-serif;
+}
+
+@mixin media-breakpoint-up($size) {
+  @media (min-width: map_get($breakpoints, $size)) {
+    @content;
+  }
+}

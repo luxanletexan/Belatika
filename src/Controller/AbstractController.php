@@ -64,7 +64,17 @@ abstract class AbstractController extends Controller
     {
         $shopSettings = $this->getParameter('shop_settings');
 
-        return $shopSettings['sales']['start'] < time() && time() < $shopSettings['sales']['end'];
+        return
+            isset($shopSettings['sales']['start']) &&
+            isset($shopSettings['sales']['end']) &&
+            $shopSettings['sales']['start'] < time() && time() < $shopSettings['sales']['end'];
+    }
+
+    protected function getTemplate($path)
+    {
+        $shopSettings = $this->getParameter('shop_settings');
+
+        return isset($shopSettings['template']) ? $shopSettings['template'].'/'.$path : $path;
     }
 
     protected function checkGift(?Gift $gift)

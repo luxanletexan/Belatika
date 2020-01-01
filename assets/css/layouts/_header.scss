@@ -1,0 +1,94 @@
+.btheader {
+  display: grid;
+  @include media-breakpoint-up(sm) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include media-breakpoint-up(lg) {
+    grid-template-columns: 1fr 2fr 2fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  &__nav {
+    @include media-breakpoint-up(sm) {
+      grid-column-start: 1;
+      grid-column-end: 4;
+    }
+    @include media-breakpoint-up(lg) {
+      grid-row-start: 1;
+      grid-row-end: 3;
+      grid-column-start: 2;
+      grid-column-end: 4;
+    }
+  }
+  &__logo {
+    width: 33%;
+    margin: 0 auto;
+    padding: 8px 0;
+    text-align: center;
+    @include media-breakpoint-up(sm) {
+      margin: initial;
+      width: auto;
+    }
+    @include media-breakpoint-up(lg) {
+      grid-row-start: 1;
+      grid-row-end: 3;
+    }
+    img {
+      width: 100%;
+      @include media-breakpoint-up(sm) {
+        width: auto;
+        max-height: 150px;
+      }
+    }
+  }
+  &__title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include media-breakpoint-up(lg) {
+      grid-row-start: 3;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-content: flex-start;
+      padding: 0 1.5rem;
+    }
+    h1 {
+      margin: 0;
+      font-weight: normal;
+      @include title-font;
+      font-size: 1.5rem;
+      @include media-breakpoint-up(sm) {
+        font-size: 2.5rem;
+      }
+    }
+  }
+  &__reviews {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @include media-breakpoint-up(lg) {
+      grid-row-start: 1;
+      grid-column-start: 2;
+      grid-column-end: 3;
+    }
+    &__sales {
+      text-align: center;
+      font-size: .6rem;
+      margin: 4px 0;
+    }
+    &__stars {
+      & a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $gold;
+        text-decoration: none;
+      }
+      &--number {
+        color: black;
+        margin-left: 4px;
+        font-size: .75rem;
+      }
+    }
+  }
+}
