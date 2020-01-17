@@ -53,6 +53,7 @@ class AppFixtures extends Fixture
                 ->setDescription($lipsum->sentences(random_int(1, 5)))
                 ->setPrice(random_int(10, 100)/2) //Prices 5€ to 50€ step 0.5€
                 ->setQuantity(random_int(1, 10))
+                ->setHighlighted(random_int(1, 100) >= 95)
                 ->setCreatedAt($date)
                 ->setDiscount(random_int(0, 5)*10) //Sales set from 0% to 50% step 10%
                 ->setCategory($categories[array_rand($categories)]);

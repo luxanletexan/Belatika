@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
 <head>
-    <title>{% block title %}{% endblock %} - Belatika</title>
+    <title>{% block meta_title %}{% endblock %} - Belatika</title>
     <link rel="icon" href="{{ asset('favicon.ico') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="btcontainer">
-    {{ include(shop_settings.template ~ '/modules/header.html.twig') }}
+    {% include shop_settings.template ~ '/modules/header.html.twig' with {title: block('title')} %}
     {{ flashAlert() }}
     {% block content %}{% endblock %}
 {#        {{ include('modules/footer.html.twig') }}#}

@@ -21,6 +21,7 @@
   }
   &__logo {
     width: 33%;
+    z-index: 10;
     margin: 0 auto;
     padding: 8px 0;
     text-align: center;
@@ -52,6 +53,7 @@
       padding: 0 1.5rem;
     }
     h1 {
+      z-index: 10;
       margin: 0;
       font-weight: normal;
       @include title-font;

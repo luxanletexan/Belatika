@@ -18,9 +18,12 @@ class ShopController extends AbstractController
      */
     public function index($page):Response
     {
-        $items = $this->getDoctrine()->getRepository(Item::class)->findAllWithImages()->setCurrentPage($page);
+        $itemRepository = $this->getDoctrine()->getRepository(Item::class);
 
-        return $this->render($this->getTemplate('shop/index.html.twig'), ['items' => $items]);
+        $sliderItems = $itemRepository->findAllWithImages(['highlighted' => true], false);
+        $items = $itemRepository->findAllWithImages(['highlighted' => false])->setCurrentPage($page);
+
+        return $this->render($this->getTemplate('shop/index.html.twig'), ['sliderItems' => $sliderItems, 'items' => $items]);
     }
 
     /**

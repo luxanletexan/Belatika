@@ -21,7 +21,7 @@ class ItemRepository extends AbstractRepository
         parent::__construct($registry, Item::class);
     }
 
-    public function findAllWithImages():Pagerfanta
+    public function findAllWithImages($filters = [], $paginate = true)
     {
         $qb = $this->createQueryBuilder('it')
             ->innerJoin('it.images', 'im')
@@ -29,7 +29,15 @@ class ItemRepository extends AbstractRepository
             ->innerJoin('it.category', 'c')
             ->addSelect('c')
         ->orderBy('it.created_at', 'DESC');
-        return $this->paginate($qb);
+        foreach ($filters as $field => $value) {
+            $qb->where('it.'.$field.' = :'.$field)->setParameter($field, $value);
+        }
+
+        if ($paginate) {
+            return $this->paginate($qb);
+        } else {
+            return $qb->getQuery()->getResult();
+        }
     }
 
     public function findOneWithImages(ParameterBag $parameterBag):Item

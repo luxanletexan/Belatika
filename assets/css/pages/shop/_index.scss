@@ -1,0 +1,117 @@
+.slider {
+  position: relative;
+  overflow: hidden;
+  background-image: url("./banner_opacity_60.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: -20px 0;
+  padding: 60px 10px;
+  @include media-breakpoint-up(xl) {
+    padding: 60px 40px;
+  }
+  &::after,
+  &::before {
+    content: '';
+    left: -50%;
+    position: absolute;
+    display: block;
+    height: 50%;
+    transform-origin: center top;
+    transform: skewY(0);
+    border-radius: 50%;
+    width: 200%;
+    background-color: white;
+    animation: shape-divider 2s cubic-bezier(.5,0,.5,1) infinite alternate;
+    z-index: 9;
+  }
+  &::after {
+    top: -40%;
+  }
+  &::before {
+    bottom: -40%;
+  }
+  &__item {
+    margin: 0 50px;
+    @include media-breakpoint-up(md) {
+      margin: 0 15px;
+    }
+    border-radius: 2.5rem;
+    border: 2px solid $gold;
+    overflow: hidden;
+    & img {
+      transition: transform .2s .1s ease-in-out;
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+@keyframes shape-divider {
+  from {
+    transform: skewY(-1deg);
+  }
+  to {
+    transform: skewY(1deg);
+  }
+}
+
+.shop-subcategories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 30px;
+  @include media-breakpoint-up(lg) {
+    margin-top: 100px;
+  }
+}
+
+.category-preview {
+  width: 48%;
+  @include media-breakpoint-up(lg) {
+    width: 24%;
+  }
+  position: relative;
+  border-radius: 36px;
+  overflow: hidden;
+  &__image {
+    width: 100%;
+    transition: transform .2s .1s ease-in-out;
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  &::after {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    display: block;
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(white, transparent 20%, transparent 80%, white);
+    z-index: 2;
+  }
+  &__figcaption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    padding: 0 12px;
+    font-size: 2rem;
+    text-align: center;
+    margin: 16px 0;
+    color: black;
+    @include title-font;
+    @include text-outline(white);
+  }
+
+  hr {
+    margin-bottom: 200px;
+    display: block;
+    height: 100px;
+    background-color: red;
+  }
+}

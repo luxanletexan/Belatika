@@ -22,6 +22,7 @@ class FunctionExtension extends AbstractExtension
         return [
             new TwigFunction('categories', [$this, 'getCategories']),
             new TwigFunction('env', [$this, 'env']),
+            new TwigFunction('randomImage', [$this, 'randomImage']),
         ];
     }
 
@@ -33,5 +34,15 @@ class FunctionExtension extends AbstractExtension
     public function env(string $key):string
     {
         return getenv($key);
+    }
+
+    public function randomImage()
+    {
+        $imageDir = __DIR__.'/../../../public/dev/';
+        $images = scandir($imageDir);
+        unset($images[0]);
+        unset($images[1]);
+        $random = array_rand($images);
+        return 'dev/'.$images[$random];
     }
 }

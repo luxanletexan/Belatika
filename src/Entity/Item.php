@@ -79,6 +79,11 @@ class Item
      */
     private $discount;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $highlighted = false;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -233,5 +238,17 @@ class Item
     public function getDiscountPrice()
     {
         return $this->price * (100 - $this->discount)/100;
+    }
+
+    public function getHighlighted(): ?bool
+    {
+        return $this->highlighted;
+    }
+
+    public function setHighlighted(bool $highlighted): self
+    {
+        $this->highlighted = $highlighted;
+
+        return $this;
     }
 }
