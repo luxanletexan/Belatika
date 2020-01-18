@@ -7,36 +7,57 @@
 {% endblock %}
 {% block title %}{{ 'Bijoux'|gTrans }}{% endblock %}
 {% block content %}
-    <section id="carousel" class="slider">
-        {% for sliderItem in sliderItems %}
-{#            <figure class="slider__item"><a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}"><img class="img-responsive" src="{{ sliderItem.images|first.webPath|imagine_filter('slide') }}" alt="{{ sliderItem.images|first.alt }}"></a></figure>#}
-            <figure class="slider__item"><a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}"><img class="img-responsive" src="{{ randomImage()|imagine_filter('square') }}" alt="{{ sliderItem.images|first.alt }}"></a></figure>
-        {% endfor %}
+    <section>
+        <h2>Les nouveautés</h2>
+        <div id="carousel" class="slider">
+            {% for sliderItem in sliderItems %}
+    {#            <figure class="slider__item"><a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}"><img class="img-responsive" src="{{ sliderItem.images|first.webPath|imagine_filter('slide') }}" alt="{{ sliderItem.images|first.alt }}"></a></figure>#}
+                <figure class="slider__item"><a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}"><img class="img-responsive" src="{{ randomImage()|imagine_filter('square') }}" alt="{{ sliderItem.images|first.alt }}"></a></figure>
+            {% endfor %}
+        </div>
     </section>
 
-    <section class="shop-subcategories">
-        <figure class="category-preview">
-            <figcaption class="category-preview__figcaption">Bijoux en argent 925</figcaption>
-            <a href="#"><img class="category-preview__image" src="{{ randomImage()|imagine_filter('large') }}" alt="Bijoux en argent 925"></a>
-        </figure>
-        <figure class="category-preview">
-            <figcaption class="category-preview__figcaption">Bijoux en gold filled</figcaption>
-            <a href="#"><img class="category-preview__image" src="{{ randomImage()|imagine_filter('large') }}" alt="Bijoux en gold filled"></a>
-        </figure>
-        <figure class="category-preview">
-            <figcaption class="category-preview__figcaption">Bijoux en acier inox</figcaption>
-            <a href="#"><img class="category-preview__image" src="{{ randomImage()|imagine_filter('large') }}" alt="Bijoux en acier inox"></a>
-        </figure>
-        <figure class="category-preview">
-            <figcaption class="category-preview__figcaption">Bijoux en métal et laiton</figcaption>
-            <a href="#"><img class="category-preview__image" src="{{ randomImage()|imagine_filter('large') }}" alt="Bijoux en métal et laiton"></a>
-        </figure>
+    <hr>
+
+    <section>
+        <h2 class="hidden">Les catégories</h2>
+        <div class="shop-subcategories">
+            <figure class="category-preview">
+                <figcaption class="category-preview__figcaption">Bijoux en argent 925</figcaption>
+                <a href="#"><img class="category-preview__image" src="{{ asset('img/resources/categories/argent.jpeg')|imagine_filter('large') }}" alt="Bijoux en argent 925"></a>
+            </figure>
+            <figure class="category-preview">
+                <figcaption class="category-preview__figcaption">Bijoux en gold filled</figcaption>
+                <a href="#"><img class="category-preview__image" src="{{ asset('img/resources/categories/gold-filled.jpeg')|imagine_filter('large') }}" alt="Bijoux en gold filled"></a>
+            </figure>
+            <figure class="category-preview">
+                <figcaption class="category-preview__figcaption">Bijoux en acier</figcaption>
+                <a href="#"><img class="category-preview__image" src="{{ asset('img/resources/categories/acier.jpeg')|imagine_filter('large') }}" alt="Bijoux en acier inox"></a>
+            </figure>
+            <figure class="category-preview">
+                <figcaption class="category-preview__figcaption">Bijoux en métal et laiton</figcaption>
+                <a href="#"><img class="category-preview__image" src="{{ asset('img/resources/categories/laiton-metal.jpeg')|imagine_filter('large') }}" alt="Bijoux en métal et laiton"></a>
+            </figure>
+        </div>
     </section>
 
     <hr>
 
     <section class="blog">
-
+        <h2>Dernier article du blog</h2>
+        <div id="blog-bloc-1" class="stylusBloc stylusBloc--mediatext">
+            <div class="stylusBloc__content">
+                <div class="stylusBloc--mediatext__media">
+                    <div class="embed-responsive embed-responsive-4by3">
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/daeKPZ-6ah0"></iframe>
+                    </div>
+                </div>
+                <div class="stylusBloc--mediatext__text">
+                    <h3>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</h3>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
 {% endblock %}

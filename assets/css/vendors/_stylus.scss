@@ -1,0 +1,12 @@
+.stylusBloc {
+  &__content {
+    display: flex;
+    justify-content: space-between;
+  }
+  &--mediatext {
+    &__text,
+    &__media {
+      flex: 1;
+    }
+  }
+}
