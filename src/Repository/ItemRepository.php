@@ -58,12 +58,14 @@ class ItemRepository extends AbstractRepository
     public function findCategoryWithImages(Category $category):Pagerfanta
     {
         $qb = $this->createQueryBuilder('it')
+            ->where('it.quantity > 0')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
             ->innerJoin('it.category', 'c')
             ->addSelect('c')
-            ->where('it.category = :category')
-            ->setParameter('category', $category);
+            ->andWhere('it.category = :category')
+            ->setParameter('category', $category)
+            ->orderBy('it.created_at', 'DESC');
 
         return $this->paginate($qb);
     }

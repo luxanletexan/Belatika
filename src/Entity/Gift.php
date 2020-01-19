@@ -11,6 +11,8 @@ use \DateTimeInterface;
  */
 class Gift
 {
+    use Migration;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

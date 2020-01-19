@@ -3,7 +3,7 @@
 namespace App\Service;
 
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -21,7 +21,7 @@ class GoogleTranslator
      */
     private $request;
     /**
-     * @var ObjectManager
+     * @var EntityManager
      */
     private $manager;
     /**
@@ -29,7 +29,7 @@ class GoogleTranslator
      */
     private $projectDir;
 
-    public function __construct(GoogleTranslate $translator, RequestStack $request, ObjectManager $manager, $projectDir)
+    public function __construct(GoogleTranslate $translator, RequestStack $request, EntityManager $manager, $projectDir)
     {
         $this->translator = $translator;
         $this->request = $request;
@@ -80,6 +80,9 @@ class GoogleTranslator
      */
     public function gTransDB($text, $force = false):string
     {
+        if ($text === null) {
+            return '';
+        }
         $request = $this->request->getCurrentRequest();
         if(null === $request) { return $text; }
         $language = $request->getLocale();

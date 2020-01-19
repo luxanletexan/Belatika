@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CustomerOrderLine
 {
+    use Migration;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

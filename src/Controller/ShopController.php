@@ -5,12 +5,32 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Item;
+use App\Service\BelatikaMigrator;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
 class ShopController extends AbstractController
 {
+    /**
+     * @Route("/migrate", name="app_shop_migrate")
+     * @param BelatikaMigrator $migrator
+     * @return RedirectResponse
+     */
+    public function migrate(BelatikaMigrator $migrator)
+    {
+        $migrator->clearAll();
+        $migrator->migrateCategories();
+        $migrator->migrateItems();
+        $migrator->migrateAddresses();
+        $migrator->migrateUsers();
+        $migrator->migrateGift();
+        $migrator->migrateOrders();
+
+        return $this->redirectToRoute('app_shop_index');
+    }
+
     /**
      * @Route("/{page<\d+>?1}", name="app_shop_index")
      * @param $page integer

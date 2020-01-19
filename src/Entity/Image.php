@@ -12,6 +12,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Image
 {
+    use Migration;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

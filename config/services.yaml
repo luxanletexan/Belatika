@@ -61,6 +61,10 @@ services:
             $manager: '@doctrine.orm.entity_manager'
             $projectDir: '%kernel.project_dir%'
 
+    App\Service\BelatikaMigrator:
+        arguments:
+            $manager: '@doctrine.orm.entity_manager'
+
     item_converter:
         class: App\Request\ParamConverter\ItemConverter
         arguments:

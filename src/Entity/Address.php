@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Address
 {
+    use Migration;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

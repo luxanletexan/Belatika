@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CustomerOrder
 {
+    use Migration;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

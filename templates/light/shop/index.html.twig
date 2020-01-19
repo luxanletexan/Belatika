@@ -11,8 +11,7 @@
         <h2>Les nouveautés</h2>
         <div id="carousel" class="slider">
             {% for sliderItem in sliderItems %}
-    {#            <figure class="slider__item"><a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}"><img class="img-responsive" src="{{ sliderItem.images|first.webPath|imagine_filter('slide') }}" alt="{{ sliderItem.images|first.alt }}"></a></figure>#}
-                <figure class="slider__item"><a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}"><img class="img-responsive" src="{{ randomImage()|imagine_filter('square') }}" alt="{{ sliderItem.images|first.alt }}"></a></figure>
+                <figure class="slider__item"><a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}"><img class="img-responsive" src="{{ sliderItem.images|first.webPath|imagine_filter('slide') }}" alt="{{ sliderItem.images|first.alt }}"></a></figure>
             {% endfor %}
         </div>
     </section>
