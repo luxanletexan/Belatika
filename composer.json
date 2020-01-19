@@ -38,7 +38,8 @@
         "symfony/yaml": "^3.4",
         "twig/extensions": "^1.5",
         "white-october/pagerfanta-bundle": "^1.2",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",

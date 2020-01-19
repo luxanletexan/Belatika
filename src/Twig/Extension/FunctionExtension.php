@@ -4,6 +4,9 @@ namespace App\Twig\Extension;
 
 
 use App\Entity\Category;
+use App\Entity\CustomerOrder;
+use App\Entity\CustomerOrderLine;
+use App\Entity\EtsyFeedback;
 use Doctrine\Common\Persistence\ObjectManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -23,12 +26,33 @@ class FunctionExtension extends AbstractExtension
             new TwigFunction('categories', [$this, 'getCategories']),
             new TwigFunction('env', [$this, 'env']),
             new TwigFunction('randomImage', [$this, 'randomImage']),
+            new TwigFunction('getSalesCount', [$this, 'getSalesCount']),
+            new TwigFunction('getRatings', [$this, 'getRatings']),
         ];
     }
 
     public function getCategories()
     {
         return $this->manager->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
+    }
+
+    public function getSalesCount()
+    {
+        return $this->manager->getRepository(CustomerOrderLine::class)->count([]);
+    }
+
+    public function getRatings()
+    {
+        $ratings = [];
+        $customerOrders = $this->manager->getRepository(CustomerOrder::class)->getRatings();
+        foreach ($customerOrders as $customerOrder) {
+            $ratings[] = $customerOrder->getRating();
+        }
+        $etsyFeedbacks = $this->manager->getRepository(EtsyFeedback::class)->findAll();
+        foreach ($etsyFeedbacks as $feedback) {
+            $ratings[] = 3 + 2 * $feedback->getValue();
+        }
+        return $ratings;
     }
 
     public function env(string $key):string

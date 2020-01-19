@@ -1,3 +1,11 @@
+{% set salesCount = getSalesCount() %}
+{% set ratings = getRatings() %}
+{% set rate = 0 %}
+{% for rating in ratings %}
+    {% set rate = rate + rating %}
+{% endfor %}
+{% set rate = rate / ratings|length %}
+
 <header class="btheader">
     {{ include(shop_settings.template ~ '/modules/mainnav.html.twig') }}
     <div class="btheader__logo">
@@ -7,15 +15,20 @@
         <h1>{{ title }}</h1>
     </div>
     <div class="btheader__reviews">
-        <div class="btheader__reviews__sales">123 ventes</div>
+        <div class="btheader__reviews__sales">{{ salesCount }} ventes</div>
         <div class="btheader__reviews__stars">
             <a href="#">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <span class="btheader__reviews__stars--number">(54)</span>
+                {% set stars = 5 %}
+                {% for i in range(1, stars) %}
+                    {% if rate >= i - 0.25 %}
+                        <i class="fas fa-star"></i>
+                    {% elseif rate >= i - 0.75 %}
+                        <i class="fas fa-star-half-alt"></i>
+                    {% else %}
+                        <i class="far fa-star"></i>
+                    {% endif %}
+                {% endfor %}
+                <span class="btheader__reviews__stars--number">({{ ratings|length }})</span>
             </a>
         </div>
     </div>

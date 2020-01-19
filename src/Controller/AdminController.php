@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\EtsyFeedback;
 use App\Entity\Image;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Form\SettingsType;
+use App\Service\API\Etsy;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -190,5 +192,34 @@ class AdminController extends AbstractController
             $s = count($items) > 1 ? 's' : '';
             $this->addFlash('success', count($items)."article$s supprimé$s");
         }
+    }
+
+    /**
+     * @Route("/etsy/get-feedbacks")
+     */
+    public function etsyGetFeedbacks()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository(EtsyFeedback::class);
+        $etsy = new Etsy(getenv('ETSY_KEY'), getenv('ETSY_USER_ID'));
+        $feedbacks = $etsy->getFeedbacks();
+        $hasNewFeedbacks = false;
+        foreach ($feedbacks as $feedback) {
+            $etsyFeedback = $repository->findOneBy(['feedback_id' => $feedback->feedback_id]);
+            if ($etsyFeedback === null) {
+                $etsyFeedback = new EtsyFeedback();
+                $etsyFeedback
+                    ->setMessage($feedback->message)
+                    ->setValue($feedback->value)
+                    ->setFeedbackId($feedback->feedback_id)
+                    ->setCreationTsz($feedback->creation_tsz);
+                $em->persist($etsyFeedback);
+                $hasNewFeedbacks = true;
+            }
+        }
+        if ($hasNewFeedbacks) {
+            $em->flush();
+        }
+        die;
     }
 }

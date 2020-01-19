@@ -57,4 +57,15 @@ class CustomerOrderRepository extends AbstractRepository
             return null;
         }
     }
+
+    /**
+     * @return CustomerOrder[]
+     */
+    public function getRatings(): array
+    {
+        $qb = $this
+            ->createQueryBuilder('co')
+            ->where('co.rating IS NOT NULL');
+        return $qb->getQuery()->getResult();
+    }
 }
