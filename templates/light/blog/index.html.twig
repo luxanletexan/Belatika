@@ -1,0 +1,43 @@
+{% extends shop_settings.template ~ "/layout.html.twig" %}
+{% block meta_title %}{{ 'Blog'|gTrans }}{% endblock %}
+{% block head %}
+    <meta name="description" content="{{ ""|gTransDB }}">
+    <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/assets/css/suneditor.css" rel="stylesheet"> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/assets/css/suneditor-contents.css" rel="stylesheet"> -->
+    <script src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js"></script>
+    <!-- languages (Basic Language: English/en) -->
+    <script src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/fr.js"></script>
+{% endblock %}
+{% block title %}{{ 'Blog'|gTrans }}{% endblock %}
+{% block content %}
+    <form  style="margin: auto; width: 80%"  action="">
+        <label for="sample">Contenu</label>
+        <textarea id="sample" name="sample"></textarea>
+    </form>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            SUNEDITOR.create((document.getElementById('sample') || 'sample'),{
+                lang: SUNEDITOR_LANG['fr'],
+                width: '100%',
+                minHeight: '500px',
+                buttonList: [
+                    ['undo', 'redo'],
+                    ['font', 'fontSize', 'formatBlock'],
+                    ['bold', 'underline', 'italic', 'strike', 'fontColor', 'hiliteColor', 'removeFormat'],
+                    ['outdent', 'indent', 'align'],
+                    ['list', 'link', 'image', 'video'],
+                    ['fullScreen', 'showBlocks', 'codeView', 'preview']
+                ],
+                imageSizeOnlyPercentage: true,
+                imageRotation: false,
+                imageUploadHeader: {
+                    "Access-Control-Allow-Origin": "*"
+                },
+                imageUploadUrl: 'https://localbelatika.com/blog/upload'
+            });
+        });
+    </script>
+{% endblock %}

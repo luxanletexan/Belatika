@@ -25,7 +25,7 @@ class Image
     /**
      * @var Item
      * @ORM\ManyToOne(targetEntity="App\Entity\Item", inversedBy="images")
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private $item;
 

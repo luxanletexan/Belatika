@@ -61,6 +61,11 @@ services:
             $manager: '@doctrine.orm.entity_manager'
             $projectDir: '%kernel.project_dir%'
 
+    App\Service\ImageLoader:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+            $requestStack: '@request_stack'
+
     App\Service\BelatikaMigrator:
         arguments:
             $manager: '@doctrine.orm.entity_manager'
