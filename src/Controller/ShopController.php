@@ -27,6 +27,8 @@ class ShopController extends AbstractController
         $migrator->migrateUsers();
         $migrator->migrateGift();
         $migrator->migrateOrders();
+        $migrator->migrateBlog();
+        $migrator->migrateComments();
 
         return $this->redirectToRoute('app_shop_index');
     }

@@ -5,6 +5,8 @@ namespace App\Service;
 
 
 use App\Entity\Address;
+use App\Entity\BlogArticle;
+use App\Entity\BlogComment;
 use App\Entity\Category;
 use App\Entity\CustomerOrder;
 use App\Entity\CustomerOrderLine;
@@ -33,12 +35,29 @@ class BelatikaMigrator
      */
     private $newDb;
     private $addressIds = [];
+    private $emojis = [];
 
     public function __construct(EntityManager $manager)
     {
         $this->manager = $manager;
         $this->oldDb = $this->getMysqlConnexion('belatika-old');
         $this->newDb = $this->getMysqlConnexion('belatika');
+        $this->emojis = [
+            ':smiley:' => '😃',
+            ':smile:' => '😄',
+            ':joy:' => '😂',
+            ':rofl:' => '🤣',
+            ':innocent:' => '😇',
+            ':wink:' => '😉',
+            ':heart_eyes:' => '😍',
+            ':kissing_heart:' => '😘',
+            ':star_struck:' => '🤩',
+            ':disappointed:' => '😞',
+            ':worried:' => '😟',
+            ':cry:' => '😢',
+            ':scream:' => '😱',
+            ':sailboat:' => '⛵',
+        ];
     }
 
     private function getMysqlConnexion($database)
@@ -202,7 +221,7 @@ class BelatikaMigrator
             $this->addressIds[] = $address['id'];
         }
 
-        $sql = "
+        $sql = '
         SELECT
             c.id commande_id,
             c.user_id,
@@ -223,7 +242,7 @@ class BelatikaMigrator
             q.sales
         FROM commande c
         INNER JOIN quantity q on c.id = q.commande_id
-        ";
+        ';
         $query = $this->oldDb->query($sql);
         $orders = [];
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -304,6 +323,68 @@ class BelatikaMigrator
         $this->manager->flush();
     }
 
+    public function migrateBlog()
+    {
+        $sql = '
+            SELECT
+            b.id blog_id,
+            b.date,
+            b.title,
+            b.content,
+            b.published,
+            i.id image_id,
+            i.alt,
+            i.ext
+            FROM blog b
+            INNER JOIN image i ON b.image_id = i.id
+            ';
+        $query = $this->oldDb->query($sql);
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $content = str_replace("\r\n", '<br>',$row['content']);
+            foreach ($this->emojis as $shortname => $emoji) {
+                $content = str_replace($shortname, $emoji, $content);
+            }
+            $imageUrl = 'https://belatika.com/uploads/img/'.$row['image_id'].'.'.$row['ext'];
+            $content = '<div class="se-component se-image-container __se__float-left" contenteditable="false"><figure style="margin: auto;"><img src="'.$imageUrl.'" alt="'.$row['alt'].'" data-rotate="" data-proportion="true" data-rotatex="" data-rotatey="" data-size="," data-align="left" data-percentage="auto,auto" data-index="0" data-file-name="'.$row['alt'].'" data-file-size="35427" origin-size="400,400" data-origin="," style=""></figure></div><p>'.$content.'</p>';
+
+            $blogArticle = new BlogArticle();
+            $blogArticle
+                ->setId($row['blog_id'])
+                ->setPostedAt(DateTime::createFromFormat('Y-m-d H:i:s', $row['date']))
+                ->setTitle($row['title'])
+                ->setContent($content)
+                ->setIsPublished($row['published'] === '1');
+            $this->persist($blogArticle);
+        }
+        $query->closeCursor();
+        $this->manager->flush();
+    }
+
+    public function migrateComments()
+    {
+        $comments = $this->sqlRows('comment');
+        foreach ($comments as $comment) {
+            if ($comment['blog_id'] === null) {
+                continue;
+            }
+            $content = str_replace("\r\n", '<br>',$comment['content']);
+            foreach ($this->emojis as $shortname => $emoji) {
+                $content = str_replace($shortname, $emoji, $content);
+            }
+            $user = $this->manager->getRepository(User::class)->find($comment['user_id']);
+            $blogArticle = $this->manager->getRepository(BlogArticle::class)->find($comment['blog_id']);
+            $blogComment = new BlogComment();
+            $blogComment
+                ->setId($comment['id'])
+                ->setBlogArticle($blogArticle)
+                ->setUser($user)
+                ->setPostedAt(DateTime::createFromFormat('Y-m-d H:i:s', $comment['date']))
+                ->setContent($content);
+            $this->persist($blogComment);
+        }
+        $this->manager->flush();
+    }
+
     private function persist($entity)
     {
         $this->manager->persist($entity);
@@ -329,6 +410,8 @@ class BelatikaMigrator
 
     public function clearAll()
     {
+        $this->clear('blog_comment');
+        $this->clear('blog_article');
         $this->clear('customer_order_line');
         $this->clear('customer_order');
         $this->clear('image');
