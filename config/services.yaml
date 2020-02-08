@@ -39,6 +39,10 @@ services:
     app.google_translate:
         class: Stichoza\GoogleTranslate\GoogleTranslate
 
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags: ['twig.extension']
+
     App\Twig\Extension\FilterExtension:
         tags: ['twig.extension']
         arguments:

@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\BlogArticle;
 use App\Service\ImageLoader;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,13 +17,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class BlogController extends AbstractController
 {
     /**
-     * @Route("/{page<\d+>?1}")
-     * @param $page integer
+     * @Route("/")
      * @return Response
      */
-    public function index($page)
+    public function index()
     {
-        return $this->render($this->getTemplate('blog/index.html.twig'));
+        $blogArticles = $this->getDoctrine()->getManager()->getRepository(BlogArticle::class)->findAllWithComments();
+
+        return $this->render($this->getTemplate('blog/index.html.twig'), ['blogArticles' => $blogArticles]);
     }
 
     /**

@@ -1,43 +1,30 @@
 {% extends shop_settings.template ~ "/layout.html.twig" %}
 {% block meta_title %}{{ 'Blog'|gTrans }}{% endblock %}
 {% block head %}
-    <meta name="description" content="{{ ""|gTransDB }}">
+    <meta name="description" content="{{ "Je vous parle ici de tous les sujets autour des bijoux ainsi que des évènements spéciaux dans la boutique Belatika."|gTransDB }}">
     <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/assets/css/suneditor.css" rel="stylesheet"> -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/assets/css/suneditor-contents.css" rel="stylesheet"> -->
+    <link href="{{ asset('css/suneditor-contents.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/suneditor.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js"></script>
-    <!-- languages (Basic Language: English/en) -->
     <script src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/fr.js"></script>
 {% endblock %}
 {% block title %}{{ 'Blog'|gTrans }}{% endblock %}
 {% block content %}
-    <form  style="margin: auto; width: 80%"  action="">
-        <label for="sample">Contenu</label>
-        <textarea id="sample" name="sample"></textarea>
-    </form>
-{% endblock %}
-{% block javascripts %}
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            SUNEDITOR.create((document.getElementById('sample') || 'sample'),{
-                lang: SUNEDITOR_LANG['fr'],
-                width: '100%',
-                minHeight: '500px',
-                buttonList: [
-                    ['undo', 'redo'],
-                    ['font', 'fontSize', 'formatBlock'],
-                    ['bold', 'underline', 'italic', 'strike', 'fontColor', 'hiliteColor', 'removeFormat'],
-                    ['outdent', 'indent', 'align'],
-                    ['list', 'link', 'image', 'video'],
-                    ['fullScreen', 'showBlocks', 'codeView', 'preview']
-                ],
-                imageSizeOnlyPercentage: true,
-                imageRotation: false,
-                imageUploadHeader: {
-                    "Access-Control-Allow-Origin": "*"
-                },
-                imageUploadUrl: 'https://localbelatika.com/blog/upload'
-            });
-        });
-    </script>
+    <div class="blog-overview">
+        {% for blogArticle in blogArticles %}
+            <a href="/" class="blog-overview__article">
+                <article>
+                    <figure class="blog-overview__article__main-image"><img src="{{ asset(blogArticle.mainImage.src) }}" alt="{{ blogArticle.mainImage.alt }}"></figure>
+                    <div class="blog-overview__article__date">{{ blogArticle.postedAt|date('d/m/Y') }}</div>
+                    <div class="blog-overview__article__summary">
+                        <h2 class="blog-overview__article__summary__heading">{{ blogArticle.title }}</h2>
+                        <p class="blog-overview__article__summary__content">{{ blogArticle.content|striptags('<br>')|truncate(200)|raw }}</p>
+                    </div>
+                    <div class="blog-overview__article__footer">
+                        <span class="blog-overview__article__footer__comments"><i class="far fa-comment"></i> {{ blogArticle.blogComments|length }}</span>
+                    </div>
+                </article>
+            </a>
+        {% endfor %}
+    </div>
 {% endblock %}

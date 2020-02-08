@@ -24,7 +24,7 @@ class BlogComment
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\BlogArticle")
+     * @ORM\ManyToOne(targetEntity="App\Entity\BlogArticle", inversedBy="blogComments")
      */
     private $blogArticle;
 

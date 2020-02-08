@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d877bddef5aa3f47d96475e5d482f56",
+    "content-hash": "a955bb2528952ba2cd7e0df2b59f3ea1",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -7507,6 +7507,7 @@
                 "code",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-code",
             "time": "2019-12-10T19:21:15+00:00"
         },
         {
@@ -7561,6 +7562,7 @@
                 "events",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-eventmanager",
             "time": "2018-04-25T15:33:34+00:00"
         }
     ],
@@ -8154,8 +8156,10 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^7.2",
+        "ext-curl": "*",
         "ext-iconv": "*",
-        "ext-json": "^1.6"
+        "ext-json": "^1.6",
+        "ext-pdo": "*"
     },
     "platform-dev": []
 }

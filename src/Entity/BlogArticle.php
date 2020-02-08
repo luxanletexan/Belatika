@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,9 +36,20 @@ class BlogArticle
     private $content;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BlogComment", mappedBy="blogArticle")
+     */
+    private $blogComments;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $isPublished;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->blogComments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -87,6 +100,47 @@ class BlogArticle
     public function setIsPublished(bool $isPublished): self
     {
         $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
+    public function getMainImage()
+    {
+        preg_match('#<img src="([^ ]+)" alt="([^ ]+)"[^>]+>#', $this->content, $matches);
+
+        $src = isset($matches[1]) ? $matches[1] : 'img/resources/belatika_logo.png';
+        $alt = isset($matches[2]) ? $matches[2] : 'Logo Belatika';
+
+        return ['src' => $src, 'alt' => $alt];
+    }
+
+    /**
+     * @return Collection|BlogComment[]
+     */
+    public function getBlogComments(): Collection
+    {
+        return $this->blogComments;
+    }
+
+    public function addBlogComment(BlogComment $blogComment): self
+    {
+        if (!$this->blogComments->contains($blogComment)) {
+            $this->blogComments[] = $blogComment;
+            $blogComment->setBlogArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlogComment(BlogComment $blogComment): self
+    {
+        if ($this->blogComments->contains($blogComment)) {
+            $this->blogComments->removeElement($blogComment);
+            // set the owning side to null (unless already changed)
+            if ($blogComment->getBlogArticle() === $this) {
+                $blogComment->setBlogArticle(null);
+            }
+        }
 
         return $this;
     }

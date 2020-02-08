@@ -16,6 +16,11 @@
                     <a class="nav-link pl-3 pl-lg-2" href="{{ path('app_admin_index') }}"><i class="fas fa-home"></i> Admin</a>
                 </li>
             {% endif %}
+            {% if app.request.requestUri != '/' %}
+                <li class="nav-item active">
+                    <a class="nav-link pl-3 pl-lg-2" href="{{ path('app_shop_index') }}"><i class="fas fa-home"></i> Accueil</a>
+                </li>
+            {% endif %}
             <li class="nav-item underline active dropdown">
                 <a class="nav-link dropdown-toggle pl-3 pl-lg-2" href="#" id="navbarDropdownWomen" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Femme'|gTrans|upper }}

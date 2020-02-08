@@ -27,6 +27,7 @@
       width: 100%;
       top: 100%;
       left: 0;
+      z-index: 10;
       @include media-breakpoint-up(lg) {
         position: static;
         background-color: inherit;
@@ -39,18 +40,6 @@
       }
     }
   }
-  //@include media-breakpoint-up(sm) {
-  //  background-color: blue;
-  //}
-  //@include media-breakpoint-up(md) {
-  //  background-color: green;
-  //}
-  //@include media-breakpoint-up(lg) {
-  //  background-color: red;
-  //}
-  //@include media-breakpoint-up(xl) {
-  //  background-color: $gold;
-  //}
 }
 
 .nav-item a::after {
