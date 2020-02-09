@@ -1,12 +1,26 @@
-@import "./base/fonts";
+//Utils
 @import "./utils/variables";
 @import "./utils/mixins";
+
+//Base
+@import "./base/fonts";
+@import "./base/belatika";
+
+//Components
 @import "./components/images";
 @import "./components/carousel";
-@import "./base/belatika";
+
+//Layouts
 @import "./layouts/navbar";
 @import "./layouts/header";
+
+//Pages
 @import "./pages/shop/index";
 @import "./pages/admin/index";
 @import "./pages/blog/index";
+@import "./pages/blog/article";
+
+//Vendors
 @import "./vendors/stylus";
+@import "./vendors/suneditor/css/suneditor";
+@import "./vendors/suneditor/css/suneditor-contents";

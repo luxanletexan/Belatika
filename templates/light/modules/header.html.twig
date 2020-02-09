@@ -9,7 +9,7 @@
 <header class="btheader">
     {{ include(shop_settings.template ~ '/modules/mainnav.html.twig') }}
     <div class="btheader__logo">
-        <img src="{{ asset('img/resources/belatika_logo.png') }}" alt="Logo Belatika">
+        <a href="{{ path('app_shop_index') }}"><img src="{{ asset('img/resources/belatika_logo.png') }}" alt="Logo Belatika"></a>
     </div>
     <div class="btheader__title">
         <h1>{{ title }}</h1>

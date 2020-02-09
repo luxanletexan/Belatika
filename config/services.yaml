@@ -80,3 +80,10 @@ services:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: request.param_converter, priority: 1, converter: item_converter }
+
+    blog_article_converter:
+        class: App\Request\ParamConverter\BlogArticleConverter
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: request.param_converter, priority: 1, converter: blog_article_converter }

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\BlogArticle;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * @method BlogArticle|null find($id, $lockMode = null, $lockVersion = null)
@@ -25,5 +26,18 @@ class BlogArticleRepository extends AbstractRepository
         $qb = $this->createQueryBuilder('b');
         $this->with($qb, 'blogComments');
         return $qb->orderBy('b.posted_at', 'DESC')->getQuery()->getResult();
+    }
+
+    public function findOneWithComments(ParameterBag $parameterBag):BlogArticle
+    {
+        $qb = $this->createQueryBuilder('b');
+        $params = ['id', 'slug'];
+        foreach ($params as $param) {
+            if ($parameterBag->has($param)) {
+                $qb->where('b.'.$param.' = :'.$param)->setParameter($param, $parameterBag->get($param));
+            }
+        }
+        $this->with($qb, ['blogComments', 'user']);
+        return $qb->orderBy('bc.posted_at', 'DESC')->getQuery()->getSingleResult();
     }
 }

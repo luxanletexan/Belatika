@@ -5,6 +5,8 @@ namespace App\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Yaml\Yaml;
@@ -80,7 +82,7 @@ class GoogleTranslator
      */
     public function gTransDB($text, $force = false):string
     {
-        if ($text === null) {
+        if (empty($text)) {
             return '';
         }
         $request = $this->request->getCurrentRequest();
@@ -102,6 +104,10 @@ class GoogleTranslator
             $this->manager->flush();
             return $translation->getTranslation();
         }catch (\ErrorException $e) {
+            return $text;
+        } catch (OptimisticLockException $e) {
+            return $text;
+        } catch (ORMException $e) {
             return $text;
         }
     }

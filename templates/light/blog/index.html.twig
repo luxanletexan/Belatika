@@ -12,7 +12,7 @@
 {% block content %}
     <div class="blog-overview">
         {% for blogArticle in blogArticles %}
-            <a href="/" class="blog-overview__article">
+            <a href="{{ path('app_blog_article', {'slug' : blogArticle.slug}) }}" class="blog-overview__article">
                 <article>
                     <figure class="blog-overview__article__main-image"><img src="{{ asset(blogArticle.mainImage.src) }}" alt="{{ blogArticle.mainImage.alt }}"></figure>
                     <div class="blog-overview__article__date">{{ blogArticle.postedAt|date('d/m/Y') }}</div>

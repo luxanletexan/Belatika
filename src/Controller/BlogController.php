@@ -28,6 +28,16 @@ class BlogController extends AbstractController
     }
 
     /**
+     * @Route("/{slug}")
+     * @param BlogArticle $blogArticle
+     * @return Response
+     */
+    public function article(BlogArticle $blogArticle)
+    {
+        return $this->render($this->getTemplate('blog/article.html.twig'), ['blogArticle' => $blogArticle]);
+    }
+
+        /**
      * @Route("/upload")
      * @param Request $request
      * @param ImageLoader $imageLoader

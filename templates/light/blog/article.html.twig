@@ -1,0 +1,25 @@
+{% extends shop_settings.template ~ "/layout.html.twig" %}
+{% block meta_title %}{{ blogArticle.title|gTrans }}{% endblock %}
+{% block head %}
+    <meta name="description" content="{{ blogArticle.metaDescription|gTransDB }}">
+{% endblock %}
+{% block title %}{{ blogArticle.title|gTrans }}{% endblock %}
+{% block content %}
+    <div class="blog-article">
+        <div class="sun-editor-editable">
+            {{ blogArticle.content|raw }}
+        </div>
+        <div class="blog-article__comments clearfix">
+            <h2>{{ 'Commentaires'|gTrans }}</h2>
+            {% for comment in blogArticle.blogComments %}
+                <div class="blog-article__comment blog-article__comment{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.id == comment.user.id %}--right{% else %}--left{% endif %}">
+                    <div class="blog-article__comment__header">
+                        <span class="blog-article__comment__header__date">{{ comment.postedAt|date('d/m/Y H\\hi') }}</span> -
+                        <span class="blog-article__comment__header__username">{{ comment.user.username }}</span>:
+                    </div>
+                    <div class="blog-article__comment__content">{{ comment.content|gTrans }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
