@@ -37,6 +37,10 @@ class BlogController extends AbstractController
      */
     public function article(BlogArticle $blogArticle)
     {
+        if (!$blogArticle->getIsPublished() && !$this->getUser()->isAdmin()) {
+            return $this->redirectToRoute('app_blog_index');
+        }
+
         return $this->render($this->getTemplate('blog/article.html.twig'), ['blogArticle' => $blogArticle]);
     }
 

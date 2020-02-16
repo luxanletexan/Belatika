@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\BlogArticle;
 use App\Entity\Category;
 use App\Entity\Item;
 use App\Service\BelatikaMigrator;
@@ -40,12 +41,21 @@ class ShopController extends AbstractController
      */
     public function index($page):Response
     {
-        $itemRepository = $this->getDoctrine()->getRepository(Item::class);
+        $doctrine = $this->getDoctrine();
+        $itemRepository = $doctrine->getRepository(Item::class);
 
         $sliderItems = $itemRepository->findAllWithImages(['highlighted' => true], false);
         $items = $itemRepository->findAllWithImages(['highlighted' => false])->setCurrentPage($page);
+        $blogArticle = $doctrine->getRepository(BlogArticle::class)->findLastWithComments();
 
-        return $this->render($this->getTemplate('shop/index.html.twig'), ['sliderItems' => $sliderItems, 'items' => $items]);
+        return $this->render(
+            $this->getTemplate('shop/index.html.twig'),
+            [
+                'sliderItems' => $sliderItems,
+                'items' => $items,
+                'blogArticle' => $blogArticle,
+            ]
+        );
     }
 
     /**

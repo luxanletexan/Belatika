@@ -1,6 +1,10 @@
 .blog-article {
   max-width: 1200px;
   margin: auto;
+  &__title {
+    padding: 0 30px;
+    font-size: 1.5rem;
+  }
   &__comments {
     clear: both;
     padding: 16px;

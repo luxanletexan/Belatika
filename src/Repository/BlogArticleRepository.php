@@ -40,4 +40,12 @@ class BlogArticleRepository extends AbstractRepository
         $this->with($qb, ['blogComments', 'user']);
         return $qb->orderBy('bc.posted_at', 'DESC')->getQuery()->getSingleResult();
     }
+
+    public function findLastWithComments()
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb->setMaxResults(1)->where('b.isPublished = 1');
+        $this->with($qb, 'blogComments');
+        return $qb->orderBy('b.posted_at', 'DESC')->getQuery()->getSingleResult();
+    }
 }
