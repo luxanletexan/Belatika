@@ -38,6 +38,11 @@ class BlogComment
      */
     private $content;
 
+    public function __construct()
+    {
+        $this->posted_at = date_create();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,5 +94,14 @@ class BlogComment
         $this->blogArticle = $blogArticle;
 
         return $this;
+    }
+
+    public function belongsTo(?User $user)
+    {
+        if (!$this->user instanceof User || !$user instanceof User) {
+            return false;
+        }
+
+        return $user->getId() === $this->user->getId();
     }
 }

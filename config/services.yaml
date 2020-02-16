@@ -74,6 +74,10 @@ services:
         arguments:
             $manager: '@doctrine.orm.entity_manager'
 
+    App\EventListener\RequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
     item_converter:
         class: App\Request\ParamConverter\ItemConverter
         arguments:

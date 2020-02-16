@@ -156,4 +156,12 @@ abstract class AbstractController extends Controller
         }
         return $order;
     }
+
+    /**
+     * @return User;
+     */
+    public function getUser()
+    {
+        return parent::getUser();
+    }
 }

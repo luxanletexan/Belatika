@@ -6,12 +6,13 @@ namespace App\Security\Authenticator;
 use App\Entity\User;
 use App\Service\GoogleTranslator;
 use Doctrine\ORM\EntityManagerInterface;
-use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
+use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator as KnpUOauthAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
@@ -159,6 +160,9 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider):?UserInterface
     {
         $socialUser = $this->getSocialClient()->fetchUserFromToken($credentials);
+        /**
+         * @var FlashBag $flashBag
+         */
         $flashBag = $this->request->getSession()->getFlashBag();
 
         //Returns existing social user
@@ -169,7 +173,7 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
         if($existingUser) {
             $flashBag->add(
                 'success',
-                $this->googleTranslator->gTrans('Bienvenue, ').$existingUser->getRealname());
+                $this->googleTranslator->gTrans('Bienvenue, ').$existingUser->getUsername());
             return $existingUser;
         }
 
@@ -184,7 +188,7 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
             $this->em->flush();
             $flashBag->add(
                 'success',
-                $this->googleTranslator->gTrans('Bienvenue, ').$emailMatchingUser->getRealname()
+                $this->googleTranslator->gTrans('Bienvenue, ').$emailMatchingUser->getUsername()
             );
             return $emailMatchingUser;
         }
@@ -204,7 +208,7 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
         $this->em->flush();
         $flashBag->add(
             'success',
-            $this->googleTranslator->gTrans('Votre compte a été créé. Bienvenue, ').$user->getRealname()
+            $this->googleTranslator->gTrans('Votre compte a été créé. Bienvenue, ').$user->getUsername()
         );
         return $user;
     }
@@ -253,9 +257,9 @@ class SocialAuthenticator extends KnpUOauthAuthenticator
     /**
      * Returns the Client instance matching the current social
      *
-     * @return OAuth2Client
+     * @return OAuth2ClientInterface
      */
-    private function getSocialClient():OAuth2Client
+    private function getSocialClient():OAuth2ClientInterface
     {
         return $this->clientRegistry->getClient($this->currentSocial);
     }

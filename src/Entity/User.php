@@ -208,4 +208,9 @@ class User extends BaseUser
 
         return $this;
     }
+
+    public function isAdmin()
+    {
+        return in_array('ROLE_ADMIN', $this->roles);
+    }
 }

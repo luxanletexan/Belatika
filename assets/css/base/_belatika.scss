@@ -11,3 +11,34 @@ h2 {
 .hidden {
   display: none;
 }
+
+.fas.fa-spinner {
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(180deg);
+    opacity: .3;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+
+@keyframes clicked {
+  0% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
