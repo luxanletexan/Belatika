@@ -15,7 +15,7 @@
     {% include shop_settings.template ~ '/modules/header.html.twig' with {title: block('title')} %}
     {{ flashAlert() }}
     {% block content %}{% endblock %}
-{#        {{ include('modules/footer.html.twig') }}#}
+    {% include shop_settings.template ~ '/modules/footer.html.twig' %}
 </div>
 {{ encore_entry_script_tags('app') }}
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

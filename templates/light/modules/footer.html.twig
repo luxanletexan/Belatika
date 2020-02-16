@@ -1,0 +1,24 @@
+<footer class="btfooter">
+    <div class="btfooter__about">
+        <h3 class="btfooter__about__header">{{ 'A propos'|gTrans }}:</h3>
+        <ul class="btfooter__about__list">
+            <li><a href='{{ path('app_shop_cgv') }}'>{{ 'Conditions générales de vente'|gTrans }}</a></li>
+            <li><a href='{{ path('app_shop_legals') }}'>{{ 'Mentions légales'|gTrans }}</a></li>
+            <li><a href="{{ path('app_shop_bloginfos') }}">{{ 'Condition d\'utlisation du blog'|gTrans }}</a></li>
+            <li><a href="mailto:contact@belatika.com">contact@belatika.com</a></li>
+        </ul>
+    </div>
+    <div class="btfooter__follow">
+        <h3 class="btfooter__follow__header">{{ 'Suivez-moi'|gTrans }}:</h3>
+        <figure class="btfooter__follow__logos">
+            <a href="https://www.facebook.com/Zazou.belatika" target="_blank"><img src="{{ asset('img/resources/FaceBook.png') }}" alt="Visiter sur Facebook"></a>
+            <a href="https://www.instagram.com/belatikabijoux/" target="_blank"><img src="{{ asset('img/resources/instagram.png') }}" alt="Visiter sur Instagram"></a>
+        </figure>
+    </div>
+    <div class="btfooter__payment--stripe">
+        <img src="{{ asset('img/resources/stripe-logo.png') }}" alt="{{ "Paiments sécurisés par Stripe"|gTrans }}" title="{{ "Paiments sécurisés par Stripe"|gTrans }}">
+    </div>
+    <div class="btfooter__payment--paypal">
+        <img src="{{ asset('img/resources/paypal-logo.png') }}" alt="{{ "Paiments sécurisés par Paypal"|gTrans}}" title="{{ "Paiments sécurisés par Paypal"|gTrans}}">
+    </div>
+</footer>
