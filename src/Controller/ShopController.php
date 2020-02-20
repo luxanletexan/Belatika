@@ -86,7 +86,7 @@ class ShopController extends AbstractController
      */
     public function cgv(): Response
     {
-        return $this->render('shop/cgv.html.twig');
+        return $this->render($this->getTemplate('shop/cgv.html.twig'));
     }
 
     /**
@@ -94,7 +94,7 @@ class ShopController extends AbstractController
      */
     public function legals(): Response
     {
-        return $this->render('shop/legals.html.twig');
+        return $this->render($this->getTemplate('shop/legals.html.twig'));
     }
 
     /**
@@ -102,6 +102,6 @@ class ShopController extends AbstractController
      */
     public function bloginfos(): Response
     {
-        return $this->render('shop/bloginfos.html.twig');
+        return $this->render($this->getTemplate('shop/bloginfos.html.twig'));
     }
 }
