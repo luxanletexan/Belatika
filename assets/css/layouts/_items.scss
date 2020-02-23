@@ -1,0 +1,41 @@
+.shop-items {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 24px auto 0 auto;
+  justify-content: space-around;
+  &__item {
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 4px 2px -2px $gold;
+    padding-bottom: 16px;
+    margin: 24px 0;
+    & a {
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      border-radius: 2.5rem;
+      & img {
+        &.lazyload {
+          width: 255px;
+          height: 333px;
+        }
+        transition: transform .2s .1s ease-in-out;
+        width: 100%;
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+      &::after {
+        @include white-filter;
+      }
+    }
+    &__price {
+      &--crossed-out {
+        text-decoration: line-through;
+        color: #ccc;
+        font-size: 1rem;
+      }
+    }
+  }
+}

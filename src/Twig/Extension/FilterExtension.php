@@ -19,8 +19,8 @@ class FilterExtension extends AbstractExtension
     public function getFilters():array
     {
         return [
-            new TwigFilter('gTrans', [$this->translator, 'gTrans']),
-            new TwigFilter('gTransDB', [$this->translator, 'gTransDB']),
+            new TwigFilter('gTrans', [$this->translator, 'gTrans'], ['is_safe' => ['html']]),
+            new TwigFilter('gTransDB', [$this->translator, 'gTransDB'], ['is_safe' => ['html']]),
             new TwigFilter('trunc', [$this, 'trunc']),
         ];
     }

@@ -1,11 +1,10 @@
-{% extends "layout.html.twig" %}
+{% extends shop_settings.template ~ "/layout.html.twig" %}
+{% block meta_title %}{{ category.name|gTrans }}{% endblock %}
 {% block title %}{{ category.name|gTrans }}{% endblock %}
 {% block head %}
     <link rel="canonical" href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}">
     <meta name="description" content="{{ category.description|gTransDB }}">
 {% endblock %}
 {% block content %}
-    <h1 class="col-12">{{ category.name|gTrans }}</h1>
-    {{ include('modules/items.html.twig') }}
-    {{ include('modules/pagination.html.twig') }}
+    {{ include(shop_settings.template ~ '/modules/items.html.twig') }}
 {% endblock %}

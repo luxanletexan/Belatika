@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\Item;
-use Pagerfanta\Pagerfanta;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -55,7 +54,11 @@ class ItemRepository extends AbstractRepository
         return $qb->getQuery()->getSingleResult();
     }
 
-    public function findCategoryWithImages(Category $category):Pagerfanta
+    /**
+     * @param Category $category
+     * @return Item[]
+     */
+    public function findCategoryWithImages(Category $category): array
     {
         $qb = $this->createQueryBuilder('it')
             ->where('it.quantity > 0')
@@ -67,6 +70,6 @@ class ItemRepository extends AbstractRepository
             ->setParameter('category', $category)
             ->orderBy('it.created_at', 'DESC');
 
-        return $this->paginate($qb);
+        return $qb->getQuery()->getResult();
     }
 }

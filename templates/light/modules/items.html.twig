@@ -1,0 +1,23 @@
+<div itemscope itemtype="https://schema.org/JewelryStore" class="shop-items">
+    <h2 class="sr-only" itemprop="brand">{{ 'Bijoux Belatika'|gTrans }}</h2>
+    {% for item in items %}
+        <figure class="shop-items__item">
+            <a href="{{ path('app_shop_item', {'customer' : item.category.customers, 'category_slug' : item.category.slug, 'slug' : item.slug}) }}">
+                {% if loop.index < 5 %}
+                    <img src="{{ asset(item.images|first.webPath|imagine_filter('thumb')) }}" alt="{{ item.images|first.alt }}">
+                {% else %}
+                    <img class="lazyload" src="{{ asset('img/resources/1px.png') }}" data-src="{{ asset(item.images|first.webPath|imagine_filter('thumb')) }}" alt="{{ item.images|first.alt }}">
+                {% endif %}
+            </a>
+            <figcaption>
+                <p>{{item.name|gTrans}}</p>
+                {% if item.discount and onSales %}
+                    <span class="shop-items__item__price--crossed-out">{{ item.price|number_format(2, ',') }} €</span>
+                    <span class="shop-items__item__price">{{ (item.discountPrice)|number_format(2, ',') }} € (-{{ item.discount }}%)</span>
+                {% else %}
+                    <span class="shop-items__item__price">{{ item.price|number_format(2, ',') }} €</span>
+                {% endif %}
+            </figcaption>
+        </figure>
+    {% endfor %}
+</div>

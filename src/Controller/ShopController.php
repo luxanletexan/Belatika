@@ -59,16 +59,15 @@ class ShopController extends AbstractController
     }
 
     /**
-     * @Route("/bijoux/{customer<femme|homme>}/{slug}/{page<\d+>?1}", name="app_shop_category")
+     * @Route("/bijoux/{customer<femme|homme>}/{slug}", name="app_shop_category")
      * @param Category $category
-     * @param $page integer
      * @return Response
      */
-    public function category(Category $category, $page):Response
+    public function category(Category $category):Response
     {
-        $items = $this->getDoctrine()->getRepository(Item::class)->findCategoryWithImages($category)->setCurrentPage($page);
+        $items = $this->getDoctrine()->getRepository(Item::class)->findCategoryWithImages($category);
 
-        return $this->render('shop/category.html.twig', ['category' => $category, 'items' => $items]);
+        return $this->render($this->getTemplate('shop/category.html.twig'), ['category' => $category, 'items' => $items]);
     }
 
     /**
