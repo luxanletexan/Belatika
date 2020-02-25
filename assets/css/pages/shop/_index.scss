@@ -38,7 +38,7 @@
       margin: 0 15px;
     }
     border-radius: 2.5rem;
-    border: 2px solid $gold;
+    box-shadow: 0 0 15px $gold;
     overflow: hidden;
     & img {
       transition: transform .2s .1s ease-in-out;
@@ -58,13 +58,13 @@
   }
 }
 
-.shop-subcategories {
+.shop-ranges {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
 
-.category-preview {
+.ranges-preview {
   width: 48%;
   @include media-breakpoint-up(lg) {
     width: 24%;

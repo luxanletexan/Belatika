@@ -19,24 +19,14 @@
     <hr>
 
     <section>
-        <h2 class="hidden">Les catégories</h2>
-        <div class="shop-subcategories">
-            <figure class="category-preview">
-                <figcaption class="category-preview__figcaption">Bijoux en argent 925</figcaption>
-                <a href="#"><img class="category-preview__image" src="{{ asset('img/resources/categories/argent.jpeg')|imagine_filter('large') }}" alt="Bijoux en argent 925"></a>
-            </figure>
-            <figure class="category-preview">
-                <figcaption class="category-preview__figcaption">Bijoux en gold filled</figcaption>
-                <a href="#"><img class="category-preview__image" src="{{ asset('img/resources/categories/gold-filled.jpeg')|imagine_filter('large') }}" alt="Bijoux en gold filled"></a>
-            </figure>
-            <figure class="category-preview">
-                <figcaption class="category-preview__figcaption">Bijoux en acier</figcaption>
-                <a href="#"><img class="category-preview__image" src="{{ asset('img/resources/categories/acier.jpeg')|imagine_filter('large') }}" alt="Bijoux en acier inox"></a>
-            </figure>
-            <figure class="category-preview">
-                <figcaption class="category-preview__figcaption">Bijoux en métal et laiton</figcaption>
-                <a href="#"><img class="category-preview__image" src="{{ asset('img/resources/categories/laiton-metal.jpeg')|imagine_filter('large') }}" alt="Bijoux en métal et laiton"></a>
-            </figure>
+        <h2 class="hidden">{{ 'Les gammes'|gTrans }}</h2>
+        <div class="shop-ranges">
+            {% for range in ranges %}
+                <figure class="ranges-preview">
+                    <figcaption class="ranges-preview__figcaption">{{ range.name|gTrans }}</figcaption>
+                    <a href="{{ path('app_shop_range', {'slug':range.slug}) }}"><img class="ranges-preview__image" src="{{ asset(range.imageWebPath)|imagine_filter('large') }}" alt="{{ range.name|gTrans }}"></a>
+                </figure>
+            {% endfor %}
         </div>
     </section>
 

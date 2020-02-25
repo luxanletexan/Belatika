@@ -37,6 +37,12 @@ class Item
     private $images;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Range", mappedBy="items", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $ranges;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"item"})
      */
@@ -91,6 +97,7 @@ class Item
         $this->images = new ArrayCollection();
         $this->created_at = date_create();
         $this->discount = 0;
+        $this->ranges = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -250,6 +257,34 @@ class Item
     public function setHighlighted(bool $highlighted): self
     {
         $this->highlighted = $highlighted;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Range[]
+     */
+    public function getRanges(): Collection
+    {
+        return $this->ranges;
+    }
+
+    public function addRange(Range $range): self
+    {
+        if (!$this->ranges->contains($range)) {
+            $this->ranges[] = $range;
+            $range->addItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRange(Range $range): self
+    {
+        if ($this->ranges->contains($range)) {
+            $this->ranges->removeElement($range);
+            $range->removeItem($this);
+        }
 
         return $this;
     }

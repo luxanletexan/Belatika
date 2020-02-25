@@ -13,6 +13,7 @@ use App\Entity\CustomerOrderLine;
 use App\Entity\Gift;
 use App\Entity\Image;
 use App\Entity\Item;
+use App\Entity\Range;
 use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManager;
@@ -36,6 +37,7 @@ class BelatikaMigrator
     private $newDb;
     private $addressIds = [];
     private $emojis = [];
+    private $ranges = [];
 
     public function __construct(EntityManager $manager)
     {
@@ -89,6 +91,18 @@ class BelatikaMigrator
         $this->manager->flush();
     }
 
+    public function migrateRanges()
+    {
+        $this->ranges['argent_925'] = (new Range())->setName('Bijoux en argent 925')->setImage('argent.jpeg');
+        $this->ranges['gold_filled'] = (new Range())->setName('Bijoux en gold filled')->setImage('gold-filled.jpeg');
+        $this->ranges['acier'] = (new Range())->setName('Bijoux en acier')->setImage('acier.jpeg');
+        $this->ranges['metal_laiton'] = (new Range())->setName('Bijoux en métal et laiton')->setImage('laiton-metal.jpeg');
+        foreach ($this->ranges as $range) {
+            $this->manager->persist($range);
+        }
+        $this->manager->flush();
+    }
+
     public function migrateItems()
     {
         $manCategory = $this->manager->getRepository(Category::class)->findOneBy(['customers' => 'homme']);
@@ -114,6 +128,19 @@ class BelatikaMigrator
                 ->setCreatedAt(DateTime::createFromFormat('Y-m-d H:i:s', $article['created']))
                 ->setHighlighted(in_array($article['id'], $highlitedItems))
                 ->setDiscount($article['sales']);
+            $innerText = $article['name'].' '.$article['description'];
+            if (preg_match('# argent #', $innerText) === 1) {
+                $item->addRange($this->ranges['argent_925']);
+            }
+            if (preg_match('#acier#', $innerText) === 1) {
+                $item->addRange($this->ranges['acier']);
+            }
+            if (preg_match('#gold|filled#', $innerText) === 1) {
+                $item->addRange($this->ranges['gold_filled']);
+            }
+            if (preg_match('#metal|laiton#', $innerText) === 1) {
+                $item->addRange($this->ranges['metal_laiton']);
+            }
             $this->persist($item);
             $image = $images[$article['image_id']];
             $newImage = new Image();
@@ -352,6 +379,7 @@ class BelatikaMigrator
                 ->setId($row['blog_id'])
                 ->setPostedAt(DateTime::createFromFormat('Y-m-d H:i:s', $row['date']))
                 ->setTitle($row['title'])
+                ->setMetaDescription($row['title'])
                 ->setContent($content)
                 ->setIsPublished($row['published'] === '1');
             $this->persist($blogArticle);
@@ -417,6 +445,7 @@ class BelatikaMigrator
         $this->clear('image');
         $this->clear('item');
         $this->clear('category');
+        $this->clear('range');
         $this->clear('address');
         $this->clear('gift');
         $this->clear('fos_user');
@@ -424,7 +453,7 @@ class BelatikaMigrator
 
     private function clear($table)
     {
-        $this->newDb->exec("DELETE FROM $table WHERE 1");
+        $this->newDb->exec("DELETE FROM `$table` WHERE 1");
     }
 
     private function copyAddress(Address $address)

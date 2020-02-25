@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\Item;
+use App\Entity\Range;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -68,6 +69,25 @@ class ItemRepository extends AbstractRepository
             ->addSelect('c')
             ->andWhere('it.category = :category')
             ->setParameter('category', $category)
+            ->orderBy('it.created_at', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Range $range
+     * @return Item[]
+     */
+    public function findRangeWithImages(Range $range): array
+    {
+        $qb = $this->createQueryBuilder('it')
+            ->where('it.quantity > 0')
+            ->innerJoin('it.images', 'im')
+            ->addSelect('im')
+            ->innerJoin('it.ranges', 'r')
+            ->addSelect('r')
+            ->andWhere(':range MEMBER OF it.ranges')
+            ->setParameter('range', $range)
             ->orderBy('it.created_at', 'DESC');
 
         return $qb->getQuery()->getResult();
