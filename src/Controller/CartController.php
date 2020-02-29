@@ -104,7 +104,7 @@ class CartController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $stock = $item->getQuantity();
-        $em->detach($item);
+        $em->clear($item);
         $item->setQuantity($quantity > $stock ? $stock : $quantity);
         $cart[$item->getId()] = $item;
         $session->set('cart', $cart);
