@@ -6,6 +6,10 @@
   font-family: 'PT Sans', sans-serif;
 }
 
+@mixin price-font {
+  font-family: 'Great Vibes', cursive;
+}
+
 @mixin media-breakpoint-up($size) {
   @media (min-width: map_get($breakpoints, $size)) {
     @content;

@@ -1,0 +1,109 @@
+$item-breakpoint: 'md';
+
+.item {
+  display: flex;
+  flex-direction: column;
+  @include media-breakpoint-up($item-breakpoint) {
+    flex-direction: row;
+  }
+  max-width: 1200px;
+  margin: 36px auto;
+  padding: 30px 0;
+  position: relative;
+  &::after {
+    @include white-filter;
+  }
+  &__image {
+    z-index: 5;
+    margin: 0 1%;
+    @include media-breakpoint-up($item-breakpoint) {
+      width: 45%;
+    }
+    position: relative;
+    &::after {
+      @include white-filter;
+    }
+    & img {
+      width: 100%;
+      border-radius: 36px;
+    }
+  }
+  &__description {
+    z-index: 5;
+    @include media-breakpoint-up($item-breakpoint) {
+      width: 45%;
+    }
+    margin: 0 1%;
+    &__header {
+      margin: 16px 0;
+      display: flex;
+      justify-content: flex-end;
+      align-items: baseline;
+      &__price {
+        font-size: 4rem;
+        color: $gold;
+        @include price-font;
+        &--original {
+          color: #999;
+          text-decoration: line-through;
+          font-style: italic;
+          margin: 0 12px;
+        }
+        &--discount {
+          flex: 1;
+          color: $gold;
+          transform: rotate(-15deg);
+          text-align: center;
+          font-size: 3.5rem;
+          @include price-font;
+          @include text-outline(#000);
+        }
+      }
+    }
+    &__reference {
+      text-align: right;
+      margin: 16px 0;
+      font-style: italic;
+      color: #DDD;
+    }
+    &__content {
+      margin: 12px 0;
+      line-height: 2rem;
+    }
+    &__footer {
+      & button {
+        margin: 16px 0;
+        @include title-font;
+        font-size: 2rem;
+      }
+    }
+  }
+}
+
+.separator--vertical {
+  display: none;
+  @include media-breakpoint-up($item-breakpoint) {
+    display: block;
+  }
+  position: relative;
+  overflow: hidden;
+  border: none;
+  width: 4%;
+  height: auto;
+  margin: -30px 0;
+  background-image: url("./pebbles.jpg");
+  background-attachment: fixed;
+  opacity: .6;
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 120%;
+    top: 0;
+    height: 100%;
+  }
+  &::before {
+    left: -10%;
+    background: linear-gradient(to right,white 15%, transparent 25%, transparent 75%, white 85%);
+  }
+}

@@ -89,7 +89,7 @@ class ShopController extends AbstractController
      */
     public function item(Item $item):Response
     {
-        return $this->render('shop/item.html.twig', ['item' => $item]);
+        return $this->render($this->getTemplate('shop/item.html.twig'), ['item' => $item]);
     }
 
     /**

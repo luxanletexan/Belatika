@@ -6,3 +6,18 @@ $breakpoints: (
   lg: 992px,
   xl: 1200px
 );
+
+$btns: (
+  buy: (
+    bg-color: $gold,
+    color: white,
+  ),
+  primary: (
+    bg-color: #007bff,
+    color: white,
+  ),
+  info: (
+    bg-color: #17a2b8,
+    color: white,
+  )
+);

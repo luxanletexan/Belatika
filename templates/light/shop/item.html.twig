@@ -1,0 +1,68 @@
+{% extends shop_settings.template ~ "/layout.html.twig" %}
+{% set cart = app.session.get('cart') %}
+{% block meta_title %}{{ item.name|gTrans }}{% endblock %}
+{% block title %}{{ item.name|gTrans }}{% endblock %}
+{% block head %}
+    <link
+            rel="canonical"
+            href="{{ absolute_url(
+                path(
+                    'app_shop_item',
+                    {
+                        'customer' : item.category.customers,
+                        'category_slug' : item.category.slug,
+                        'slug' : item.slug
+                    })
+            ) }}"
+    >
+    <meta name="description" content="{{ item.description|gTransDB }}">
+    <link rel="stylesheet" href="{{ asset('css/item-carousel.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="item{% if cart[item.id] is defined %} added{% endif %}">
+        <div class="separator--vertical"></div>
+        {% if item.images|length == 1 %}
+        <figure class="item__image">
+            <img src="{{ asset(item.images|first.webPath|imagine_filter('large')) }}" alt="{{ item.images|first.alt }}">
+        </figure>
+        {% else %}
+            {{ include(shop_settings.template ~ '/modules/item-carousel.html.twig') }}
+        {% endif %}
+        <div class="item__description">
+            <div class="item__description__header">
+                {% if item.discount and onSales %}
+                    <span class="item__description__header__price--discount">-{{ item.discount }}%</span>
+                    <span class="item__description__header__price--original">{{ item.price|number_format(2, ',') }}€</span>
+                    <span class="item__description__header__price">{{ item.discountPrice|number_format(2, ',') }}€</span>
+                {% else %}
+                    <span class="item__description__header__price"> {{ item.price|number_format(2, ',') }}€ </span>
+                {% endif %}
+            </div>
+            <div class="item__description__reference">{{ 'Référence'|gTrans }} n°{{ item.reference }}</div>
+            <div class="item__description__content">{{ item.description|gTrans|capitalize|raw }}</div>
+            <div class="item__description__footer">
+                {% if not item.quantity %}
+                    <p>{{ 'Cet article n\'est plus disponible'|gTrans }}</p>
+                {% else %}
+                    <button
+                            id="cart-button-{{ item.id }}"
+                            class="bt-btn bt-btn--buy bt-btn--block"
+                            data-item-id="{{ item.id }}"
+                            data-add-item-url="{{ absolute_url(path('app_cart_add', {'id':item.id})) }}"
+                            data-remove-item-url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}"
+                            data-cart-action="{% if cart[item.id] is not defined %}add{% else %}remove{% endif %}"
+                    >
+                        <span class="add-item">{{ 'Ajouter au panier'|gTrans }}</span>
+                        <span class="remove-item hidden">{{ 'Retirer du panier'|gTrans }}</span>
+                        <i class="fas fa-spinner hidden"></i>
+                    </button>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin_updateitem', {'id' : item.id}) }}" class="bt-btn bt-btn--primary">Modifier</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="separator--vertical"></div>
+    </div>
+
+{% endblock %}

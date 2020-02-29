@@ -3,7 +3,7 @@
 {% else %}
     {% set referer = app.request.headers.get('referer') %}
 {% endif %}
-{% extends "layout.html.twig" %}
+{% extends shop_settings.template ~ "/layout.html.twig" %}
 {% block title %}{{ 'Votre panier'|gTrans }}{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{{ asset('css/disableCart.css') }}">

@@ -1,8 +1,18 @@
+$footer-breakpoint: 'sm';
+
 .btfooter {
   display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+  @include media-breakpoint-up($footer-breakpoint) {
+    flex-direction: row;
+    padding: 0;
+  }
   justify-content: space-around;
   &__about {
-    width: 20%;
+    @include media-breakpoint-up($footer-breakpoint) {
+      width: 20%;
+    }
     &__list {
       list-style-type: none;
       padding: 0;
@@ -28,19 +38,27 @@
     }
   }
   &__follow {
-    width: 20%;
+    @include media-breakpoint-up($footer-breakpoint) {
+      width: 20%;
+    }
   }
   &__payment {
     &--stripe {
-      width: 20%;
+      @include media-breakpoint-up($footer-breakpoint) {
+        width: 20%;
+      }
       & img {
         width: 100%;
+        max-width: 200px;
       }
     }
     &--paypal {
-      width: 15%;
+      @include media-breakpoint-up($footer-breakpoint) {
+        width: 15%;
+      }
       & img {
         width: 100%;
+        max-width: 200px;
       }
     }
   }
