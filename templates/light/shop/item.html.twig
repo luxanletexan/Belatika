@@ -46,14 +46,14 @@
                 {% else %}
                     <button
                             id="cart-button-{{ item.id }}"
-                            class="bt-btn bt-btn--buy bt-btn--block"
-                            data-item-id="{{ item.id }}"
-                            data-add-item-url="{{ absolute_url(path('app_cart_add', {'id':item.id})) }}"
-                            data-remove-item-url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}"
-                            data-cart-action="{% if cart[item.id] is not defined %}add{% else %}remove{% endif %}"
+                            class="bt-btn bt-btn--buy bt-btn--block cart-button"
+                            data-item_id="{{ item.id }}"
+                            data-add_item_url="{{ absolute_url(path('app_cart_add', {'id':item.id})) }}"
+                            data-remove_item_url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}"
+                            {% if cart[item.id] is defined %}data-added{% endif %}
                     >
-                        <span class="add-item">{{ 'Ajouter au panier'|gTrans }}</span>
-                        <span class="remove-item hidden">{{ 'Retirer du panier'|gTrans }}</span>
+                        <span class="add-item{% if cart[item.id] is defined %} hidden{% endif %}">{{ 'Ajouter au panier'|gTrans }}</span>
+                        <span class="remove-item{% if cart[item.id] is not defined %} hidden{% endif %}">{{ 'Retirer du panier'|gTrans }}</span>
                         <i class="fas fa-spinner hidden"></i>
                     </button>
                 {% endif %}

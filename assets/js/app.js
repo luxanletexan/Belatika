@@ -12,7 +12,9 @@ require('../css/app.scss');
 // const $ = require('jquery');
 
 import Lazyloader from "./class/_Lazyloader";
+import Cart from "./class/_Cart";
 
 document.addEventListener('DOMContentLoaded', () => {
     new Lazyloader();
+    new Cart();
 });

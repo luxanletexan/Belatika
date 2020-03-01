@@ -104,7 +104,7 @@ class CartController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $stock = $item->getQuantity();
-        $em->clear($item);
+        $em->clear(Item::class);
         $item->setQuantity($quantity > $stock ? $stock : $quantity);
         $cart[$item->getId()] = $item;
         $session->set('cart', $cart);
@@ -143,11 +143,6 @@ class CartController extends AbstractController
         }
 
         $message = $this->gTrans('Article Retiré du panier');
-
-        if ($request->isMethod('GET')) {
-            $this->addFlash('success', $message);
-            return $this->redirect($request->headers->get('referer'));
-        }
 
         return new JsonResponse([
             'message' => $message,

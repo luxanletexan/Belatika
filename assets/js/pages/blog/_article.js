@@ -21,8 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let url = newCommentValidate.getAttribute('data-target-url');
         ajax(
             url,
-            (jsonResponse) => {
-                let response = JSON.parse(jsonResponse);
+            (response) => {
                 if (response.success) {
                     let comment = createComment({
                         date: response.date,
@@ -41,9 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 newCommentValidate.innerHTML = validateButtonText;
             },
-            'POST',
             {
-                'content': content
+                method: 'POST',
+                datas: {
+                    'content': content
+                }
             }
         );
     });
@@ -104,8 +105,7 @@ function deleteComment() {
     deleteButton.innerHTML = spinner;
     ajax(
         deleteButton.dataset.targetUrl,
-        (jsonResponse) => {
-            let response = JSON.parse(jsonResponse);
+        (response) => {
             if (response.success) {
                 let message = this;
                 while (!message.classList.contains('blog-article__comment')) {
@@ -115,6 +115,8 @@ function deleteComment() {
             }
             deleteButton.innerHTML = deleteIcon;
         },
-        'DELETE'
+        {
+            method: 'DELETE'
+        }
     );
 }
