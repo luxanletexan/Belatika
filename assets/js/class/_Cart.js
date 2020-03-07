@@ -51,6 +51,7 @@ export default class Cart {
             this.setButtonMode(button, added);
             this.onSales = response.onSales === true;
             this.updateCart(response.cart);
+            button.blur();
             this.processing = false;
         });
     }
