@@ -28,7 +28,7 @@
                 <a class="nav-link dropdown-toggle pl-3 pl-lg-2" href="#" id="navbarDropdownWomen" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Femme'|gTrans|upper }}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownWomen">
+                <div class="dropdown-menu box-shadow" aria-labelledby="navbarDropdownWomen">
                     {% for category in categories %}
                         {% if category.customers == 'femme' %}
                             <a class="dropdown-item" href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}">{{ category.name|gTrans|capitalize }}</a>
@@ -40,7 +40,7 @@
                 <a class="nav-link dropdown-toggle pl-3 pl-lg-2" href="#" id="navbarDropdownMen" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ 'Homme'|gTrans|upper }}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMen">
+                <div class="dropdown-menu box-shadow" aria-labelledby="navbarDropdownMen">
                     {% for category in categories %}
                         {% if category.customers == 'homme' %}
                             <a class="dropdown-item" href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}">{{ category.name|gTrans|capitalize }}</a>

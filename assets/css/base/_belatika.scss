@@ -12,6 +12,11 @@ h2 {
   display: none;
 }
 
+.box-shadow {
+  border: none;
+  box-shadow: 0 0 3px #1e1e1e;
+}
+
 .fas.fa-spinner {
   animation: spin 1s infinite linear;
 }
