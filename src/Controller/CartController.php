@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Gift;
 use App\Entity\Item;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -84,9 +85,10 @@ class CartController extends AbstractController
      * @param Item $item
      * @param Request $request
      * @param integer $quantity
+     * @param CacheManager $cacheManager
      * @return JsonResponse
      */
-    public function add(Item $item, Request $request, $quantity):JsonResponse
+    public function add(Item $item, Request $request, $quantity, CacheManager $cacheManager):JsonResponse
     {
         $session = $this->getSessionFrom($request);
 
@@ -105,7 +107,25 @@ class CartController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $stock = $item->getQuantity();
         $em->clear(Item::class);
-        $item->setQuantity($quantity > $stock ? $stock : $quantity);
+        $item
+            ->setQuantity($quantity > $stock ? $stock : $quantity)
+            ->setLink($this->generateUrl(
+                'app_shop_item',
+                [
+                    'category_slug' => $item->getCategory()->getSlug(),
+                    'customer' => $item->getCategory()->getCustomers(),
+                    'slug' => $item->getSlug()
+                ])
+            )
+            ->setRemoveLink($this->generateUrl(
+                'app_cart_remove',
+                [
+                    'item_id' => $item->getId()
+                ],
+                UrlGeneratorInterface::ABSOLUTE_PATH)
+            );
+        $images = $item->getImages();
+        $images[0]->setCachePath($cacheManager->getBrowserPath($images[0]->getWebPath(), 'icon'));
         $cart[$item->getId()] = $item;
         $session->set('cart', $cart);
 
@@ -113,7 +133,7 @@ class CartController extends AbstractController
 
         return new JsonResponse([
             'message' => $message,
-            'homePath' => $this->generateUrl('app_shop_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'onSales' => $this->onSales(),
             'cart' => $this->get('serializer')->serialize($cart, 'json', ['groups' => 'item'])
         ]);
     }
@@ -146,7 +166,7 @@ class CartController extends AbstractController
 
         return new JsonResponse([
             'message' => $message,
-            'homePath' => $this->generateUrl('app_shop_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'onSales' => $this->onSales(),
             'cart' => $this->get('serializer')->serialize($cart, 'json', ['groups' => 'item'])
         ]);
     }

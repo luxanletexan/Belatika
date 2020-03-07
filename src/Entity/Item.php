@@ -72,6 +72,11 @@ class Item
     private $price;
 
     /**
+     * @Groups({"item"})
+     */
+    private $discountPrice;
+
+    /**
      * @ORM\Column(type="smallint")
      * @Groups({"item"})
      */
@@ -84,8 +89,19 @@ class Item
 
     /**
      * @ORM\Column(type="smallint")
+     * @Groups({"item"})
      */
     private $discount;
+
+    /**
+     * @Groups({"item"})
+     */
+    private $link;
+
+    /**
+     * @Groups({"item"})
+     */
+    private $removeLink;
 
     /**
      * @ORM\Column(type="boolean")
@@ -246,7 +262,8 @@ class Item
 
     public function getDiscountPrice()
     {
-        return $this->price * (100 - $this->discount)/100;
+        $this->discountPrice = $this->price * (100 - $this->discount)/100;
+        return $this->discountPrice;
     }
 
     public function getHighlighted(): ?bool
@@ -286,6 +303,42 @@ class Item
             $range->removeItem($this);
         }
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @param string $link
+     * @return Item
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemoveLink()
+    {
+        return $this->removeLink;
+    }
+
+    /**
+     * @param string $removeLink
+     * @return Item
+     */
+    public function setRemoveLink($removeLink)
+    {
+        $this->removeLink = $removeLink;
         return $this;
     }
 }

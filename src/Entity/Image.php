@@ -31,6 +31,7 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"item"})
      */
     private $alt;
 
@@ -39,6 +40,11 @@ class Image
      * @Groups({"item"})
      */
     private $ext;
+
+    /**
+     * @Groups({"item"})
+     */
+    private $cachePath;
 
     /**
      * @var UploadedFile
@@ -106,6 +112,24 @@ class Image
     public function setFile(UploadedFile $file): self
     {
         $this->file = $file;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCachePath()
+    {
+        return $this->cachePath;
+    }
+
+    /**
+     * @param string $cachePath
+     * @return Image
+     */
+    public function setCachePath($cachePath)
+    {
+        $this->cachePath = $cachePath;
         return $this;
     }
 

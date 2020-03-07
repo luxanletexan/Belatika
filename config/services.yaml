@@ -70,6 +70,9 @@ services:
             $projectDir: '%kernel.project_dir%'
             $requestStack: '@request_stack'
 
+    Liip\ImagineBundle\Imagine\Cache\CacheManager:
+        alias: 'liip_imagine.cache.manager'
+
     App\Service\BelatikaMigrator:
         arguments:
             $manager: '@doctrine.orm.entity_manager'

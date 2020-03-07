@@ -1,0 +1,27 @@
+.cart-hover {
+  position: absolute;
+  top: 100%;
+  right: 1rem;
+  background-color: white;
+  z-index: 100;
+  box-shadow: 0 0 3px #1e1e1e;
+  &__item {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 1rem;
+    padding: 0.2rem;
+    &__link {
+      flex: 1;
+      overflow: hidden;
+      max-width: 250px;
+    }
+    &__price {
+      margin: 0 0.5rem 0 2rem;
+    }
+    & .remove-item {
+      cursor: pointer;
+    }
+  }
+}
