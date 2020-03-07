@@ -5,6 +5,9 @@
   background-color: white;
   z-index: 100;
   box-shadow: 0 0 3px #1e1e1e;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease-in-out;
   &__item {
     display: flex;
     justify-content: flex-end;
@@ -19,9 +22,25 @@
     }
     &__price {
       margin: 0 0.5rem 0 2rem;
+      @include price-font;
+      font-size: 1.2rem;
     }
     & .remove-item {
       cursor: pointer;
+    }
+  }
+  &__total {
+    margin: 0.5rem 1rem 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #1e1e1e;
+    &__amount {
+      @include price-font;
+      color: $gold;
+      font-size: 1.7rem;
+    }
+    & span {
+      margin: 0 -.5rem;
     }
   }
 }

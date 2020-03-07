@@ -1,3 +1,4 @@
+{% set cartTotal = 0 %}
 <div class="cart-hover">
     {% for item in app.session.get('cart') %}
         <div class="cart-hover__item">
@@ -5,8 +6,15 @@
                 <img src="{{ asset(item.images|first.webpath|imagine_filter('icon')) }}" alt="{{ item.images|first.alt|gTrans }}">
                 {{ item.name|gTrans|truncate(30) }}
             </a>
-            <span class="cart-hover__item__price">{{ item.price|number_format(2, ',') }}€</span>
+            <span class="cart-hover__item__price">{{ (onSales ? item.discountPrice : item.price)|number_format(2, ',') }}€</span>
             <i data-item_id="{{ item.id }}" data-remove_item_url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}" class="remove-item far fa-window-close"></i>
         </div>
+        {% set cartTotal = cartTotal + item.quantity * (onSales ? item.discountPrice : item.price) %}
     {% endfor %}
+    {% if cartTotal > 0 %}
+        <div class="cart-hover__total">
+            <span>Total:</span>
+            <span class="cart-hover__total__amount">{{ cartTotal|number_format(2, ',') }}€</span>
+        </div>
+    {% endif %}
 </div>

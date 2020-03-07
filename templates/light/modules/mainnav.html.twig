@@ -16,12 +16,12 @@
         <ul class="navbar-nav d-flex justify-content-around w-100">
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item active">
-                    <a class="nav-link pl-3 pl-lg-2" href="{{ path('app_admin_index') }}"><i class="fas fa-home"></i> Admin</a>
+                    <a class="nav-link pl-3 pl-lg-2" href="{{ path('app_admin_index') }}"><i class="fas fa-gem"></i> Admin</a>
                 </li>
             {% endif %}
             {% if not is_granted('ROLE_ADMIN') and app.request.requestUri != '/' %}
                 <li class="nav-item active">
-                    <a class="nav-link pl-3 pl-lg-2" href="{{ path('app_shop_index') }}"><i class="fas fa-home"></i> Accueil</a>
+                    <a class="nav-link pl-3 pl-lg-2" href="{{ path('app_shop_index') }}"><i class="fas fa-gem"></i> Accueil</a>
                 </li>
             {% endif %}
             <li class="nav-item underline active dropdown">
