@@ -1,10 +1,15 @@
 {% extends shop_settings.template ~ "/layout.html.twig" %}
 {% block title %}{{ 'Mot de passe perdu'|gTrans }}{% endblock %}
+{% block meta_title %}{{ 'Mot de passe perdu'|gTrans }}{% endblock %}
 
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block content %}
-<p class="col-12 alert alert-pink">
-{{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
-</p>
+<div class="container my-3">
+    <div class="row">
+        <p class="col-12 alert alert-bt-info">
+        {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+        </p>
+    </div>
+</div>
 {% endblock %}
