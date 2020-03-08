@@ -13,7 +13,9 @@
 <body>
 <div class="btcontainer">
     {% include shop_settings.template ~ '/modules/header.html.twig' with {title: block('title')} %}
-    {{ flashAlert() }}
+    <div class="container d-flex flex-column align-items-center">
+        {{ flashAlert() }}
+    </div>
     {% block content %}{% endblock %}
     {% include shop_settings.template ~ '/modules/footer.html.twig' %}
 </div>
