@@ -2,6 +2,10 @@
   @include text-font;
 }
 
+.alert-bt-info {
+  background-color: lighten($gold, 30%);
+}
+
 h2 {
   @include title-font;
   @include text-outline(white);

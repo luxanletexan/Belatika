@@ -6,7 +6,6 @@
         <i class="fas fa-bars"></i>
     </button>
     <div class="navbar__item navbar__item--search"><i class="fas fa-search"></i></div>
-    <div class="navbar__item navbar__item--favorite"><a href="#"><i class="fas fa-heart"></i></a></div>
     <div class="navbar__item navbar__item--profile"><a href="{{ path('fos_user_profile_show') }}"><i class="fas fa-user"></i></a></div>
     <div class="navbar__item navbar__item--cart" data-quantity="{{ app.session.get('cart')|length }}">
         <a href="{{ path('app_cart_show') }}"><i class="fas fa-shopping-bag"></i></a>
