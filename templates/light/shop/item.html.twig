@@ -46,7 +46,7 @@
                 {% else %}
                     <button
                             id="cart-button-{{ item.id }}"
-                            class="bt-btn bt-btn--buy bt-btn--block cart-button"
+                            class="bt-btn bt-btn--primary bt-btn--block cart-button"
                             data-item_id="{{ item.id }}"
                             data-add_item_url="{{ absolute_url(path('app_cart_add', {'id':item.id})) }}"
                             data-remove_item_url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}"

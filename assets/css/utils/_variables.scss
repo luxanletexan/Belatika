@@ -8,12 +8,12 @@ $breakpoints: (
 );
 
 $btns: (
-  buy: (
+  primary: (
     bg-color: $gold,
     color: white,
   ),
-  primary: (
-    bg-color: #007bff,
+  secondary: (
+    bg-color: silver,
     color: white,
   ),
   info: (

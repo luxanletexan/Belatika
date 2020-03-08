@@ -1,5 +1,6 @@
 {% extends shop_settings.template ~ "/layout.html.twig" %}
 {% block title %}{{ 'Mon compte'|gTrans }}{% endblock %}
+{% block meta_title %}{{ 'Mon compte'|gTrans }}{% endblock %}
 
 {% block content %}
 {% include "@FOSUser/Profile/show_content.html.twig" %}
