@@ -5,7 +5,17 @@
         <p>{{ 'Ce serait dommage que votre commande n\'arrive pas au bon endroit, ma priorité étant que vous receviez vos achats dans les meilleurs délais et dans les meilleures conditions.'|gTrans|capitalize }}</p>
         <p>{{ 'Vous pouvez aussi préciser ici une adresse de facturation différente.'|gTrans|capitalize }}</p>
     </div>
-    <div class="col-12 col-md-6 col-lg-8 rounded" style="height: 300px;" id="map-container"></div>
+    <div
+            class="col-12 col-md-6 col-lg-8 rounded"
+            style="height: 300px;" id="map-container"
+            data-app_id="{{ env('ALGOLIA_PLACES_ID') }}"
+            data-app_key="{{ env('ALGOLIA_PLACES_KEY') }}"
+            data-img_path="{{ app.request.getSchemeAndHttpHost ~ asset('img/') }}"
+            {% if app.user.deliveryAddress and app.user.deliveryAddress.lat and app.user.deliveryAddress.lng %}
+                data-lat="{{ app.user.deliveryAddress.lat }}"
+                data-lng="{{ app.user.deliveryAddress.lng }}"
+            {% endif %}
+    ></div>
 </div>
 <fieldset>
     <legend>{{ 'Choisissez votre adresse de livraison:'|gTrans }}</legend>
@@ -45,7 +55,7 @@
     >
     <label for="same-address">{{ 'Utiliser la même adresse pour la facturation'|gTrans|capitalize }}</label>
 </div>
-<a href="{{ back.url }}" class="btn btn-sm btn-belatika-dark">{{ back.name|gTrans|capitalize }}</a>
-<button class="btn btn-sm btn-belatika-dark">{{ validate.name|gTrans|capitalize }}</button>
+<a href="{{ back.url }}" class="btn btn-sm bt-btn--secondary">{{ back.name|gTrans|capitalize }}</a>
+<button class="btn btn-sm bt-btn--primary">{{ validate.name|gTrans|capitalize }}</button>
 {{ form_widget(form) }}
 {{ form_end(form) }}

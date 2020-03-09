@@ -43,7 +43,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('fos_user_profile_show');
         }
 
-        return $this->render('user/address.html.twig', [
+        return $this->render($this->getTemplate('user/address.html.twig'), [
             'form' => $form->createView(),
         ]);
     }

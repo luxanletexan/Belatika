@@ -1,43 +1,44 @@
-class Address {
-    appId;
-    appKey;
-    imgPath;
-    deliveryLatLng;
-    inputMapNames;
-    formElt;
-    textInputs = {};
-    sameAddressCheckboxElt;
-    placesAutocomplete = {};
-    map;
-    layer;
-    icon;
-    markers = [];
-    alertElt;
-    adresses = {};
-    formData;
+import L from '../vendors/leaflet';
+import places from '../vendors/places';
+
+export default class Address {
 
     /**
-     * @param {string} appId
-     * @param {string} appKey
-     * @param {Array} inputMapNames
-     * @param {string} imgPath
-     * @param {Object} deliveryLatLng
-     * @param {number} deliveryLatLng.lat
-     * @param {number} deliveryLatLng.lng
+     * @param {Object} options
+     * @param {string} [options.mapContainerId=map-container]
+     * @param {Array}  [options.inputMapNames=['delivery','billing']]
      */
-    constructor(appId, appKey, inputMapNames, imgPath, deliveryLatLng = {}) {
-        this.appId = appId;
-        this.appKey = appKey;
-        this.imgPath = imgPath;
-        this.deliveryLatLng = deliveryLatLng;
-        this.inputMapNames = inputMapNames;
+    constructor(options = {}) {
+        this.options = Object.assign({
+            mapContainerId: 'map-container',
+            inputMapNames: ['delivery', 'billing']
+        }, options);
+        let mapContainer = document.getElementById(this.options.mapContainerId);
+        if (!mapContainer instanceof HTMLElement) {
+            return;
+        }
+        this.appId = mapContainer.dataset.app_id;
+        this.appKey = mapContainer.dataset.app_key;
+        this.imgPath = mapContainer.dataset.img_path;
+        if (mapContainer.hasAttribute('data-lat') && mapContainer.hasAttribute('data-lng')) {
+            this.deliveryLatLng = {
+                lat: mapContainer.dataset.lat,
+                lng: mapContainer.dataset.lng
+            };
+        } else {
+            this.deliveryLatLng = {};
+        }
+        this.inputMapNames = this.options.inputMapNames;
         this.formElt = document.getElementById('addresses-form');
         this.alertElt = document.getElementById('address-alert');
         this.formData = new FormData();
-        inputMapNames.forEach((name) => {
+        this.adresses = {};
+        this.markers = [];
+        this.inputMapNames.forEach((name) => {
             this.adresses[name] = {};
         });
         this.sameAddressCheckboxElt = document.getElementById('same-address');
+        this.init();
     }
 
     init() {
@@ -57,6 +58,8 @@ class Address {
      * @param {array} inputs
      */
     initTextInputs(inputs) {
+        this.textInputs = {};
+        this.placesAutocomplete = {};
         inputs.forEach((name) => {
             this.textInputs[name] = document.getElementById('user_addresses_'+name+'Address_fullAddress');
             this.placesAutocomplete[name] = places({
@@ -215,7 +218,6 @@ class Address {
     {
         let hiddenInput = document.getElementById('user_addresses_'+name+'Address_'+type);
         if (hiddenInput === null) {
-            console.log('user_addresses_'+name+'Address_'+type);
             return;
         }
         hiddenInput.value = value;
