@@ -30,11 +30,13 @@ class CartController extends AbstractController
     {
         $isOrdering = $this->getPendingOrder($this->getUser()) !== null;
 
-        $gift = new Gift();
+        $session = $this->getSessionFrom($request);
+
+        $giftInSession = $session->get('gift');
+        $gift = $giftInSession instanceof Gift ? $giftInSession : new Gift();
         if ($request->isMethod('POST')) {
             $gift->setCode($request->get('giftCode'));
             $gift = $this->checkGift($gift);
-            $session = $this->getSessionFrom($request);
             if ($gift->updateStatus()->getValid()) {
                 $session->set('gift', $gift);
             } else {
@@ -43,7 +45,10 @@ class CartController extends AbstractController
             $this->addFlash($gift->getValid() ? 'success' : 'danger', $this->gTrans($gift->getStatus()));
         }
 
-        return $this->render('cart/index.html.twig', ['isOrdering' => $isOrdering, 'gift' => $gift]);
+        $cart = $session->get('cart');
+        $total = $this->getTotal($cart, $gift);
+
+        return $this->render('cart/index.html.twig', ['isOrdering' => $isOrdering, 'gift' => $gift, 'total' => $total]);
     }
 
     /**
@@ -164,10 +169,58 @@ class CartController extends AbstractController
 
         $message = $this->gTrans('Article Retiré du panier');
 
-        return new JsonResponse([
-            'message' => $message,
-            'onSales' => $this->onSales(),
-            'cart' => $this->get('serializer')->serialize($cart, 'json', ['groups' => 'item'])
-        ]);
+        if ($request->isMethod('POST')) {
+            return new JsonResponse([
+                'message' => $message,
+                'onSales' => $this->onSales(),
+                'cart' => $this->get('serializer')->serialize($cart, 'json', ['groups' => 'item'])
+            ]);
+        } else {
+            return $this->redirectToRoute('app_cart_show');
+        }
+    }
+
+    /**
+     * @Route("/remove-gift")
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function removeGift(Request $request)
+    {
+        $session = $this->getSessionFrom($request);
+
+        $session->remove('gift');
+        return $this->redirectToRoute('app_cart_show');
+    }
+
+    /**
+     * @param Item[] $cart
+     * @param Gift $gift
+     * @return int
+     */
+    private function getTotal($cart, Gift $gift)
+    {
+        $total = 0;
+
+        if (!is_array($cart)) {
+            return $total;
+        }
+
+        foreach ($cart as $item) {
+            $total += $item->getQuantity() * ($this->onSales() ? $item->getDiscountPrice() : $item->getPrice());
+        }
+
+        if ($this->onSales()) {
+            return $total;
+        }
+
+        $gift = $this->checkGift($gift);
+        if (!$gift instanceof Gift || !$gift->updateStatus()->getValid()) {
+            return $total;
+        }
+
+        $total -= $gift->getValue();
+
+        return max($total, 0);
     }
 }

@@ -5,91 +5,96 @@
 {% endif %}
 {% extends shop_settings.template ~ "/layout.html.twig" %}
 {% block title %}{{ 'Votre panier'|gTrans }}{% endblock %}
+{% block meta_title %}{{ 'Votre panier'|gTrans }}{% endblock %}
 {% block head %}
-    <link rel="stylesheet" href="{{ asset('css/disableCart.css') }}">
+    {{ encore_entry_script_tags('app_cart_index') }}
+    <link rel="stylesheet" href="{{ asset('build/app_cart_index.css') }}">
 {% endblock %}
 {% block content %}
-    <h1 class="col-12">{{ 'Votre panier'|gTrans }}</h1>
-    {% if isOrdering %}
-        <p class="alert alert-pink col-12">{{ 'Vous avez déjà une commande en cours, voulez-vous la finaliser ou l\'annuler?'|gTrans }}</p>
-        <div class="col-12 d-flex justify-content-around flex-wrap">
-            <a href="{{ path('app_order_index') }}" class="btn btn-belatika-dark">{{ 'Voir et finaliser ma commande en cours'|gTrans }}</a>
-            <a href="#" class="btn btn-belatika-dark">{{ 'Annuler ma commande en cours'|gTrans }}</a>
-        </div>
-    {% elseif app.session.get('cart')|length > 0 %}
-        {% set total = 0 %}
-        <div class="bloc-belatika rounded p-2 col-12 col-lg-7 col-xl-8">
-            <table class="table table-responsive bloc-belatika-dark m-0">
-            <thead>
-            <tr>
-                <th scope="col">{{ 'Article'|gTrans }}</th>
-                <th scope="col">{{ 'Référence'|gTrans }}</th>
-                <th scope="col">{{ 'Quantité'|gTrans }}</th>
-                <th scope="col">{{ 'Prix unitaire'|gTrans }}</th>
-                <th scope="col">{{ 'Sous-total'|gTrans }}</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for item in app.session.get('cart') %}
-                {% if onSales %}
-                    {% set price = item.discountPrice %}
-                {% else %}
-                    {% set price = item.price %}
-                {% endif %}
-                <tr>
-                    <td data-label="{{ 'Article'|gTrans }}"><a class="belatika-light-link" href="#" target="_blank" title="{{ 'Cliquez pour visualiser dans un nouvel onglet.'|gTrans }}">{% if item.images|first.webPath is onDisk %}<img src="{{ item.images|first.webPath }}" alt="{{ item.images|first.alt }}" height="30" width="30" /> {% endif %}{{ item.name }}</a></td>
-                    <td data-label="{{ 'Référence'|gTrans }}">{{ item.reference }}</td>
-                    <td data-label="{{ 'Quantité'|gTrans }}">
-                        {{ item.quantity }}
-                    </td>
-                    <td data-label="{{ 'Prix unitaire'|gTrans }}">{{ price|number_format(2, ',') }}€</td>
-                    <td data-label="{{ 'Sous-total'|gTrans }}">
-                        {{ (price * item.quantity)|number_format(2, ',') }}€
-                    </td>
-                    <td data-label="">
-                        <a class="belatika-light-link" href="{{ path('app_cart_remove', {'item_id': item.id, 'quantity': item.quantity}) }}" title="{{ 'Retirer cet article de votre panier.'|gTrans }}"><i class="fas fa-trash-alt"></i></a>
-                    </td>
-                </tr>
-                {% set total = total + (price * item.quantity) %}
-            {% endfor %}
-            </tbody>
-        </table>
-            <p class="m-0 p-2 text-right">
-                <i title="{{ 'Frais de port offerts pour toute commande et dans le monde entier!'|gTrans }}" class="fas fa-info-circle"></i>
-                {{ 'Belatika vous offre les frais de port!'|gTrans }}
-            </p>
-        </div>
-        <div class="col-12 col-lg-5 col-xl-4 bloc-belatika p-2 rounded align-self-start">
-            <div class='bloc-belatika-dark rounded p-2'>
-                {% if not onSales and not gift.valid %}
-                    <form class="d-flex justify-content-between align-items-center" method="post" action="{{ path('app_cart_show') }}">
-                        <label for="giftCode" class="m-0">{{ 'Utiliser un code cadeau:'|gTrans }}</label>
-                        <input type='text' name='giftCode' id='giftCode' value='{{ gift.code }}' maxlength='9' size='9' required/>
-                        <input type='submit' value='{{ 'Vérifier le code'|gTrans }}' class="btn btn-sm btn-belatika-light">
-                    </form>
-                    <hr>
-                {% elseif not onSales and gift.valid %}
-                    <p class="d-flex justify-content-between">
-                        <span>{{ 'Chèque-cadeau'|gTrans }} :</span>
-                        <span>-{{ gift.value|number_format(2, ',', ' ') }}€</span>
-                    </p>
-                    {% set total = total - gift.value %}
-                    {% if total < 0 %}{% set total = 0 %}{% endif %}
-                {% endif %}
-                <p class='d-flex justify-content-between'>
-                    <span>{{ 'Total hors taxe :'|gTrans }}</span>
-                    <span>{{ total|number_format(2, ',') }}€</span>
-                </p>
-                <p><em>{{ 'T.V.A. non applicable art. 293 B du CGI'|gTrans }}</em></p>
-                <div class="d-flex flex-column flex-sm-row justify-content-between">
-                    <a href="{{ referer }}" class="btn btn-sm btn-belatika-light mb-2 mb-sm-0"><i class="fas fa-arrow-left"></i> {{ 'Continuer mes achats'|gTrans }}</a>
-                    <a href="{{ path('app_cart_delivering') }}" class="btn btn-sm btn-belatika-light">{{ 'Valider mon panier'|gTrans }} <i class="fas fa-arrow-right"></i></a>
+    <div class="container my-3">
+        <div class="row pb-5">
+            {% if isOrdering %}
+                <p class="alert alert-bt-info col-12">{{ 'Vous avez déjà une commande en cours, voulez-vous la finaliser ou l\'annuler?'|gTrans }}</p>
+                <div class="col-12 d-flex justify-content-around flex-wrap">
+                    <a href="{{ path('app_order_index') }}" class="btn bt-btn--primary">{{ 'Voir et finaliser ma commande en cours'|gTrans }}</a>
+                    <a href="#" class="btn bt-btn--secondary">{{ 'Annuler ma commande en cours'|gTrans }}</a>
                 </div>
-            </div>
+            {% elseif app.session.get('cart')|length > 0 %}
+                <div class="p-2 col-12 col-lg-7">
+                    <table class="cart-content m-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" colspan="2" class="pl-3">{{ 'Vos articles'|gTrans }}</th>
+                                <th scope="col" class="text-center">{{ 'Prix'|gTrans }}</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in app.session.get('cart') %}
+                            {% if onSales %}
+                                {% set price = item.discountPrice %}
+                            {% else %}
+                                {% set price = item.price %}
+                            {% endif %}
+                            <tr class="cart-content__item">
+                                <td class="cart-content__item__image">
+                                    <a class="text-dark" href="{{ path('app_shop_item', {'customer': item.category.customers, 'category_slug': item.category.slug, 'slug': item.slug}) }}" target="_blank" title="{{ 'Cliquez pour visualiser dans un nouvel onglet.'|gTrans }}">
+                                        <img src="{{ item.images|first.webPath|imagine_filter('square') }}" alt="{{ item.images|first.alt }}" />
+                                    </a>
+                                </td>
+                                <td class="cart-content__item__name">
+                                    <a class="text-dark" href="{{ path('app_shop_item', {'customer': item.category.customers, 'category_slug': item.category.slug, 'slug': item.slug}) }}" target="_blank" title="{{ 'Cliquez pour visualiser dans un nouvel onglet.'|gTrans }}">
+                                        {{ item.name|gTrans }}
+                                    </a>
+                                </td>
+                                <td class="cart-content__item__price">
+                                    {{ (price * item.quantity)|number_format(2, ',') }}€
+                                </td>
+                                <td class="cart-content__item__remove">
+                                    <a class="text-dark" href="{{ path('app_cart_remove', {'item_id': item.id, 'quantity': item.quantity}) }}" title="{{ 'Retirer cet article de votre panier.'|gTrans }}"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        {% if not onSales and gift.valid %}
+                            <tr class="cart-content__item">
+                                <td class="cart-content__item__image"><i class="fas fa-gifts"></i></td>
+                                <td>{{ 'Carte cadeau utilisée'|gTrans }}</td>
+                                <td class="cart-content__item__price">-{{ gift.value|number_format(2, ',') }}€</td>
+                                <td class="cart-content__item__remove"><a class="text-dark" href="{{ path('app_cart_removegift') }}" title="{{ 'Retirer cette carte cadeau.'|gTrans }}"><i class="fas fa-trash-alt"></i></a></td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                        <tfoot>
+                            <tr class="cart-content__item total">
+                                <td colspan="2" class="text-right">Total</td>
+                                <td class="cart-content__item__price total">{{ total|number_format(2, ',') }}€</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="col-12 col-lg-5 p-2 align-self-center">
+                    {% if not onSales and not gift.valid %}
+                        <form class="d-flex justify-content-between align-items-center" method="post" action="{{ path('app_cart_show') }}">
+                            <label for="giftCode" class="m-0">{{ 'Utiliser une carte cadeau:'|gTrans }}</label>
+                            <input type='text' name='giftCode' id='giftCode' value='{{ gift.code }}' maxlength='9' size='9' required/>
+                            <input type='submit' value='{{ 'Vérifier le code'|gTrans }}' class="btn btn-sm bt-btn--secondary">
+                        </form>
+                    {% endif %}
+                </div>
+                <p class="col-12 col-lg-6 text-center">{{ 'T.V.A. non applicable art. 293 B du CGI'|gTrans }}</p>
+                <p class="col-12 col-lg-6 text-center">
+                    <i title="{{ 'Frais de port offerts pour toute commande et dans le monde entier!'|gTrans }}" class="fas fa-info-circle"></i>
+                    {{ 'Belatika vous offre les frais d\'envoi!'|gTrans }}
+                </p>
+                <div class="col-12 d-flex flex-column flex-sm-row justify-content-between">
+                    <a href="{{ referer }}" class="btn btn-sm bt-btn--secondary mb-2 mb-sm-0"><i class="fas fa-arrow-left"></i> {{ 'Continuer mes achats'|gTrans }}</a>
+                    <a href="{{ path('app_cart_delivering') }}" class="btn btn-sm bt-btn--primary">{{ 'Valider mon panier'|gTrans }} <i class="fas fa-arrow-right"></i></a>
+                </div>
+            {% else %}
+                <p class='alert alert-bt-info col-12' >{{ 'Votre panier est vide.'|gTrans }}</p>
+                <a href="{{ referer }}" class="btn bt-btn--primary">{{ 'Continuer mes achats'|gTrans }}</a>
+            {% endif %}
         </div>
-    {% else %}
-        <p class='alert alert-pink col-12' >{{ 'Votre panier est vide.'|gTrans }}</p>
-        <a href="{{ referer }}" class="btn btn-belatika-dark">{{ 'Continuer mes achats'|gTrans }}</a>
-    {% endif %}
+    </div>
 {% endblock %}

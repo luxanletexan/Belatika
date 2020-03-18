@@ -79,7 +79,7 @@ abstract class AbstractController extends Controller
 
     protected function checkGift(?Gift $gift)
     {
-        if ($this->onSales()) {
+        if ($this->onSales() || !$gift instanceof Gift) {
             return null;
         }
         try {
