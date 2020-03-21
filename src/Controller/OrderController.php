@@ -69,7 +69,7 @@ class OrderController extends AbstractController
 
         $order = $this->updateOrder($order);
 
-        return $this->render('order/index.html.twig', [
+        return $this->render($this->getTemplate('order/index.html.twig'), [
             'order' => $order,
             'stripe_public_key' => getenv('APP_ENV') === 'prod' ? getenv('STRIPE_PUBLIC_KEY') : getenv('STRIPE_PUBLIC_KEY_TEST'),
         ]);
