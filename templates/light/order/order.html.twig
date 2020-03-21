@@ -1,0 +1,42 @@
+{% extends shop_settings.template ~ "/layout.html.twig" %}
+{% block title %}{{ ('Récapitulatif de votre commande du ' ~ order.orderedAt|date('d/m/Y'))|gTrans }}{% endblock %}
+{% block meta_title %}{{ 'Commande référence'|gTrans ~ ' #' ~ order.reference }}{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row py-5">
+            <table class="col-12 table">
+                <thead>
+                    <tr>
+                        <th colspan="2">{{ 'Article'|gTrans }}</th>
+                        <th class="text-right">{{ 'Quantité'|gTrans }}</th>
+                        <th class="text-right">{{ 'Prix'|gTrans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in order.customerOrderLines %}
+                        <tr>
+                            <td><img src="{{ line.item.images|first.webPath|imagine_filter('icon') }}" alt="{{ line.item.images|first.alt }}"></td>
+                            <td>{{ line.item.name }}</td>
+                            <td class="text-right">{{ line.quantity }}</td>
+                            <td class="text-right">{{ line.price|number_format(2, ',') }}€</td>
+                        </tr>
+                    {% endfor %}
+                    {% if order.gift and order.giftValueUsed %}
+                        <tr>
+                            <td></td>
+                            <td>{{ 'Carte Cadeau' }}</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right">-{{ order.giftValueUsed|number_format(2, ',') }}€</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">{{ 'Total'|gTrans }}</td>
+                        <td class="text-right">{{ (order.total - order.giftValueUsed)|number_format(2, ',') }}€</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{%  endblock %}

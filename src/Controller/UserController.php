@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Address;
+use App\Entity\CustomerOrder;
 use App\Form\UserAddressesType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,6 +46,24 @@ class UserController extends AbstractController
 
         return $this->render($this->getTemplate('user/address.html.twig'), [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/order/{reference<\d+>}")
+     * @param CustomerOrder $customerOrder
+     * @return Response
+     */
+    public function order(CustomerOrder $customerOrder)
+    {
+        $user = $this->getUser();
+
+        if ($customerOrder->getUser()->getId() !== $user->getId() && !$user->isAdmin()) {
+            return $this->redirectToRoute('fos_user_profile_show');
+        }
+
+        return $this->render($this->getTemplate('order/order.html.twig'), [
+            'order' => $customerOrder,
         ]);
     }
 }

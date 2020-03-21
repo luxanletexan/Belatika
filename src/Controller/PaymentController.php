@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\CustomerOrder;
+use App\Entity\Item;
 use App\Entity\Payment;
 use App\Entity\User;
 use App\Service\GoogleTranslator;
@@ -185,6 +186,11 @@ class PaymentController extends AbstractController
             ->setIsValid(true)
             ->setOrderedAt(date_create())
             ->setReference($highestReference + 1);
+        $lines = $order->getCustomerOrderLines();
+        foreach ($lines as $line) {
+            $item = $this->getDoctrine()->getRepository(Item::class)->find($line->getItem()->getId());
+            $item->setQuantity($item->getQuantity() - $line->getQuantity());
+        }
         $this->em->persist($order);
         $this->em->flush();
         $this->addFlash('success', $this->gTrans('Merci pour votre commande, vous la recevrez très rapidement!'));
