@@ -1,0 +1,15 @@
+{% extends shop_settings.template ~ "/layout.html.twig" %}
+{% block title %}{{ 'Votre adresse de livraison'|gTrans }}{% endblock %}
+{% block meta_title %}{{ 'Votre adresse de livraison'|gTrans }}{% endblock %}
+{% block head %}
+    {{ block('head', shop_settings.template ~ '/modules/address/head.html.twig') }}
+    <link rel="stylesheet" href="{{ asset('build/app_cart_index.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        {% include shop_settings.template ~ '/modules/address/content.html.twig' with {
+            validate : { url : path('app_cart_delivering'), name : 'Valider' },
+            back : { url : path('app_cart_show'), name : 'Retour' }
+        } %}
+    </div>
+{%  endblock %}

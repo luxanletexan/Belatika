@@ -48,7 +48,7 @@ class CartController extends AbstractController
         $cart = $session->get('cart');
         $total = $this->getTotal($cart, $gift);
 
-        return $this->render('cart/index.html.twig', ['isOrdering' => $isOrdering, 'gift' => $gift, 'total' => $total]);
+        return $this->render($this->getTemplate('cart/index.html.twig'), ['isOrdering' => $isOrdering, 'gift' => $gift, 'total' => $total]);
     }
 
     /**
@@ -80,7 +80,7 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_order_index');
         }
 
-        return $this->render('cart/delivering.html.twig', [
+        return $this->render($this->getTemplate('cart/delivering.html.twig'), [
             'form' => $form->createView(),
         ]);
     }
