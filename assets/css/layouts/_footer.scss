@@ -7,6 +7,9 @@ $footer-breakpoint: 'sm';
   @include media-breakpoint-up($footer-breakpoint) {
     flex-direction: row;
     padding: 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
   }
   justify-content: space-around;
   &__about {

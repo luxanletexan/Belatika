@@ -225,6 +225,9 @@
             "ref": "05daf6b214e54aed4089f3480f944a67ac3a7889"
         }
     },
+    "spipu/html2pdf": {
+        "version": "v5.2.1"
+    },
     "stichoza/google-translate-php": {
         "version": "v4.0.1"
     },
@@ -542,6 +545,9 @@
     },
     "symfony/yaml": {
         "version": "v3.4.21"
+    },
+    "tecnickcom/tcpdf": {
+        "version": "6.3.5"
     },
     "twig/extensions": {
         "version": "1.0",

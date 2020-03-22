@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <title>Facture N°{{ order.reference }}</title>
+    <style type="text/css">
+        .color {
+            color: black;
+        }
+
+        .belatika {
+            display: inline-block;
+            position: absolute;
+            top:40px;
+            left:0;
+            width: 220px;
+            height: 200px;
+        }
+
+        h1 {
+            text-align: right;
+        }
+
+        img {
+            float: left;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .client {
+            display: inline-block;
+            position: absolute;
+            top:40px;
+            right:0;
+            width: 400px;
+            height: 200px;
+        }
+
+        .delivery {
+            display: inline-block;
+            position: absolute;
+            top:130px;
+            left:50px;
+            width: 400px;
+            height: 200px;
+        }
+
+        .sales {
+            text-decoration: line-through;
+        }
+
+        table#entity {
+            float:left;
+            margin-top:270px;
+            text-align:center;
+            border-collapse: collapse;
+        }
+
+        table#entity td {
+            height: 45px;
+            border:1px solid black;
+        }
+
+        #total {
+            text-align:right;
+        }
+    </style>
+</head>
+<body>
+{% set total = 0 %}
+<div class="belatika">
+    <img src="{{ 'http://' ~ app.request.httpHost ~ asset('img/resources/belatika_logo.png') }}" alt="belatika" widh="80" height="80"/>
+    <ul>
+        <li>IPARAGUIRRE Isabelle</li>
+        <li>44 allée des platanes</li>
+        <li>64990 Saint Pierre d'Irube</li>
+        <li></li>
+        <li>siret 50986551500050</li>
+        <li>contact@belatika.com</li>
+    </ul>
+</div>
+<div class="client">
+    <h1>Facture N°{{ order.reference }}<br/>du {{ order.orderedAt|date('d/m/Y') }}</h1>
+    <p>Adresse de facturation</p>
+    <ul>
+        <li>{{ order.billingAddress.firstname }} {{ order.billingAddress.lastname }}</li>
+        <li>{{ order.billingAddress.fullAddress }}</li>
+        {% if order.billingAddress.additional %}
+            <li>{{ order.billingAddress.additional }}</li>
+        {% endif %}
+        <li>{{ order.billingAddress.postcode }} {{ order.billingAddress.city }} - {{ order.billingAddress.country }}</li>
+    </ul>
+</div>
+{% if order.billingAddress.id != order.deliveryAddress.id and order.billingAddress.fullAddress != order.deliveryAddress.fullAddress %}
+    <div class='delivery'>
+        <p>Adresse de livraison</p>
+        <ul>
+            <li>{{ order.deliveryAddress.firstname }} {{ order.deliveryAddress.lastname }}</li>
+            <li>{{ order.deliveryAddress.fullAddress }}</li>
+            {% if order.deliveryAddress.additional %}
+                <li>{{ order.deliveryAddress.additional }}</li>
+            {% endif %}
+            <li>{{ order.deliveryAddress.postcode }} {{ order.deliveryAddress.city }} - {{ order.deliveryAddress.country }}</li>
+        </ul>
+    </div>
+{% endif %}
+<table cellspacing="0" cellpadding="0" id="entity">
+    <tr>
+        <td class="color" width="80">Aperçu</td>
+        <td class="color" width="40">Réf.</td>
+        <td class="color" width="480">Désignation</td>
+        <td class="color" width="40">Qté</td>
+        <td class="color" width="80">Montant</td>
+    </tr>
+    {% for line in order.customerOrderLines %}
+        <tr>
+            <td>
+                <img src='{{ 'http://' ~ app.request.httpHost ~ asset(line.item.images|first.webPath) }}' alt='miniature' width='60' height='60' />
+            </td>
+            <td>{{ line.item.reference }}</td>
+            <td>{{ line.item.name }}</td>
+            <td>{{ line.quantity }}</td>
+            <td>{% if line.discount %}<span class="sales">{{ (line.price * line.quantity)|number_format(2, ',') }} €</span><br/>{% endif %}{{ (line.discountPrice * line.quantity)|number_format(2, ',') }} €</td>
+        </tr>
+        {% set total = total + (line.discountPrice * line.quantity) %}
+    {% endfor %}
+    {% if order.gift %}
+        {% set total = total - order.giftValueUsed %}
+        {% if total < 0 %}{% set total = 0 %}{% endif %}
+        <tr>
+            <td colspan='4'>Carte cadeau</td>
+            <td>-{{ order.giftValueUsed|number_format(2, ',') }} €</td>
+        </tr>
+    {% endif %}
+    {% if order.shipping %}
+        {% set total = total + order.shipping %}
+        <tr>
+            <td colspan='4' >Frais de port</td>
+            <td>{{ order.shipping|number_format(2, ',') }} €</td>
+        </tr>
+    {% endif %}
+    <tr>
+        <td colspan='4' id="total" class="color">
+            <strong>MONTANT H.T.</strong>
+            <br/>
+            <em>T.V.A. non applicable art. 293 B du CGI</em>
+        </td>
+        <td><strong>{{ total|number_format(2, ',') }} €</strong></td>
+    </tr>
+</table>
+</body>
+</html>

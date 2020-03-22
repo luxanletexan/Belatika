@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Address;
 use App\Entity\CustomerOrder;
 use App\Form\UserAddressesType;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Html2Pdf;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,18 +54,41 @@ class UserController extends AbstractController
     /**
      * @Route("/order/{reference<\d+>}")
      * @param CustomerOrder $customerOrder
+     * @param Request $request
      * @return Response
+     * @throws Html2PdfException
      */
-    public function order(CustomerOrder $customerOrder)
+    public function order(CustomerOrder $customerOrder, Request $request)
     {
+        $pdf = $request->get('mode') === 'pdf';
+
         $user = $this->getUser();
 
         if ($customerOrder->getUser()->getId() !== $user->getId() && !$user->isAdmin()) {
             return $this->redirectToRoute('fos_user_profile_show');
         }
 
-        return $this->render($this->getTemplate('order/order.html.twig'), [
-            'order' => $customerOrder,
-        ]);
+        if ($pdf) {
+            $html = $this->renderView($this->getTemplate('order/order.pdf.twig'), [
+                'order' => $customerOrder,
+            ]);
+
+            $html2pdf = new Html2Pdf('P', 'A4', 'fr');
+            $html2pdf->setDefaultFont('Arial');
+            $html2pdf->pdf->SetAuthor('Belatika');
+            $html2pdf->pdf->SetDisplayMode('real');
+            $html2pdf->pdf->SetTitle('Facture_' . $customerOrder->getReference() . '.pdf');
+            $html2pdf->writeHTML($html);
+            $html2pdf->output('Facture_' . $customerOrder->getReference() . '.pdf');
+
+            $response = new Response();
+            $response->headers->set('Content-type', 'application/pdf');
+
+            return $response;
+        } else {
+            return $this->render($this->getTemplate('order/order.html.twig'), [
+                'order' => $customerOrder,
+            ]);
+        }
     }
 }

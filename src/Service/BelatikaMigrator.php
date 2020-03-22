@@ -161,6 +161,8 @@ class BelatikaMigrator
             $address = new Address();
             $address
                 ->setId($oldAdress['id'])
+                ->setFirstname($oldAdress['prenom'])
+                ->setLastname($oldAdress['nom'])
                 ->setName($oldAdress['adresse'])
                 ->setPostcode($oldAdress['cp'])
                 ->setCountry($oldAdress['pays'])

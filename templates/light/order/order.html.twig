@@ -1,9 +1,10 @@
 {% extends shop_settings.template ~ "/layout.html.twig" %}
-{% block title %}{{ ('Récapitulatif de votre commande du ' ~ order.orderedAt|date('d/m/Y'))|gTrans }}{% endblock %}
-{% block meta_title %}{{ 'Commande référence'|gTrans ~ ' #' ~ order.reference }}{% endblock %}
+{% block title %}{{ 'Votre commande'|gTrans }}{% endblock %}
+{% block meta_title %}{{ 'Votre commande'|gTrans }}{% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="row py-5">
+    <div class="container mb-5">
+        <div class="row mt-5">
+            <div>{{ ('Récapitulatif de votre commande du ' ~ order.orderedAt|date('d/m/Y'))|gTrans }}</div>
             <table class="col-12 table">
                 <thead>
                     <tr>
@@ -18,7 +19,7 @@
                             <td><img src="{{ line.item.images|first.webPath|imagine_filter('icon') }}" alt="{{ line.item.images|first.alt }}"></td>
                             <td>{{ line.item.name }}</td>
                             <td class="text-right">{{ line.quantity }}</td>
-                            <td class="text-right">{{ line.price|number_format(2, ',') }}€</td>
+                            <td class="text-right">{{ line.discountPrice|number_format(2, ',') }}€</td>
                         </tr>
                     {% endfor %}
                     {% if order.gift and order.giftValueUsed %}
@@ -38,5 +39,6 @@
                 </tfoot>
             </table>
         </div>
+        <a class="my-3 btn btn-sm bt-btn--primary" target="_blank" href="{{ path('app_user_order', {'reference' : order.reference}) }}?mode=pdf"><i class="far fa-eye"></i> {{ 'Voir au format PDF'|gTrans }}</a>
     </div>
 {%  endblock %}

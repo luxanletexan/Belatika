@@ -19,8 +19,18 @@
 </div>
 <fieldset>
     <legend>{{ 'Choisissez votre adresse de livraison:'|gTrans }}</legend>
+    <div class="form-group row">
+            <div class="col-sm-6">
+                {{ form_widget(form.deliveryAddress.firstname, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'|gTrans|capitalize}}) }}
+                {{ form_errors(form.deliveryAddress.firstname) }}
+            </div>
+            <div class="col-sm-6">
+                {{ form_widget(form.deliveryAddress.lastname, {'attr': {'class': 'form-control', 'placeholder': 'Nom de famille'|gTrans|capitalize}}) }}
+                {{ form_errors(form.deliveryAddress.lastname) }}
+            </div>
+    </div>
     <div class="address-field mt-2">
-        {{ form_label(form.deliveryAddress.fullAddress, 'Livraison'|gTrans, {'label_attr': {'class': 'address-label'}}) }}
+        {{ form_label(form.deliveryAddress.fullAddress, 'Adresse de livraison'|gTrans, {'label_attr': {'class': 'address-label'}}) }}
         {{ form_widget(form.deliveryAddress.fullAddress, {'attr': {'class': 'form-control', 'placeholder': 'Votre adresse de livraison'|gTrans|capitalize}}) }}
         {{ form_errors(form.deliveryAddress.fullAddress) }}
     </div>
@@ -32,8 +42,18 @@
 </fieldset>
 <fieldset id="billing-fieldset">
     <legend>{{ 'Choisissez votre adresse de facturation:'|gTrans }}</legend>
+    <div class="form-group row">
+        <div class="col-sm-6">
+            {{ form_widget(form.billingAddress.firstname, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'|gTrans|capitalize}}) }}
+            {{ form_errors(form.billingAddress.firstname) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_widget(form.billingAddress.lastname, {'attr': {'class': 'form-control', 'placeholder': 'Nom de famille'|gTrans|capitalize}}) }}
+            {{ form_errors(form.billingAddress.lastname) }}
+        </div>
+    </div>
     <div class="address-field">
-        {{ form_label(form.billingAddress.fullAddress, 'Facturation'|gTrans, {'label_attr': {'class': 'address-label'}}) }}
+        {{ form_label(form.billingAddress.fullAddress, 'Adresse de facturation'|gTrans, {'label_attr': {'class': 'address-label'}}) }}
         {{ form_widget(form.billingAddress.fullAddress, {'attr': {'class': 'form-control', 'placeholder': 'Votre adresse de facturation'|gTrans|capitalize}}) }}
         {{ form_errors(form.billingAddress.fullAddress) }}
     </div>
