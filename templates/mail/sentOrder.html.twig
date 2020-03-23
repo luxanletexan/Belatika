@@ -109,7 +109,7 @@
                 <p>{{ "Vous pouvez suivre votre colis à l'aide du numéro suivant :"|gTrans }} <a target="_blank" href="https://www.laposte.fr/outils/suivre-vos-envois?code={{ numero_suivi }}">{{ numero_suivi }}</a></p>
             {% endif %}
             <p>
-                {{ "Lorsque vous aurez reçu votre commande, je vous invite à laisser un avis afin d'améliorer mes services en cliquant sur le lien suivant :"|gTrans }}<br>
+                {{ "Lorsque vous aurez reçu votre commande, je vous invite à laisser un avis en cliquant sur le lien suivant :"|gTrans }}<br>
             </p>
             <div class="text-center">
                 <a class="btn btn-gold" href='{{ url('app_user_order', { 'reference' : order.reference }) }}' >{{ 'Laisser un avis sur ma commande'|gTrans }}</a>
