@@ -68,6 +68,17 @@ class UserController extends AbstractController
             return $this->redirectToRoute('fos_user_profile_show');
         }
 
+        if ($request->isMethod('POST')) {
+            $rate = intval($request->get('rating'));
+            $review = strip_tags($request->get('content'));
+            if ($rate > 0 && (!empty($review) || $rate > 2)) {
+                $customerOrder->setRating($rate)->setReview($review);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($customerOrder);
+                $em->flush();
+            }
+        }
+
         if ($pdf) {
             $html = $this->renderView($this->getTemplate('order/order.pdf.twig'), [
                 'order' => $customerOrder,

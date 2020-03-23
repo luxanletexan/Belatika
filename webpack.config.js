@@ -27,6 +27,7 @@ Encore
     .addEntry('app_shop_index', './assets/js/pages/shop/_index.js')
     .addEntry('app_blog_article', './assets/js/pages/blog/_article.js')
     .addEntry('app_user_address', './assets/js/pages/user/_address.js')
+    .addEntry('app_user_order', './assets/js/pages/user/_order.js')
     .addEntry('app_cart_index', './assets/js/pages/cart/_index.js')
     .addEntry('app_order_index', './assets/js/pages/order/_index.js')
     //.addEntry('page2', './assets/js/page2.js')

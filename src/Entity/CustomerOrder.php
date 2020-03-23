@@ -98,6 +98,11 @@ class CustomerOrder
      */
     private $payment;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $review;
+
     public function __construct()
     {
         $this->customerOrderLines = new ArrayCollection();
@@ -308,6 +313,18 @@ class CustomerOrder
     public function setPayment(?Payment $payment): self
     {
         $this->payment = $payment;
+
+        return $this;
+    }
+
+    public function getReview(): ?string
+    {
+        return $this->review;
+    }
+
+    public function setReview(?string $review): self
+    {
+        $this->review = $review;
 
         return $this;
     }
