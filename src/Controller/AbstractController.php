@@ -101,6 +101,24 @@ abstract class AbstractController extends Controller
         $this->mailer->send($message);
     }
 
+    /**
+     * @param string $subject
+     * @param string $to
+     * @param string $template
+     * @param array $viewVars
+     * @return int
+     */
+    protected function fastMail($subject, $to, $template, $viewVars = [])
+    {
+        $message = (new Swift_Message($subject))
+            ->setCharset('utf-8')
+            ->setContentType('text/html')
+            ->setFrom('contact@belatika.com')
+            ->setTo($to)
+            ->setBody($this->renderView($template, $viewVars));
+        return $this->mailer->send($message);
+    }
+
     protected function getSessionFrom(Request $request): SessionInterface
     {
         $session = $request->getSession();

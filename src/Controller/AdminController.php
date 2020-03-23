@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\CustomerOrder;
 use App\Entity\EtsyFeedback;
 use App\Entity\Image;
 use App\Entity\Item;
@@ -26,7 +27,17 @@ class AdminController extends AbstractController
      */
     public function index()
     {
-        return $this->render('admin/index.html.twig');
+        return $this->render($this->getTemplate('admin/index.html.twig'));
+    }
+
+    /**
+     * @Route("/test-mail/{reference<\d+>}")
+     * @param CustomerOrder $customerOrder
+     * @return Response
+     */
+    public function testMail(CustomerOrder $customerOrder)
+    {
+        return $this->render('mail/sentOrder.html.twig', ['order' => $customerOrder, 'numero_suivi' => 1]);
     }
 
     /**

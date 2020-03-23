@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ app.request.locale }}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    <title>Facture N°{{ order.reference }}</title>
+    <title>{{ 'Facture'|gTrans }} N°{{ order.reference }}</title>
     <style type="text/css">
         .color {
             color: black;
@@ -68,12 +68,16 @@
         #total {
             text-align:right;
         }
+
+        .td-image {
+            padding: -15px 0 5px 0;
+        }
     </style>
 </head>
 <body>
 {% set total = 0 %}
 <div class="belatika">
-    <img src="{{ 'http://' ~ app.request.httpHost ~ asset('img/resources/belatika_logo.png') }}" alt="belatika" widh="80" height="80"/>
+    <img src="{{ 'http://' ~ app.request.httpHost ~ asset('img/resources/belatika_logo.png') }}" alt="belatika" width="100">
     <ul>
         <li>IPARAGUIRRE Isabelle</li>
         <li>44 allée des platanes</li>
@@ -118,8 +122,8 @@
     </tr>
     {% for line in order.customerOrderLines %}
         <tr>
-            <td>
-                <img src='{{ 'http://' ~ app.request.httpHost ~ asset(line.item.images|first.webPath) }}' alt='miniature' width='60' height='60' />
+            <td class="td-image">
+                <img src='{{ 'http://' ~ app.request.httpHost ~ asset(line.item.images|first.webPath) }}' alt='miniature' width='60'>
             </td>
             <td>{{ line.item.reference }}</td>
             <td>{{ line.item.name }}</td>

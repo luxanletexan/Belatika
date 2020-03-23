@@ -1,10 +1,10 @@
 {% extends shop_settings.template ~ "/layout.html.twig" %}
 {% block meta_title %}Administration{% endblock %}
 {% block title %}Administration{% endblock %}
-{% block head %}{{ encore_entry_script_tags('app_admin_index') }}{% endblock %}
 {% block content %}
     <div id="admin-menu">
         <a href="{{ path('app_admin_items') }}" class="admin-link-access">Articles</a>
         <a href="{{ path('app_admin_settings') }}" class="admin-link-access">Réglages du site</a>
+        <a href="{{ path('app_admin_testmail', {'reference' : 25}) }}" class="admin-link-access">Exemple Mail</a>
     </div>
 {% endblock %}
