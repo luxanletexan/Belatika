@@ -1,0 +1,28 @@
+{% extends shop_settings.template ~ "/layout.html.twig" %}
+{% block meta_title %}{{ "Avis"|gTrans }}{% endblock %}
+{% block title %}{{ "Avis"|gTrans }}{% endblock %}
+{% block head %}
+    <link rel="canonical" href="{{ absolute_url(path('app_shop_avis')) }}">
+    <meta name="description" content="{{ "Condition d'utilisation du blog de la boutique en ligne de bijoux Belatika"|gTrans }}">
+{% endblock %}
+{% block content %}
+    <div class="reviews">
+        {% for review in reviews %}
+            <div class="reviews__review box-shadow">
+                <span class="reviews__review__date">{{ review.datetime|date('d/m/Y H:i') }}</span>
+                <span class="reviews__review__rate">
+                    {% for i in 1..5 %}
+                        {% if review.rate >= i - 0.25 %}
+                            <i class="fas fa-star"></i>
+                        {% elseif review.rate >= i - 0.75 %}
+                            <i class="fas fa-star-half-alt"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </span>
+                <div>{{ review.review|raw }}</div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

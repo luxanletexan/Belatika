@@ -5,6 +5,8 @@ namespace App\Controller;
 
 use App\Entity\BlogArticle;
 use App\Entity\Category;
+use App\Entity\CustomerOrder;
+use App\Entity\EtsyFeedback;
 use App\Entity\Item;
 use App\Entity\Range;
 use App\Service\BelatikaMigrator;
@@ -114,5 +116,44 @@ class ShopController extends AbstractController
     public function bloginfos(): Response
     {
         return $this->render($this->getTemplate('shop/bloginfos.html.twig'));
+    }
+
+    /**
+     * @Route("/avis", name="app_shop_avis")
+     */
+    public function ratings()
+    {
+        $orders = $this->getDoctrine()->getRepository(CustomerOrder::class)->findBy(['rating' => [1,2,3,4,5]]);
+        $etsyFeedbacks = $this->getDoctrine()->getRepository(EtsyFeedback::class)->findAll();
+
+        $reviews = [];
+
+        foreach ($orders as $order) {
+            $reviews[] = [
+                'datetime' => $order->getOrderedAt(),
+                'rate' => $order->getRating(),
+                'review' => $order->getReview()
+            ];
+        }
+        foreach ($etsyFeedbacks as $etsyFeedback) {
+            $datetime = new \DateTime();
+            $datetime->setTimestamp($etsyFeedback->getCreationTsz());
+            $reviews[] = [
+                'datetime' => $datetime,
+                'rate' => 3 + 2*$etsyFeedback->getValue(),
+                'review' => $etsyFeedback->getMessage()
+            ];
+        }
+
+        usort($reviews, function ($a, $b) {
+            $aDate = $a['datetime'];
+            $bDate = $b['datetime'];
+            if ($aDate == $bDate) {
+                return 0;
+            }
+            return $aDate > $bDate ? -1 : 1;
+        });
+
+        return $this->render($this->getTemplate('shop/avis.html.twig'), ['reviews' => $reviews]);
     }
 }
