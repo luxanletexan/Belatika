@@ -9,6 +9,7 @@ use App\Entity\Item;
 use App\Form\ItemType;
 use App\Form\SettingsType;
 use App\Service\API\Etsy;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -232,5 +233,37 @@ class AdminController extends AbstractController
             $em->flush();
         }
         die;
+    }
+
+    /**
+     * @Route("/commandes")
+     */
+    public function orders()
+    {
+        $orders = $this->getDoctrine()->getManager()->getRepository(CustomerOrder::class)->findBy(['is_sent' => '0'], ['reference' => 'DESC']);
+
+        return $this->render($this->getTemplate('admin/orders.html.twig'), ['orders' => $orders]);
+    }
+
+    /**
+     * @Route("/commande/send/{reference<\d+>}")
+     * @param CustomerOrder $order
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function sendOrder(CustomerOrder $order, Request $request)
+    {
+        $trackingNumber = $request->get('tracking_number');
+        $order->setTrackingNumber($trackingNumber);
+        $order->setSentAt(date_create());
+        $order->setIsSent(true);
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        $this->fastMail($this->gTrans('Votre commande Belatika est en route'), $order->getUser()->getEmail(), 'mail/sentOrder.html.twig', ['order' => $order]);
+
+        $this->addFlash('success', 'Commande validée et mail envoyé');
+
+        return $this->redirectToRoute('app_admin_orders');
     }
 }

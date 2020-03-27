@@ -2,9 +2,10 @@
 {% block meta_title %}Administration{% endblock %}
 {% block title %}Administration{% endblock %}
 {% block content %}
-    <div id="admin-menu">
-        <a href="{{ path('app_admin_items') }}" class="admin-link-access">Articles</a>
-        <a href="{{ path('app_admin_settings') }}" class="admin-link-access">Réglages du site</a>
-        <a href="{{ path('app_admin_testmail', {'reference' : 25}) }}" class="admin-link-access">Exemple Mail</a>
+    <div class="container" id="admin-menu">
+        <div><a class="btn btn-sm bt-btn--primary m-2" href="{{ path('app_admin_items') }}">Articles</a></div>
+        <div><a class="btn btn-sm bt-btn--primary m-2" href="{{ path('app_admin_settings') }}">Réglages du site</a></div>
+        <div><a class="btn btn-sm bt-btn--primary m-2" href="{{ path('app_admin_testmail', {'reference' : 25}) }}">Exemple Mail</a></div>
+        <div><a class="btn btn-sm bt-btn--primary m-2" href="{{ path('app_admin_orders') }}">Validation cde</a></div>
     </div>
 {% endblock %}

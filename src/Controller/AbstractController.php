@@ -103,7 +103,7 @@ abstract class AbstractController extends Controller
 
     /**
      * @param string $subject
-     * @param string $to
+     * @param string|array $to
      * @param string $template
      * @param array $viewVars
      * @return int

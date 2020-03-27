@@ -103,6 +103,11 @@ class CustomerOrder
      */
     private $review;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tracking_number;
+
     public function __construct()
     {
         $this->customerOrderLines = new ArrayCollection();
@@ -325,6 +330,18 @@ class CustomerOrder
     public function setReview(?string $review): self
     {
         $this->review = $review;
+
+        return $this;
+    }
+
+    public function getTrackingNumber(): ?string
+    {
+        return $this->tracking_number;
+    }
+
+    public function setTrackingNumber(?string $tracking_number): self
+    {
+        $this->tracking_number = $tracking_number;
 
         return $this;
     }

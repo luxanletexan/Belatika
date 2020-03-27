@@ -105,8 +105,8 @@
                 {{ 'Merci pour votre achat'|gTrans }},<br/>
                 {{ 'Belatika vous souhaite bonne réception'|gTrans }}.
             </p>
-            {% if numero_suivi %}
-                <p>{{ "Vous pouvez suivre votre colis à l'aide du numéro suivant :"|gTrans }} <a target="_blank" href="https://www.laposte.fr/outils/suivre-vos-envois?code={{ numero_suivi }}">{{ numero_suivi }}</a></p>
+            {% if order.trackingNumber %}
+                <p>{{ "Vous pouvez suivre votre colis à l'aide du numéro suivant :"|gTrans }} <a target="_blank" href="https://www.laposte.fr/outils/suivre-vos-envois?code={{ order.trackingNumber }}">{{ order.trackingNumber }}</a></p>
             {% endif %}
             <p>
                 {{ "Lorsque vous aurez reçu votre commande, je vous invite à laisser un avis en cliquant sur le lien suivant :"|gTrans }}<br>
