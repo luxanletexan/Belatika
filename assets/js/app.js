@@ -13,8 +13,10 @@ require('../css/app.scss');
 
 import Lazyloader from "./class/_Lazyloader";
 import Cart from "./class/_Cart";
+import Search from "./class/_Search";
 
 document.addEventListener('DOMContentLoaded', () => {
     new Lazyloader();
     new Cart();
+    new Search();
 });

@@ -5,7 +5,16 @@
     <button class="navbar__item navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavLeftDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
     </button>
-    <div class="navbar__item navbar__item--search"><i class="fas fa-search"></i></div>
+    <div class="navbar__item navbar__item--search">
+        <form method="POST" action="{{ path('app_shop_search') }}">
+            <label for="bt-search" class="bt-search">
+                <i id="bt-search-trigger" class="fas fa-search bt-search__button"></i>
+                <span class="sr-only">{{ 'Rechercher sur le site'|gTrans }}</span>
+                <input class="bt-search__input" id="bt-search" name="bt-search" type="text">
+                <button class="sr-only" id="bt-search-button">{{ 'OK'|gTrans }}</button>
+            </label>
+        </form>
+    </div>
     <div class="navbar__item navbar__item--profile"><a href="{{ path('fos_user_profile_show') }}"><i class="fas fa-user"></i></a></div>
     <div class="navbar__item navbar__item--cart" data-quantity="{{ app.session.get('cart')|length }}">
         <a href="{{ path('app_cart_show') }}"><i class="fas fa-shopping-bag"></i></a>

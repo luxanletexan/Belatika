@@ -75,6 +75,27 @@ class ItemRepository extends AbstractRepository
     }
 
     /**
+     * @param string $search
+     * @return Item[]
+     */
+    public function searchWithImages($search): array
+    {
+        $qb = $this->createQueryBuilder('it')
+            ->where('it.quantity > 0')
+            ->innerJoin('it.images', 'im')
+            ->addSelect('im')
+            ->innerJoin('it.category', 'c')
+            ->addSelect('c')
+            ->andwhere('it.name like :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->orWhere('it.reference = :ref')
+            ->setParameter('ref', $search)
+            ->orderBy('it.created_at', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * @param Range $range
      * @return Item[]
      */

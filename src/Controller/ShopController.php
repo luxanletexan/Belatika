@@ -11,6 +11,7 @@ use App\Entity\Item;
 use App\Entity\Range;
 use App\Service\BelatikaMigrator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -70,6 +71,20 @@ class ShopController extends AbstractController
         $items = $this->getDoctrine()->getRepository(Item::class)->findCategoryWithImages($category);
 
         return $this->render($this->getTemplate('shop/category.html.twig'), ['category' => $category, 'items' => $items]);
+    }
+
+    /**
+     * @Route("/bijoux/recherche", name="app_shop_search")
+     * @param Request $request
+     * @return Response
+     */
+    public function search(Request $request):Response
+    {
+        $search = $request->get('bt-search');
+
+        $items = $this->getDoctrine()->getRepository(Item::class)->searchWithImages($search);
+
+        return $this->render($this->getTemplate('shop/search.html.twig'), ['items' => $items]);
     }
 
     /**

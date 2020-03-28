@@ -76,3 +76,32 @@
 .nav-item.show a::after {
   transform: rotate(0);
 }
+
+$search-size: 20px;
+.bt-search {
+  margin:0;
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  &__button {
+    line-height: $search-size * 2;
+    z-index: 2;
+    position: absolute;
+    padding-left: 10px;
+  }
+  &__input {
+    z-index: 1;
+    border: none;
+    padding-left: $search-size * 2;
+    height: $search-size * 2;
+    outline: none;
+    border-radius: $search-size * 2;
+    width: $search-size * 2;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    &.box-shadow {
+      opacity: 1;
+    }
+  }
+}
