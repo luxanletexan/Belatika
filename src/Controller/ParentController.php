@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\SessionUnavailableException;
 use Doctrine\ORM\NonUniqueResultException;
 
-abstract class AbstractController extends Controller
+abstract class ParentController extends Controller
 {
     /**
      * @var GoogleTranslator

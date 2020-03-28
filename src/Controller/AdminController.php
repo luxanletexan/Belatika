@@ -18,7 +18,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * @Route("/admin")
  */
-class AdminController extends AbstractController
+class AdminController extends ParentController
 {
     private $settingsFile;
 

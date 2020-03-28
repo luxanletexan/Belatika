@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class ShopController extends AbstractController
+class ShopController extends ParentController
 {
     /**
      * @Route("/migrate", name="app_shop_migrate")

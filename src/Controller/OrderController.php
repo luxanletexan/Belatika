@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 /**
  * @Route("/commande")
  */
-class OrderController extends AbstractController
+class OrderController extends ParentController
 {
     /**
      * @var ObjectManager

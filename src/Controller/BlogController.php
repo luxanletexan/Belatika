@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * @Route("/blog")
  */
-class BlogController extends AbstractController
+class BlogController extends ParentController
 {
     /**
      * @Route("/")

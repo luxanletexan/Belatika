@@ -18,7 +18,7 @@ use App\Entity\Address;
 /**
  * @Route("/panier")
  */
-class CartController extends AbstractController
+class CartController extends ParentController
 {
     /**
      * @Route("/")
