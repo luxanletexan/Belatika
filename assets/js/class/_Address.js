@@ -192,7 +192,7 @@ export default class Address {
 
     populate()
     {
-        let fields = ['countryCode', 'city', 'administrative', 'county', 'country', 'postcode', 'name', 'value', 'lat', 'lng', 'firstname', 'lastname'];
+        let fields = ['countryCode', 'city', 'administrative', 'county', 'country', 'postcode', 'name', 'value', 'lat', 'lng'];
 
         this.inputMapNames.forEach((name) => {
             if(this.adresses[name].hasOwnProperty('value')){
