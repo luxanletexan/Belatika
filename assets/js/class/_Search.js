@@ -4,7 +4,7 @@ export default class Search
     {
         this.expanded = false;
         this.collapsedSize = '40px';
-        this.expandedSize = '300px';
+        this.expandedSize = '250px';
         this.searchInput = document.getElementById('bt-search');
         this.searchTrigger = document.getElementById('bt-search-trigger');
         this.searchButton = document.getElementById('bt-search-button');

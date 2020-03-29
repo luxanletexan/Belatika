@@ -2,8 +2,8 @@ import Carousel from "../../class/_Carousel";
 
 document.addEventListener('DOMContentLoaded', () => {
     new Carousel(document.getElementById('carousel'), {
-        slidesToScroll: 1,
-        visibleSlides: 1,
+        slidesToScroll: 2,
+        visibleSlides: 2,
         loop: true,
         autoplay: true,
         breakpoints: [

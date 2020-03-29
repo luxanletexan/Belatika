@@ -33,11 +33,8 @@
     bottom: -40%;
   }
   &__item {
-    margin: 0 50px;
-    @include media-breakpoint-up(md) {
-      margin: 0 15px;
-    }
-    border-radius: 2.5rem;
+    margin: 0 15px;
+    border-radius: .75rem;
     box-shadow: 0 0 15px $gold;
     overflow: hidden;
     & img {
