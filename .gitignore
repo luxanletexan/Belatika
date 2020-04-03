@@ -8,11 +8,11 @@
 /.idea/
 /translations/
 /test-coverage/
+/install/
 ###< symfony/framework-bundle ###
 
 ###> symfony/webpack-encore-pack ###
 /node_modules/
-/public/build/
 /public/dev/
 npm-debug.log
 yarn-error.log
