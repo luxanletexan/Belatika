@@ -11,11 +11,7 @@
 ###< symfony/framework-bundle ###
 
 ###> symfony/webpack-encore-pack ###
-/node_modules/
-/public/build/
 /public/dev/
-npm-debug.log
-yarn-error.log
 Gemfile
 Gemfile.lock
 Capfile
@@ -44,3 +40,4 @@ yarn-error.log
 /public/img/uploads/
 /public/img/blog/
 ###< liip/imagine-bundle ###
+/install/
