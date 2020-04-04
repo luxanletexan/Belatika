@@ -32,6 +32,7 @@ class ItemRepository extends AbstractRepository
         foreach ($filters as $field => $value) {
             $qb->where('it.'.$field.' = :'.$field)->setParameter($field, $value);
         }
+        $qb->orWhere('it.created_at > :date')->setParameter('date', date_create()->modify('-1 month'));
 
         if ($paginate) {
             return $this->paginate($qb);
