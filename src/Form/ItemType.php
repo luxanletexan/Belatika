@@ -39,7 +39,6 @@ class ItemType extends AbstractType
                 'class' => Range::class,
                 'choice_label' => 'name',
                 'multiple' => true,
-                'required' => false,
                 'label' => 'Gammes'
             ])
             ->add('images', CollectionType::class, [

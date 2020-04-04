@@ -19,28 +19,29 @@
     <link rel="stylesheet" href="{{ asset('css/item-carousel.css') }}">
 {% endblock %}
 {% block content %}
-    <div class="item{% if cart[item.id] is defined %} added{% endif %}">
-        <div class="separator--vertical"></div>
-        {% if item.images|length == 1 %}
-        <figure class="item__image">
-            <img src="{{ asset(item.images|first.webPath|imagine_filter('large')) }}" alt="{{ item.images|first.alt }}">
-        </figure>
-        {% else %}
-            {{ include(shop_settings.template ~ '/modules/item-carousel.html.twig') }}
-        {% endif %}
-        <div class="item__description">
-            <div class="item__description__header">
-                {% if item.discount and onSales %}
-                    <span class="item__description__header__price--discount">-{{ item.discount }}%</span>
-                    <span class="item__description__header__price--original">{{ item.price|number_format(2, ',') }}€</span>
-                    <span class="item__description__header__price">{{ item.discountPrice|number_format(2, ',') }}€</span>
+    <div class="item">
+        <div class="item__border"></div>
+        <div class="item__aside">
+            <div class="item__aside__image">
+                {% if item.images|length == 1 %}
+                    <figure>
+                        <img src="{{ asset(item.images|first.webPath|imagine_filter('large')) }}" alt="{{ item.images|first.alt }}">
+                    </figure>
                 {% else %}
-                    <span class="item__description__header__price"> {{ item.price|number_format(2, ',') }}€ </span>
+                    {{ include(shop_settings.template ~ '/modules/item-carousel.html.twig') }}
                 {% endif %}
             </div>
-            <div class="item__description__reference">{{ 'Référence'|gTrans }} n°{{ item.reference }}</div>
-            <div class="item__description__content">{{ item.description|raw|gTrans }}</div>
-            <div class="item__description__footer">
+            <div class="item__aside__price">
+                {% if item.discount and onSales %}
+                    <span class="item__aside__price__value--discount">-{{ item.discount }}%</span>
+                    <span class="item__aside__price__value--original">{{ item.price|number_format(2, ',') }}€</span>
+                    <span class="item__aside__price__value">{{ item.discountPrice|number_format(2, ',') }}€</span>
+                {% else %}
+                    <span class="item__aside__price__value"> {{ item.price|number_format(2, ',') }}€ </span>
+                {% endif %}
+            </div>
+            <div class="item__aside__reference">{{ 'Référence'|gTrans }} n°{{ item.reference }}</div>
+            <div class="item__aside__footer">
                 {% if not item.quantity %}
                     <p>{{ 'Cet article n\'est plus disponible'|gTrans }}</p>
                 {% else %}
@@ -62,7 +63,10 @@
                 {% endif %}
             </div>
         </div>
-        <div class="separator--vertical"></div>
+        <div class="item__description">
+            <div class="item__description__content">{{ item.description|raw|gTrans }}</div>
+        </div>
+        <div class="item__border"></div>
     </div>
 
 {% endblock %}

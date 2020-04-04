@@ -7,40 +7,64 @@ $item-breakpoint: 'md';
   @include media-breakpoint-up($item-breakpoint) {
     flex-direction: row;
   }
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 36px auto 80px auto;
   padding: 30px 0;
   position: relative;
   &::after {
     @include white-filter;
   }
-  &__image {
-    z-index: 5;
-    margin: 0 1%;
+  &__border {
+    display: none;
     @include media-breakpoint-up($item-breakpoint) {
-      width: 45%;
+      display: block;
     }
     position: relative;
-    &::after {
-      @include white-filter;
+    overflow: hidden;
+    border: none;
+    width: 4%;
+    height: auto;
+    margin: -30px 0;
+    align-self: stretch;
+    background-image: url("./pebbles.jpg");
+    background-attachment: fixed;
+    opacity: .6;
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 120%;
+      top: 0;
+      height: 100%;
     }
-    & img {
-      width: 100%;
-      border-radius: 36px;
+    &::before {
+      left: -10%;
+      background: linear-gradient(to right,white 15%, transparent 25%, transparent 75%, white 85%);
     }
   }
-  &__description {
+  &__aside {
     z-index: 5;
-    @include media-breakpoint-up($item-breakpoint) {
-      width: 45%;
-    }
     margin: 0 1%;
-    &__header {
+    @include media-breakpoint-up($item-breakpoint) {
+      width: 25%;
+    }
+    &__image {
+      position: relative;
+      &::after {
+        @include white-filter;
+      }
+      & img {
+        width: 100%;
+        border-radius: 1rem;
+      }
+    }
+
+    &__price {
       margin: 16px 0;
       display: flex;
       justify-content: flex-end;
       align-items: baseline;
-      &__price {
+      &__value {
         font-size: 4rem;
         color: $gold;
         @include price-font;
@@ -65,12 +89,9 @@ $item-breakpoint: 'md';
       text-align: right;
       margin: 16px 0;
       font-style: italic;
-      color: #DDD;
+      color: #BBB;
     }
-    &__content {
-      margin: 12px 0;
-      line-height: 2rem;
-    }
+
     &__footer {
       & button {
         margin: 16px 0;
@@ -79,32 +100,14 @@ $item-breakpoint: 'md';
       }
     }
   }
-}
-
-.separator--vertical {
-  display: none;
-  @include media-breakpoint-up($item-breakpoint) {
-    display: block;
-  }
-  position: relative;
-  overflow: hidden;
-  border: none;
-  width: 4%;
-  height: auto;
-  margin: -30px 0;
-  background-image: url("./pebbles.jpg");
-  background-attachment: fixed;
-  opacity: .6;
-  &::before {
-    content: '';
-    position: absolute;
-    display: block;
-    width: 120%;
-    top: 0;
-    height: 100%;
-  }
-  &::before {
-    left: -10%;
-    background: linear-gradient(to right,white 15%, transparent 25%, transparent 75%, white 85%);
+  &__description {
+    z-index: 5;
+    @include media-breakpoint-up($item-breakpoint) {
+      width: 65%;
+    }
+    margin: 0 1%;
+    &__content {
+      line-height: 2rem;
+    }
   }
 }
