@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AddressRepository")
  * @ORM\Table(indexes={
- *     @ORM\Index(columns={"full_address"}, flags={"fulltext"}),
  *     @ORM\Index(columns={"additional"})
  * })
  */
