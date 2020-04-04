@@ -2,58 +2,55 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors~app~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/vendors~app.js",
-        "/build/app.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/0.09470b7f.js",
+        "/build/app.755be0db.js"
       ],
       "css": [
-        "/build/app.css"
+        "/build/app.d74de170.css"
       ]
     },
     "app_shop_index": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors~app~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/app_shop_index.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/0.09470b7f.js",
+        "/build/app_shop_index.d46b67d9.js"
       ]
     },
     "app_blog_article": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors~app~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/vendors~app_blog_article~app_user_address.js",
-        "/build/app_blog_article.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/0.09470b7f.js",
+        "/build/app_blog_article.d82d9128.js"
       ]
     },
     "app_user_address": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors~app~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/vendors~app_blog_article~app_user_address.js",
-        "/build/vendors~app_user_address.js",
-        "/build/app_user_address.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/0.09470b7f.js",
+        "/build/1.4fbc12a3.js",
+        "/build/app_user_address.c584eea9.js"
       ]
     },
     "app_user_order": {
       "js": [
-        "/build/runtime.js",
-        "/build/app_user_order.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/app_user_order.f50d9d88.js"
       ]
     },
     "app_cart_index": {
       "js": [
-        "/build/runtime.js",
-        "/build/app_cart_index.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/app_cart_index.b3196e12.js"
       ],
       "css": [
-        "/build/app_cart_index.css"
+        "/build/app_cart_index.7794134c.css"
       ]
     },
     "app_order_index": {
       "js": [
-        "/build/runtime.js",
-        "/build/app_order_index.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/app_order_index.0532d2f0.js"
       ]
     }
   }

@@ -39,7 +39,7 @@
                 {% endif %}
             </div>
             <div class="item__description__reference">{{ 'Référence'|gTrans }} n°{{ item.reference }}</div>
-            <div class="item__description__content">{{ item.description|gTrans|capitalize|raw }}</div>
+            <div class="item__description__content">{{ item.description|raw|gTrans }}</div>
             <div class="item__description__footer">
                 {% if not item.quantity %}
                     <p>{{ 'Cet article n\'est plus disponible'|gTrans }}</p>

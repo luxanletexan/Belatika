@@ -3,6 +3,7 @@ $item-breakpoint: 'md';
 .item {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   @include media-breakpoint-up($item-breakpoint) {
     flex-direction: row;
   }
