@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="{{ _charset }}" />
+    <title>Erreur: {{ status_text }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h1 class="col-12 text-center jumbotron">Oh non!!! Une erreur est survenue!</h1>
+            <p class="col-12 alert alert-success">Pas d'inquiétude, nous allons régler ça trés vite 😉</p>
+            <div class="d-flex flex-column align-items-center justify-content-center col-12">
+                <iframe src="https://giphy.com/embed/DBbPjLMsQPruMkDcrd" frameborder="0" width="480" height="270" class="giphy-embed" allowFullScreen></iframe>
+                <a href="https://giphy.com/gifs/mostexpensivest-viceland-most-expensivest-DBbPjLMsQPruMkDcrd">via GIPHY</a>
+            </div>
+            <p class="alert alert-warning col-12">Le serveur a renvoyé l'erreur suivante: "{{ status_code }} {{ status_text }}".</p>
+            <p class="col-12 notice">
+                Quelque chose ne fonctionne pas correctement, vous pouvez nous aider en nous indiquant ce que vous vouliez faire au moment où l'erreur est survenue:
+                <a href="mailto:contact@belatika.com"> nous contacter</a>
+            </p>
+
+            <p class="col-12">
+                Nous allons réparer ça le plus vite possible! Nous nous excusons pour la gêne occasionnée.
+            </p>
+        </div>
+        <a class="btn btn-sm btn-info" href="{{ path('app_shop_index') }}">Revenir au site</a>
+    </div>
+</body>
+</html>
