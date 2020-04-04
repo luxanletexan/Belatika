@@ -108,6 +108,11 @@ class Item
      */
     private $highlighted = false;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $metaDescription;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -339,6 +344,18 @@ class Item
     public function setRemoveLink($removeLink)
     {
         $this->removeLink = $removeLink;
+        return $this;
+    }
+
+    public function getMetaDescription(): ?string
+    {
+        return $this->metaDescription;
+    }
+
+    public function setMetaDescription(?string $metaDescription): self
+    {
+        $this->metaDescription = $metaDescription;
+
         return $this;
     }
 }

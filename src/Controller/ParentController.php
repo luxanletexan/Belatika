@@ -40,7 +40,7 @@ abstract class ParentController extends Controller
      * @param bool $force
      * @return string
      */
-    protected function gTrans($text, $force = false):string
+    protected function gTrans($text, $force = false):?string
     {
         return $this->googleTranslator->gTrans($text, $force);
     }
@@ -52,7 +52,7 @@ abstract class ParentController extends Controller
      * @param bool $force
      * @return string
      */
-    protected function gTransDB($text, $force = false):string
+    protected function gTransDB($text, $force = false):?string
     {
         return $this->googleTranslator->gTransDB($text, $force);
     }

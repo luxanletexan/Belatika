@@ -46,7 +46,7 @@ class GoogleTranslator
      * @param bool $force
      * @return string
      */
-    public function gTrans($text, $force = false):string
+    public function gTrans($text, $force = false):?string
     {
         $request = $this->request->getCurrentRequest();
         if(null === $request) { return $text; }
@@ -80,7 +80,7 @@ class GoogleTranslator
      * @param bool $force
      * @return string
      */
-    public function gTransDB($text, $force = false):string
+    public function gTransDB($text, $force = false):?string
     {
         if (empty($text)) {
             return '';

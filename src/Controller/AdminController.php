@@ -106,7 +106,7 @@ class AdminController extends ParentController
             $this->addFlash('success', 'Article modifié');
         }
 
-        return $this->render('admin/addItem.html.twig', ['form' => $form->createView(), 'images' => $item->getImages()]);
+        return $this->render($this->getTemplate('admin/addItem.html.twig'), ['form' => $form->createView(), 'item' => $item]);
     }
 
     /**

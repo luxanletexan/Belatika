@@ -28,7 +28,8 @@ class ItemType extends AbstractType
             ])
             ->add('name', TextType::class, ['label' => 'Nom'])
             ->add('reference', IntegerType::class, ['label' => 'Référence'])
-            ->add('description', TextareaType::class, ['label' => 'Description', 'attr' => ['class' => 'tinymce']])
+            ->add('description', TextareaType::class, ['label' => 'Description', 'attr' => ['class' => 'tinymce', 'rows' => 20]])
+            ->add('metaDescription', TextareaType::class, ['label' => 'Meta Description', 'attr' => ['rows' => 6]])
             ->add('price', NumberType::class, ['label' => 'Prix'])
             ->add('quantity', HiddenType::class, ['attr' => ['value' => 1]])
             ->add('images', CollectionType::class, [
@@ -41,7 +42,7 @@ class ItemType extends AbstractType
                 'required' => false,
                 'label' => false,
             ])
-            ->add('Enregistrer', SubmitType::class, ['attr' => ['class' => 'btn btn-belatika-dark float-right']])
+            ->add('Enregistrer', SubmitType::class, ['attr' => ['class' => 'btn btn-sm bt-btn--primary float-right']])
         ;
     }
 
