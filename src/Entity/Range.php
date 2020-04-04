@@ -39,7 +39,7 @@ class Range
     private $image;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Item", inversedBy="ranges")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Item", mappedBy="ranges", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $items;

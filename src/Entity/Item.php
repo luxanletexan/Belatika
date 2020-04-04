@@ -37,7 +37,7 @@ class Item
     private $images;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Range", mappedBy="items", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Range", inversedBy="items", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $ranges;
