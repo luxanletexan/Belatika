@@ -31,11 +31,26 @@
             <div class="col-12">
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
+                <button class="btn btn-sm bt-btn--primary">Enregistrer</button>
                 <div class="row form-group">
                     {{ form_label(form.category, null, {'label_attr': {'class': 'col-md-2'}}) }}
                     <div class="col col-md-10">{{ form_widget(form.category) }}</div>
                     <div class="form_errors col-md-12">
                         {{ form_errors(form.category) }}
+                    </div>
+                </div>
+                <div class="row form-group">
+                    {{ form_label(form.ranges, null, {'label_attr': {'class': 'col-md-2'}}) }}
+                    <div class="col col-md-10">{{ form_widget(form.ranges) }}</div>
+                    <div class="form_errors col-md-12">
+                        {{ form_errors(form.ranges) }}
+                    </div>
+                </div>
+                <div class="row form-group">
+                    {{ form_label(form.highlighted, null, {'label_attr': {'class': 'col-md-2'}}) }}
+                    <div class="col col-md-10">{{ form_widget(form.highlighted) }}</div>
+                    <div class="form_errors col-md-12">
+                        {{ form_errors(form.highlighted) }}
                     </div>
                 </div>
                 <div class="row form-group">

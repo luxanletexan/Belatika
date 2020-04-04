@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Item;
+use App\Entity\Range;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -32,6 +34,13 @@ class ItemType extends AbstractType
             ->add('metaDescription', TextareaType::class, ['label' => 'Meta Description', 'attr' => ['rows' => 6]])
             ->add('price', NumberType::class, ['label' => 'Prix'])
             ->add('quantity', HiddenType::class, ['attr' => ['value' => 1]])
+            ->add('highlighted', CheckboxType::class, ['label' => 'Mettre en avant', 'required' => false])
+            ->add('ranges', EntityType::class, [
+                'class' => Range::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'required' => false
+            ])
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
                 'block_name' => 'images',
