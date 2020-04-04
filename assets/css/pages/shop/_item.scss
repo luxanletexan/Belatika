@@ -55,7 +55,9 @@ $item-breakpoint: 'md';
       }
       & img {
         width: 100%;
-        border-radius: 1rem;
+      }
+      & .carousel {
+        min-height: 430px;
       }
     }
 

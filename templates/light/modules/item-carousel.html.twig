@@ -1,4 +1,4 @@
-<div id="item-carousel" class="carousel slide col-md-6" data-ride="carousel">
+<div id="item-carousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         {% for image in item.images %}
         <li data-target="#item-carousel" data-slide-to="{{ loop.index0 }}"{% if loop.first %} class="active"{% endif %}>
@@ -9,7 +9,7 @@
     <div class="carousel-inner">
         {% for image in item.images %}
         <div class="carousel-item{% if loop.first %} active{% endif %}">
-            <img class="d-block w-100 rounded" src="{{ asset(image.webPath|imagine_filter('large')) }}" alt="{{ image.alt }}">
+            <img class="d-block w-100" src="{{ asset(image.webPath|imagine_filter('large')) }}" alt="{{ image.alt }}">
         </div>
         {% endfor %}
     </div>
