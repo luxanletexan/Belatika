@@ -27,11 +27,12 @@ class RequestListener
 
         //Stats visite
         $referer = $request->headers->get('referer');
+        $referer = empty($referer) ? 'none' : $referer;
         $host = $request->getHost();
         if (preg_match("#$host#", $referer) !== 1) {
             $clientIpMd5 = md5($request->getClientIp());
             $requestedURI = $request->getRequestUri();
-
+            $requestedURI = empty($requestedURI) ? 'none' : $requestedURI;
             $statVisit = $this->manager->getRepository(StatVisit::class)->findOneBy(['ip_md5' => $clientIpMd5]);
             if ($statVisit instanceof StatVisit) {
                 $statVisit
