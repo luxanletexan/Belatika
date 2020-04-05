@@ -6,7 +6,6 @@ namespace App\Controller;
 use App\Entity\BlogArticle;
 use App\Entity\Category;
 use App\Entity\CustomerOrder;
-use App\Entity\CustomerOrderLine;
 use App\Entity\EtsyFeedback;
 use App\Entity\Item;
 use App\Entity\Range;
