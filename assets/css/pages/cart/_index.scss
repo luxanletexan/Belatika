@@ -54,8 +54,8 @@ $cart-content-breakpoint: 'sm';
     &__remove {
       grid-column: 3;
       grid-row: 2;
-      text-align: right;
-      padding: 0 15px;
+      text-align: left;
+      padding: 0 30px 0 0;
     }
   }
 }
