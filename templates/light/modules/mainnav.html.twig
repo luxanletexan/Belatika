@@ -17,7 +17,7 @@
     </div>
     <div class="navbar__item navbar__item--profile"><a href="{{ path('fos_user_profile_show') }}"><i class="fas fa-user"></i></a></div>
     <div class="navbar__item navbar__item--cart" data-quantity="{{ app.session.get('cart')|length }}">
-        <a href="{{ path('app_cart_show') }}"><i class="fas fa-shopping-bag"></i></a>
+        <span class="navbar__item__cart-hover"><i class="fas fa-shopping-bag"></i></span>
         {{ include(shop_settings.template ~ '/modules/cart-hover.html.twig') }}
     </div>
     <div class="collapse navbar-collapse navbar-collapse-absolute" id="navbarNavLeftDropdown">
