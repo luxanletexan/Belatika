@@ -10,7 +10,9 @@
                 {% if not app.user.hasSocial %}
                     <a class="btn btn-sm bt-btn--secondary" href="{{ path('fos_user_profile_edit') }}">{{ 'Modifier'|gTrans }}</a>
                 {% endif %}
-                <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-info btn-sm">{{ 'Modifier'|gTrans }}</a>
+                {% if not app.user.social %}
+                    <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-info btn-sm">{{ 'Modifier'|gTrans }}</a>
+                {% endif %}
                 <a href="{{ path('fos_user_security_logout') }}" class="btn btn-danger btn-sm">{{ 'Deconnexion'|gTrans }}</a>
             </div>
         </div>
