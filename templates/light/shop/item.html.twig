@@ -3,20 +3,15 @@
 {% block meta_title %}{{ item.name|gTrans }}{% endblock %}
 {% block title %}{{ item.name|gTrans }}{% endblock %}
 {% block head %}
-    <link
-            rel="canonical"
-            href="{{ absolute_url(
-                path(
-                    'app_shop_item',
-                    {
-                        'customer' : item.category.customers,
-                        'category_slug' : item.category.slug,
-                        'slug' : item.slug
-                    })
-            ) }}"
-    >
+    <link rel="canonical" href="{{ absolute_url(path('app_shop_item', {'customer' : item.category.customers, 'category_slug' : item.category.slug, 'slug' : item.slug})) }}">
+    <meta property="og:url" content="{{ absolute_url(path('app_shop_item', {'customer' : item.category.customers, 'category_slug' : item.category.slug, 'slug' : item.slug})) }}" />
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ item.name|gTrans|capitalize }}">
+    <meta property="fb:app_id" content="1293327757393160">
+    <meta property="og:description" content="{{ item.metaDescription|gTrans|capitalize }}">
+    <meta property="og:image" content="{{ asset(item.images|first.webPath|imagine_filter('og')) }}">
+    <meta property="og:image:secure_url" content="{{ asset(item.images|first.webPath|imagine_filter('og')) }}">
     <meta name="description" content="{{ item.metaDescription|gTrans }}">
-    <link rel="stylesheet" href="{{ asset('css/item-carousel.css') }}">
 {% endblock %}
 {% block content %}
     <div class="item">
