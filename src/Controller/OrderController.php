@@ -102,4 +102,21 @@ class OrderController extends ParentController
 
         return $order;
     }
+
+    /**
+     * @Route("/remove")
+     * @param Request $request
+     * @return Response
+     */
+    public function remove(Request $request) {
+
+        $order = $this->getPendingOrder($this->getUser());
+        if ($order instanceof CustomerOrder) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($order);
+            $em->flush();
+        }
+
+        return $this->redirect($request->headers->get('referer'));
+    }
 }

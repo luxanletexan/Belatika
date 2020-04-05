@@ -17,7 +17,7 @@
                 <p class="alert alert-bt-info col-12">{{ 'Vous avez déjà une commande en cours, voulez-vous la finaliser ou l\'annuler?'|gTrans }}</p>
                 <div class="col-12 d-flex justify-content-around flex-wrap">
                     <a href="{{ path('app_order_index') }}" class="btn bt-btn--primary">{{ 'Voir et finaliser ma commande en cours'|gTrans }}</a>
-                    <a href="#" class="btn bt-btn--secondary">{{ 'Annuler ma commande en cours'|gTrans }}</a>
+                    <a href="{{ path('app_order_remove') }}" class="btn bt-btn--secondary">{{ 'Annuler ma commande en cours'|gTrans }}</a>
                 </div>
             {% elseif app.session.get('cart')|length > 0 %}
                 <div class="p-2 col-12 col-lg-7">
