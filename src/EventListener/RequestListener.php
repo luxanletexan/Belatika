@@ -49,7 +49,10 @@ class RequestListener
 
         $route = $request->attributes->get('_route');
 
-        if (preg_match('#^app_#', $route) !== 1) {
+        if (
+            preg_match('#^app_#', $route) !== 1
+            || preg_match('#^app_cart_add#', $route) === 1
+        ) {
             return;
         }
         $session->set('_last_route', $request->getSchemeAndHttpHost().$request->getRequestUri());
