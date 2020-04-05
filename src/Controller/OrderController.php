@@ -105,10 +105,9 @@ class OrderController extends ParentController
 
     /**
      * @Route("/remove")
-     * @param Request $request
      * @return Response
      */
-    public function remove(Request $request) {
+    public function remove() {
 
         $order = $this->getPendingOrder($this->getUser());
         if ($order instanceof CustomerOrder) {
@@ -117,6 +116,6 @@ class OrderController extends ParentController
             $em->flush();
         }
 
-        return $this->redirect($request->headers->get('referer'));
+        return $this->redirectToRoute('app_shop_index');
     }
 }
