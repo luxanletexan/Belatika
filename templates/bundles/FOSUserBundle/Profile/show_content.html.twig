@@ -47,7 +47,9 @@
                 {% if user.customerOrders|length > 0 %}
                     <ul>
                         {% for order in user.customerOrders %}
-                            <li><a class="text-dark" href="{{ path('app_user_order', {'reference' : order.reference}) }}">{{ order.orderedAt|date('d/m/Y') }} - {{ (order.total - order.giftValueUsed)|number_format(2, ',') }}€</a></li>
+                            {% if order.reference %}
+                                <li><a class="text-dark" href="{{ path('app_user_order', {'reference' : order.reference}) }}">{{ order.orderedAt|date('d/m/Y') }} - {{ (order.total - order.giftValueUsed)|number_format(2, ',') }}€</a></li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 {% else %}
