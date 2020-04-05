@@ -1,14 +1,14 @@
 {
   "build/0.09470b7f.js": "/build/0.09470b7f.js",
   "build/1.4fbc12a3.js": "/build/1.4fbc12a3.js",
-  "build/app.css": "/build/app.812b56ff.css",
-  "build/app.js": "/build/app.f489e321.js",
-  "build/app_blog_article.js": "/build/app_blog_article.d82d9128.js",
+  "build/app.css": "/build/app.efcb0bb3.css",
+  "build/app.js": "/build/app.2ecfc421.js",
+  "build/app_blog_article.js": "/build/app_blog_article.62d1d70a.js",
   "build/app_cart_index.css": "/build/app_cart_index.7794134c.css",
   "build/app_cart_index.js": "/build/app_cart_index.b3196e12.js",
   "build/app_order_index.js": "/build/app_order_index.0532d2f0.js",
-  "build/app_shop_index.js": "/build/app_shop_index.d46b67d9.js",
-  "build/app_user_address.js": "/build/app_user_address.c584eea9.js",
+  "build/app_shop_index.js": "/build/app_shop_index.d827370b.js",
+  "build/app_user_address.js": "/build/app_user_address.9051d59b.js",
   "build/app_user_order.js": "/build/app_user_order.f50d9d88.js",
   "build/runtime.js": "/build/runtime.0c796a0d.js",
   "build/fonts/Suneditor-icon.woff": "/build/fonts/Suneditor-icon.1d63e86b.woff",
@@ -19,5 +19,7 @@
   "build/images/belatika.png": "/build/images/belatika.28f7cb90.png",
   "build/images/chevron-left-solid.svg": "/build/images/chevron-left-solid.dc880f17.svg",
   "build/images/chevron-right-solid.svg": "/build/images/chevron-right-solid.1fce7054.svg",
-  "build/images/pebbles.jpg": "/build/images/pebbles.e2d1981f.jpg"
+  "build/images/pebbles.jpg": "/build/images/pebbles.e2d1981f.jpg",
+  "build/2.db9b98cb.js": "/build/2.db9b98cb.js",
+  "build/3.7340e2a7.js": "/build/3.7340e2a7.js"
 }
