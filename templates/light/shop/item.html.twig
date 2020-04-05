@@ -21,33 +21,38 @@
 {% block content %}
     <div class="item">
         <div class="item__border"></div>
-        <div class="item__aside">
-            <div class="item__aside__image">
-                {% if item.images|length == 1 %}
-                    <figure>
-                        <img src="{{ asset(item.images|first.webPath|imagine_filter('large')) }}" alt="{{ item.images|first.alt }}">
-                    </figure>
-                {% else %}
-                    {{ include(shop_settings.template ~ '/modules/item-carousel.html.twig') }}
-                {% endif %}
+        <div class="item__content">
+            <div class="item__content__description">
+                <div class="item__content__description__image">
+                    {% if item.images|length == 1 %}
+                        <figure>
+                            <img src="{{ asset(item.images|first.webPath|imagine_filter('large')) }}" alt="{{ item.images|first.alt }}">
+                        </figure>
+                    {% else %}
+                        {{ include(shop_settings.template ~ '/modules/item-carousel.html.twig') }}
+                    {% endif %}
+                </div>
+                <div class="item__content__description__text">
+                    {{ item.description|raw|gTrans }}
+                </div>
             </div>
-            <div class="item__aside__price">
+            <div class="item__content__price">
                 {% if item.discount and onSales %}
-                    <span class="item__aside__price__value--discount">-{{ item.discount }}%</span>
-                    <span class="item__aside__price__value--original">{{ item.price|number_format(2, ',') }}€</span>
-                    <span class="item__aside__price__value">{{ item.discountPrice|number_format(2, ',') }}€</span>
+                    <span class="item__content__price__value--discount">-{{ item.discount }}%</span>
+                    <span class="item__content__price__value--original">{{ item.price|number_format(2, ',') }}€</span>
+                    <span class="item__content__price__value">{{ item.discountPrice|number_format(2, ',') }}€</span>
                 {% else %}
-                    <span class="item__aside__price__value"> {{ item.price|number_format(2, ',') }}€ </span>
+                    <span class="item__content__price__value"> {{ item.price|number_format(2, ',') }}€ </span>
                 {% endif %}
             </div>
-            <div class="item__aside__reference">{{ 'Référence'|gTrans }} n°{{ item.reference }}</div>
-            <div class="item__aside__footer">
+            <div class="item__content__reference">{{ 'Référence'|gTrans }} n°{{ item.reference }}</div>
+            <div class="item__content__cart clearfix">
                 {% if not item.quantity %}
                     <p>{{ 'Cet article n\'est plus disponible'|gTrans }}</p>
                 {% else %}
                     <button
                             id="cart-button-{{ item.id }}"
-                            class="bt-btn bt-btn--primary bt-btn--block cart-button"
+                            class="bt-btn bt-btn--primary cart-button btn-sm mr-3"
                             data-item_id="{{ item.id }}"
                             data-add_item_url="{{ absolute_url(path('app_cart_add', {'id':item.id})) }}"
                             data-remove_item_url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}"
@@ -62,9 +67,6 @@
                     <a href="{{ path('app_admin_updateitem', {'id' : item.id}) }}" class="bt-btn bt-btn--primary">Modifier</a>
                 {% endif %}
             </div>
-        </div>
-        <div class="item__description">
-            <div class="item__description__content">{{ item.description|raw|gTrans }}</div>
         </div>
         <div class="item__border"></div>
     </div>

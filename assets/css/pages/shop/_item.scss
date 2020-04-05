@@ -11,9 +11,6 @@ $item-breakpoint: 'md';
   margin: 36px auto 80px auto;
   padding: 30px 0;
   position: relative;
-  &::after {
-    @include white-filter;
-  }
   &__border {
     display: none;
     @include media-breakpoint-up($item-breakpoint) {
@@ -22,7 +19,7 @@ $item-breakpoint: 'md';
     position: relative;
     overflow: hidden;
     border: none;
-    width: 4%;
+    width: 200px;
     height: auto;
     margin: -30px 0;
     align-self: stretch;
@@ -42,30 +39,38 @@ $item-breakpoint: 'md';
       background: linear-gradient(to right,white 15%, transparent 25%, transparent 75%, white 85%);
     }
   }
-  &__aside {
+  &__content {
     z-index: 5;
-    margin: 0 1%;
-    @include media-breakpoint-up($item-breakpoint) {
-      width: 25%;
+    &__description {
+      &__image {
+        @include media-breakpoint-up(sm) {
+          float: left;
+          width: 30%;
+          margin: 0 1.5rem;
+        }
+        position: relative;
+        &::after {
+          @include white-filter;
+        }
+        & img {
+          width: 100%;
+        }
+        & .carousel {
+          min-height: 430px;
+        }
+      }
+      &__text {
+        line-height: 2rem;
+        font-family: Georgia, serif;
+        text-align: justify;
+        padding: 0 1.5rem;
+      }
     }
-    &__image {
-      position: relative;
-      &::after {
-        @include white-filter;
-      }
-      & img {
-        width: 100%;
-      }
-      & .carousel {
-        min-height: 430px;
-      }
-    }
-
     &__price {
-      margin: 16px 0;
       display: flex;
       justify-content: flex-end;
       align-items: baseline;
+      padding: 0 1rem;
       &__value {
         font-size: 4rem;
         color: $gold;
@@ -89,31 +94,20 @@ $item-breakpoint: 'md';
     }
     &__reference {
       text-align: right;
-      margin: 16px 0;
       font-style: italic;
+      padding: 0 1rem;
       color: #BBB;
     }
-
-    &__footer {
+    &__cart {
+      text-align: center;
       & button {
         margin: 16px 0;
         @include title-font;
-        font-size: 2rem;
+        font-size: 1.5rem;
+        @include media-breakpoint-up(sm) {
+          float: right;
+        }
       }
-    }
-  }
-  &__description {
-    z-index: 5;
-    padding: 0 1.5rem;
-    font-family: Georgia, serif;
-    text-align: justify;
-    @include media-breakpoint-up($item-breakpoint) {
-      padding: 0;
-      width: 65%;
-    }
-    margin: 0 1%;
-    &__content {
-      line-height: 2rem;
     }
   }
 }
