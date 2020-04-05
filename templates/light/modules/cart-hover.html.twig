@@ -1,5 +1,6 @@
 {% set cartTotal = 0 %}
-<div class="cart-hover">
+{% set cartLinkText = 'Voir mon panier'|gTrans %}
+<div class="cart-hover" data-cart_link_text="{{ cartLinkText }}">
     {% for item in app.session.get('cart') %}
         <div class="cart-hover__item">
             <a class="cart-hover__item__link" href="{{ path('app_shop_item', {'customer' : item.category.customers, 'category_slug' : item.category.slug, 'slug' : item.slug}) }}" title="{{ item.name|gTrans }}">
@@ -17,5 +18,5 @@
             <span class="cart-hover__total__amount">{{ cartTotal|number_format(2, ',') }}€</span>
         </div>
     {% endif %}
-    <div class="cart-hover__link"><a class="btn btn-sm bt-btn--primary text-light" href="{{ path('app_cart_show') }}">{{ 'Voir mon panier'|gTrans }}</a></div>
+    <div class="cart-hover__link"><a class="btn btn-sm bt-btn--primary text-light" href="{{ path('app_cart_show') }}">{{ cartLinkText }}</a></div>
 </div>

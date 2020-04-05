@@ -7,6 +7,7 @@ export default class Cart {
      * @param {string} [options.shopping_bag_class=cart-hover] Classe CSS du menu panier
      * @param {string} [options.shopping_bag_item_class=cart-hover__item] Classe CSS des items du menu panier
      * @param {string} [options.cart_quantity_class=navbar__item--cart] Classe CSS quantité dans le panier
+     * @param {string} [options.cart_url=/panier/] Lien vers le panier
      */
     constructor(options = {})
     {
@@ -16,6 +17,7 @@ export default class Cart {
             shopping_bag_class: 'cart-hover',
             shopping_bag_item_class: 'cart-hover__item',
             cart_quantity_class: 'navbar__item--cart',
+            cart_url: '/panier/',
         }, options);
         this.processing = false;
         this.cartContent = {};
@@ -109,6 +111,12 @@ export default class Cart {
         if (total > 0) {
             let shoppingBagTotal = this.createShoppingBagTotal(total);
             this.shoppingBag.appendChild(shoppingBagTotal);
+            let cartLinkElt = this.createElementWithClasses('div', this.options.shopping_bag_class+'__link');
+            let cartLink = this.createElementWithClasses('a', ['btn', 'btn-sm', 'bt-btn--primary', 'text-light']);
+            cartLink.href = this.options.cart_url;
+            cartLink.innerText = this.shoppingBag.dataset.cart_link_text;
+            cartLinkElt.appendChild(cartLink);
+            this.shoppingBag.appendChild(cartLinkElt);
         }
         this.shoppingBagQuantity.dataset.quantity = count;
     }

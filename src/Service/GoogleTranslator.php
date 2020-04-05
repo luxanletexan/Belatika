@@ -48,6 +48,7 @@ class GoogleTranslator
      */
     public function gTrans($text, $force = false):?string
     {
+        $text = empty($text) ? '' : $text;
         $request = $this->request->getCurrentRequest();
         if(null === $request) { return $text; }
         $language = $request->getLocale();

@@ -43,6 +43,7 @@ abstract class ParentController extends Controller
      */
     protected function gTrans($text, $force = false):?string
     {
+        $text = empty($text) ? '' : $text;
         return $this->googleTranslator->gTrans($text, $force);
     }
 
@@ -55,6 +56,7 @@ abstract class ParentController extends Controller
      */
     protected function gTransDB($text, $force = false):?string
     {
+        $text = empty($text) ? '' : $text;
         return $this->googleTranslator->gTransDB($text, $force);
     }
 
