@@ -53,7 +53,7 @@ export default class Cart {
             this.updateCart(response.cart);
             button.blur();
             this.processing = false;
-        });
+        }, {method: 'POST'});
     }
 
     onShoppingBagButtonClick(button)
@@ -79,7 +79,7 @@ export default class Cart {
             this.onSales = response.onSales === true;
             this.updateCart(response.cart);
             this.processing = false;
-        });
+        }, {method: 'POST'});
     }
 
     updateCart(jsonResponse)

@@ -3,8 +3,8 @@
     "app": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/0.09470b7f.js",
-        "/build/app.755be0db.js"
+        "/build/2.db9b98cb.js",
+        "/build/app.2ecfc421.js"
       ],
       "css": [
         "/build/app.a0daec96.css"
@@ -13,23 +13,23 @@
     "app_shop_index": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/0.09470b7f.js",
-        "/build/app_shop_index.d46b67d9.js"
+        "/build/2.db9b98cb.js",
+        "/build/app_shop_index.d827370b.js"
       ]
     },
     "app_blog_article": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/0.09470b7f.js",
-        "/build/app_blog_article.d82d9128.js"
+        "/build/2.db9b98cb.js",
+        "/build/app_blog_article.62d1d70a.js"
       ]
     },
     "app_user_address": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/0.09470b7f.js",
-        "/build/1.4fbc12a3.js",
-        "/build/app_user_address.c584eea9.js"
+        "/build/2.db9b98cb.js",
+        "/build/3.7340e2a7.js",
+        "/build/app_user_address.9051d59b.js"
       ]
     },
     "app_user_order": {
