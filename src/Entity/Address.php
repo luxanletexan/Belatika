@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,16 @@ class Address
      * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="billingAddress")
      */
     private $billingUser;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CustomerOrder", mappedBy="deliveryAddress")
+     */
+    private $deliveryCustomerOrder;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CustomerOrder", mappedBy="billingAddress")
+     */
+    private $billingCustomerOrder;
 
     /**
      * @ORM\Column(type="text")
@@ -100,6 +112,12 @@ class Address
      * @ORM\Column(type="string", length=255)
      */
     private $lastname;
+
+    public function __construct()
+    {
+        $this->deliveryCustomerOrder = new ArrayCollection();
+        $this->billingCustomerOrder = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -307,6 +325,68 @@ class Address
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CustomerOrder[]
+     */
+    public function getDeliveryCustomerOrder(): Collection
+    {
+        return $this->deliveryCustomerOrder;
+    }
+
+    public function addDeliveryCustomerOrder(CustomerOrder $deliveryCustomerOrder): self
+    {
+        if (!$this->deliveryCustomerOrder->contains($deliveryCustomerOrder)) {
+            $this->deliveryCustomerOrder[] = $deliveryCustomerOrder;
+            $deliveryCustomerOrder->setDeliveryAddress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeliveryCustomerOrder(CustomerOrder $deliveryCustomerOrder): self
+    {
+        if ($this->deliveryCustomerOrder->contains($deliveryCustomerOrder)) {
+            $this->deliveryCustomerOrder->removeElement($deliveryCustomerOrder);
+            // set the owning side to null (unless already changed)
+            if ($deliveryCustomerOrder->getDeliveryAddress() === $this) {
+                $deliveryCustomerOrder->setDeliveryAddress(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CustomerOrder[]
+     */
+    public function getBillingCustomerOrder(): Collection
+    {
+        return $this->billingCustomerOrder;
+    }
+
+    public function addBillingCustomerOrder(CustomerOrder $billingCustomerOrder): self
+    {
+        if (!$this->billingCustomerOrder->contains($billingCustomerOrder)) {
+            $this->billingCustomerOrder[] = $billingCustomerOrder;
+            $billingCustomerOrder->setBillingAddress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBillingCustomerOrder(CustomerOrder $billingCustomerOrder): self
+    {
+        if ($this->billingCustomerOrder->contains($billingCustomerOrder)) {
+            $this->billingCustomerOrder->removeElement($billingCustomerOrder);
+            // set the owning side to null (unless already changed)
+            if ($billingCustomerOrder->getBillingAddress() === $this) {
+                $billingCustomerOrder->setBillingAddress(null);
+            }
+        }
 
         return $this;
     }

@@ -27,13 +27,13 @@ class CustomerOrder
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Address", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="deliveryCustomerOrder", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $deliveryAddress;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Address", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="billingCustomerOrder", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $billingAddress;

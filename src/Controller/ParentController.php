@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Address;
 use App\Entity\CustomerOrder;
 use App\Entity\Gift;
 use App\Entity\User;
@@ -181,5 +182,15 @@ abstract class ParentController extends Controller
     public function getUser()
     {
         return parent::getUser();
+    }
+
+    protected function clearUnusedAddresses()
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $unusedAddresses = $manager->getRepository(Address::class)->getUnusedAddresses();
+        foreach ($unusedAddresses as $unusedAddress) {
+            $manager->remove($unusedAddress);
+        }
+        $manager->flush();
     }
 }

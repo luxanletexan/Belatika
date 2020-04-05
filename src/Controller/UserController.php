@@ -31,15 +31,12 @@ class UserController extends ParentController
             $em = $this->getDoctrine()->getManager();
             $sameAddress = $request->get('same-address') === 'on';
             if ($sameAddress) {
-                $billingAddress = $this->getUser()->getBillingAddress();
-                if($billingAddress instanceof Address) {
-                    $em->remove($billingAddress);
-                    $em->flush();
-                }
                 $user->setBillingAddress(clone $user->getDeliveryAddress());
             }
             $em->persist($user);
             $em->flush();
+
+            $this->clearUnusedAddresses();
 
             $this->addFlash('success', $this->gTrans('Votre adresse a bien été enregistrée.'));
 
