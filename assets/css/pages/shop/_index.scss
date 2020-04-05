@@ -149,6 +149,11 @@ hr.separator {
     margin: 2rem 0;
   }
   &__image {
+    position: relative;
+    &::after {
+      content: '';
+      @include white-filter;
+    }
     @include media-breakpoint-up(md) {
       float: left;
       margin-right: 2rem;
