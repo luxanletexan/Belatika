@@ -17,4 +17,16 @@ class CustomerOrderLineRepository extends AbstractRepository
     {
         parent::__construct($registry, CustomerOrderLine::class);
     }
+
+    public function countSales()
+    {
+        $qb = $this->createQueryBuilder('col')
+            ->innerJoin('col.customerOrder', 'co')
+            ->addSelect('co')
+            ->where('co.is_valid = 1');
+
+        $sales = $qb->getQuery()->getResult();
+
+        return is_array($sales) ? count($sales) : 0;
+    }
 }

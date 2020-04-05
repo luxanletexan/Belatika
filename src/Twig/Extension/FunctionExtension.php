@@ -38,7 +38,7 @@ class FunctionExtension extends AbstractExtension
 
     public function getSalesCount()
     {
-        return $this->manager->getRepository(CustomerOrderLine::class)->count([]);
+        return $this->manager->getRepository(CustomerOrderLine::class)->countSales();
     }
 
     public function getRatings()
