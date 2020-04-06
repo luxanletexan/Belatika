@@ -42,14 +42,19 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        stripe.createToken(card).then(function(result) {
-            if (result.error) {
+
+        stripe.confirmCardPayment(
+            cardElt.dataset.intent_secret,
+            {
+                payment_method: {card: card}
+            }
+        ).then(function(response) {
+            if (response.error) {
                 // Inform the user if there was an error.
                 let errorElement = document.getElementById('card-errors');
-                errorElement.textContent = result.error.message;
-            } else {
-                // Send the token to your server.
-                stripeTokenHandler(result.token);
+                errorElement.textContent = response.error.message;
+            } else if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
+                alert('success');
             }
         });
     });

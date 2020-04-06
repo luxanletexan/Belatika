@@ -8,9 +8,7 @@ use App\Entity\Item;
 use App\Entity\Payment;
 use App\Entity\User;
 use App\Service\GoogleTranslator;
-use PayPal\Api\Address;
 use PayPal\Api\Amount;
-use PayPal\Api\BillingInfo;
 use PayPal\Api\Details;
 use PayPal\Api\Item as PaypalItem;
 use PayPal\Api\ItemList;
@@ -24,6 +22,8 @@ use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Exception\PayPalConnectionException;
 use PayPal\Rest\ApiContext;
+use Stripe\Error\SignatureVerification;
+use Stripe\Webhook;
 use Swift_Mailer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -57,64 +57,86 @@ class PaymentController extends ParentController
 
     /**
      * @Route("/stripe")
-     * @param Request $request
-     * @return Response
      */
-    public function stripe(Request $request)
+    public function stripe()
     {
-        $order = $this->getPendingOrder($this->user, ['gift', 'payment', ['customerOrderLines', 'item']]);
+        $endpoint_secret = getenv('APP_ENV') === 'prod' ? getenv('STRIPE_SECRET_WEBHOOK') : getenv('STRIPE_SECRET_WEBHOOK_TEST');
 
-        if ($order === null) {
-            $this->addFlash('danger', $this->gTrans('Une erreur est survenue au moment de vérifier votre commande. Aucun paiement n\'a été effectué.'));
-            return $this->redirectToRoute('app_shop_index');
+        $payload = @file_get_contents('php://input');
+        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+        $event = null;
+
+        try {
+            $event = Webhook::constructEvent(
+                $payload, $sig_header, $endpoint_secret
+            );
+        } catch (\UnexpectedValueException $e) {
+            // Invalid payload
+            http_response_code(400);
+            exit();
+        } catch (SignatureVerification $e) {
+            // Invalid signature
+            http_response_code(400);
+            exit();
         }
-        $this->updateOrder($order);
 
-        $stripe_secret_key = getenv('APP_ENV') === 'prod' ? getenv('STRIPE_SECRET_KEY') : getenv('STRIPE_SECRET_KEY_TEST');
-        \Stripe\Stripe::setApiKey($stripe_secret_key);
+        if ($event->type === "payment_intent.succeeded") {
+            $intent = $event->data->object;
+            printf("Succeeded: %s", $intent->id);
+            http_response_code(200);
+            exit();
+        } elseif ($event->type === "payment_intent.payment_failed") {
+            $intent = $event->data->object;
+            $error_message = $intent->last_payment_error ? $intent->last_payment_error->message : "";
+            printf("Failed: %s, %s", $intent->id, $error_message);
+            http_response_code(200);
+            exit();
+        }
+        exit();
+
 
         //Checks if charge already exists
-        $payment = $order->getPayment();
-        if ($payment instanceof Payment && $payment->getMethod() === self::STRIPE_METHOD) {
-            $charge = \Stripe\Charge::retrieve($payment->getIdentifier());
-            if ($charge->status === 'succeeded') {
-                return $this->validateOrder($order);
-            } else {
-                $this->addFlash('warning', $this->gTrans('Désolé, votre paiement n\'a pas encore été accepté.'));
-                return $this->redirectToRoute('app_order_index');
-            }
-        } else {
-            $amount = (max(0, $order->getTotal() - $order->getGiftValueUsed()) + $order->getShipping()) * 100;
-            $user = $order->getUser();
-            $token = $request->get('stripeToken');
-            try {
-                $charge = \Stripe\Charge::create([
-                    'amount' => $amount,
-                    'currency' => 'eur',
-                    'source' => $token,
-                    'description' => $user->getUsername() . ' - '.$this->gTrans('Facture').' #' . 2,
-                    'statement_descriptor' => $this->gTrans('Votre achat'). ' Belatika',
-                ]);
-            } catch (\Exception $e) {
-                $this->addFlash('danger', $this->gTrans('Désolé, votre paiement n\'a pas pu être accepté.'));
-                $this->alertAdmin(
-                    'Problème site ou client - echec paiement',
-                    'L\erreur suivante est survenue lorque l\'utilisateur '.$user->getRealname().' a voulu payer: '.$e->getMessage()
-                );
-                $this->redirectToRoute('app_order_index');
-            }
-            $payment = new Payment();
-            $payment->setMethod(self::STRIPE_METHOD)->setIdentifier($charge->id);
-            $order->setPayment($payment);
-            $this->em->persist($order);
-            $this->em->flush();
-            if ($charge->status === 'succeeded') {
-                return $this->validateOrder($order);
-            } else {
-                $this->addFlash('warning', $this->gTrans('Désolé, votre paiement n\'a pas encore été accepté.'));
-                return $this->redirectToRoute('app_order_index');
-            }
-        }
+//        $payment = $order->getPayment();
+//        if ($payment instanceof Payment && $payment->getMethod() === self::STRIPE_METHOD) {
+//            $charge = \Stripe\Charge::retrieve($payment->getIdentifier());
+//            if ($charge->status === 'succeeded') {
+//                return $this->validateOrder($order);
+//            } else {
+//                $this->addFlash('warning', $this->gTrans('Désolé, votre paiement n\'a pas encore été accepté.'));
+//                return $this->redirectToRoute('app_order_index');
+//            }
+//        } else {
+//            $amount = (max(0, $order->getTotal() - $order->getGiftValueUsed()) + $order->getShipping()) * 100;
+//            $user = $order->getUser();
+//            $token = $request->get('stripeToken');
+//            try {
+//                $charge = \Stripe\Charge::create([
+//                    'amount' => $amount,
+//                    'currency' => 'eur',
+//                    'source' => $token,
+//                    'description' => $user->getUsername() . ' - '.$this->gTrans('Facture').' #' . 2,
+//                    'statement_descriptor' => $this->gTrans('Votre achat'). ' Belatika',
+//                ]);
+//            } catch (\Exception $e) {
+//                $this->addFlash('danger', $this->gTrans('Désolé, votre paiement n\'a pas pu être accepté.'));
+//                $this->alertAdmin(
+//                    'Problème site ou client - echec paiement',
+//                    'L\erreur suivante est survenue lorque l\'utilisateur '.$user->getRealname().' a voulu payer: '.$e->getMessage()
+//                );
+//                return $this->redirectToRoute('app_order_index');
+//            }
+//            $payment = new Payment();
+//            $payment->setMethod(self::STRIPE_METHOD)->setIdentifier($charge->id);
+//            $order->setPayment($payment);
+//            $this->em->persist($order);
+//            $this->em->flush();
+//            if ($charge->status === 'succeeded') {
+//                return $this->validateOrder($order);
+//            } else {
+//                $this->addFlash('warning', $this->gTrans('Désolé, votre paiement n\'a pas encore été accepté.'));
+//                return $this->redirectToRoute('app_order_index');
+//            }
+//        }
     }
 
     /**

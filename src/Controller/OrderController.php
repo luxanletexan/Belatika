@@ -9,6 +9,8 @@ use App\Entity\CustomerOrderLine;
 use App\Entity\User;
 use App\Service\GoogleTranslator;
 use Doctrine\Common\Persistence\ObjectManager;
+use Stripe\PaymentIntent;
+use Stripe\Stripe;
 use Swift_Mailer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -69,9 +71,19 @@ class OrderController extends ParentController
 
         $order = $this->updateOrder($order);
 
+        $stripe_secret_key = getenv('APP_ENV') === 'prod' ? getenv('STRIPE_SECRET_KEY') : getenv('STRIPE_SECRET_KEY_TEST');
+        Stripe::setApiKey($stripe_secret_key);
+
+        $amount = (max(0, $order->getTotal() - $order->getGiftValueUsed()) + $order->getShipping()) * 100;
+        $intent = PaymentIntent::create([
+            'amount' => $amount,
+            'currency' => 'eur'
+        ]);
+
         return $this->render($this->getTemplate('order/index.html.twig'), [
             'order' => $order,
             'stripe_public_key' => getenv('APP_ENV') === 'prod' ? getenv('STRIPE_PUBLIC_KEY') : getenv('STRIPE_PUBLIC_KEY_TEST'),
+            'stripe_intent_secret' => $intent->client_secret
         ]);
     }
 
