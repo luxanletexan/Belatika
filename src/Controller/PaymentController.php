@@ -82,6 +82,10 @@ class PaymentController extends ParentController
 
         if ($event->type === "payment_intent.succeeded") {
             $intent = $event->data->object;
+            $order = $this->em->getRepository(CustomerOrder::class)->getOrderByIntentId($intent->id);
+            if ($order instanceof CustomerOrder) {
+                $this->validateOrder($order);
+            }
             printf("Succeeded: %s", $intent->id);
             http_response_code(200);
             exit();

@@ -6,6 +6,7 @@ use App\Entity\Gift;
 use App\Entity\Item;
 use App\Entity\CustomerOrder;
 use App\Entity\CustomerOrderLine;
+use App\Entity\Payment;
 use App\Entity\User;
 use App\Service\GoogleTranslator;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -74,11 +75,25 @@ class OrderController extends ParentController
         $stripe_secret_key = getenv('APP_ENV') === 'prod' ? getenv('STRIPE_SECRET_KEY') : getenv('STRIPE_SECRET_KEY_TEST');
         Stripe::setApiKey($stripe_secret_key);
 
-        $amount = (max(0, $order->getTotal() - $order->getGiftValueUsed()) + $order->getShipping()) * 100;
-        $intent = PaymentIntent::create([
-            'amount' => $amount,
-            'currency' => 'eur'
-        ]);
+        $payment = $order->getPayment();
+        if ($payment instanceof Payment) {
+            $intentId = $payment->getIdentifier();
+            $intent = PaymentIntent::retrieve($intentId);
+        } else {
+            $amount = (max(0, $order->getTotal() - $order->getGiftValueUsed()) + $order->getShipping()) * 100;
+            $intent = PaymentIntent::create([
+                'amount' => $amount,
+                'currency' => 'eur'
+            ]);
+
+            $payment = new Payment();
+            $payment
+                ->setMethod('Stripe intent')
+                ->setIdentifier($intent->id);
+            $this->em->persist($payment);
+            $order->setPayment($payment);
+        }
+        $this->em->flush();
 
         return $this->render($this->getTemplate('order/index.html.twig'), [
             'order' => $order,

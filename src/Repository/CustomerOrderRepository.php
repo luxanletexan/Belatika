@@ -68,4 +68,24 @@ class CustomerOrderRepository extends AbstractRepository
             ->where('co.rating IS NOT NULL');
         return $qb->getQuery()->getResult();
     }
+
+    public function getOrderByIntentId($intentId)
+    {
+        $qb = $this
+            ->createQueryBuilder('co')
+            ->innerJoin('co.payment', 'p')
+            ->addSelect('p')
+            ->where('p.method = :method')
+            ->setParameter('method', 'Stripe intent')
+            ->andWhere('p.identifier = :intent_id')
+            ->setParameter('intent_id', $intentId);
+
+        try {
+            return $qb->getQuery()->getSingleResult();
+        } catch (NoResultException $e) {
+            return null;
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
 }
