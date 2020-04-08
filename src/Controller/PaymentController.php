@@ -80,67 +80,32 @@ class PaymentController extends ParentController
             exit();
         }
 
+        $intent = $event->data->object;
+        $order = $this->em->getRepository(CustomerOrder::class)->getOrderByIntentId($intent->id);
+        if (!$order instanceof CustomerOrder) {
+            $this->alertAdmin(
+                'Problème site ou client - erreur paiement',
+                date_create()->format('d/m/Y h:i:s'). "Un évènement Stripe de type ". $event->type . " a été capté, mais l'id ".$intent->id."ne correspond à aucune commande"
+            );
+            return new Response('Failed: '. $intent->id. " no matching order", 200);
+        }
+
         if ($event->type === "payment_intent.succeeded") {
             $intent = $event->data->object;
-            $order = $this->em->getRepository(CustomerOrder::class)->getOrderByIntentId($intent->id);
-            if ($order instanceof CustomerOrder) {
-                $this->validateOrder($order);
-            }
-            printf("Succeeded: %s", $intent->id);
-            http_response_code(200);
-            exit();
+            $this->validateOrder($order);
+            return new Response('Succeeded: '. $intent->id, 200);
         } elseif ($event->type === "payment_intent.payment_failed") {
             $intent = $event->data->object;
             $error_message = $intent->last_payment_error ? $intent->last_payment_error->message : "";
-            printf("Failed: %s, %s", $intent->id, $error_message);
-            http_response_code(200);
-            exit();
+            $user = $order->getUser();
+            $this->alertAdmin(
+                'Problème site ou client - echec paiement',
+                'L\erreur suivante est survenue lorque l\'utilisateur '.$user->getRealname().' a voulu payer: '.$error_message
+            );
+            $this->fastMail('Echec de paiement', $user->getEmail(), 'mail/failPayment.html.twig');
+            return new Response("Failed: ".$intent->id.", ".$error_message, 200);
         }
-        exit();
-
-
-        //Checks if charge already exists
-//        $payment = $order->getPayment();
-//        if ($payment instanceof Payment && $payment->getMethod() === self::STRIPE_METHOD) {
-//            $charge = \Stripe\Charge::retrieve($payment->getIdentifier());
-//            if ($charge->status === 'succeeded') {
-//                return $this->validateOrder($order);
-//            } else {
-//                $this->addFlash('warning', $this->gTrans('Désolé, votre paiement n\'a pas encore été accepté.'));
-//                return $this->redirectToRoute('app_order_index');
-//            }
-//        } else {
-//            $amount = (max(0, $order->getTotal() - $order->getGiftValueUsed()) + $order->getShipping()) * 100;
-//            $user = $order->getUser();
-//            $token = $request->get('stripeToken');
-//            try {
-//                $charge = \Stripe\Charge::create([
-//                    'amount' => $amount,
-//                    'currency' => 'eur',
-//                    'source' => $token,
-//                    'description' => $user->getUsername() . ' - '.$this->gTrans('Facture').' #' . 2,
-//                    'statement_descriptor' => $this->gTrans('Votre achat'). ' Belatika',
-//                ]);
-//            } catch (\Exception $e) {
-//                $this->addFlash('danger', $this->gTrans('Désolé, votre paiement n\'a pas pu être accepté.'));
-//                $this->alertAdmin(
-//                    'Problème site ou client - echec paiement',
-//                    'L\erreur suivante est survenue lorque l\'utilisateur '.$user->getRealname().' a voulu payer: '.$e->getMessage()
-//                );
-//                return $this->redirectToRoute('app_order_index');
-//            }
-//            $payment = new Payment();
-//            $payment->setMethod(self::STRIPE_METHOD)->setIdentifier($charge->id);
-//            $order->setPayment($payment);
-//            $this->em->persist($order);
-//            $this->em->flush();
-//            if ($charge->status === 'succeeded') {
-//                return $this->validateOrder($order);
-//            } else {
-//                $this->addFlash('warning', $this->gTrans('Désolé, votre paiement n\'a pas encore été accepté.'));
-//                return $this->redirectToRoute('app_order_index');
-//            }
-//        }
+        return $this->redirectToRoute('app_order_index');
     }
 
     /**
