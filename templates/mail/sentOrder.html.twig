@@ -7,22 +7,18 @@
             .container {
                 margin: auto;
                 max-width: 600px;
-                position: relative;
                 padding: 0 60px;
+                display: flex;
             }
             .container__edging--left,
             .container__edging--right {
                 width: 50px;
-                height: 100%;
-                position: absolute;
-                top: 0;
                 overflow: hidden;
+                position: relative;
             }
-            .container__edging--left {
-                left: 0;
-            }
-            .container__edging--right {
-                right: 0;
+            .container__center {
+                flex: 1;
+                padding: 0 16px;
             }
             .white-filter::before,
             .white-filter::after {
@@ -94,35 +90,33 @@
             <div class="container__edging--left white-filter">
                 <img src="{{ asset('img/resources/pebbles.jpg')|imagine_filter('large') }}" alt="Galets">
             </div>
-            <div class="container__edging--right white-filter">
-                <img src="{{ asset('img/resources/pebbles.jpg')|imagine_filter('large') }}" alt="Galets">
-            </div>
-            <div class="header">
-                <img src="{{  asset('img/resources/belatika_logo.png')|imagine_filter('thumb') }}" alt="logo">
-            </div>
-            <h1 class="heading--1">{{ ("Votre commande a été confiée aux services postaux le " ~ order.sentAt|date('d/m/Y \\à H\\hi'))|gTrans }}</h1>
-            <p>
-                {{ 'Merci pour votre achat'|gTrans }},<br/>
-                {{ 'Belatika vous souhaite bonne réception'|gTrans }}.
-            </p>
-            {% if order.trackingNumber %}
-                <p>{{ "Vous pouvez suivre votre colis à l'aide du numéro suivant :"|gTrans }} <a target="_blank" href="https://www.laposte.fr/outils/suivre-vos-envois?code={{ order.trackingNumber }}">{{ order.trackingNumber }}</a></p>
-            {% endif %}
-            <p>
-                {{ "Lorsque vous aurez reçu votre commande, je vous invite à laisser un avis en cliquant sur le lien suivant :"|gTrans }}<br>
-            </p>
-            <div class="text-center">
-                <a class="btn btn-gold" href='{{ url('app_user_order', { 'reference' : order.reference }) }}' >{{ 'Laisser un avis sur ma commande'|gTrans }}</a>
-            </div>
-            <h2 class="heading--2">{{ 'Récapitulatif de votre commande'|gTrans }}</h2>
-            <table class="table">
-                <thead>
+            <div class="container__center">
+                <div class="header">
+                    <img src="{{  asset('img/resources/belatika_logo.png')|imagine_filter('thumb') }}" alt="logo">
+                </div>
+                <h1 class="heading--1">{{ ("Votre commande a été confiée aux services postaux le " ~ order.sentAt|date('d/m/Y \\à H\\hi'))|gTrans }}</h1>
+                <p>
+                    {{ 'Merci pour votre achat'|gTrans }},<br/>
+                    {{ 'Belatika vous souhaite bonne réception'|gTrans }}.
+                </p>
+                {% if order.trackingNumber %}
+                    <p>{{ "Vous pouvez suivre votre colis à l'aide du numéro suivant :"|gTrans }} <a target="_blank" href="https://www.laposte.fr/outils/suivre-vos-envois?code={{ order.trackingNumber }}">{{ order.trackingNumber }}</a></p>
+                {% endif %}
+                <p>
+                    {{ "Lorsque vous aurez reçu votre commande, je vous invite à laisser un avis en cliquant sur le lien suivant :"|gTrans }}<br>
+                </p>
+                <div class="text-center">
+                    <a class="btn btn-gold" href='{{ url('app_user_order', { 'reference' : order.reference }) }}' >{{ 'Laisser un avis sur ma commande'|gTrans }}</a>
+                </div>
+                <h2 class="heading--2">{{ 'Récapitulatif de votre commande'|gTrans }}</h2>
+                <table class="table">
+                    <thead>
                     <tr>
                         <th class="text-left" colspan="2">{{ 'Article'|gTrans }}</th>
                         <th class="text-right">{{ 'Prix'|gTrans }}</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {% for line in order.customerOrderLines %}
                         <tr>
                             <td><img src="{{ line.item.images|first.webPath|imagine_filter('icon') }}" alt="{{ line.item.images|first.alt }}"></td>
@@ -137,20 +131,24 @@
                             <td class="text-right">-{{ order.giftValueUsed|number_format(2, ',') }}€</td>
                         </tr>
                     {% endif %}
-                </tbody>
-                <tfoot>
+                    </tbody>
+                    <tfoot>
                     <tr>
                         <td colspan="2">{{ 'Total'|gTrans }}</td>
                         <td class="text-right total">{{ (order.total - order.giftValueUsed)|number_format(2, ',') }}€</td>
                     </tr>
-                </tfoot>
-            </table>
-            <p>
-                <a href='{{ url('app_user_order', { 'reference' : order.reference }) }}?mode=pdf'>{{ 'Télécharger la facture'|gTrans }}</a><br/>
-                <br/>
-                ---------------<br/>
-                {{ "Ceci est un mail automatique"|gTrans }}.
-            </p>
+                    </tfoot>
+                </table>
+                <p>
+                    <a href='{{ url('app_user_order', { 'reference' : order.reference }) }}?mode=pdf'>{{ 'Télécharger la facture'|gTrans }}</a><br/>
+                    <br/>
+                    ---------------<br/>
+                    {{ "Ceci est un mail automatique"|gTrans }}.
+                </p>
+            </div>
+            <div class="container__edging--right white-filter">
+                <img src="{{ asset('img/resources/pebbles.jpg')|imagine_filter('large') }}" alt="Galets">
+            </div>
         </div>
     </body>
 </html>

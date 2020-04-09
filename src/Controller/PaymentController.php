@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use App\Entity\CustomerOrder;
 use App\Entity\Item;
-use App\Entity\Payment;
 use App\Entity\User;
 use App\Service\GoogleTranslator;
 use PayPal\Api\Amount;

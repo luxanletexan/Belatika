@@ -7,22 +7,18 @@
             .container {
                 margin: auto;
                 max-width: 600px;
-                position: relative;
                 padding: 0 60px;
+                display: flex;
             }
             .container__edging--left,
             .container__edging--right {
                 width: 50px;
-                height: 100%;
-                position: absolute;
-                top: 0;
                 overflow: hidden;
+                position: relative;
             }
-            .container__edging--left {
-                left: 0;
-            }
-            .container__edging--right {
-                right: 0;
+            .container__center {
+                flex: 1;
+                padding: 0 16px;
             }
             .white-filter::before,
             .white-filter::after {
@@ -79,27 +75,25 @@
             <div class="container__edging--left white-filter">
                 <img src="{{ asset('img/resources/pebbles.jpg')|imagine_filter('large') }}" alt="Galets">
             </div>
-            <div class="container__edging--right white-filter">
-                <img src="{{ asset('img/resources/pebbles.jpg')|imagine_filter('large') }}" alt="Galets">
-            </div>
-            <div class="header">
-                <img src="{{  asset('img/resources/belatika_logo.png')|imagine_filter('thumb') }}" alt="logo">
-            </div>
-            <h1 class="heading--1">Nouvelle commande</h1>
-            <ul>
-                <li>Client: {{ order.billingAddress.firstname }} {{ order.billingAddress.lastname }}</li>
-                <li>Mail: {{ order.user.email }}</li>
-                <li>Adresse de livraison: {{ order.billingAddress.fullAddress }} {{ order.billingAddress.postcode }} {{ order.billingAddress.city }}</li>
-            </ul>
-            <table class="table">
-                <thead>
+            <div class="container__center">
+                <div class="header">
+                    <img src="{{  asset('img/resources/belatika_logo.png')|imagine_filter('thumb') }}" alt="logo">
+                </div>
+                <h1 class="heading--1">Nouvelle commande</h1>
+                <ul>
+                    <li>Client: {{ order.billingAddress.firstname }} {{ order.billingAddress.lastname }}</li>
+                    <li>Mail: {{ order.user.email }}</li>
+                    <li>Adresse de livraison: {{ order.billingAddress.fullAddress }} {{ order.billingAddress.postcode }} {{ order.billingAddress.city }}</li>
+                </ul>
+                <table class="table">
+                    <thead>
                     <tr>
                         <th class="text-left">Référence</th>
                         <th class="text-left" colspan="2">Article</th>
                         <th class="text-right">Prix</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {% for line in order.customerOrderLines %}
                         <tr>
                             <td class="ref">{{ line.item.reference }}</td>
@@ -115,15 +109,19 @@
                             <td class="text-right">-{{ order.giftValueUsed|number_format(2, ',') }}€</td>
                         </tr>
                     {% endif %}
-                </tbody>
-                <tfoot>
+                    </tbody>
+                    <tfoot>
                     <tr>
                         <td colspan="3">Total</td>
                         <td class="text-right total">{{ (order.total - order.giftValueUsed)|number_format(2, ',') }}€</td>
                     </tr>
-                </tfoot>
-            </table>
-            <p><a href='{{ url('app_user_order', { 'reference' : order.reference }) }}?mode=pdf'>Télécharger la facture</a></p>
+                    </tfoot>
+                </table>
+                <p><a href='{{ url('app_user_order', { 'reference' : order.reference }) }}?mode=pdf'>Télécharger la facture</a></p>
+            </div>
+            <div class="container__edging--right white-filter">
+                <img src="{{ asset('img/resources/pebbles.jpg')|imagine_filter('large') }}" alt="Galets">
+            </div>
         </div>
     </body>
 </html>
