@@ -3,8 +3,8 @@
     "app": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/2.d416697d.js",
-        "/build/app.6307b9a3.js"
+        "/build/0.09470b7f.js",
+        "/build/app.104ae461.js"
       ],
       "css": [
         "/build/app.b713745a.css"
@@ -13,23 +13,23 @@
     "app_shop_index": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/2.d416697d.js",
-        "/build/app_shop_index.d550f185.js"
+        "/build/0.09470b7f.js",
+        "/build/app_shop_index.d46b67d9.js"
       ]
     },
     "app_blog_article": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/2.d416697d.js",
-        "/build/app_blog_article.a32ff8ac.js"
+        "/build/0.09470b7f.js",
+        "/build/app_blog_article.d82d9128.js"
       ]
     },
     "app_user_address": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/2.d416697d.js",
-        "/build/3.eb47b566.js",
-        "/build/app_user_address.1ddb9f61.js"
+        "/build/0.09470b7f.js",
+        "/build/1.4fbc12a3.js",
+        "/build/app_user_address.c584eea9.js"
       ]
     },
     "app_user_order": {
@@ -50,9 +50,7 @@
     "app_order_index": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/2.d416697d.js",
-        "/build/3.eb47b566.js",
-        "/build/app_order_index.5f7c95a6.js"
+        "/build/app_order_index.e3c36dd8.js"
       ]
     }
   }
