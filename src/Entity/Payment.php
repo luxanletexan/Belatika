@@ -54,4 +54,12 @@ class Payment
 
         return $this;
     }
+
+    public function reset()
+    {
+        $this->method = null;
+        $this->identifier = null;
+
+        return $this;
+    }
 }

@@ -10,6 +10,7 @@ use App\Entity\Payment;
 use App\Entity\User;
 use App\Service\GoogleTranslator;
 use Doctrine\Common\Persistence\ObjectManager;
+use Stripe\Error\InvalidRequest;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Swift_Mailer;
@@ -78,22 +79,28 @@ class OrderController extends ParentController
         $payment = $order->getPayment();
         if ($payment instanceof Payment) {
             $intentId = $payment->getIdentifier();
-            $intent = PaymentIntent::retrieve($intentId);
-        } else {
+            try {
+                $intent = PaymentIntent::retrieve($intentId);
+            } catch (InvalidRequest $e) {
+                $payment->reset();
+            }
+        }
+
+        if (!isset($intent)) {
             $amount = (max(0, $order->getTotal() - $order->getGiftValueUsed()) + $order->getShipping()) * 100;
             $intent = PaymentIntent::create([
                 'amount' => $amount,
                 'currency' => 'eur'
             ]);
 
-            $payment = new Payment();
+            $payment = $payment instanceof Payment ? $payment : new Payment();
             $payment
                 ->setMethod('Stripe intent')
                 ->setIdentifier($intent->id);
             $this->em->persist($payment);
             $order->setPayment($payment);
+            $this->em->flush();
         }
-        $this->em->flush();
 
         return $this->render($this->getTemplate('order/index.html.twig'), [
             'order' => $order,
