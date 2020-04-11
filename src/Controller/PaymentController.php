@@ -186,7 +186,7 @@ class PaymentController extends ParentController
         $this->fastMail($this->gTrans('Votre commande Belatika'), $order->getUser()->getEmail(), 'mail/confirmedOrder.html.twig', ['order' => $order]);
         $this->fastMail('Nouvelle commande!', getenv('ADMIN_MAIL'), 'mail/confirmedOrderSeller.html.twig', ['order' => $order]);
         $this->addFlash('success', $this->gTrans('Merci pour votre commande, vous la recevrez très rapidement!'));
-        return $this->redirectToRoute('app_shop_index');
+        return $this->redirectToRoute('app_order_confirmation');
     }
 
     private function getTransaction(CustomerOrder $order): Transaction
