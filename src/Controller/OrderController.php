@@ -110,6 +110,15 @@ class OrderController extends ParentController
     }
 
     /**
+     * @Route("/confirmation")
+     * @return Response
+     */
+    public function confirmation()
+    {
+        return $this->render($this->getTemplate('order/confirmation.html.twig'));
+    }
+
+    /**
      * @param Item[] $items
      * @param Gift $gift
      * @return CustomerOrder

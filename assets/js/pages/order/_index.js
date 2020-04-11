@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let errorElement = document.getElementById('card-errors');
                 errorElement.textContent = response.error.message;
             } else if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
-                alert('success');
+                window.location.href = cardElt.dataset.confirmation_url;
             }
         });
     });
