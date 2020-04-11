@@ -40,7 +40,7 @@ class AdminController extends ParentController
     {
 //        $this->fastMail('test mail', 'patxi064@gmail.com', 'mail/sentOrder.html.twig', ['order' => $customerOrder]);
 
-        return $this->render('mail/sentOrder.html.twig', ['order' => $customerOrder, 'numero_suivi' => 1]);
+        return $this->render('mail/sentOrder.html.twig', ['order' => $customerOrder]);
     }
 
     /**
