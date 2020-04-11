@@ -1,3 +1,5 @@
+import Stripe from '../../vendors/stripe';
+
 document.addEventListener('DOMContentLoaded', () => {
     //Get public key and current locale
     let cardElt = document.getElementById('card-element');
