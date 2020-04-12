@@ -2,7 +2,7 @@
 {% block meta_title %}{{ range.name|gTrans }}{% endblock %}
 {% block title %}{{ range.name|gTrans }}{% endblock %}
 {% block head %}
-{#    <meta name="description" content="{{ category.description|gTransDB }}">#}
+    <meta name="description" content="{{ range.description|gTrans }}">
 {% endblock %}
 {% block content %}
     {{ include(shop_settings.template ~ '/modules/items.html.twig') }}

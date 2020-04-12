@@ -44,6 +44,11 @@ class Range
      */
     private $items;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -117,6 +122,18 @@ class Range
         if ($this->items->contains($item)) {
             $this->items->removeElement($item);
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
