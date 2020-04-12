@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class ShopController extends ParentController
@@ -106,7 +107,18 @@ class ShopController extends ParentController
      */
     public function item(Item $item):Response
     {
-        return $this->render($this->getTemplate('shop/item.html.twig'), ['item' => $item]);
+        $itemUrl = $this->generateUrl('app_shop_item', [
+            'category_slug' => $item->getCategory()->getSlug(),
+            'customer' => $item->getCategory()->getCustomers(),
+            'slug' => $item->getSlug()
+        ], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $facebookShareUrl = 'https://www.facebook.com/sharer.php?u=' . urlencode($itemUrl);
+
+        return $this->render($this->getTemplate('shop/item.html.twig'), [
+            'item' => $item,
+            'facebookShareUrl' => $facebookShareUrl
+        ]);
     }
 
     /**

@@ -59,6 +59,11 @@ $item-breakpoint: 'md';
         & .carousel {
           min-height: 430px;
         }
+        &__share {
+          padding: .5rem 1.5rem;
+          position: relative;
+          z-index: 5;
+        }
       }
       &__text {
         line-height: 2rem;

@@ -26,6 +26,11 @@
                     {% else %}
                         {{ include(shop_settings.template ~ '/modules/item-carousel.html.twig') }}
                     {% endif %}
+                    <div class="item__content__description__image__share">
+                        <a class="btn btn-sm bt-btn--fb" target="_blank" href="{{ facebookShareUrl }}">
+                            <i class="fab fa-facebook-f"></i> {{ 'Partager'|gTrans }}
+                        </a>
+                    </div>
                 </div>
                 <div class="item__content__description__text">
                     {{ item.description|raw|gTrans }}
