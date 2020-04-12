@@ -30,6 +30,7 @@ Encore
     .addEntry('app_user_order', './assets/js/pages/user/_order.js')
     .addEntry('app_cart_index', './assets/js/pages/cart/_index.js')
     .addEntry('app_order_index', './assets/js/pages/order/_index.js')
+    .addEntry('app_admin', './assets/js/admin/app.js')
     //.addEntry('page2', './assets/js/page2.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

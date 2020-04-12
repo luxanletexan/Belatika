@@ -1,0 +1,17 @@
+<nav class="admin-container__nav">
+    <ul class="admin-nav">
+        {% for menu, url in menus %}
+            <li class="admin-nav__item">
+                {% if url is iterable %}
+                    <ul class="admin-nav__item__subnav">
+                        {% for submenu, suburl in url %}
+                            <li class="admin-nav__item__subnav__item"><a href="{{ suburl }}">{{ submenu }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <a href="{{ url }}">{{ menu }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</nav>

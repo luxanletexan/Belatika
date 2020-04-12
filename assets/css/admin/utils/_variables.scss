@@ -1,0 +1,23 @@
+$gold: #abaa68;
+
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+$btns: (
+  primary: (
+    bg-color: $gold,
+    color: white,
+  ),
+  secondary: (
+    bg-color: silver,
+    color: white,
+  ),
+  info: (
+    bg-color: #17a2b8,
+    color: white,
+  )
+);

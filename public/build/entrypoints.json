@@ -52,6 +52,15 @@
         "/build/runtime.0c796a0d.js",
         "/build/app_order_index.e3c36dd8.js"
       ]
+    },
+    "app_admin": {
+      "js": [
+        "/build/runtime.0c796a0d.js",
+        "/build/app_admin.379f0543.js"
+      ],
+      "css": [
+        "/build/app_admin.384b1757.css"
+      ]
     }
   }
 }

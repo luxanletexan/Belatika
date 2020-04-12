@@ -268,4 +268,14 @@ class AdminController extends ParentController
 
         return $this->redirectToRoute('app_admin_orders');
     }
+
+    protected function render($view, array $parameters = [], Response $response = null)
+    {
+        $menus = [
+            'Site Front' => $this->generateUrl('app_shop_index'),
+            'Tableau de bord' => $this->generateUrl('app_admin_index'),
+        ];
+        $parameters['menus'] = $menus;
+        return parent::render($view, $parameters, $response);
+    }
 }
