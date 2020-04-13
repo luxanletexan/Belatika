@@ -1,0 +1,14 @@
+{% extends shop_settings.template ~ "/layout.admin.html.twig" %}
+{% block meta_title %}Gestion du blog{% endblock %}
+{% block content %}
+    <div class="dashboard-item">
+        <div class="dashboard-item__heading">
+            Articles du blog
+        </div>
+        <div class="dashboard-item__content">
+            {% for blogArticle in blogArticles %}
+                <div>{{ blogArticle.title }}</div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

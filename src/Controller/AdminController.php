@@ -274,6 +274,7 @@ class AdminController extends ParentController
         $menus = [
             'Site Front' => $this->generateUrl('app_shop_index'),
             'Tableau de bord' => $this->generateUrl('app_admin_index'),
+            'Blog' => $this->generateUrl('app_admin_blog_blog'),
         ];
         $parameters['menus'] = $menus;
         return parent::render($view, $parameters, $response);

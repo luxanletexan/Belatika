@@ -5,9 +5,12 @@
     background-color: #2e2e2e;
     color: white;
     padding: .25rem .5rem;
+    box-shadow: 1px 0 2px #2d2d2d;
     & a {
       color: white;
+      display: block;
       text-decoration: none;
+      transition: color 200ms ease-in-out;
       &:hover {
         color: $gold;
       }
@@ -25,6 +28,10 @@
   }
   &__content {
     flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 2px 3px;
   }
 }
 

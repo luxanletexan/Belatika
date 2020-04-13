@@ -11,9 +11,9 @@
 </head>
 <body>
 <div class="admin-container">
+    {{ flashAlert() }}
     {% include shop_settings.template ~ '/modules/nav.admin.html.twig' %}
     <div class="admin-container__content">
-        {{ flashAlert() }}
         {% block content %}{% endblock %}
     </div>
 </div>

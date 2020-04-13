@@ -1,0 +1,23 @@
+.dashboard-item {
+  box-shadow: 0 0 1px black;
+  margin: 1px;
+  padding: .5rem;
+  border-radius: .125rem;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0 3px black;
+  }
+  &__heading {
+    background-color: $gold;
+    margin: -.5rem -.5rem 0 -.5rem;
+    text-align: center;
+    font-weight: bold;
+    color: #2c2c2c;
+    line-height: 1.5rem;
+    font-family: Georgia, serif;
+  }
+  &__content {
+    margin: 0 -.5rem -.5rem -.5rem;
+    padding: .25rem;
+  }
+}
