@@ -21,23 +21,26 @@ class ItemRepository extends AbstractRepository
         parent::__construct($registry, Item::class);
     }
 
-    public function findAllWithImages($filters = [], $paginate = true)
+    public function findAllWithImages($forSlider = false)
     {
-        $qb = $this->createQueryBuilder('it')
+        $qb = $this
+            ->createQueryBuilder('it')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
             ->innerJoin('it.category', 'c')
             ->addSelect('c')
-        ->orderBy('it.created_at', 'DESC');
-        foreach ($filters as $field => $value) {
-            $qb->where('it.'.$field.' = :'.$field)->setParameter($field, $value);
-        }
-        $qb->orWhere('it.created_at > :date')->setParameter('date', date_create()->modify('-1 month'));
+            ->orderBy('it.created_at', 'DESC');
 
-        if ($paginate) {
-            return $this->paginate($qb);
-        } else {
+        if ($forSlider) {
+            $qb
+                ->where('it.highlighted = 1')
+                ->orWhere('it.created_at > :date')
+                ->setParameter('date', date_create()->modify('-1 month'))
+                ->andWhere('it.quantity > 0');
             return $qb->getQuery()->getResult();
+        } else {
+            $qb->where('it.quantity > 0');
+            return $this->paginate($qb);
         }
     }
 
