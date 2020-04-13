@@ -20,27 +20,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class ShopController extends ParentController
 {
     /**
-     * @Route("/migrate", name="app_shop_migrate")
-     * @param BelatikaMigrator $migrator
-     * @return RedirectResponse
-     */
-    public function migrate(BelatikaMigrator $migrator)
-    {
-        $migrator->clearAll();
-        $migrator->migrateCategories();
-        $migrator->migrateRanges();
-        $migrator->migrateItems();
-        $migrator->migrateAddresses();
-        $migrator->migrateUsers();
-        $migrator->migrateGift();
-        $migrator->migrateOrders();
-        $migrator->migrateBlog();
-        $migrator->migrateComments();
-
-        return $this->redirectToRoute('app_shop_index');
-    }
-
-    /**
      * @Route("/")
      * @return Response
      */
@@ -48,7 +27,7 @@ class ShopController extends ParentController
     {
         $doctrine = $this->getDoctrine();
 
-        $sliderItems = $doctrine->getRepository(Item::class)->findAllWithImages(['highlighted' => true], false);
+        $sliderItems = $doctrine->getRepository(Item::class)->findAllWithImages(true);
         $ranges = $doctrine->getRepository(Range::class)->findAll();
         $blogArticle = $doctrine->getRepository(BlogArticle::class)->findLastWithComments();
 

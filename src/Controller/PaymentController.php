@@ -184,7 +184,11 @@ class PaymentController extends ParentController
         $this->em->persist($order);
         $this->em->flush();
         $this->fastMail($this->gTrans('Votre commande Belatika'), $order->getUser()->getEmail(), 'mail/confirmedOrder.html.twig', ['order' => $order]);
-        $this->fastMail('Nouvelle commande!', getenv('ADMIN_MAIL'), 'mail/confirmedOrderSeller.html.twig', ['order' => $order]);
+        $this->fastMail(
+            'Nouvelle commande!',
+            [getenv('ADMIN_MAIL'), getenv('DEV_MAIL')],
+            'mail/confirmedOrderSeller.html.twig',
+            ['order' => $order]);
         $this->addFlash('success', $this->gTrans('Merci pour votre commande, vous la recevrez très rapidement!'));
         return $this->redirectToRoute('app_order_confirmation');
     }

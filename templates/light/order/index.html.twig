@@ -55,6 +55,7 @@
                         <span>{{ (order.total - order.giftValueUsed)|number_format(2, ',') }}€</span>
                     </p>
                     <p><em>{{ 'T.V.A. non applicable art. 293 B du CGI'|gTrans }}</em></p>
+                    <p><small>{{ "En validant ma commande, j'accepte les "|gTrans }}<a target="_blank" href="{{ path('app_shop_cgv') }}">{{ "conditions générales de vente"|gTrans }}</a></small></p>
                     <p class="d-flex justify-content-between align-items-center">
                         <span>{{ 'Paiement sécurisé'|gTrans }}</span>
                         <span class="flex-1"><img class="img-fluid" src="{{ asset('img/resources/stripe-logo.png') }}" alt="{{ 'Cartes de paiements'|gTrans }}"></span>

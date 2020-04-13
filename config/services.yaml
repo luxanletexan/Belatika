@@ -73,10 +73,6 @@ services:
     Liip\ImagineBundle\Imagine\Cache\CacheManager:
         alias: 'liip_imagine.cache.manager'
 
-    App\Service\BelatikaMigrator:
-        arguments:
-            $manager: '@doctrine.orm.entity_manager'
-
     App\EventListener\RequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
