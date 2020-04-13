@@ -26,7 +26,7 @@ class BlogController extends AdminController
     {
         $manager = $this->getDoctrine()->getManager();
 
-        $blogArticles = $manager->getRepository(BlogArticle::class)->findAllWithComments();
+        $blogArticles = $manager->getRepository(BlogArticle::class)->findAllWithComments(false);
 
         return $this->render($this->getTemplate('admin/blog/index.html.twig'), [
             'blogArticles' => $blogArticles,

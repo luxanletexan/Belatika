@@ -21,10 +21,13 @@ class BlogArticleRepository extends AbstractRepository
      /**
       * @return BlogArticle[] Returns an array of BlogArticle objects
       */
-    public function findAllWithComments()
+    public function findAllWithComments($visibleOnly = true)
     {
         $qb = $this->createQueryBuilder('b');
         $this->with($qb, 'blogComments');
+        if ($visibleOnly) {
+            $qb->where('b.isPublished = 1');
+        }
         return $qb->orderBy('b.posted_at', 'DESC')->getQuery()->getResult();
     }
 
