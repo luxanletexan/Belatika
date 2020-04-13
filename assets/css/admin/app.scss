@@ -3,6 +3,7 @@
 
 //Base
 @import "./base/reset";
+@import "./base/globals";
 @import "./base/belatika";
 
 //Components
@@ -13,3 +14,6 @@
 //Pages
 
 //Vendors
+//Vendors
+@import "../vendors/suneditor/css/suneditor";
+@import "../vendors/suneditor/css/suneditor-contents";

@@ -3,6 +3,6 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     exception_controller: Symfony\Bundle\TwigBundle\Controller\ExceptionController::showAction
-    form_themes: ['bootstrap_4_horizontal_layout.html.twig']
+    form_themes: ['bootstrap_4_horizontal_layout.html.twig', 'form/admin-form.html.twig']
     globals:
         shop_settings: '%shop_settings%'

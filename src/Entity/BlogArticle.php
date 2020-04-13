@@ -61,6 +61,8 @@ class BlogArticle
     {
         $this->comments = new ArrayCollection();
         $this->blogComments = new ArrayCollection();
+        $this->posted_at = date_create();
+        $this->isPublished = false;
     }
 
     public function getId(): ?int

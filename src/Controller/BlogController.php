@@ -45,19 +45,6 @@ class BlogController extends ParentController
     }
 
     /**
-     * @Route("/upload", methods={"POST"})
-     * @param Request $request
-     * @param ImageLoader $imageLoader
-     * @return JsonResponse
-     */
-    public function upload(Request $request, ImageLoader $imageLoader)
-    {
-        $imageLoader->upload(ImageLoader::BLOG_PATH);
-
-        return new JsonResponse($imageLoader);
-    }
-
-    /**
      * @Route("/{slug}/comment", methods={"POST"})
      * @param BlogArticle $blogArticle
      * @param Request $request

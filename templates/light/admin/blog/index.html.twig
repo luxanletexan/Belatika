@@ -6,9 +6,24 @@
             Articles du blog
         </div>
         <div class="dashboard-item__content">
-            {% for blogArticle in blogArticles %}
-                <div>{{ blogArticle.title }}</div>
-            {% endfor %}
+            <table class="dashboard-table">
+                <tbody>
+                    {% for blogArticle in blogArticles %}
+                        <tr>
+                            <td>{{ blogArticle.title }}</td>
+                            <td>
+                                {% if blogArticle.isPublished %}
+                                    <a class="btn bt-btn--success" title="Visible" href="{{ path('app_admin_blog_togglepublished', {'id' : blogArticle.id}) }}"><i class="far fa-eye"></i></a>
+                                {% else %}
+                                    <a class="btn bt-btn--danger" title="Non visible" href="{{ path('app_admin_blog_togglepublished', {'id' : blogArticle.id}) }}"><i class="far fa-eye-slash"></i></a>
+                                {% endif %}
+                            </td>
+                            <td><a class="btn bt-btn--info" title="Editer" href="{{ path('app_admin_blog_edit', {'id' : blogArticle.id}) }}"><i class="far fa-edit"></i></a></td>
+                            <td><a class="btn bt-btn--secondary" title="Supprimer" href="#" onclick="return confirm('Supprimer définitivement?')"><i class="far fa-trash-alt"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}
