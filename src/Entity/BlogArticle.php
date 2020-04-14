@@ -120,7 +120,7 @@ class BlogArticle
 
     public function getMainImage()
     {
-        preg_match('#<img src="([^ ]+)" alt="([^ ]+)"[^>]+>#', $this->content, $matches);
+        preg_match('#<img src="([^"]+)" alt="([^"]+)"[^>]+>#', $this->content, $matches);
 
         $src = isset($matches[1]) ? $matches[1] : 'img/resources/belatika_logo.png';
         $alt = isset($matches[2]) ? $matches[2] : 'Logo Belatika';
