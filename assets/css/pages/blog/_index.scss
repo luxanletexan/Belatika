@@ -12,6 +12,9 @@
     cursor: pointer;
     margin: 2%;
     max-width: 96%;
+    &--home {
+      max-width: 600px !important;
+    }
     @include media-breakpoint-up('sm') {
       max-width: 46%;
     }
