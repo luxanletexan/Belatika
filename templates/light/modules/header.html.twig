@@ -15,7 +15,10 @@
         <h1>{{ title }}</h1>
     </div>
     <div class="btheader__reviews">
-        <div class="btheader__reviews__sales">{{ salesCount }} {{ 'ventes'|gTrans }}</div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="btheader__reviews__sales">{{ salesCount }} {{ 'ventes'|gTrans }}</div>
+        {% endif %}
+        <div class="btheader__reviews__stars--number">{{ ratings|length }} {{ 'avis'|gTrans }}:</div>
         <div class="btheader__reviews__stars">
             <a href="{{ path('app_shop_avis') }}" title="{{ 'Voir les avis'|gTrans }}">
                 {% set stars = 5 %}
@@ -28,7 +31,6 @@
                         <i class="far fa-star"></i>
                     {% endif %}
                 {% endfor %}
-                <span class="btheader__reviews__stars--number">({{ ratings|length }})</span>
             </a>
         </div>
     </div>
