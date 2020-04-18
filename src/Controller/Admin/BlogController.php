@@ -72,6 +72,43 @@ class BlogController extends AdminController
     }
 
     /**
+     * @Route("/add")
+     * @param Request $request
+     * @return Response
+     */
+    public function add(Request $request)
+    {
+        $form = $this->createForm(BlogArticleType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $blogArticle = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($blogArticle);
+            $em->flush();
+            return $this->redirectToRoute('app_admin_blog_blog');
+        }
+
+        return $this->render($this->getTemplate('admin/blog/add.html.twig'), [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/delete/{id}")
+     * @param BlogArticle $blogArticle
+     * @return Response
+     */
+    public function delete(BlogArticle $blogArticle)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($blogArticle);
+        $em->flush();
+
+        return $this->redirectToRoute('app_admin_blog_blog');
+    }
+
+    /**
      * @Route("/upload", methods={"POST"})
      * @param ImageLoader $imageLoader
      * @return JsonResponse
