@@ -1,7 +1,7 @@
 {
   "build/0.09470b7f.js": "/build/0.09470b7f.js",
   "build/1.4fbc12a3.js": "/build/1.4fbc12a3.js",
-  "build/app.css": "/build/app.502aba6f.css",
+  "build/app.css": "/build/app.9b534f5f.css",
   "build/app.js": "/build/app.104ae461.js",
   "build/app_admin.css": "/build/app_admin.a4448bce.css",
   "build/app_admin.js": "/build/app_admin.379f0543.js",
@@ -21,5 +21,7 @@
   "build/images/belatika.png": "/build/images/belatika.28f7cb90.png",
   "build/images/chevron-left-solid.svg": "/build/images/chevron-left-solid.dc880f17.svg",
   "build/images/chevron-right-solid.svg": "/build/images/chevron-right-solid.1fce7054.svg",
-  "build/images/pebbles.jpg": "/build/images/pebbles.e2d1981f.jpg"
+  "build/images/pebbles.jpg": "/build/images/pebbles.e2d1981f.jpg",
+  "build/2.db9b98cb.js": "/build/2.db9b98cb.js",
+  "build/3.7340e2a7.js": "/build/3.7340e2a7.js"
 }
