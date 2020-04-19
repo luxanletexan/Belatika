@@ -58,7 +58,7 @@
                 </a>
             </div>
             <div class="text-center">
-                <a class="btn bt-btn--primary" href="{{ path('app_blog_index') }}">~~ {{ 'Lire le blog' }} ~~</a>
+                <a class="btn bt-btn--primary" href="{{ path('app_blog_index') }}">~~ {{ 'Lire le blog'|gTrans }} ~~</a>
             </div>
         </section>
 
@@ -66,9 +66,9 @@
     {% endif %}
 
     <section class="about">
-        <h2>{{ "Belatika bijoux"|gTrans }}</h2>
+        <h2>Belatika {{ "bijoux"|gTrans }}</h2>
         <article>
-            <p class="about__intro">{{ "Allez à la rencontre de votre for intérieur, communiquez avec la nature, regardez toutes ces merveilles autour de vous et admirez." }}</p>
+            <p class="about__intro">{{ "Allez à la rencontre de votre for intérieur, communiquez avec la nature, regardez toutes ces merveilles autour de vous et admirez."|gTrans }}</p>
             <figure class="about__image">
                 <img src="{{ asset('img/resources/tree.jpg') }}" alt="{{ 'Arbre sous le soleil'|gTrans }}">
             </figure>
