@@ -8,10 +8,10 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{ item.name|gTrans|capitalize }}">
     <meta property="fb:app_id" content="1293327757393160">
-    <meta property="og:description" content="{{ item.metaDescription|gTrans|capitalize }}">
+    <meta property="og:description" content="{{ (item.metaDescription ? item.metaDescription : item.autoMetaDescription(onSales))|gTrans }}">
     <meta property="og:image" content="{{ asset(item.images|first.webPath|imagine_filter('og')) }}">
     <meta property="og:image:secure_url" content="{{ asset(item.images|first.webPath|imagine_filter('og')) }}">
-    <meta name="description" content="{{ item.metaDescription|gTrans }}">
+    <meta name="description" content="{{ (item.metaDescription ? item.metaDescription : item.autoMetaDescription(onSales))|gTrans }}">
 {% endblock %}
 {% block content %}
     <div class="item">

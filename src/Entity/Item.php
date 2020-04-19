@@ -356,4 +356,26 @@ class Item
 
         return $this;
     }
+
+    public function getAutoMetaDescription($onSale = false)
+    {
+        $price = $onSale ? $this->getPrice() : $this->getDiscountPrice();
+        $category = $this->getCategory()->getName();
+        $customers = $this->getCategory()->getCustomers();
+        $rangesText = '';
+        $ranges = $this->getRanges();
+        if ($ranges->count() > 0) {
+            $range = $ranges[0];
+            $rangesText = ' de la gamme '. lcfirst($range->getName());
+        }
+
+        return
+            "Découvrez "
+            . lcfirst($this->name)
+            ." à "
+            . number_format($price, 2, ',', ' ')
+            . "€ parmis nos "
+            . lcfirst($category) . ' ' . lcfirst($customers) .$rangesText
+            . ' dans la boutique de bijoux Belatika. Paiement sécurisé et livraison gratuite.';
+    }
 }

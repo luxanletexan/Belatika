@@ -31,7 +31,7 @@ class ItemType extends AbstractType
             ->add('name', TextType::class, ['label' => 'Nom'])
             ->add('reference', IntegerType::class, ['label' => 'Référence'])
             ->add('description', TextareaType::class, ['label' => 'Description', 'attr' => ['class' => 'tinymce', 'rows' => 20]])
-            ->add('metaDescription', TextareaType::class, ['label' => 'Meta Description', 'attr' => ['rows' => 6]])
+            ->add('metaDescription', TextareaType::class, ['required' => false, 'label' => 'Meta Description', 'attr' => ['rows' => 6]])
             ->add('price', NumberType::class, ['label' => 'Prix'])
             ->add('quantity', HiddenType::class, ['attr' => ['value' => 1]])
             ->add('highlighted', CheckboxType::class, ['label' => 'Mettre en avant', 'required' => false])
