@@ -11,12 +11,12 @@
             </a>
             <figcaption>
                 <p>{{item.name|gTrans}}</p>
-                {% if item.discount and onSales %}
-                    <span class="shop-items__item__price--crossed-out">{{ item.price|number_format(2, ',') }} €</span>
-                    <span class="shop-items__item__price">{{ (item.discountPrice)|number_format(2, ',') }} € (-{{ item.discount }}%)</span>
-                {% else %}
-                    <span class="shop-items__item__price">{{ item.price|number_format(2, ',') }} €</span>
-                {% endif %}
+{#                {% if item.discount and onSales %}#}
+{#                    <span class="shop-items__item__price--crossed-out">{{ item.price|number_format(2, ',') }} €</span>#}
+{#                    <span class="shop-items__item__price">{{ (item.discountPrice)|number_format(2, ',') }} € (-{{ item.discount }}%)</span>#}
+{#                {% else %}#}
+{#                    <span class="shop-items__item__price">{{ item.price|number_format(2, ',') }} €</span>#}
+{#                {% endif %}#}
             </figcaption>
         </figure>
     {% endfor %}
