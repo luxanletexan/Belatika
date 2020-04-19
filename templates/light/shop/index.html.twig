@@ -15,7 +15,7 @@
 {% block content %}
 
     <section>
-        <h2 class="mb-3">Les nouveautés</h2>
+        <h2 class="mb-3">{{ 'Les nouveautés'|gTrans }}</h2>
         <div id="carousel" class="slider">
             {% for sliderItem in sliderItems %}
                 <figure class="slider__item"><a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}"><img class="img-responsive" src="{{ sliderItem.images|first.webPath|imagine_filter('slide') }}" alt="{{ sliderItem.images|first.alt }}"></a></figure>
@@ -41,7 +41,7 @@
 
     {% if blogArticle %}
         <section class="blog-article">
-            <h2>Dernier article du blog</h2>
+            <h2>{{ 'Dernier article du blog'|gTrans }}</h2>
             <div class="d-flex justify-content-center">
                 <a href="{{ path('app_blog_article', {'slug' : blogArticle.slug}) }}" class="blog-overview__article blog-overview__article--home">
                     <article>
@@ -66,7 +66,7 @@
     {% endif %}
 
     <section class="about">
-        <h2>Belatika bijoux</h2>
+        <h2>{{ "Belatika bijoux"|gTrans }}</h2>
         <article>
             <p class="about__intro">{{ "Allez à la rencontre de votre for intérieur, communiquez avec la nature, regardez toutes ces merveilles autour de vous et admirez." }}</p>
             <figure class="about__image">
