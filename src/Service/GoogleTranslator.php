@@ -54,7 +54,7 @@ class GoogleTranslator
         $language = $request->getLocale();
         if($language === 'fr' && !$force) { return $text; }
 
-        $translationFile = $this->projectDir . '\translations\messages.'.$language.'.yaml';
+        $translationFile = getenv('ROOT') . '\translations\messages.'.$language.'.yaml';
 
         if(file_exists($translationFile)){
             $translations = Yaml::parseFile($translationFile);
