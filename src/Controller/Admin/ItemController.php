@@ -5,7 +5,9 @@ namespace App\Controller\Admin;
 
 
 use App\Controller\AdminController;
+use App\Entity\Image;
 use App\Entity\Item;
+use App\Form\ItemType;
 use App\Repository\ItemRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -91,5 +93,75 @@ class ItemController extends AdminController
         return $this->render($this->getTemplate('admin/item/index.html.twig'), [
             'items' => $items,
         ]);
+    }
+
+    /**
+     * @Route("/add")
+     * @param Request $request
+     * @return Response
+     */
+    public function add(Request $request): Response
+    {
+        $form = $this->createForm(ItemType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $item = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($item);
+            $em->flush();
+        }
+
+        return $this->render($this->getTemplate('admin/item/edit.html.twig'), [
+            'form' => $form->createView(),
+            'title' => 'Créer un bijou'
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{id<\d+>}")
+     * @param Request $request
+     * @param Item $item
+     * @return Response
+     */
+    public function edit(Request $request, Item $item)
+    {
+        $form = $this->createForm(ItemType::class, $item);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $item = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($item);
+            $em->flush();
+        }
+
+        return $this->render($this->getTemplate('admin/item/edit.html.twig'), [
+            'form' => $form->createView(),
+            'item' => $item,
+            'title' => 'Modifier un bijou'
+        ]);
+    }
+
+    /**
+     * @Route("/remove/image/{id<\d+>}", methods={"POST"})
+     * @param Image $image
+     * @return Response
+     */
+    public function removeImage(Image $image)
+    {
+        if ($image->getItem()->getImages()->count() > 1) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($image);
+            $em->flush();
+            $dataResponse = ['success' => true];
+        } else {
+            $dataResponse = [
+                'success' => false,
+                'errorMessage' => 'Impossible de supprimer la dernière image d\'un article',
+            ];
+        }
+
+        return $this->json($dataResponse);
     }
 }

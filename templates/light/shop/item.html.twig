@@ -64,7 +64,7 @@
                     </button>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app_admin_updateitem', {'id' : item.id}) }}" class="bt-btn bt-btn--primary">Modifier</a>
+                    <a href="{{ path('app_admin_item_edit', {'id' : item.id}) }}" class="bt-btn bt-btn--primary">Modifier</a>
                 {% endif %}
             </div>
         </div>

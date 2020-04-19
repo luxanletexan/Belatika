@@ -45,100 +45,6 @@ class AdminController extends ParentController
     }
 
     /**
-     * @Route("/items/{page<\d+>?1}")
-     * @param Request $request
-     * @param int $page
-     * @return Response
-     */
-    public function olditems(Request $request, $page): Response
-    {
-        if ($request->isMethod('POST')) {
-            $action = $request->get('action');
-            $datas = $request->request->keys();
-            $item_ids = [];
-            foreach ($datas as $data) {
-                if (substr($data,0,5) === 'item-') {
-                    $item_ids[] = str_replace('item-', '', $data);
-                }
-            }
-            $this->itemsAction($action, $item_ids);
-        }
-
-        /**
-         * @var ItemRepository $itemRepository
-         */
-        $itemRepository = $this->getDoctrine()->getManager()->getRepository(Item::class);
-        $items = $itemRepository->findAllWithImages(['paginate' => true])->setCurrentPage($page)->setMaxPerPage(2);
-
-        return $this->render('admin/articles.html.twig', ['items' => $items]);
-    }
-
-    /**
-     * @Route("/item/add")
-     * @param Request $request
-     * @return Response
-     */
-    public function addItem(Request $request): Response
-    {
-        $form = $this->createForm(ItemType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $item = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($item);
-            $em->flush();
-            $this->addFlash('success', 'Nouvel article créé');
-        }
-
-        return $this->render('admin/addItem.html.twig', ['form' => $form->createView()]);
-    }
-
-    /**
-     * @Route("/item/update/{id<\d+>}")
-     * @param Request $request
-     * @param Item $item
-     * @return Response
-     */
-    public function updateItem(Request $request, Item $item)
-    {
-        $form = $this->createForm(ItemType::class, $item);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $item = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($item);
-            $em->flush();
-            $this->addFlash('success', 'Article modifié');
-        }
-
-        return $this->render($this->getTemplate('admin/addItem.html.twig'), ['form' => $form->createView(), 'item' => $item]);
-    }
-
-    /**
-     * @Route("/remove/item-image/{id<\d+>}", methods={"POST"})
-     * @param Image $image
-     * @return Response
-     */
-    public function removeItemImage(Image $image)
-    {
-        if ($image->getItem()->getImages()->count() > 1) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($image);
-            $em->flush();
-            $dataResponse = ['success' => true];
-        } else {
-            $dataResponse = [
-                'success' => false,
-                'errorMessage' => 'Impossible de supprimer la dernière image d\'un article',
-            ];
-        }
-
-        return $this->json($dataResponse);
-    }
-
-    /**
      * @Route("/settings")
      * @param Request $request
      * @return Response
@@ -193,24 +99,6 @@ class AdminController extends ParentController
         }
 
         file_put_contents($this->settingsFile, Yaml::dump($belatika_yaml));
-    }
-
-    /**
-     * @param string $action
-     * @param array $item_ids
-     */
-    private function itemsAction($action, $item_ids): void
-    {
-        $em = $this->getDoctrine()->getManager();
-        if ($action === 'delete') {
-            $items = $em->getRepository(Item::class)->findBy(['id' => $item_ids]);
-            foreach ($items as $item) {
-                $em->remove($item);
-            }
-            $em->flush();
-            $s = count($items) > 1 ? 's' : '';
-            $this->addFlash('success', count($items)."article$s supprimé$s");
-        }
     }
 
     /**
@@ -280,7 +168,10 @@ class AdminController extends ParentController
             'Site Front' => $this->generateUrl('app_shop_index'),
             'Tableau de bord' => $this->generateUrl('app_admin_index'),
             'Blog' => $this->generateUrl('app_admin_blog_blog'),
-            'Bijoux' => $this->generateUrl('app_admin_item_index')
+            'Bijoux' => $this->generateUrl('app_admin_item_index'),
+            'Bijoux-sub' => [
+                'Nouveau' => $this->generateUrl('app_admin_item_add'),
+            ]
         ];
         $parameters['menus'] = $menus;
         return parent::render($view, $parameters, $response);
