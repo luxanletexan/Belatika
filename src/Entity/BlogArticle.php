@@ -180,4 +180,9 @@ class BlogArticle
 
         return $this;
     }
+
+    public function getContentPreview($length = 400)
+    {
+        return substr(strip_tags($this->content, '<p><br>'), 0, $length);
+    }
 }

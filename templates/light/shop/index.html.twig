@@ -49,7 +49,7 @@
                         <div class="blog-overview__article__date">{{ blogArticle.postedAt|date('d/m/Y') }}</div>
                         <div class="blog-overview__article__summary">
                             <h2 class="blog-overview__article__summary__heading">{{ blogArticle.title|gTrans }}</h2>
-                            <p class="blog-overview__article__summary__content">{{ blogArticle.content|striptags('<br>')|truncate(400)|raw|gTrans }} <small>({{ 'Lire la suite'|gTrans }})</small></p>
+                            <p class="blog-overview__article__summary__content">{{ blogArticle.contentPreview|raw|gTransDB }} <small>({{ 'Lire la suite'|gTrans }})</small></p>
                         </div>
                         <div class="blog-overview__article__footer">
                             <span class="blog-overview__article__footer__comments"><i class="far fa-comment"></i> {{ blogArticle.blogComments|length }}</span>
