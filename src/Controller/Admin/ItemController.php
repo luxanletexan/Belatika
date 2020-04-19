@@ -110,6 +110,7 @@ class ItemController extends AdminController
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
+            return $this->redirectToRoute('app_admin_item_items');
         }
 
         return $this->render($this->getTemplate('admin/item/edit.html.twig'), [

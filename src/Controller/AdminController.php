@@ -168,7 +168,7 @@ class AdminController extends ParentController
             'Site Front' => $this->generateUrl('app_shop_index'),
             'Tableau de bord' => $this->generateUrl('app_admin_index'),
             'Blog' => $this->generateUrl('app_admin_blog_blog'),
-            'Bijoux' => $this->generateUrl('app_admin_item_index'),
+            'Bijoux' => $this->generateUrl('app_admin_item_items'),
             'Bijoux-sub' => [
                 'Nouveau' => $this->generateUrl('app_admin_item_add'),
             ]
