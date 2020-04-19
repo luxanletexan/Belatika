@@ -27,7 +27,7 @@ class ShopController extends ParentController
     {
         $doctrine = $this->getDoctrine();
 
-        $sliderItems = $doctrine->getRepository(Item::class)->findAllWithImages(true);
+        $sliderItems = $doctrine->getRepository(Item::class)->findAllWithImages(['forSlider' => true]);
         $ranges = $doctrine->getRepository(Range::class)->findAll();
         $blogArticle = $doctrine->getRepository(BlogArticle::class)->findLastWithComments();
 

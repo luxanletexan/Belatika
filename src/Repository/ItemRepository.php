@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use App\Entity\Item;
 use App\Entity\Range;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -21,26 +22,47 @@ class ItemRepository extends AbstractRepository
         parent::__construct($registry, Item::class);
     }
 
-    public function findAllWithImages($forSlider = false)
+    /**
+     * @param array $params
+     * @return Item[]|Pagerfanta
+     */
+    public function findAllWithImages($params = [])
     {
+        $params = array_merge([
+            'forSlider' => false,
+            'paginate' => false,
+            'filters' => ['it.quantity > 0'],
+            'order' => ['it.created_at' => 'DESC'],
+        ], $params);
+
         $qb = $this
             ->createQueryBuilder('it')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
             ->innerJoin('it.category', 'c')
-            ->addSelect('c')
-            ->orderBy('it.created_at', 'DESC');
+            ->addSelect('c');
 
-        if ($forSlider) {
+        foreach ($params['order'] as $orderBy => $order) {
+            $qb->orderBy($orderBy, $order);
+        }
+
+        if ($params['forSlider']) {
             $qb
                 ->where('it.highlighted = 1')
                 ->orWhere('it.created_at > :date')
                 ->setParameter('date', date_create()->modify('-1 month'))
                 ->andWhere('it.quantity > 0');
             return $qb->getQuery()->getResult();
-        } else {
-            $qb->where('it.quantity > 0');
+        }
+
+        foreach ($params['filters'] as $filter) {
+            $qb->andWhere($filter);
+        }
+
+        if ($params['paginate']) {
             return $this->paginate($qb);
+        } else {
+            return $qb->getQuery()->getResult();
         }
     }
 

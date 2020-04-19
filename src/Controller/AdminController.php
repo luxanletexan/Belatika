@@ -8,6 +8,7 @@ use App\Entity\Image;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Form\SettingsType;
+use App\Repository\ItemRepository;
 use App\Service\API\Etsy;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,7 +50,7 @@ class AdminController extends ParentController
      * @param int $page
      * @return Response
      */
-    public function items(Request $request, $page): Response
+    public function olditems(Request $request, $page): Response
     {
         if ($request->isMethod('POST')) {
             $action = $request->get('action');
@@ -63,7 +64,11 @@ class AdminController extends ParentController
             $this->itemsAction($action, $item_ids);
         }
 
-        $items = $this->getDoctrine()->getManager()->getRepository(Item::class)->findAllWithImages()->setCurrentPage($page);
+        /**
+         * @var ItemRepository $itemRepository
+         */
+        $itemRepository = $this->getDoctrine()->getManager()->getRepository(Item::class);
+        $items = $itemRepository->findAllWithImages(['paginate' => true])->setCurrentPage($page)->setMaxPerPage(2);
 
         return $this->render('admin/articles.html.twig', ['items' => $items]);
     }
@@ -275,6 +280,7 @@ class AdminController extends ParentController
             'Site Front' => $this->generateUrl('app_shop_index'),
             'Tableau de bord' => $this->generateUrl('app_admin_index'),
             'Blog' => $this->generateUrl('app_admin_blog_blog'),
+            'Bijoux' => $this->generateUrl('app_admin_item_index')
         ];
         $parameters['menus'] = $menus;
         return parent::render($view, $parameters, $response);

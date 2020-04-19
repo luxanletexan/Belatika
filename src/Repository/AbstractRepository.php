@@ -9,14 +9,9 @@ use Pagerfanta\Pagerfanta;
 
 abstract class AbstractRepository extends ServiceEntityRepository
 {
-    protected function paginate(QueryBuilder $qb, $limit = 16, $offset = 0):Pagerfanta
+    protected function paginate(QueryBuilder $qb):Pagerfanta
     {
-        $pager = new Pagerfanta(new DoctrineORMAdapter($qb));
-        $currentPage = ceil(($offset + 1) / $limit);
-        $pager->setCurrentPage($currentPage);
-        $pager->setMaxPerPage((int) $limit);
-
-        return $pager;
+        return new Pagerfanta(new DoctrineORMAdapter($qb));
     }
 
     protected function with(QueryBuilder $qb, $linkedEntities)

@@ -12,8 +12,6 @@ use FOS\UserBundle\Model\User as BaseUser;
  */
 class User extends BaseUser
 {
-    use Migration;
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")

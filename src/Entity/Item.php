@@ -13,8 +13,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Item
 {
-    use Migration;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

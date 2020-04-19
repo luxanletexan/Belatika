@@ -12,8 +12,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class BlogArticle
 {
-    use Migration;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

@@ -9,8 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class BlogComment
 {
-    use Migration;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
