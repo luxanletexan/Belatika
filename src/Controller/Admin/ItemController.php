@@ -88,7 +88,8 @@ class ItemController extends AdminController
         $items = $itemRepository->findAllWithImages(['paginate' => true, 'filters' => [], 'order' => ['it.reference' => 'DESC']]);
 
         $items
-            ->setCurrentPage($page);
+            ->setCurrentPage($page)
+            ->setMaxPerPage(100);
 
         return $this->render($this->getTemplate('admin/item/index.html.twig'), [
             'items' => $items,

@@ -14,6 +14,10 @@
   }
 }
 
+.alert-bt-primary {
+  background-color: lighten($gold, 10%);
+}
+
 .alert-bt-info {
   background-color: lighten($gold, 30%);
 }
