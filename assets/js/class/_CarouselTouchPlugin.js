@@ -7,7 +7,7 @@ export default class CarouselTouchPlugin {
         carousel.container.addEventListener('mousedown', this.startDrag.bind(this));
         carousel.container.addEventListener('touchstart', this.startDrag.bind(this));
         window.addEventListener('mousemove', this.drag.bind(this));
-        window.addEventListener('touchmove', this.drag.bind(this));
+        window.addEventListener('touchmove', this.drag.bind(this), {passive: false});
         window.addEventListener('mouseup', this.endDrag.bind(this));
         window.addEventListener('touchend', this.endDrag.bind(this));
         window.addEventListener('touchcancel', this.endDrag.bind(this));
@@ -67,8 +67,10 @@ export default class CarouselTouchPlugin {
         if (Math.abs(this.lastTranslate.x / this.carousel.carouselWidth) > 0.2) {
             if (this.lastTranslate.x < 0) {
                 this.carousel.next();
+                this.lastTranslate.x = 0;
             } else {
                 this.carousel.prev();
+                this.lastTranslate.x = 0;
             }
         } else {
             this.carousel.gotoItem(this.carousel.currentItem);

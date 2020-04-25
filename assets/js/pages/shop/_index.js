@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         slidesToScroll: 2,
         visibleSlides: 2,
         loop: true,
-        autoplay: true,
+        autoplay: false,
         breakpoints: [
             {
                 minWidth: 576,
