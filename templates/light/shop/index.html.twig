@@ -14,12 +14,12 @@
 {% block title %}{{ 'Bijoux'|gTrans }}{% endblock %}
 {% block content %}
 
-    <section class="text-center mb-3">
+    <section class="text-center my-4">
         <h2 class="mb-3">{{ 'Un bijou surprise offert!'|gTrans }}</h2>
         <p class="alert alert-bt-primary d-inline-block">{{ 'Pour chaque commande, un bijou surprise vous sera offert'|gTrans }}</p>
     </section>
 
-    <section>
+    <section class="mb-5">
         <h2 class="mb-3">{{ 'Nos coups de coeur'|gTrans }}</h2>
         <div id="carousel" class="slider">
             {% for sliderItem in sliderItems %}
