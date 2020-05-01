@@ -20,7 +20,7 @@
     </section>
 
     <section>
-        <h2 class="mb-3">{{ 'Les nouveautés'|gTrans }}</h2>
+        <h2 class="mb-3">{{ 'Nos coups de coeur'|gTrans }}</h2>
         <div id="carousel" class="slider">
             {% for sliderItem in sliderItems %}
                 <figure class="slider__item"><a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}"><img class="img-responsive" src="{{ sliderItem.images|first.webPath|imagine_filter('slide') }}" alt="{{ sliderItem.images|first.alt }}"></a></figure>
