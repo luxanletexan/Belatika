@@ -12,6 +12,7 @@
       outline: none;
     }
     &--search {
+      max-width: 90px;
       @include media-breakpoint-up(lg) {
         grid-column-start: 5;
       }

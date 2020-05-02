@@ -9,7 +9,7 @@ abstract class Curl
     const GET = 'GET';
     const POST = 'POST';
 
-    protected function call($url, $method = self::GET, $fields = []) {
+    protected function call($url, $method = self::GET, $fields = [], $headers = []) {
         $text_fields = $fields ? http_build_query ($fields) : false;
         if ($text_fields && $method != 'POST') {
             $url .= (strpos ($url, '?') ? "&" : "?").$text_fields;
@@ -23,6 +23,7 @@ abstract class Curl
         curl_setopt ($curl, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt ($curl, CURLOPT_DNS_CACHE_TIMEOUT, 5);
         curl_setopt ($curl, CURLOPT_TIMEOUT, 600);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         if ($method) curl_setopt ($curl, CURLOPT_CUSTOMREQUEST, $method);
         if ($method == 'POST' && $text_fields) curl_setopt ($curl, CURLOPT_POSTFIELDS, $text_fields);
         curl_setopt ($curl, CURLOPT_SSL_VERIFYPEER, 0);
@@ -30,6 +31,12 @@ abstract class Curl
 
         $curlresp = curl_exec ($curl);
         curl_close ($curl);
+
+        //Contrôle encoding
+        if (mb_detect_encoding($curlresp) === 'UTF-8' && !mb_check_encoding($curlresp)) {
+            $curlresp = utf8_encode($curlresp);
+        }
+
         return json_decode($curlresp);
     }
 }

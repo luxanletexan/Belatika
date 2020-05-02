@@ -116,6 +116,8 @@ class ItemRepository extends AbstractRepository
             ->setParameter('search', '%' . $search . '%')
             ->orWhere('it.reference = :ref')
             ->setParameter('ref', $search)
+            ->orWhere('c.name like :catname')
+            ->setParameter('catname', '%'.$search.'%')
             ->orderBy('it.created_at', 'DESC');
 
         return $qb->getQuery()->getResult();

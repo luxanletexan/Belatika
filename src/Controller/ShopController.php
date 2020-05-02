@@ -62,7 +62,7 @@ class ShopController extends ParentController
     {
         $search = $request->get('bt-search');
 
-        $items = $this->getDoctrine()->getRepository(Item::class)->searchWithImages($search);
+        $items = $this->getDoctrine()->getRepository(Item::class)->searchWithImages(trim($search));
 
         return $this->render($this->getTemplate('shop/search.html.twig'), ['items' => $items]);
     }

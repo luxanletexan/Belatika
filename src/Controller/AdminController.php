@@ -130,38 +130,6 @@ class AdminController extends ParentController
         die;
     }
 
-    /**
-     * @Route("/commandes")
-     */
-    public function orders()
-    {
-        $orders = $this->getDoctrine()->getManager()->getRepository(CustomerOrder::class)->findBy(['is_sent' => '0'], ['reference' => 'DESC']);
-
-        return $this->render($this->getTemplate('admin/orders.html.twig'), ['orders' => $orders]);
-    }
-
-    /**
-     * @Route("/commande/send/{reference<\d+>}")
-     * @param CustomerOrder $order
-     * @param Request $request
-     * @return RedirectResponse
-     */
-    public function sendOrder(CustomerOrder $order, Request $request)
-    {
-        $trackingNumber = $request->get('tracking_number');
-        $order->setTrackingNumber($trackingNumber);
-        $order->setSentAt(date_create());
-        $order->setIsSent(true);
-        $em = $this->getDoctrine()->getManager();
-        $em->flush();
-
-        $this->fastMail($this->gTrans('Votre commande Belatika est en route'), $order->getUser()->getEmail(), 'mail/sentOrder.html.twig', ['order' => $order]);
-
-        $this->addFlash('success', 'Commande validée et mail envoyé');
-
-        return $this->redirectToRoute('app_admin_orders');
-    }
-
     protected function render($view, array $parameters = [], Response $response = null)
     {
         $menus = [
@@ -171,7 +139,8 @@ class AdminController extends ParentController
             'Bijoux' => $this->generateUrl('app_admin_item_items'),
             'Bijoux-sub' => [
                 'Nouveau' => $this->generateUrl('app_admin_item_add'),
-            ]
+            ],
+            'Commandes' => $this->generateUrl('app_admin_order_orders'),
         ];
         $parameters['menus'] = $menus;
         return parent::render($view, $parameters, $response);

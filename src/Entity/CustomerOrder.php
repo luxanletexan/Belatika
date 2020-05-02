@@ -106,6 +106,13 @@ class CustomerOrder
      */
     private $tracking_number;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $received_at;
+
+    private $shippingStatus;
+
     public function __construct()
     {
         $this->customerOrderLines = new ArrayCollection();
@@ -341,6 +348,41 @@ class CustomerOrder
     {
         $this->tracking_number = $tracking_number;
 
+        return $this;
+    }
+
+    public function getReceivedAt(): ?\DateTimeInterface
+    {
+        return $this->received_at;
+    }
+
+    public function setReceivedAt(?\DateTimeInterface $received_at): self
+    {
+        $this->received_at = $received_at;
+
+        return $this;
+    }
+
+    public function isReceived()
+    {
+        return $this->received_at instanceof \DateTimeInterface;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingStatus()
+    {
+        return $this->shippingStatus;
+    }
+
+    /**
+     * @param string $shippingStatus
+     * @return CustomerOrder
+     */
+    public function setShippingStatus($shippingStatus)
+    {
+        $this->shippingStatus = $shippingStatus;
         return $this;
     }
 }
