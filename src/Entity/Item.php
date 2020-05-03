@@ -359,7 +359,7 @@ class Item
 
     public function getAutoMetaDescription($onSale = false)
     {
-        $price = $onSale ? $this->getPrice() : $this->getDiscountPrice();
+        $price = $onSale ? $this->getDiscountPrice() : $this->getPrice();
         $category = $this->getCategory()->getName();
         $customers = $this->getCategory()->getCustomers();
         $rangesText = '';
