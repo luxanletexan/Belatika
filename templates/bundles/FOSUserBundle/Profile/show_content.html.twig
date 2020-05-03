@@ -51,7 +51,7 @@
                     <ul>
                         {% for order in user.customerOrders %}
                             {% if order.reference %}
-                                <li><a class="text-dark" href="{{ path('app_user_order', {'reference' : order.reference}) }}">{{ order.orderedAt|date('d/m/Y') }} - {{ (order.total - order.giftValueUsed)|number_format(2, ',') }}€</a></li>
+                                <li><a class="text-dark" href="{{ path('app_user_order', {'reference' : order.reference}) }}">{{ order.orderedAt|date('d/m/Y') }} - {{ order.total|number_format(2, ',') }}€</a></li>
                             {% endif %}
                         {% endfor %}
                     </ul>
