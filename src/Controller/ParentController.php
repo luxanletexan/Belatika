@@ -113,6 +113,9 @@ abstract class ParentController extends Controller
      */
     protected function fastMail($subject, $to, $template, $viewVars = [])
     {
+        if (getenv('APP_ENV') === 'dev') {
+            $to = getenv('DEV_MAIL');
+        }
         $message = (new Swift_Message($subject))
             ->setCharset('utf-8')
             ->setContentType('text/html')
