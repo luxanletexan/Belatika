@@ -25,6 +25,18 @@ class RequestListener
         $session = $event->getRequest()->getSession();
         $request = $event->getRequest();
 
+        $scheme = $request->server->get('REQUEST_SCHEME').'://';
+        $host = $request->server->get('HTTP_HOST');
+        $uri = $request->server->get('REQUEST_URI');
+
+        if (preg_match('#^www\.#', $host)) {
+            $host = preg_replace('#^www\.(.*)#', '$1', $host);
+            $url = $scheme.$host.$uri;
+            header("Status: 301 Moved Permanently", false, 301);
+            header("Location: ".$url);
+            die();
+        }
+
         //Stats visite
         $referer = $request->headers->get('referer');
         $referer = empty($referer) ? 'none' : $referer;
