@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\BlogArticle;
 use App\Entity\BlogComment;
+use App\Entity\Item;
 use App\Entity\User;
 use App\Service\ImageLoader;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,7 +42,26 @@ class BlogController extends ParentController
             return $this->redirectToRoute('app_blog_index');
         }
 
-        return $this->render($this->getTemplate('blog/article.html.twig'), ['blogArticle' => $blogArticle]);
+        $references = [];
+        $items = $this->getDoctrine()->getRepository(Item::class)->findAll();
+        foreach ($items as $item) {
+            $references[] = $item->getReference();
+        }
+
+        $participants = [];
+        foreach ($blogArticle->getBlogComments() as $blogComment) {
+            preg_match('#(\d{3,})#', $blogComment->getContent(), $matches);
+            if (preg_match('#https://belatika\.com/bijoux/(femme|homme)#', $blogComment->getContent())
+                || array_intersect($matches, $references)
+            ) {
+                $participants[$blogComment->getUser()->getId()] = true;
+            }
+        }
+
+        return $this->render($this->getTemplate('blog/article.html.twig'), [
+            'blogArticle' => $blogArticle,
+            'participants' => $participants,
+        ]);
     }
 
     /**

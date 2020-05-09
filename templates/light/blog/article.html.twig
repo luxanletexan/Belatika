@@ -9,6 +9,9 @@
     <div class="blog-article my-5">
         <div class="sun-editor-editable">
             {{ blogArticle.content|raw }}
+            {% if blogArticle.id == 59 %}
+                <p style="font-size: 1.3rem;text-align: center">Nombre de participants actuels: {{ participants|length }}</p>
+            {% endif %}
         </div>
         <div class="blog-article__comments clearfix">
             <h2>{{ 'Commentaires'|gTrans }}</h2>
