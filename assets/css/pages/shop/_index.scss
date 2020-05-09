@@ -13,16 +13,20 @@
   &::after,
   &::before {
     content: '';
-    left: -50%;
     position: absolute;
     display: block;
     height: 50%;
     transform-origin: center top;
-    transform: skewY(0);
-    border-radius: 50%;
-    width: 200%;
     animation: shape-divider 2s cubic-bezier(.5,0,.5,1) infinite alternate;
     z-index: 9;
+    width: 100%;
+    left: 0;
+    @include media-breakpoint-up(sm) {
+      width: 200%;
+      left: -50%;
+      transform: skewY(0);
+      border-radius: 50%;
+    }
   }
   &::after {
     background: linear-gradient(white, white 90%, transparent);

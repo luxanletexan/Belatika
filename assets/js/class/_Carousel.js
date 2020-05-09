@@ -18,7 +18,7 @@ export default class Carousel {
      * @param {boolean} [options.navigation=true]
      * @param {boolean} [options.autoplay=false]
      * @param {boolean} [options.autoplayTimeout=5000]
-     * @param {{minWidth: number, visibleSlides: number, slidesToScroll: number}[]} options.breakpoints
+     * @param {{minWidth: number, visibleSlides: number, slidesToScroll: number, navigation: boolean, autoplay: boolean}[]} options.breakpoints
      */
     constructor(element, options = {}) {
         this.element = element;
@@ -76,7 +76,7 @@ export default class Carousel {
         if (this.options.infinite) {
             this.container.addEventListener('transitionend', this.resetInfinite.bind(this));
         }
-        if (this.options.autoplay) {
+        if (this.autoplay) {
             this.startAutoplay();
         }
         new CarouselTouchPlugin(this);
@@ -101,28 +101,38 @@ export default class Carousel {
      */
     createNavigation()
     {
-        if (!this.options.navigation) {
+        if (!this.navigation) {
+            if (this.nextButton instanceof HTMLElement) {
+                this.root.removeChild(this.nextButton);
+                this.nextButton = undefined;
+            }
+            if (this.prevButton instanceof HTMLElement) {
+                this.root.removeChild(this.prevButton);
+                this.prevButton = undefined;
+            }
+            return this;
+        } else if (this.nextButton !== undefined && this.prevButton !== undefined) {
             return this;
         }
-        let nextButton = this.createDivWithClass('carousel__next');
-        let prevButton = this.createDivWithClass('carousel__prev');
-        nextButton.addEventListener('click', this.next.bind(this));
-        prevButton.addEventListener('click', this.prev.bind(this));
-        this.root.appendChild(nextButton);
-        this.root.appendChild(prevButton);
+        this.nextButton = this.createDivWithClass('carousel__next');
+        this.prevButton = this.createDivWithClass('carousel__prev');
+        this.nextButton.addEventListener('click', this.next.bind(this));
+        this.prevButton.addEventListener('click', this.prev.bind(this));
+        this.root.appendChild(this.nextButton);
+        this.root.appendChild(this.prevButton);
         if (this.options.loop || this.options.infinite) {
             return this;
         }
         this.onMove((index) => {
             if (index === 0) {
-                prevButton.classList.add('carousel__prev--hidden');
+                this.prevButton.classList.add('carousel__prev--hidden');
             } else {
-                prevButton.classList.remove('carousel__prev--hidden');
+                this.prevButton.classList.remove('carousel__prev--hidden');
             }
             if (this.items[this.currentItem + this.visibleSlides] === undefined) {
-                nextButton.classList.add('carousel__next--hidden');
+                this.nextButton.classList.add('carousel__next--hidden');
             } else {
-                nextButton.classList.remove('carousel__next--hidden');
+                this.nextButton.classList.remove('carousel__next--hidden');
             }
         });
         return this;
@@ -285,7 +295,12 @@ export default class Carousel {
             )
         ) {
             this.breakpoint = currentBreakpoint;
-            this.setStyle();
+            this.setStyle().createNavigation();
+            if (this.autoplay) {
+                this.startAutoplay();
+            } else {
+                this.stopAutoplay();
+            }
         }
 
         for (let moveCallback of this.moveCallbacks) {
@@ -328,6 +343,22 @@ export default class Carousel {
     get visibleSlides()
     {
         return this.breakpoint === null ? this.options.visibleSlides : this.breakpoint.visibleSlides;
+    }
+
+    /**
+     * @return {boolean}
+     */
+    get navigation()
+    {
+        return this.breakpoint === null ? this.options.navigation : this.breakpoint.navigation;
+    }
+
+    /**
+     * @return {boolean}
+     */
+    get autoplay()
+    {
+        return this.breakpoint === null ? this.options.autoplay : this.breakpoint.autoplay;
     }
 
     /**
