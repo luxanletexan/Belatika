@@ -19,16 +19,16 @@
         <p class="alert alert-bt-primary d-inline-block">{{ 'Pour chaque commande, un bijou surprise vous sera offert'|gTrans }}</p>
     </section>
 
-    <section class="mb-5">
-        <h2 class="mb-3">{{ 'Nos coups de coeur'|gTrans }}</h2>
-        <div id="carousel" class="slider">
-            {% for sliderItem in sliderItems %}
-                <figure class="slider__item"><a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}"><img class="img-responsive" src="{{ sliderItem.images|first.webPath|imagine_filter('slide') }}" alt="{{ sliderItem.images|first.alt }}"></a></figure>
-            {% endfor %}
-        </div>
-    </section>
+{#    <section class="mb-5">#}
+{#        <h2 class="mb-3">{{ 'Nos coups de coeur'|gTrans }}</h2>#}
+{#        <div id="carousel" class="slider">#}
+{#            {% for sliderItem in sliderItems %}#}
+{#                <figure class="slider__item"><a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}"><img class="img-responsive" src="{{ sliderItem.images|first.webPath|imagine_filter('slide') }}" alt="{{ sliderItem.images|first.alt }}"></a></figure>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    </section>#}
 
-    <hr class="separator">
+{#    <hr class="separator">#}
 
     <section>
         <h2 class="hidden">{{ 'Les gammes'|gTrans }}</h2>
