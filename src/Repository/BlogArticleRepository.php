@@ -44,11 +44,15 @@ class BlogArticleRepository extends AbstractRepository
         return $qb->orderBy('bc.posted_at', 'DESC')->getQuery()->getSingleResult();
     }
 
+    /**
+     * @return BlogArticle|null
+     */
     public function findLastWithComments()
     {
         $qb = $this->createQueryBuilder('b');
-        $qb->setMaxResults(1)->where('b.isPublished = 1');
+        $qb->where('b.isPublished = 1');
         $this->with($qb, 'blogComments');
-        return $qb->orderBy('b.posted_at', 'DESC')->getQuery()->getSingleResult();
+        $blogArticles = $qb->orderBy('b.posted_at', 'DESC')->getQuery()->getResult();
+        return is_array($blogArticles) ? $blogArticles[0] : null ;
     }
 }
