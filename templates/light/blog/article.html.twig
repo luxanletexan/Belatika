@@ -6,8 +6,8 @@
     <meta property="og:title" content="{{ blogArticle.title|gTrans }}">
     <meta property="fb:app_id" content="1293327757393160">
     <meta property="og:description" content="{{ blogArticle.metaDescription|gTransDB }}">
-    <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset(blogArticle.mainImage.src) }}">
-    <meta property="og:image:secure_url" content="{{ app.request.getSchemeAndHttpHost() ~ asset(blogArticle.mainImage.src) }}">
+    <meta property="og:image" content="{{ asset(blogArticle.mainImage.src) }}">
+    <meta property="og:image:secure_url" content="{{ asset(blogArticle.mainImage.src) }}">
     {{ encore_entry_script_tags('app_blog_article') }}
 {% endblock %}
 {% block title %}{{ blogArticle.title|gTrans }}{% endblock %}
