@@ -178,3 +178,21 @@ hr.separator {
     clear: both;
   }
 }
+
+.displayer {
+  background-image: url("./raining-stars.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  padding: 10px;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+  &__text {
+    background: radial-gradient(white 50%, transparent);
+    padding: 10px;
+    font-size: 2rem;
+    @include title-font;
+    @include text-outline(white);
+  }
+}
