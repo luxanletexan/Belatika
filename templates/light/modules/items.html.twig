@@ -10,7 +10,7 @@
                 {% endif %}
             </a>
             <figcaption>
-                <p>{{item.name|gTrans}}</p>
+                <p><a class="text-dark" href="{{ path('app_shop_item', {'slug': item.slug, 'customer': item.category.customers, 'category_slug': item.category.slug}) }}">{{item.name|gTrans}}</a></p>
 {#                {% if item.discount and onSales %}#}
 {#                    <span class="shop-items__item__price--crossed-out">{{ item.price|number_format(2, ',') }} €</span>#}
 {#                    <span class="shop-items__item__price">{{ (item.discountPrice)|number_format(2, ',') }} € (-{{ item.discount }}%)</span>#}
