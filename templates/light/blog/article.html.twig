@@ -35,10 +35,10 @@
                 </div>
             {% endif %}
             {% for comment in blogArticle.blogComments %}
-                <div class="blog-article__comment blog-article__comment{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.id == comment.user.id %}--right{% else %}--left{% endif %}">
+                <div class="blog-article__comment blog-article__comment{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.id == comment.user.id %}--right{% else %}--left{% endif %}{% if comment.user.admin %} blog-article__comment--admin{% endif %}">
                     <div class="blog-article__comment__header">
                         <span class="blog-article__comment__header__date">{{ comment.postedAt|date('d/m/Y H\\hi') }}</span> -
-                        <span class="blog-article__comment__header__username">{{ comment.user.username }}</span>:
+                        <span class="blog-article__comment__header__username{% if comment.user.admin %}--admin{% endif %}">{{ comment.user.username }}</span>:
                     </div>
                     <div class="blog-article__comment__content">
                         {% if is_granted('ROLE_ADMIN') or comment.belongsTo(app.user) %}

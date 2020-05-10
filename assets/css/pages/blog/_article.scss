@@ -25,15 +25,36 @@
       background-color: #eeeda0;
       align-self: flex-end;
     }
+    &--admin {
+      background-color: white;
+      border: 1px $gold solid;
+    }
     &--new {
       border-radius: 1.5rem 0 1.5rem 1.5rem;
       background-color: rgba(238,237,160,.5);
       align-self: flex-end;
     }
     &__header {
+      display: flex;
+      align-items: center;
       &__date {
         font-size: .75rem;
         font-style: italic;
+      }
+      &__username {
+        &--admin {
+          display: flex;
+          align-items: center;
+          &::before {
+            content: '';
+            display: inline-block;
+            margin: 0 2px;
+            padding: 8px;
+            background-image: url("./../../layouts/belatika.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+          }
+        }
       }
     }
     &__content--editable {
