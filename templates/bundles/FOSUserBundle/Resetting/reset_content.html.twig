@@ -1,7 +1,6 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<h1 class="col-12">{{ 'Modification du mot de passe'|gTrans }}</h1>
-<div class="bloc-belatika col-12 p-2 rounded mt-3">
+<div class="container my-3">
     {{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset mt-3' } }) }}
     <div class="form-group row">
         {{ form_label(form.plainPassword.first, '', {'label_attr' : {'class' : 'col-sm-4 col-form-label'}}) }}
