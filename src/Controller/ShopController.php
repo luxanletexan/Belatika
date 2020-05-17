@@ -9,8 +9,6 @@ use App\Entity\CustomerOrder;
 use App\Entity\EtsyFeedback;
 use App\Entity\Item;
 use App\Entity\Range;
-use App\Service\BelatikaMigrator;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,6 +26,10 @@ class ShopController extends ParentController
         $doctrine = $this->getDoctrine();
 
         $sliderItems = $doctrine->getRepository(Item::class)->findAllWithImages(['forSlider' => true]);
+        $limit = 12;
+        if (is_array($sliderItems)) {
+            $sliderItems = array_slice($sliderItems, 0, $limit);
+        }
         $ranges = $doctrine->getRepository(Range::class)->findAll();
         $blogArticle = $doctrine->getRepository(BlogArticle::class)->findLastWithComments();
 
