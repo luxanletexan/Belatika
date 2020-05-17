@@ -113,6 +113,15 @@ class User extends BaseUser
         return $this->realname;
     }
 
+    public function getUsername($stripMail = false)
+    {
+        $username = parent::getUsername();
+        if ($stripMail) {
+            $username = preg_replace('#^(.*)@.*$#', '$1', $username);
+        }
+        return $username;
+    }
+
     public function setRealname(?string $realname): self
     {
         $this->realname = $realname;

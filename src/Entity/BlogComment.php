@@ -60,7 +60,7 @@ class BlogComment
 
     public function getContent(): ?string
     {
-        return preg_replace('#^(.*)(https://belatika\.com[^ ]*)(.*)$#', '$1<a href="$2">$2</a> $3', $this->content);
+        return preg_replace('#^(.*)https://belatika\.com/bijoux/(femme|homme)/([0-9a-z\-]+)/([0-9a-z\-]+)(.*)$#', '$1<a href="https://belatika.com/bijoux/$2/$3/$4">$4</a>$5', $this->content);
     }
 
     public function setContent(string $content): self
