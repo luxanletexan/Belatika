@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Address;
 use App\Entity\CustomerOrder;
 use App\Form\UserAddressesType;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -102,16 +102,40 @@ class UserController extends ParentController
 
     /**
      * @Route("/profile/toggle-newsletter", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function toggleNewsletter()
+    public function toggleNewsletter(Request $request)
     {
         $user = $this->getUser();
 
-        $user->toggleNewsletter();
+        $subscribe = $request->get('subscribe');
+        if ($subscribe) {
+            $user->setNewsletter(true);
+        } else {
+            $user->toggleNewsletter();
+        }
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
 
         return $this->json(['newsletter' => $user->getNewsletter()]);
+    }
+
+    /**
+     * @Route("/profile/stop-newsletter-suggestion", methods={"POST"})
+     * @return JsonResponse
+     */
+    public function stopNewsletterSuggestion()
+    {
+        $user = $this->getUser();
+
+        $user->setSuggestNewsletter(false);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->json(['newsletter_suggestion' => $user->getSuggestNewsletter()]);
     }
 }

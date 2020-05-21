@@ -99,6 +99,11 @@ class User extends BaseUser
      */
     private $newsletter = false;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $suggestNewsletter = true;
+
     public function __construct()
     {
         parent::__construct();
@@ -241,6 +246,18 @@ class User extends BaseUser
     public function toggleNewsletter()
     {
         $this->newsletter = !$this->newsletter;
+
+        return $this;
+    }
+
+    public function getSuggestNewsletter(): ?bool
+    {
+        return $this->suggestNewsletter;
+    }
+
+    public function setSuggestNewsletter(bool $suggestNewsletter): self
+    {
+        $this->suggestNewsletter = $suggestNewsletter;
 
         return $this;
     }

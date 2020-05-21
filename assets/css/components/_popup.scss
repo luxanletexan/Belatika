@@ -1,0 +1,35 @@
+.popup {
+  background-color: white;
+  border-radius: .5rem;
+  padding: 24px;
+  position: relative;
+  &__heading {
+    @include title-font;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  &__footer {
+    margin-bottom: -16px;
+  }
+  &__text {
+    line-height: 2rem;
+  }
+  .fas.fa-times-circle {
+    position: absolute;
+    top: -.5rem;
+    right: -.5rem;
+    font-size: 1.5rem;
+    display: flex;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    background-color: white;
+    cursor: pointer;
+    transition: transform .2s ease-in-out;
+    &:hover {
+      transform: rotate(90deg);
+    }
+  }
+}

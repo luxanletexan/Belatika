@@ -3,36 +3,36 @@
     "app": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/0.dd7efde7.js",
+        "/build/0.825edf6f.js",
         "/build/1.59290398.js",
-        "/build/app.d26dace8.js"
+        "/build/app.a11c55c5.js"
       ],
       "css": [
-        "/build/app.32205758.css"
+        "/build/app.dc263e38.css"
       ]
     },
     "app_shop_index": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/0.dd7efde7.js",
+        "/build/0.825edf6f.js",
         "/build/1.59290398.js",
-        "/build/app_shop_index.cfe8c647.js"
+        "/build/app_shop_index.edbdb6fe.js"
       ]
     },
     "app_blog_article": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/0.dd7efde7.js",
+        "/build/0.825edf6f.js",
         "/build/1.59290398.js",
-        "/build/app_blog_article.d788d1fc.js"
+        "/build/app_blog_article.186d79ff.js"
       ]
     },
     "app_user_address": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/0.dd7efde7.js",
+        "/build/0.825edf6f.js",
         "/build/1.59290398.js",
-        "/build/app_user_address.b237459c.js"
+        "/build/app_user_address.094425de.js"
       ]
     },
     "app_user_order": {
@@ -44,8 +44,8 @@
     "app_user_profile": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/0.dd7efde7.js",
-        "/build/app_user_profile.bf4b704d.js"
+        "/build/0.825edf6f.js",
+        "/build/app_user_profile.f7ef2122.js"
       ]
     },
     "app_cart_index": {
