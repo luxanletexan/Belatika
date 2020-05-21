@@ -94,6 +94,11 @@ class User extends BaseUser
      */
     private $customerOrders;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $newsletter = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -219,5 +224,24 @@ class User extends BaseUser
     public function isAdmin()
     {
         return in_array('ROLE_ADMIN', $this->roles);
+    }
+
+    public function getNewsletter(): ?bool
+    {
+        return $this->newsletter;
+    }
+
+    public function setNewsletter(bool $newsletter): self
+    {
+        $this->newsletter = $newsletter;
+
+        return $this;
+    }
+
+    public function toggleNewsletter()
+    {
+        $this->newsletter = !$this->newsletter;
+
+        return $this;
     }
 }

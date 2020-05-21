@@ -99,4 +99,19 @@ class UserController extends ParentController
             ]);
         }
     }
+
+    /**
+     * @Route("/profile/toggle-newsletter", methods={"POST"})
+     */
+    public function toggleNewsletter()
+    {
+        $user = $this->getUser();
+
+        $user->toggleNewsletter();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->json(['newsletter' => $user->getNewsletter()]);
+    }
 }
