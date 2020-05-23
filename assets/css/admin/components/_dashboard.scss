@@ -64,6 +64,17 @@
   }
 }
 
+table.no-spacing {
+  border-spacing:0; /* Removes the cell spacing via CSS */
+  border-collapse: collapse;  /* Optional - if you don't want to have double border where cells touch */
+}
+
+table.striped-rows {
+  & tr:nth-child(2n) {
+    background-color: #e6ebec;
+  }
+}
+
 .admin-form-group {
   &>label {
     display: block;

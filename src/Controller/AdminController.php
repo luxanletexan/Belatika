@@ -141,6 +141,7 @@ class AdminController extends ParentController
                 'Nouveau' => $this->generateUrl('app_admin_item_add'),
             ],
             'Commandes' => $this->generateUrl('app_admin_order_orders'),
+            'Utilisateurs' => $this->generateUrl('app_admin_user_users'),
         ];
         $parameters['menus'] = $menus;
         return parent::render($view, $parameters, $response);

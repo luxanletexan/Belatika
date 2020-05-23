@@ -1,0 +1,44 @@
+{% extends shop_settings.template ~ "/layout.admin.html.twig" %}
+{% block meta_title %}Gestion des utilisateurs{% endblock %}
+{% block content %}
+    <div class="dashboard-item">
+        <div class="dashboard-item__heading">
+            Utilisateurs
+        </div>
+        <div class="dashboard-item__content">
+            <table class="dashboard-table no-spacing striped-rows">
+                <tbody>
+                    <tr>
+                        <th>Info</th>
+                        <th>Nom utilisateur</th>
+                        <th>Email</th>
+                        <th>Inscrit le</th>
+                        <th>Dernière connection</th>
+                    </tr>
+                    {% for user in users %}
+                        <tr {% if not user.enabled %}style="background-color: red;color: white"{% endif %}>
+                            <td>
+                                {% if user.facebookId %}<i title="Compte créé avec Facebook" style="color: #4C6EF5" class="fab fa-facebook"></i>{% endif %}
+                                {% if user.googleId %}<i title="Compte créé avec google" style="color: #bb3030" class="fab fa-google"></i>{% endif %}
+                                {% if not user.facebookId and not user.googleId %}<i title="Compte créé manuellement" style="color: #15AABF" class="fas fa-user"></i>{% endif %}
+                                <i {% if user.newsletter %}
+                                        style="color: #00ff00" title="Inscrit à la newsletter"
+                                    {% elseif not user.suggestNewsletter %}
+                                        style="color: #fd0808" title="Ne veux pas de newsletter"
+                                    {% else %}
+                                        style="color: #928f8f" title="N'a pas activé la newsletter"
+                                    {% endif%}
+                                class="fas fa-envelope"></i>
+                                {% if user.hasNewsletterGift %}<i title="A reçu un code cadeau avec la newsletter" style="color: #ee9f20" class="fas fa-gift"></i>{% endif %}
+                            </td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.createdAt|date('d/m/y h:i') }}</td>
+                            <td class="text-right">{{ user.lastLogin|date('d/m/y h:i') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
