@@ -104,6 +104,11 @@ class User extends BaseUser
      */
     private $suggestNewsletter = true;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $hasNewsletterGift = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -258,6 +263,18 @@ class User extends BaseUser
     public function setSuggestNewsletter(bool $suggestNewsletter): self
     {
         $this->suggestNewsletter = $suggestNewsletter;
+
+        return $this;
+    }
+
+    public function hasNewsletterGift(): ?bool
+    {
+        return $this->hasNewsletterGift;
+    }
+
+    public function setHasNewsletterGift(bool $hasNewsletterGift): self
+    {
+        $this->hasNewsletterGift = $hasNewsletterGift;
 
         return $this;
     }

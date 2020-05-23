@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CustomerOrder;
 use App\Form\UserAddressesType;
+use App\Service\GiftManager;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -103,19 +104,26 @@ class UserController extends ParentController
     /**
      * @Route("/profile/toggle-newsletter", methods={"POST"})
      * @param Request $request
+     * @param GiftManager $giftManager
      * @return JsonResponse
      */
-    public function toggleNewsletter(Request $request)
+    public function toggleNewsletter(Request $request, GiftManager $giftManager)
     {
         $user = $this->getUser();
 
+        $em = $this->getDoctrine()->getManager();
         $subscribe = $request->get('subscribe');
         if ($subscribe) {
+            if (!$user->hasNewsletterGift()) {
+                $gift = $giftManager->createGift(['end' => date_create()->modify(('+2 days'))]);
+                $user->setHasNewsletterGift(true);
+                $this->fastMail('Votre code cadeau 🎁', $user->getEmail(), 'mail/newsletterGift.html.twig', ['gift' => $gift]);
+                $em->persist($gift);
+            }
             $user->setNewsletter(true);
         } else {
             $user->toggleNewsletter();
         }
-        $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
 

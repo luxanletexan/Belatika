@@ -70,6 +70,10 @@ services:
             $projectDir: '%kernel.project_dir%'
             $requestStack: '@request_stack'
 
+    App\Service\GiftManager:
+        arguments:
+            $manager: '@doctrine.orm.entity_manager'
+
     Liip\ImagineBundle\Imagine\Cache\CacheManager:
         alias: 'liip_imagine.cache.manager'
 

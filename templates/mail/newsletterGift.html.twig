@@ -1,0 +1,40 @@
+{% extends "mail/layout.html.twig" %}
+
+{% block meta_title %}{{ 'Votre code cadeau!'|gTrans }}{% endblock %}
+{% block style %}
+    .gift-code {
+        font-weight: bold;
+        font-size: 2rem;
+    }
+    .gift-value {
+        font-size: 1.5rem;
+        color: yellowgreen;
+        font-weight: bold;
+    }
+{% endblock %}
+{% block title %}{{ 'Votre code cadeau 🎁'|gTrans }}{% endblock %}
+{% block content %}
+    <p>
+        {{ 'Pour vous remercier de votre intérêt, voici un code cadeau pour vous!'|gTrans }}
+    </p>
+    <h2 class="heading--2">{{ "Que puis-je avoir avec mon code cadeau?"|gTrans }}</h2>
+
+    <p>{{ "Belatika vous offre"|gTrans }} <span class="gift-value">5€</span> {{ "sur toute sa boutique, sans minimum d'achat!"|gTrans }}</p>
+
+    <p>
+        {{ "N'attendez plus, votre offre expire dans 48h!"|gTrans }}<br>
+        {{ "Date d'expiration du code cadeau :"|gTrans }} <strong>{{ gift.end|date('d/m/Y à H\\hh') }}</strong>
+    </p>
+
+    <h2 class="heading--2">{{ "Comment utiliser mon code cadeau?"|gTrans }}</h2>
+
+    <p>{{ "Rien de plus simple!"|gTrans }} 😉</p>
+
+    <p>{{ "Rendez-vous sur"|gTrans }} <a href="https://belatika.com">belatika.com</a> {{ "et visitez ma boutique."|gTrans }}</p>
+
+    <p>{{ "Sur la page panier, copiez le code suivant dans le formulaire \"Utiliser une carte cadeau\""|gTrans }}:</p>
+
+    <p class="gift-code">{{ gift.code }}</p>
+
+    <p>{{ "Ce code est unique et ne peut être utilisé qu'une seule fois."|gTrans }}</p>
+{% endblock %}
