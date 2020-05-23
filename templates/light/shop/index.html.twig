@@ -108,13 +108,18 @@
                Newsletter
             </div>
             <div class="popup__text">
-                Soyez au courant des <strong>dernières nouveautés</strong><br>ainsi que des <strong>offres exclusives</strong> de la boutique<br>en vous inscrivant à la newsletter. 😍<br>
+                {{ "Soyez au courant des <strong>dernières nouveautés</strong><br>ainsi que des <strong>offres exclusives</strong> de la boutique<br>en vous inscrivant à la newsletter. 😍<br>"|gTrans }}
+            </div>
+            <div class="text-center">
+                <div class="macaron">5€ <small>{{ 'offerts'|gTrans }}</small></div>
             </div>
             <div class="clearfix my-3">
-                <button id="subscribe-newsletter" data-url="{{ path('app_user_togglenewsletter') }}" class="btn btn-success float-right">Recevoir la newsletter</button>
+                <button id="subscribe-newsletter" data-url="{{ path('app_user_togglenewsletter') }}" class="btn btn-success float-right">
+                    {{ 'Recevoir la newsletter'|gTrans }}
+                </button>
             </div>
             <div class="popup__footer">
-                <button id="stop-newsletter-suggestion" data-url="{{ path('app_user_stopnewslettersuggestion') }}" class="button-link"><small><i>Ne plus afficher ce message</i></small></button>
+                <button id="stop-newsletter-suggestion" data-url="{{ path('app_user_stopnewslettersuggestion') }}" class="button-link"><small><i>{{ 'Ne plus afficher ce message'|gTrans }}</i></small></button>
             </div>
         </div>
     {% endif %}
