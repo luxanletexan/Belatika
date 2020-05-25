@@ -14,6 +14,20 @@
 {% block title %}{{ 'Bijoux'|gTrans }}{% endblock %}
 {% block content %}
 
+    <section>
+        <h2 class="hidden">{{ 'Les gammes'|gTrans }}</h2>
+        <div class="shop-ranges">
+            {% for range in ranges %}
+                <figure class="ranges-preview">
+                    <figcaption class="ranges-preview__figcaption">{{ range.name|gTrans }}</figcaption>
+                    <a href="{{ path('app_shop_range', {'slug':range.slug}) }}"><img class="ranges-preview__image" src="{{ asset(range.imageWebPath)|imagine_filter('large') }}" alt="{{ range.name|gTrans }}"></a>
+                </figure>
+            {% endfor %}
+        </div>
+    </section>
+
+    <hr class="separator">
+
     <section class="text-center my-4">
         <p class="displayer">
             <span class="displayer__text">{{ 'LIVRAISON OFFERTE'|gTrans }}!</span><br>
@@ -33,20 +47,6 @@
                     <a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}">
                         <img class="img-responsive" src="{{ sliderItem.images|first.webPath|imagine_filter('slide') }}" alt="{{ sliderItem.images|first.alt }}">
                     </a>
-                </figure>
-            {% endfor %}
-        </div>
-    </section>
-
-    <hr class="separator">
-
-    <section>
-        <h2 class="hidden">{{ 'Les gammes'|gTrans }}</h2>
-        <div class="shop-ranges">
-            {% for range in ranges %}
-                <figure class="ranges-preview">
-                    <figcaption class="ranges-preview__figcaption">{{ range.name|gTrans }}</figcaption>
-                    <a href="{{ path('app_shop_range', {'slug':range.slug}) }}"><img class="ranges-preview__image" src="{{ asset(range.imageWebPath)|imagine_filter('large') }}" alt="{{ range.name|gTrans }}"></a>
                 </figure>
             {% endfor %}
         </div>
@@ -90,7 +90,7 @@
             <p class="about__paragraph">{{ "Affirmez votre personnalité, montrez vos émotions en portant des pierres naturelles avec une symbolique qui vous ressemble."|gTrans }}</p>
             <p class="about__paragraph">
                 {{ "La signification d’une couleur, d’une forme que la nature vous offre est retransmise dans les bijoux Belatika."|gTrans }}<br>
-                {{ "Un bijou imaginé et assemblé à la main. Réalisé en un seul exemplaire. Eh oui, dans cette immensité qu’est l’univers vous êtes une personne unique."|gTrans }}<br>
+                {{ "Un bijou imaginé et assemblé à la main. Réalisé en un seul exemplaire (ou petite série). Eh oui, dans cette immensité qu’est l’univers vous êtes une personne unique."|gTrans }}<br>
                 {{ "Unique avec vos goûts, vos envies, votre personnalité."|gTrans }}<br>
                 {{ "Démarquez-vous en portant ce que vous êtes. Du Sobre, du chic, de l’étincelant, du lumineux, du décalé, de l’extravagance."|gTrans }}<br>
                 {{ "Un grand choix de bijoux s’offre à vous sur belatika.com pour être en harmonie avec vous-même."|gTrans }}<br>
