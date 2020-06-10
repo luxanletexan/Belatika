@@ -1,11 +1,13 @@
+{% set categories = categories() %}
+
 {% extends shop_settings.template ~ "/layout.html.twig" %}
-{% block meta_title %}{{ 'Bijoux fantaisie'|gTrans }}{% endblock %}
+{% block meta_title %}{{ 'Bijoux tendance'|gTrans }}{% endblock %}
 {% block head %}
     <link rel="canonical" href="{{ absolute_url(path('app_shop_index')) }}">
     <meta name="description" content="{{ "Bijoux uniques pour des femmes d'exceptions. Découvrez les bijoux de la boutique en ligne de Belatika. Un large choix de boucles d'oreilles, colliers, bagues et bracelets créés avec passion à des prix tous doux."|gTransDB }}">
     {{ encore_entry_script_tags('app_shop_index') }}
     <meta property="og:type" content="website">
-    <meta property="og:title" content="{{ 'Bijoux fantaisie'|gTrans }}">
+    <meta property="og:title" content="{{ 'Bijoux tendance'|gTrans }}">
     <meta property="fb:app_id" content="1293327757393160">
     <meta property="og:description" content="{{ "Bijoux uniques pour des femmes d'exceptions. Découvrez les bijoux de la boutique en ligne de Belatika. Un large choix de boucles d'oreilles, colliers, bagues et bracelets créés avec passion à des prix tous doux."|gTransDB }}">
     <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('img/resources/open_graph_home.jpg') }}">
@@ -18,7 +20,7 @@
         <h2 class="hidden">{{ 'Les gammes'|gTrans }}</h2>
         <div class="shop-ranges">
             {% for range in ranges %}
-                <figure class="ranges-preview">
+                <figure class="ranges-preview ranges-preview--ranges">
                     <figcaption class="ranges-preview__figcaption">{{ range.name|gTrans }}</figcaption>
                     <a href="{{ path('app_shop_range', {'slug':range.slug}) }}"><img class="ranges-preview__image" src="{{ asset(range.imageWebPath)|imagine_filter('large') }}" alt="{{ range.name|gTrans }}"></a>
                 </figure>
@@ -26,9 +28,7 @@
         </div>
     </section>
 
-    <hr class="separator">
-
-    <section class="text-center my-4">
+    <section class="text-center">
         <p class="displayer">
             <span class="displayer__text">{{ 'LIVRAISON OFFERTE'|gTrans }}!</span><br>
             <span class="displayer__text">
@@ -37,10 +37,22 @@
         </p>
     </section>
 
+    <section>
+        <h2 class="hidden">{{ 'Les catégories'|gTrans }}</h2>
+        <div class="shop-ranges categories">
+            {% for category in categories %}
+                <figure class="ranges-preview ranges-preview--categories">
+                    <figcaption class="ranges-preview__figcaption">{{ category.name|gTrans }}{% if category.customers == 'homme' %} homme{% endif %}</figcaption>
+                    <a href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}"><img class="ranges-preview__image" src="{{ asset(category.imageWebPath)|imagine_filter('large') }}" alt="{{ category.name|gTrans }}"></a>
+                </figure>
+            {% endfor %}
+        </div>
+    </section>
+
     <hr class="separator">
 
     <section class="mb-5">
-        <h2 class="mb-3">{{ 'Nos coups de coeur'|gTrans }}</h2>
+        <h2 class="mb-3">{{ 'Les dernières nouveautés'|gTrans }}</h2>
         <div id="carousel" class="slider">
             {% for sliderItem in sliderItems %}
                 <figure class="slider__item">

@@ -67,11 +67,22 @@
 
 .ranges-preview {
   width: 48%;
-  @include media-breakpoint-up(lg) {
-    width: 24%;
+  &--ranges {
+    @include media-breakpoint-up(lg) {
+      width: 24%;
+    }
+  }
+  &--categories {
+    @include media-breakpoint-up(lg) {
+      width: 32%;
+    }
+    & figcaption {
+      @include media-breakpoint-up(lg) {
+        font-size: 3rem;
+      }
+    }
   }
   position: relative;
-  border-radius: 36px;
   overflow: hidden;
   &__image {
     width: 100%;
@@ -187,7 +198,10 @@ hr.separator {
   padding: 10px;
   position: relative;
   max-width: 800px;
-  margin: 0 auto 3rem auto;
+  margin: 0 auto;
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 2rem;
+  }
   &__text {
     background: radial-gradient(white 50%, transparent);
     padding: 10px;
