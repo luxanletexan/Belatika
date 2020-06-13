@@ -75,7 +75,11 @@
     >
     <label for="same-address">{{ 'Utiliser la même adresse pour la facturation'|gTrans|capitalize }}</label>
 </div>
-<a href="{{ back.url }}" class="btn btn-sm bt-btn--secondary">{{ back.name|gTrans|capitalize }}</a>
-<button class="btn btn-sm bt-btn--primary">{{ validate.name|gTrans|capitalize }}</button>
+<div class="row mb-5">
+    <div class="col-12">
+        <a href="{{ back.url }}" class="btn btn-sm bt-btn--secondary">{{ back.name|gTrans|capitalize }}</a>
+        <button class="btn btn-sm bt-btn--primary">{{ validate.name|gTrans|capitalize }}</button>
+    </div>
+</div>
 {{ form_widget(form) }}
 {{ form_end(form) }}
