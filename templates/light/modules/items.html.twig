@@ -1,5 +1,6 @@
 <div itemscope itemtype="https://schema.org/JewelryStore" class="shop-items">
     <h2 class="sr-only" itemprop="brand">{{ 'Bijoux Belatika'|gTrans }}</h2>
+    {% set cart = app.session.get('cart') %}
     {% for item in items %}
         <figure class="shop-items__item">
             <a href="{{ path('app_shop_item', {'customer' : item.category.customers, 'category_slug' : item.category.slug, 'slug' : item.slug}) }}">
@@ -11,13 +12,42 @@
             </a>
             <figcaption>
                 <p><a class="text-dark" href="{{ path('app_shop_item', {'slug': item.slug, 'customer': item.category.customers, 'category_slug': item.category.slug}) }}">{{item.name|gTrans}}</a></p>
-{#                {% if item.discount and onSales %}#}
-{#                    <span class="shop-items__item__price--crossed-out">{{ item.price|number_format(2, ',') }} €</span>#}
-{#                    <span class="shop-items__item__price">{{ (item.discountPrice)|number_format(2, ',') }} € (-{{ item.discount }}%)</span>#}
-{#                {% else %}#}
-{#                    <span class="shop-items__item__price">{{ item.price|number_format(2, ',') }} €</span>#}
-{#                {% endif %}#}
+                <button
+                        id="cart-button-{{ item.id }}"
+                        class="bt-btn bt-btn--primary cart-button btn-sm mr-3"
+                        data-item_id="{{ item.id }}"
+                        data-popup="add-to-cart-popup"
+                        data-add_item_url="{{ absolute_url(path('app_cart_add', {'id':item.id})) }}"
+                        data-remove_item_url="{{ absolute_url(path('app_cart_remove', {'item_id':item.id})) }}"
+                        {% if cart[item.id] is defined %}data-added{% endif %}
+                >
+                    <span class="add-item{% if cart[item.id] is defined %} hidden{% endif %}">{{ 'Acheter'|gTrans }}</span>
+                    <span class="remove-item{% if cart[item.id] is not defined %} hidden{% endif %}">{{ 'Retirer du panier'|gTrans }}</span>
+                    <i class="fas fa-spinner hidden"></i>
+                </button>
+                {% if item.discount and onSales %}
+                    <span class="shop-items__item__price--crossed-out">{{ item.price|number_format(2, ',') }} €</span>
+                    <span class="shop-items__item__price">{{ (item.discountPrice)|number_format(2, ',') }} € (-{{ item.discount }}%)</span>
+                {% else %}
+                    <span class="shop-items__item__price">{{ item.price|number_format(2, ',') }} €</span>
+                {% endif %}
             </figcaption>
         </figure>
     {% endfor %}
+</div>
+<div id="add-to-cart-popup" data-cancel_button="continue-shopping" class="popup">
+    <i class="fas fa-times-circle"></i>
+    <div class="popup__heading">
+        Panier
+    </div>
+    <div class="popup__text">
+        {{ "Votre bijou a été ajouté au panier<br>"|gTrans }}
+    </div>
+    <div class="import"></div>
+    <div class="my-3 text-center">
+        <a href="{{ path('app_cart_show') }}" class="btn btn-success float-sm-right">{{ 'Voir mon panier'|gTrans }}</a>
+    </div>
+    <div class="popup__footer clearfix">
+        <button id="continue-shopping" data-cancel="true" class="button-link">{{ 'Continuer mes achats'|gTrans }}</button>
+    </div>
 </div>

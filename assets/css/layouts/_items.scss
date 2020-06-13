@@ -14,7 +14,6 @@
       display: inline-block;
       position: relative;
       overflow: hidden;
-      border-radius: 2.5rem;
       & img {
         &.lazyload {
           width: 255px;
@@ -31,6 +30,8 @@
       }
     }
     &__price {
+      @include price-font;
+      font-size: 1.5rem;
       &--crossed-out {
         text-decoration: line-through;
         color: #ccc;

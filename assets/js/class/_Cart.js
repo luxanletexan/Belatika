@@ -8,6 +8,7 @@ export default class Cart {
      * @param {string} [options.shopping_bag_item_class=cart-hover__item] Classe CSS des items du menu panier
      * @param {string} [options.cart_quantity_class=navbar__item--cart] Classe CSS quantité dans le panier
      * @param {string} [options.cart_url=/panier/] Lien vers le panier
+     * @param {Popup} [options.popup=null] popup
      */
     constructor(options = {})
     {
@@ -18,6 +19,7 @@ export default class Cart {
             shopping_bag_item_class: 'cart-hover__item',
             cart_quantity_class: 'navbar__item--cart',
             cart_url: '/panier/',
+            popup: null,
         }, options);
         this.processing = false;
         this.cartContent = {};
@@ -54,6 +56,9 @@ export default class Cart {
             this.onSales = response.onSales === true;
             this.updateCart(response.cart);
             button.blur();
+            if (this.options.popup && !added) {
+                this.options.popup.show();
+            }
             this.processing = false;
         }, {method: 'POST'});
     }
@@ -100,6 +105,9 @@ export default class Cart {
 
         let count = 0;
         let total = 0;
+        if (this.options.popup) {
+            this.options.popup.resetImport();
+        }
         Object.values(this.cartContent).forEach(item => {
             let itemListElt = this.createShoppingBagItem(item);
             let price = this.onSales ? item.discountPrice : item.price;
@@ -146,6 +154,13 @@ export default class Cart {
         itemLink.appendChild(document.createTextNode(' '+item.name));
         itemContainer.appendChild(itemLink);
         itemContainer.appendChild(itemPrice);
+        if (this.options.popup) {
+            let clonedItem = itemContainer.cloneNode(true);
+            let clonedItemRemove = itemRemove.cloneNode(true);
+            clonedItemRemove.addEventListener('click', this.onShoppingBagButtonClick.bind(this, clonedItemRemove));
+            clonedItem.appendChild(clonedItemRemove);
+            this.options.popup.import(clonedItem);
+        }
         itemContainer.appendChild(itemRemove);
         return itemContainer;
     }

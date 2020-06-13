@@ -11,18 +11,21 @@ export default class Popup {
      * @param {HTMLElement} element
      * @param {Object} options
      * @param {{element: HTMLElement, url: string, callback: ajaxCallback, datas: Object}[]} options.buttons
+     * @param {Boolean} options.display
      */
     constructor(element, options = {})
     {
         //Options
         this.options = Object.assign({
-            buttons: []
+            buttons: [],
+            display: true,
         }, options);
 
         //Gestion du DOM
         this.popup = element;
         this.setOverlay();
         this.close = element.querySelector('.fas.fa-times-circle');
+        this.importElt = this.popup.querySelector('.import');
 
         //Gestion des evenements
         if (this.close) {
@@ -46,7 +49,7 @@ export default class Popup {
             top: '0',
             left: '0',
             zIndex: '999',
-            display: 'flex',
+            display: this.options.display ? 'flex' : 'none',
             justifyContent: 'center',
             alignItems: 'center',
         })
@@ -70,7 +73,8 @@ export default class Popup {
 
     onOverlayClick()
     {
-        this.body.removeChild(this.overlay);
+        // this.body.removeChild(this.overlay);
+        this.overlay.style.display = 'none';
     }
 
     onPopupClick(e)
@@ -91,12 +95,35 @@ export default class Popup {
             button.datas = {}
         }
         button.element.addEventListener('click', () => {
-            ajax(button.url, (response) => {
-                if (button.callback) {
-                    button.callback(response);
-                }
+            if (button.element.dataset.cancel !== undefined) {
                 this.onOverlayClick();
-            }, {method: 'POST', datas: button.datas});
+            } else {
+                ajax(button.url, (response) => {
+                    if (button.callback) {
+                        button.callback(response);
+                    }
+                    this.onOverlayClick();
+                }, {method: 'POST', datas: button.datas});
+            }
         });
+    }
+
+    show()
+    {
+        this.overlay.style.display = 'flex';
+    }
+
+    import(element)
+    {
+        if (this.importElt) {
+            this.importElt.appendChild(element);
+        }
+    }
+
+    resetImport()
+    {
+        if (this.importElt) {
+            this.importElt.innerHTML = '';
+        }
     }
 }
