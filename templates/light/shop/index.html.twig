@@ -49,7 +49,7 @@
         </div>
     </section>
 
-    <hr class="separator">
+    <hr class="separator separator--left">
 
     <section class="mb-5">
         <h2 class="mb-3">{{ 'Les dernières nouveautés'|gTrans }}</h2>
@@ -64,7 +64,59 @@
         </div>
     </section>
 
-    <hr class="separator">
+    <hr class="separator separator--right">
+
+    <section class="home-reviews">
+        <h2>{{ 'Les avis des clients Belatika'|gTrans }}</h2>
+        <p class="home-reviews__intro">
+            {{ "Votre satisfaction, c'est ma priorité."|gTrans }} 😊<br>
+            {{ "C'est parceque je tiens à vous faire plaisir à travers mes <strong>créations de bijoux tendance</strong> que je tiens compte de chacun de vos avis pour toujours chercher à vous proposer le meilleur service possible."|gTrans }}<br>
+            {{ "Préparation soignée, minutieuse.✨ Commande traitée dans l'heure, expédition dans les délais les plus brefs.🚀 Toutes ces attentions sont une priorité pour moi, vos avis le prouvent au quotidien et je vous en remercie!"|gTrans }}🙏
+        </p>
+        <div class="home-reviews__reviews">
+            {% for review in reviews %}
+                <div class="reviews__review">
+                    <span class="reviews__review__date">{{ review.datetime|date('d/m/Y H:i') }}</span>
+                    <span class="reviews__review__rate">
+                    {% for i in 1..5 %}
+                        {% if review.rate >= i - 0.25 %}
+                            <i class="fas fa-star"></i>
+                        {% elseif review.rate >= i - 0.75 %}
+                            <i class="fas fa-star-half-alt"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </span>
+                    <div>{{ review.review|raw }}</div>
+                </div>
+            {% endfor %}
+            <div><a class="btn btn-sm bt-btn--primary m-1 float-right" href="{{ path('app_shop_avis') }}">{{ "Voir tous les avis"|gTrans }}</a></div>
+        </div>
+    </section>
+
+    <hr class="separator separator--left">
+
+{#    <section class="about">#}
+{#        <h2>Belatika {{ "bijoux"|gTrans }}</h2>#}
+{#        <article>#}
+{#            <p class="about__intro">{{ "Allez à la rencontre de votre for intérieur, communiquez avec la nature, regardez toutes ces merveilles autour de vous et admirez."|gTrans }}</p>#}
+{#            <figure class="about__image">#}
+{#                <img src="{{ asset('img/resources/tree.jpg') }}" alt="{{ 'Arbre sous le soleil'|gTrans }}">#}
+{#            </figure>#}
+{#            <p class="about__paragraph">{{ "Affirmez votre personnalité, montrez vos émotions en portant des pierres naturelles avec une symbolique qui vous ressemble."|gTrans }}</p>#}
+{#            <p class="about__paragraph">#}
+{#                {{ "La signification d’une couleur, d’une forme que la nature vous offre est retransmise dans les bijoux Belatika."|gTrans }}<br>#}
+{#                {{ "Un bijou imaginé et assemblé à la main. Réalisé en un seul exemplaire (ou petite série). Eh oui, dans cette immensité qu’est l’univers vous êtes une personne unique."|gTrans }}<br>#}
+{#                {{ "Unique avec vos goûts, vos envies, votre personnalité."|gTrans }}<br>#}
+{#                {{ "Démarquez-vous en portant ce que vous êtes. Du Sobre, du chic, de l’étincelant, du lumineux, du décalé, de l’extravagance."|gTrans }}<br>#}
+{#                {{ "Un grand choix de bijoux s’offre à vous sur belatika.com pour être en harmonie avec vous-même."|gTrans }}<br>#}
+{#                {{ "Découvrez l’univers tout en douceur et proche de vous que propose Belatika."|gTrans }}#}
+{#            </p>#}
+{#        </article>#}
+{#    </section>#}
+
+{#    <hr class="separator separator--right">#}
 
     {% if blogArticle %}
         <section class="blog-article">
@@ -89,29 +141,8 @@
             </div>
         </section>
 
-        <hr class="separator">
+        <hr class="separator separator--left">
     {% endif %}
-
-{#    <section class="about">#}
-{#        <h2>Belatika {{ "bijoux"|gTrans }}</h2>#}
-{#        <article>#}
-{#            <p class="about__intro">{{ "Allez à la rencontre de votre for intérieur, communiquez avec la nature, regardez toutes ces merveilles autour de vous et admirez."|gTrans }}</p>#}
-{#            <figure class="about__image">#}
-{#                <img src="{{ asset('img/resources/tree.jpg') }}" alt="{{ 'Arbre sous le soleil'|gTrans }}">#}
-{#            </figure>#}
-{#            <p class="about__paragraph">{{ "Affirmez votre personnalité, montrez vos émotions en portant des pierres naturelles avec une symbolique qui vous ressemble."|gTrans }}</p>#}
-{#            <p class="about__paragraph">#}
-{#                {{ "La signification d’une couleur, d’une forme que la nature vous offre est retransmise dans les bijoux Belatika."|gTrans }}<br>#}
-{#                {{ "Un bijou imaginé et assemblé à la main. Réalisé en un seul exemplaire (ou petite série). Eh oui, dans cette immensité qu’est l’univers vous êtes une personne unique."|gTrans }}<br>#}
-{#                {{ "Unique avec vos goûts, vos envies, votre personnalité."|gTrans }}<br>#}
-{#                {{ "Démarquez-vous en portant ce que vous êtes. Du Sobre, du chic, de l’étincelant, du lumineux, du décalé, de l’extravagance."|gTrans }}<br>#}
-{#                {{ "Un grand choix de bijoux s’offre à vous sur belatika.com pour être en harmonie avec vous-même."|gTrans }}<br>#}
-{#                {{ "Découvrez l’univers tout en douceur et proche de vous que propose Belatika."|gTrans }}#}
-{#            </p>#}
-{#        </article>#}
-{#    </section>#}
-
-{#    <hr class="separator">#}
 
     {% if app.user and not app.user.newsletter and app.user.suggestNewsletter %}
         <div id="newsletter-popup" class="popup">

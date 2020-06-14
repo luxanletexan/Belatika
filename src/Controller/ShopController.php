@@ -33,12 +33,20 @@ class ShopController extends ParentController
         $ranges = $doctrine->getRepository(Range::class)->findAll();
         $blogArticle = $doctrine->getRepository(BlogArticle::class)->findLastWithComments();
 
+        $orders = $this->getDoctrine()->getRepository(CustomerOrder::class)->findBy(['rating' => [1,2,3,4,5]]);
+        $etsyFeedbacks = $this->getDoctrine()->getRepository(EtsyFeedback::class)->findBy(['value' => 1]);
+
+        $reviews = $this->getReviews($orders, $etsyFeedbacks);
+        shuffle($reviews);
+        $reviews = array_slice($reviews, 0, 2);
+
         return $this->render(
             $this->getTemplate('shop/index.html.twig'),
             [
                 'sliderItems' => $sliderItems,
                 'ranges' => $ranges,
                 'blogArticle' => $blogArticle,
+                'reviews' => $reviews,
             ]
         );
     }
@@ -134,24 +142,7 @@ class ShopController extends ParentController
         $orders = $this->getDoctrine()->getRepository(CustomerOrder::class)->findBy(['rating' => [1,2,3,4,5]]);
         $etsyFeedbacks = $this->getDoctrine()->getRepository(EtsyFeedback::class)->findAll();
 
-        $reviews = [];
-
-        foreach ($orders as $order) {
-            $reviews[] = [
-                'datetime' => $order->getOrderedAt(),
-                'rate' => $order->getRating(),
-                'review' => $order->getReview()
-            ];
-        }
-        foreach ($etsyFeedbacks as $etsyFeedback) {
-            $datetime = new \DateTime();
-            $datetime->setTimestamp($etsyFeedback->getCreationTsz());
-            $reviews[] = [
-                'datetime' => $datetime,
-                'rate' => 3 + 2*$etsyFeedback->getValue(),
-                'review' => $etsyFeedback->getMessage()
-            ];
-        }
+        $reviews = $this->getReviews($orders, $etsyFeedbacks);
 
         usort($reviews, function ($a, $b) {
             $aDate = $a['datetime'];
@@ -163,5 +154,35 @@ class ShopController extends ParentController
         });
 
         return $this->render($this->getTemplate('shop/avis.html.twig'), ['reviews' => $reviews]);
+    }
+
+    /**
+     * @param CustomerOrder[] $orders
+     * @param EtsyFeedback[] $etsyFeedbacks
+     * @return array
+     */
+    protected function getReviews($orders, $etsyFeedbacks) {
+        $reviews = [];
+
+        foreach ($orders as $order) {
+            if (!$order->getReview()) continue;
+            $reviews[] = [
+                'datetime' => $order->getOrderedAt(),
+                'rate' => $order->getRating(),
+                'review' => $order->getReview()
+            ];
+        }
+        foreach ($etsyFeedbacks as $etsyFeedback) {
+            if (!$etsyFeedback->getMessage()) continue;
+            $datetime = new \DateTime();
+            $datetime->setTimestamp($etsyFeedback->getCreationTsz());
+            $reviews[] = [
+                'datetime' => $datetime,
+                'rate' => 3 + 2*$etsyFeedback->getValue(),
+                'review' => $etsyFeedback->getMessage()
+            ];
+        }
+
+        return $reviews;
     }
 }
