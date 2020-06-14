@@ -97,26 +97,23 @@
 
     <hr class="separator separator--left">
 
-{#    <section class="about">#}
-{#        <h2>Belatika {{ "bijoux"|gTrans }}</h2>#}
-{#        <article>#}
-{#            <p class="about__intro">{{ "Allez à la rencontre de votre for intérieur, communiquez avec la nature, regardez toutes ces merveilles autour de vous et admirez."|gTrans }}</p>#}
-{#            <figure class="about__image">#}
-{#                <img src="{{ asset('img/resources/tree.jpg') }}" alt="{{ 'Arbre sous le soleil'|gTrans }}">#}
-{#            </figure>#}
-{#            <p class="about__paragraph">{{ "Affirmez votre personnalité, montrez vos émotions en portant des pierres naturelles avec une symbolique qui vous ressemble."|gTrans }}</p>#}
-{#            <p class="about__paragraph">#}
-{#                {{ "La signification d’une couleur, d’une forme que la nature vous offre est retransmise dans les bijoux Belatika."|gTrans }}<br>#}
-{#                {{ "Un bijou imaginé et assemblé à la main. Réalisé en un seul exemplaire (ou petite série). Eh oui, dans cette immensité qu’est l’univers vous êtes une personne unique."|gTrans }}<br>#}
-{#                {{ "Unique avec vos goûts, vos envies, votre personnalité."|gTrans }}<br>#}
-{#                {{ "Démarquez-vous en portant ce que vous êtes. Du Sobre, du chic, de l’étincelant, du lumineux, du décalé, de l’extravagance."|gTrans }}<br>#}
-{#                {{ "Un grand choix de bijoux s’offre à vous sur belatika.com pour être en harmonie avec vous-même."|gTrans }}<br>#}
-{#                {{ "Découvrez l’univers tout en douceur et proche de vous que propose Belatika."|gTrans }}#}
-{#            </p>#}
-{#        </article>#}
-{#    </section>#}
+    <section class="about">
+        <h2>Belatika {{ "bijoux"|gTrans }}</h2>
+        <article>
+            <p class="about__intro">{{ "Belatika, ce sont des bijoux chics et modernes qui suivent la tendance."|gTrans }}</p>
+            <figure class="about__image">
+                <img src="{{ asset('img/resources/belatika_profile.jpg') }}" alt="{{ 'Profil créatrice bijoux tendance Belatika'|gTrans }}">
+            </figure>
+            <p class="about__paragraph">{{ "En portant nos <strong>bijoux</strong> vous vous démarquez et vous montrez votre personnalité."|gTrans }}</p>
+            <p class="about__paragraph">{{ "Que vous aimiez le sobre, le chic, l’étincelant, ou le lumineux, le décalé, ou l’extravagance, un bijou Belatika est fait pour vous."|gTrans }}</p>
+            <p class="about__paragraph">{{ "Ils sont réalisés en <strong>un seul exemplaire ou petite série</strong> pour garder un côté <strong>unique et privilégié</strong>."|gTrans }}</p>
+            <p class="about__paragraph">{{ "Un grand choix de <strong>bijoux tendance et moderne</strong> s’offre à vous : <strong>Boucles d’oreilles, colliers, bracelets, bagues</strong>."|gTrans }}</p>
+            <p class="about__paragraph">{{ "Il y en a pour tous les goûts et de toutes les matières : <strong>acier</strong>, <strong>argent</strong>, <strong>laiton</strong>, <strong>gold filled</strong>."|gTrans }}</p>
+            <p class="about__paragraph">{{ "Découvrez <strong>l’univers tendance et moderne</strong> que propose la boutique belatika.com"|gTrans }}</p>
+        </article>
+    </section>
 
-{#    <hr class="separator separator--right">#}
+    <hr class="separator separator--right">
 
     {% if blogArticle %}
         <section class="blog-article">

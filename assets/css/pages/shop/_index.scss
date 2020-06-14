@@ -203,12 +203,17 @@ hr.separator {
 .about {
   max-width: 1200px;
   margin: 3rem auto;
-  padding: 0 2rem;
+  padding: 2rem;
+  background-color: lighten($gold, 40%);
   &__intro {
     margin: 2rem 0;
+    text-align: center;
+    font-weight: bold;
   }
   &__image {
     position: relative;
+    max-width: 300px;
+    margin: auto;
     &::after {
       content: '';
       @include white-filter;
@@ -225,6 +230,8 @@ hr.separator {
   &__paragraph, &__intro {
     line-height: 2rem;
     font-family: Georgia, serif;
+  }
+  &__paragraph {
     text-align: justify;
   }
   &::after {
