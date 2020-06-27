@@ -49,5 +49,5 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         });
     }
-    // new Salesmap('sales-map');
+    new Salesmap('sales-map');
 });

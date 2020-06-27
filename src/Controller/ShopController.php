@@ -7,6 +7,7 @@ use App\Entity\BlogArticle;
 use App\Entity\Category;
 use App\Entity\CustomerOrder;
 use App\Entity\EtsyFeedback;
+use App\Entity\EtsySale;
 use App\Entity\Item;
 use App\Entity\Range;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +37,18 @@ class ShopController extends ParentController
         $orders = $this->getDoctrine()->getRepository(CustomerOrder::class)->findBy(['rating' => [1,2,3,4,5]]);
         $etsyFeedbacks = $this->getDoctrine()->getRepository(EtsyFeedback::class)->findBy(['value' => 1]);
 
+        $etsySales = $this->getDoctrine()->getRepository(EtsySale::class)->findAll();
+        $customerCountries = [
+            'GP',
+            'NG',
+            'AO',
+        ];
+        foreach ($etsySales as $etsySale) {
+            if (!in_array($etsySale->getCountryCode(), $customerCountries)) {
+                $customerCountries[] = $etsySale->getCountryCode();
+            }
+        }
+
         $reviews = $this->getReviews($orders, $etsyFeedbacks);
         shuffle($reviews);
         $reviews = array_slice($reviews, 0, 2);
@@ -47,6 +60,7 @@ class ShopController extends ParentController
                 'ranges' => $ranges,
                 'blogArticle' => $blogArticle,
                 'reviews' => $reviews,
+                'customerCountries' => implode(',', $customerCountries),
             ]
         );
     }

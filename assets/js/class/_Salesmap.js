@@ -22,53 +22,92 @@ export default class Salesmap {
             buttons: [],
             display: true,
         }, options);
+        this.zoom = null;
 
-        this.map = L.map(mapid).setView([51.505, -0.09], 13);
-        this.layer = new L.TileLayer(
-            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                minZoom: 1,
-                maxZoom: 17,
-                attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
-            }
-        );
+        //DOM
+        this.mapElement = document.getElementById(mapid);
+        this.customerCountries = this.mapElement.dataset.customer_countries.split(',');
+        this.setMap(mapid).addGeojson();
 
-        this.map.setView(new L.LatLng(0, 0), 1);
-        this.map.addLayer(this.layer);
-
-
-        ajax('https://localbelatika.com/json/world.geo.json', (geojson) => {
-            console.log(geojson);
-            this.geojson = geojson;
-            geojson.features.forEach((feature) => {
-                console.log(feature.properties.iso_a2 + ' / ' + feature.properties.iso_a3);
-            });
-            // this.getSales(1);
-            L.geoJson(geojson, {style: this.style}).addTo(this.map);
-        });
+        //Events
+        this.onWindowResize();
+        window.addEventListener('resize', this.onWindowResize.bind(this));
     }
 
     style(feature) {
+        let opacity = this.customerCountries.indexOf(feature.properties.iso_a2) === -1 ? 0 : 0.7;
         return {
-            fillColor: Salesmap.getColor(feature.properties.gdp_md_est),
+            fillColor: '#dc0fee',
             weight: 2,
-            opacity: 1,
             color: 'white',
             dashArray: '3',
-            fillOpacity: 0.7
+            fillOpacity: opacity
         };
     }
 
-    static getColor(d) {
-        return '#ca8ed0';
+    setMap(mapid)
+    {
+        this.map = L.map(mapid, {
+            zoomControl: false,
+            dragging: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+        });
+        this.layer = new L.TileLayer(
+            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+            }
+        );
+        this.map.addLayer(this.layer);
+        return this;
     }
 
-    getSales(page)
+    addGeojson()
     {
-        ajax('https://localbelatika.com/get-etsy-sales/'+page, (response) => {
-            console.log(response);
-            if (response.pagination.next_page) {
-                this.getSales(response.pagination.next_page);
-            }
+        ajax(this.mapElement.dataset.geojson, (geojson) => {
+            L.geoJson(geojson, {style: this.style.bind(this)}).addTo(this.map);
         });
+        return this;
+    }
+
+    setView()
+    {
+        const params = [
+            {
+                height: '180px',
+                maxWidth: '300px',
+                lat: 40
+            },
+            {
+                height: '350px',
+                maxWidth: '550px',
+                lat: 40
+            },
+            {
+                height: '600px',
+                maxWidth: '1100px',
+                lat: 30
+            }
+        ]
+        this.mapElement.style.height = params[this.zoom].height;
+        this.mapElement.style.maxWidth = params[this.zoom].maxWidth;
+        this.map.setView(new L.LatLng(params[this.zoom].lat, 0), this.zoom);
+    }
+
+    onWindowResize()
+    {
+        let windowWidth = window.innerWidth;
+        let zoom = null;
+        if (windowWidth < 500) {
+            zoom = 0;
+        } else if (windowWidth < 1000) {
+            zoom = 1;
+        } else {
+            zoom = 2;
+        }
+        if (zoom !== this.zoom) {
+            this.zoom = zoom;
+            this.setView();
+        }
     }
 }

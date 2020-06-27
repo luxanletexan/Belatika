@@ -259,3 +259,36 @@ hr.separator {
     @include text-outline(white);
   }
 }
+
+.customer-map {
+  display: flex;
+  flex-direction: column;
+  background-color: lighten($gold, 40%);
+  @include media-breakpoint-up(xl) {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
+  }
+  &__introduction {
+    margin: auto;
+    padding: .75rem;
+    max-width: 350px;
+    text-align: justify;
+    line-height: 2rem;
+    @media (min-width: 495px) {
+      max-width: 600px;
+    }
+    @media (min-width: 965px) {
+      max-width: 1000px;
+    }
+    @include media-breakpoint-up(xl) {
+      flex:1;
+      margin: 0 2rem;
+    }
+  }
+  &__map {
+    @include media-breakpoint-up(xl) {
+      flex: 3;
+    }
+  }
+}
