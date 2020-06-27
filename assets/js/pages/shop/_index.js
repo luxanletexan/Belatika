@@ -1,5 +1,6 @@
 import Carousel from "../../class/_Carousel";
 import Popup from "../../class/_Popup";
+import Salesmap from "../../class/_Salesmap";
 
 document.addEventListener('DOMContentLoaded', () => {
     new Carousel(document.getElementById('carousel'), {
@@ -48,4 +49,5 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         });
     }
+    // new Salesmap('sales-map');
 });
