@@ -38,7 +38,7 @@ class EtsyController extends AdminController
             ->setSSLCheck(getenv('APP_ENV') !== 'dev');
 
         $this->synchroFeedbacks();
-        $this->synchroSales();
+//        $this->synchroSales();
 
         return $this->redirectToRoute('app_admin_index');
     }
