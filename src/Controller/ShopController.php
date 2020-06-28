@@ -177,6 +177,7 @@ class ShopController extends ParentController
      */
     protected function getReviews($orders, $etsyFeedbacks) {
         $reviews = [];
+        $now = date_create();
 
         foreach ($orders as $order) {
             if (!$order->getReview()) continue;
@@ -190,6 +191,7 @@ class ShopController extends ParentController
             if (!$etsyFeedback->getMessage()) continue;
             $datetime = new \DateTime();
             $datetime->setTimestamp($etsyFeedback->getCreationTsz());
+            if ($datetime->diff($now)->days > 365) continue;
             $reviews[] = [
                 'datetime' => $datetime,
                 'rate' => 3 + 2*$etsyFeedback->getValue(),
