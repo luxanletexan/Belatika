@@ -49,7 +49,7 @@ class ShopController extends ParentController
             }
         }
 
-        $reviews = $this->getReviews($orders, $etsyFeedbacks);
+        $reviews = $this->getReviews($orders, $etsyFeedbacks, true);
         shuffle($reviews);
         $reviews = array_slice($reviews, 0, 2);
 
@@ -173,9 +173,10 @@ class ShopController extends ParentController
     /**
      * @param CustomerOrder[] $orders
      * @param EtsyFeedback[] $etsyFeedbacks
+     * @param bool $lastyear
      * @return array
      */
-    protected function getReviews($orders, $etsyFeedbacks) {
+    protected function getReviews($orders, $etsyFeedbacks, $lastyear = false) {
         $reviews = [];
         $now = date_create();
 
@@ -191,7 +192,7 @@ class ShopController extends ParentController
             if (!$etsyFeedback->getMessage()) continue;
             $datetime = new \DateTime();
             $datetime->setTimestamp($etsyFeedback->getCreationTsz());
-            if ($datetime->diff($now)->days > 365) continue;
+            if ($lastyear && $datetime->diff($now)->days > 365) continue;
             $reviews[] = [
                 'datetime' => $datetime,
                 'rate' => 3 + 2*$etsyFeedback->getValue(),
