@@ -34,9 +34,6 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                <p class="mt-5">
-                    <a href="{{ path('app_order_remove') }}" class="btn btn-sm bt-btn--secondary">{{ 'Annuler cette commande'|gTrans }}</a>
-                </p>
             </div>
             <div class="col-12 col-lg-5 col-xl-4 p-2 align-self-start">
                 <div class='p-2'>
@@ -51,35 +48,60 @@
                         </p>
                     {% endif %}
                     <p class='d-flex justify-content-between'>
-                        <span>{{ 'Total'|gTrans }} :</span>
-                        <span>{{ (order.total - order.giftValueUsed)|number_format(2, ',') }}€</span>
+                        <strong>{{ 'Total'|gTrans }} :</strong>
+                        <strong>{{ (order.total - order.giftValueUsed)|number_format(2, ',') }}€</strong>
                     </p>
                     <p><em>{{ 'T.V.A. non applicable art. 293 B du CGI'|gTrans }}</em></p>
                     <p><small>{{ "En validant ma commande, j'accepte les "|gTrans }}<a target="_blank" href="{{ path('app_shop_cgv') }}">{{ "conditions générales de vente"|gTrans }}</a></small></p>
-                    <p class="d-flex justify-content-between align-items-center">
-                        <span>{{ 'Paiement sécurisé'|gTrans }}</span>
-                        <span class="flex-1"><img class="img-fluid" src="{{ asset('img/resources/stripe-logo.png') }}" alt="{{ 'Cartes de paiements'|gTrans }}"></span>
-                    </p>
-                    <p class="alert alert-bt-info">{{ "Pour régler votre commande, vous pouvez renseigner vos informations de carte bancaire ci-dessous. Cette page est sécurisée."|gTrans }} <i class="text-success fas fa-lock"></i></p>
-                    <form class="clearfix" action="{{ path('app_payment_stripe') }}" method="post" id="payment-form">
-                        <div class="form-group">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h2>Choisir mon moyen de paiement</h2>
+            </div>
+            <div class="col-12">
+                <div class="payment-method payment-method--stripe selected">
+                    <div class="payment-method__choice">
+                        <input type="radio" id="cb" name="payment-method" value="cb" checked>
+                        <label for="cb">
+                            <span>{{ 'Carte bancaire'|gTrans }}</span>
+                            <img class="img-fluid" src="{{ asset('img/resources/stripe-logo.png') }}" alt="{{ 'Cartes de paiements'|gTrans }}">
+                        </label>
+                    </div>
+                    <div class="payment-method__action">
+                        <form action="{{ path('app_payment_stripe') }}" method="post" id="payment-form">
                             <div
-                                    class="bg-light rounded box-shadow p-2"
-                                    id="card-element"
-                                    data-public_key="{{ stripe_public_key }}"
-                                    data-locale="{{ app.request.locale }}"
-                                    data-intent_secret="{{ stripe_intent_secret }}"
-                                    data-confirmation_url="{{absolute_url(path('app_order_confirmation')) }}"
-                                    data-error_url="{{absolute_url(path('app_order_reporterror')) }}"
+                                class="card-element"
+                                id="card-element"
+                                data-public_key="{{ stripe_public_key }}"
+                                data-locale="{{ app.request.locale }}"
+                                data-intent_secret="{{ stripe_intent_secret }}"
+                                data-confirmation_url="{{absolute_url(path('app_order_confirmation')) }}"
+                                data-error_url="{{absolute_url(path('app_order_reporterror')) }}"
                             ></div>
-                            <div id="card-errors" role="alert"></div>
-                        </div>
-                        <button class="btn btn-sm bt-btn--primary float-right"><i class="far fa-credit-card"></i> {{ 'Régler ma commande' }}</button>
-                    </form>
-                    <div class="my-5">
-                        <p>{{ 'Je préfère payer avec un compte Paypal'|gTrans }}: <a href="{{ path('app_payment_paypal') }}" class="btn btn-sm bt-btn--secondary">Paypal</a></p>
+                            <button class="btn btn-sm bt-btn--primary float-right"><i class="far fa-credit-card"></i> {{ 'Régler ma commande' }}</button>
+                        </form>
+                    </div>
+                    <div id="card-errors" role="alert"></div>
+                </div>
+                <div class="payment-method payment-method--paypal">
+                    <div class="payment-method__choice">
+                        <input type="radio" id="paypal" name="payment-method" value="paypal">
+                        <label for="paypal">
+                            <span>Paypal</span>
+                            <img class="ml-2 img-fluid" src="{{ asset('img/resources/paypal-logo.png') }}" alt="{{ "Paypal"|gTrans}}">
+                        </label>
+                    </div>
+                    <div class="payment-method__action">
+                        <p><span>{{ 'Payer avec mon compte Paypal'|gTrans }}:</span><a href="{{ path('app_payment_paypal') }}" class="btn btn-sm bt-btn--primary float-right"><i class="fab fa-paypal"></i> Paypal</a></p>
                     </div>
                 </div>
+            </div>
+            <div class="col-12">
+                <p class="mb-5 text-right">
+                    <small><a href="{{ path('app_order_remove') }}">{{ 'Annuler cette commande'|gTrans }}</a></small>
+                </p>
             </div>
         </div>
     </div>

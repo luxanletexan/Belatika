@@ -97,6 +97,9 @@ abstract class ParentController extends Controller
 
     protected function alertAdmin($subject, $body):void
     {
+        if (getenv('APP_ENV') !== 'prod') {
+            return;
+        }
         $message = (new Swift_Message($subject))
             ->setFrom('noreply@belatika.com')
             ->setTo(getenv('ADMIN_MAIL'), 'Admin Belatika')

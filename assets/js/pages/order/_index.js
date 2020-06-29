@@ -1,6 +1,19 @@
 import ajax from '../../functions/_ajax';
 
 document.addEventListener('DOMContentLoaded', () => {
+    //Gestion choix paiement
+    let cbRadio = document.getElementById('cb');
+    let paypalRadio = document.getElementById('paypal');
+    let choices = document.querySelectorAll('.payment-method');
+    [cbRadio, paypalRadio].forEach((radio) => {
+        radio.addEventListener('click', () => {
+            choices.forEach((choice) => {
+                choice.classList.remove('selected');
+            });
+            radio.parentNode.parentNode.classList.add('selected');
+        });
+    });
+
     //Get public key and current locale
     let cardElt = document.getElementById('card-element');
 
