@@ -60,7 +60,8 @@
     "app_order_index": {
       "js": [
         "/build/runtime.0c796a0d.js",
-        "/build/app_order_index.e3c36dd8.js"
+        "/build/0.825edf6f.js",
+        "/build/app_order_index.10eda23f.js"
       ]
     },
     "app_admin": {

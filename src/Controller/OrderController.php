@@ -14,6 +14,7 @@ use Stripe\Error\InvalidRequest;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Swift_Mailer;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -80,18 +81,22 @@ class OrderController extends ParentController
         if ($payment instanceof Payment) {
             $intentId = $payment->getIdentifier();
             try {
+                //Récupération intention de paiement
                 $intent = PaymentIntent::retrieve($intentId);
-            } catch (InvalidRequest $e) {
+                $this->alertAdmin('Récupération intention de paiement', 'ID de paiement: '.$intent->id);
+            } catch (\Exception $e) {
                 $payment->reset();
             }
         }
 
         if (!isset($intent)) {
             $amount = (max(0, $order->getTotal() - $order->getGiftValueUsed()) + $order->getShipping()) * 100;
+            //Création intention de paiement
             $intent = PaymentIntent::create([
                 'amount' => $amount,
                 'currency' => 'eur'
             ]);
+            $this->alertAdmin('Création intention de paiement', 'ID de paiement: '.$intent->id);
 
             $payment = $payment instanceof Payment ? $payment : new Payment();
             $payment
@@ -160,5 +165,18 @@ class OrderController extends ParentController
         }
 
         return $this->redirectToRoute('app_shop_index');
+    }
+
+    /**
+     * @Route("/report-error")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function reportError(Request $request)
+    {
+        $errors = $request->get('errors');
+        $arrayErrors = json_decode($errors);
+        $this->alertAdmin('Echec tentative de paiement', is_array($arrayErrors) ? implode("\r\n",  $arrayErrors) : $errors);
+        return $this->json([]);
     }
 }

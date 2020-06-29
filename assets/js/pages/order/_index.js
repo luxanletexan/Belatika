@@ -1,3 +1,5 @@
+import ajax from '../../functions/_ajax';
+
 document.addEventListener('DOMContentLoaded', () => {
     //Get public key and current locale
     let cardElt = document.getElementById('card-element');
@@ -7,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Create an instance of Elements.
     let elements = stripe.elements();
+    let errors = [];
 
     // Custom styling can be passed to options when creating an Element.
     let style = {
@@ -32,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     card.addEventListener('change', function(event) {
         if (event.error) {
             displayError.textContent = event.error.message;
+            errors.push(event.error.message);
         } else {
             displayError.textContent = '';
         }
@@ -53,6 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Inform the user if there was an error.
                 let errorElement = document.getElementById('card-errors');
                 errorElement.textContent = response.error.message;
+                errors.push(response.error.message);
+                errors.push('Echec tentative de paiement');
+                ajax(
+                    cardElt.dataset.error_url,
+                    (response) => {
+                        console.log(response);
+                    },
+                    {
+                        datas : {
+                            errors: JSON.stringify(errors)
+                        },
+                        method: 'POST',
+                    }
+                );
             } else if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
                 window.location.href = cardElt.dataset.confirmation_url;
             }
