@@ -189,7 +189,7 @@ class ShopController extends ParentController
             ];
         }
         foreach ($etsyFeedbacks as $etsyFeedback) {
-            if (!$etsyFeedback->getMessage()) continue;
+            if (!$etsyFeedback->getMessage()) $etsyFeedback->setMessage('');
             $datetime = new \DateTime();
             $datetime->setTimestamp($etsyFeedback->getCreationTsz());
             if ($lastyear && $datetime->diff($now)->days > 365) continue;
