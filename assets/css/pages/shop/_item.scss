@@ -149,10 +149,14 @@ $item-breakpoint: 'md';
 .carousel-control-prev,
 .carousel-control-next {
   opacity: 1;
+  width: 8%;
   background-color: rgba(0,0,0,.2);
   transition: background-color .2s ease-in-out;
   &:hover{
     background-color: rgba(0,0,0,.3);
+  }
+  @include media-breakpoint-up('sm') {
+    width: 15%;
   }
 }
 
