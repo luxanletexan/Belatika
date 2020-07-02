@@ -35,6 +35,7 @@ class EtsyController extends AdminController
             ->setApiKey(getenv('ETSY_KEY'))
             ->setApiSecret(getenv('ETSY_SECRET'))
             ->setShopId(getenv('ETSY_SHOP_ID'))
+            ->setUserId(getenv('ETSY_USER_ID'))
             ->setSSLCheck(getenv('APP_ENV') !== 'dev');
 
         $this->synchroFeedbacks();
