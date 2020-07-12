@@ -7,37 +7,38 @@
 {% set rate = rate / ratings|length %}
 
 <header class="btheader">
-    {{ include(shop_settings.template ~ '/modules/mainnav.html.twig') }}
+{#    {{ include(shop_settings.template ~ '/modules/mainnav.html.twig') }}#}
     <div class="btheader__logo">
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('app_shop_index') }}">
         {% endif %}
-                <img src="{{ asset('img/resources/belatika_logo.png') }}" alt="Logo Belatika">
+                <img src="{{ asset('img/resources/brand.png') }}" alt="Logo Belatika">
         {% if is_granted('ROLE_ADMIN') %}
             </a>
         {% endif %}
     </div>
-    <div class="btheader__title">
-        <h1>{{ title }}</h1>
+    <div class="btnav">
+        <div class="btnav__toggle box-shadow"><i class="fas fa-bars"></i></div>
+        <div class="btnav__content">
+            navigation
+        </div>
     </div>
-    <div class="btheader__reviews">
-        {% if is_granted('ROLE_ADMIN') %}
-            <div class="btheader__reviews__sales">{{ salesCount }} {{ 'ventes'|gTrans }}</div>
-        {% endif %}
-        <div class="btheader__reviews__stars--number">{{ ratings|length }} {{ 'avis'|gTrans }}:</div>
-        <div class="btheader__reviews__stars">
-            <a href="{{ path('app_shop_avis') }}" title="{{ 'Voir les avis'|gTrans }}">
-                {% set stars = 5 %}
-                {% for i in range(1, stars) %}
-                    {% if rate >= i - 0.25 %}
-                        <i class="fas fa-star"></i>
-                    {% elseif rate >= i - 0.75 %}
-                        <i class="fas fa-star-half-alt"></i>
-                    {% else %}
-                        <i class="far fa-star"></i>
-                    {% endif %}
-                {% endfor %}
-            </a>
+    <div class="btbreadcrumb">
+        Fil ariane
+    </div>
+    <div class="btheader__tools">
+        <div class="btheader__tools__item">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="btheader__tools__item">
+            <a href="{{ path('fos_user_profile_show') }}"><i class="fas fa-user"></i></a>
+        </div>
+        <div
+            class="btheader__tools__item navcart {% if not app.session.get('cart')|length %}empty{% endif %}"
+            data-quantity="{{ app.session.get('cart')|length }}"
+        >
+            <a href="{{ path('app_cart_show') }}" class="navcart__hover"><i class="fas fa-shopping-bag"></i></a href="{{ path('app_cart_show') }}">
+            {{ include(shop_settings.template ~ '/modules/cart-hover.html.twig') }}
         </div>
     </div>
 </header>

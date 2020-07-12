@@ -32,5 +32,5 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         new Cart();
     }
-    new Search();
+    // new Search();
 });

@@ -18,30 +18,7 @@
       }
     }
     &--cart {
-      position: relative;
-      &::after {
-        content: attr(data-quantity);
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: $gold;
-        color: white;
-        box-shadow: 0 0 2px black;
-        font-size: 16px;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        bottom: 0;
-        left: 10px;
-      }
-      &:hover .cart-hover {
-        opacity: 1;
-        pointer-events: auto;
-      }
-    }
-    &__cart-hover {
-      padding: 6px 12px;
+
     }
   }
   a {

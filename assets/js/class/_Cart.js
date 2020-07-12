@@ -4,9 +4,11 @@ export default class Cart {
     /**
      * @param {Object} options
      * @param {string} [options.button_class=cart-button] Classe CSS des boutons d'ajout au panier
+     * @param {string} [options.navcart_class=navcart] Classe CSS du menu panier
+     * @param {string} [options.navcart_button_class=navcart__hover] Classe CSS du bouton du menu panier
      * @param {string} [options.shopping_bag_class=cart-hover] Classe CSS du menu panier
      * @param {string} [options.shopping_bag_item_class=cart-hover__item] Classe CSS des items du menu panier
-     * @param {string} [options.cart_quantity_class=navbar__item--cart] Classe CSS quantité dans le panier
+     * @param {string} [options.cart_quantity_class=navcart] Classe CSS quantité dans le panier
      * @param {string} [options.cart_url=/panier/] Lien vers le panier
      * @param {Popup} [options.popup=null] popup
      */
@@ -15,9 +17,11 @@ export default class Cart {
         //Settings
         this.options = Object.assign({
             button_class: 'cart-button',
+            navcart_class: 'navcart',
+            navcart_button_class: 'navcart__hover',
             shopping_bag_class: 'cart-hover',
             shopping_bag_item_class: 'cart-hover__item',
-            cart_quantity_class: 'navbar__item--cart',
+            cart_quantity_class: 'navcart',
             cart_url: '/panier/',
             popup: null,
         }, options);
@@ -27,17 +31,25 @@ export default class Cart {
 
         //DOM handling
         this.buttons = [].slice.call(document.getElementsByClassName(this.options.button_class));
+        this.navcart = document.querySelector('.'+this.options.navcart_class);
+        this.navcartToggle = document.querySelector('.'+this.options.navcart_button_class);
         this.shoppingBag = document.querySelector('.'+this.options.shopping_bag_class);
         this.shoppingBagQuantity = document.querySelector('.'+this.options.cart_quantity_class);
         this.shoppingBagItemButtons = [].slice.call(document.querySelectorAll('.'+this.options.shopping_bag_item_class+' .remove-item'));
 
         //Events
+        this.navcartToggle.addEventListener('click', this.onNavcartToggleClick.bind(this));
         this.buttons.forEach(button => {
             button.addEventListener('click', this.onButtonClick.bind(this, button));
         });
         this.shoppingBagItemButtons.forEach(button => {
             button.addEventListener('click', this.onShoppingBagButtonClick.bind(this, button));
         });
+    }
+
+    onNavcartToggleClick(e)
+    {
+        e.preventDefault();
     }
 
     onButtonClick(button)
@@ -125,6 +137,9 @@ export default class Cart {
             cartLink.innerText = this.shoppingBag.dataset.cart_link_text;
             cartLinkElt.appendChild(cartLink);
             this.shoppingBag.appendChild(cartLinkElt);
+            this.navcart.classList.remove('empty');
+        } else {
+            this.navcart.classList.add('empty');
         }
         this.shoppingBagQuantity.dataset.quantity = count;
     }
