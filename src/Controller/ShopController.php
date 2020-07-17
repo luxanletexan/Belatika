@@ -78,6 +78,17 @@ class ShopController extends ParentController
     }
 
     /**
+     * @Route("/bijoux/soldes", name="app_shop_sales")
+     * @return Response
+     */
+    public function sales():Response
+    {
+        $items = $this->getDoctrine()->getRepository(Item::class)->findSales();
+
+        return $this->render($this->getTemplate('shop/sales.html.twig'), ['items' => $items]);
+    }
+
+    /**
      * @Route("/bijoux/recherche", name="app_shop_search")
      * @param Request $request
      * @return Response

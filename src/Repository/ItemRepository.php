@@ -100,6 +100,20 @@ class ItemRepository extends AbstractRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findSales()
+    {
+        $qb = $this->createQueryBuilder('it')
+            ->where('it.quantity > 0')
+            ->innerJoin('it.images', 'im')
+            ->addSelect('im')
+            ->innerJoin('it.category', 'c')
+            ->addSelect('c')
+            ->andWhere('it.discount > 0')
+            ->orderBy('it.discount', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
     /**
      * @param string $search
      * @return Item[]
