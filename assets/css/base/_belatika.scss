@@ -22,6 +22,18 @@
   background-color: lighten($gold, 30%);
 }
 
+h1.home {
+  margin: 0;
+  font-size: 1rem;
+}
+
+h1.heading {
+  @include  title-font;
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 1.4rem;
+}
+
 h2 {
   @include title-font;
   @include text-outline(white);

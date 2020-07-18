@@ -9,9 +9,11 @@
 {% set currentUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
 <header id="bt-navbar" class="btheader">
     <div class="btheader__logo">
+        {% if currentUrl == path('app_shop_index') %}<h1 class="home">{% endif %}
             <a href="{{ path('app_shop_index') }}">
                 <img src="{{ asset('img/resources/brand.png') }}" alt="Logo Belatika">
             </a>
+        {% if currentUrl == path('app_shop_index') %}</h1>{% endif %}
     </div>
     {{ include(shop_settings.template ~ '/modules/mainnav.html.twig') }}
     <div class="btbreadcrumb">
@@ -19,7 +21,7 @@
             <span class="btbreadcrumb__head"><a class="bt-underline" href="{{ path('app_shop_index') }}">Accueil</a></span>
             {% for element in breadcrumb %}
                 {% if loop.last %}
-                    <span class="btbreadcrumb__tail">{{ element.title|gTrans|lower }}</span>
+                    <span class="btbreadcrumb__tail bt-underline current">{{ element.title|gTrans|lower }}</span>
                 {% else %}
                     <span class="btbreadcrumb__body">
                         {% if element.url is defined %}<a class="bt-underline" href="{{ element.url }}">{% endif %}
@@ -53,3 +55,6 @@
         </div>
     </div>
 </header>
+{% if title is defined %}
+    <h1 class="heading">{{ title }}</h1>
+{% endif %}

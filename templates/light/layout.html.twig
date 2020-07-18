@@ -19,7 +19,11 @@
 </head>
 <body>
 <div class="btcontainer">
-    {% include shop_settings.template ~ '/modules/header.html.twig' with {title: block('title')} %}
+    {% if block('title') is defined %}
+        {% include shop_settings.template ~ '/modules/header.html.twig' with {title: block('title')} %}
+    {% else %}
+        {% include shop_settings.template ~ '/modules/header.html.twig' %}
+    {% endif %}
     <div class="container d-flex flex-column align-items-center">
         {{ flashAlert() }}
     </div>
