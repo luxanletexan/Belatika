@@ -1,67 +1,36 @@
-{% set categories = categories() %}
-{% set cart_total = 0 %}
-
-<nav class="btheader__nav navbar navbar-expand-lg">
-    <button class="navbar__item navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavLeftDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars"></i>
-    </button>
-    <div class="navbar__item navbar__item--search">
-        <form method="POST" action="{{ path('app_shop_search') }}">
-            <label for="bt-search" class="bt-search">
-                <i id="bt-search-trigger" class="fas fa-search bt-search__button"></i>
-                <span class="sr-only">{{ 'Rechercher sur le site'|gTrans }}</span>
-                <input class="bt-search__input" id="bt-search" name="bt-search" type="text">
-                <button class="sr-only" id="bt-search-button">{{ 'OK'|gTrans }}</button>
-            </label>
-        </form>
+<div class="btnav">
+    <div id="navbarToggle" class="btnav__toggle box-shadow"><i class="fas fa-bars"></i></div>
+    <div id="navbarContent" class="btnav__content">
+        <div id="womanToggle" class="btnav__content__submenu">
+            <div class="btnav__content__submenu__title with-submenus">{{ 'Bijoux femme'|gTrans }}</div>
+            <div class="btnav__content__submenu__content">
+                {% for category in categories %}
+                    {% if category.customers == 'femme' %}
+                        {% set url = path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) %}
+                        <div>
+                            <a class="bt-underline{% if url == currentUrl %} current{% endif %}" href="{{ url }}">{{ category.name|gTrans|capitalize }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div id="manToggle" class="btnav__content__submenu">
+            <div class="btnav__content__submenu__title with-submenus">{{ 'Bijoux homme'|gTrans }}</div>
+            <div class="btnav__content__submenu__content">
+                {% for category in categories %}
+                    {% if category.customers == 'homme' %}
+                        {% set url = path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) %}
+                        <div>
+                            <a class="bt-underline{% if url == currentUrl %} current{% endif %}" href="{{ url }}">{{ category.name|gTrans|capitalize }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="btnav__content__submenu">
+            <div class="btnav__content__submenu__title">
+                <a class="bt-underline{% if path('app_blog_index') == currentUrl %} current{% endif %}" href="{{ path('app_blog_index') }}">{{ 'Blog'|gTrans }}</a>
+            </div>
+        </div>
     </div>
-    <div class="navbar__item navbar__item--profile"><a href="{{ path('fos_user_profile_show') }}"><i class="fas fa-user"></i></a></div>
-    <div class="navbar__item navbar__item--cart" data-quantity="{{ app.session.get('cart')|length }}">
-        <span class="navbar__item__cart-hover"><i class="fas fa-shopping-bag"></i></span>
-        {{ include(shop_settings.template ~ '/modules/cart-hover.html.twig') }}
-    </div>
-    <div class="collapse navbar-collapse navbar-collapse-absolute" id="navbarNavLeftDropdown">
-        <ul class="navbar-nav d-flex justify-content-around w-100">
-            {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item active">
-                    <a class="nav-link pl-3 pl-lg-2" href="{{ path('app_admin_index') }}"><i class="fas fa-gem"></i> Admin</a>
-                </li>
-            {% endif %}
-            {% if not is_granted('ROLE_ADMIN') and app.request.requestUri != '/' %}
-                <li class="nav-item active">
-                    <a class="nav-link pl-3 pl-lg-2" href="{{ path('app_shop_index') }}"><i class="fas fa-gem"></i> Accueil</a>
-                </li>
-            {% endif %}
-            <li class="nav-item underline active dropdown">
-                <a class="nav-link dropdown-toggle pl-3 pl-lg-2" href="#" id="navbarDropdownWomen" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ 'Femme'|gTrans|upper }}
-                </a>
-                <div class="dropdown-menu box-shadow" aria-labelledby="navbarDropdownWomen">
-                    {% for category in categories %}
-                        {% if category.customers == 'femme' %}
-                            <a class="dropdown-item" href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}">{{ category.name|gTrans|capitalize }}</a>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </li>
-            <li class="nav-item active dropdown underline">
-                <a class="nav-link dropdown-toggle pl-3 pl-lg-2" href="#" id="navbarDropdownMen" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ 'Homme'|gTrans|upper }}
-                </a>
-                <div class="dropdown-menu box-shadow" aria-labelledby="navbarDropdownMen">
-                    {% for category in categories %}
-                        {% if category.customers == 'homme' %}
-                            <a class="dropdown-item" href="{{ path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) }}">{{ category.name|gTrans|capitalize }}</a>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </li>
-{#            <li class="nav-item active">#}
-{#                <a class="nav-link pl-3 pl-lg-2" href="#">{{ 'Cartes cadeaux'|gTrans|upper }}</a>#}
-{#            </li>#}
-            <li class="nav-item active">
-                <a class="nav-link pl-3 pl-lg-2" href="{{ path('app_blog_index') }}">{{ 'Blog'|gTrans|upper }}</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+</div>

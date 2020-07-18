@@ -8,7 +8,6 @@
 {% set rate = rate / ratings|length %}
 {% set currentUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
 <header id="bt-navbar" class="btheader">
-{#    {{ include(shop_settings.template ~ '/modules/mainnav.html.twig') }}#}
     <div class="btheader__logo">
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('app_shop_index') }}">
@@ -18,42 +17,7 @@
             </a>
         {% endif %}
     </div>
-    <div class="btnav">
-        <div id="navbarToggle" class="btnav__toggle box-shadow"><i class="fas fa-bars"></i></div>
-        <div id="navbarContent" class="btnav__content">
-            <div id="womanToggle" class="btnav__content__submenu">
-                <div class="btnav__content__submenu__title with-submenus">{{ 'Bijoux femme'|gTrans }}</div>
-                <div class="btnav__content__submenu__content">
-                    {% for category in categories %}
-                        {% if category.customers == 'femme' %}
-                            {% set url = path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) %}
-                            <div>
-                                <a class="bt-underline{% if url == currentUrl %} current{% endif %}" href="{{ url }}">{{ category.name|gTrans|capitalize }}</a>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-            <div id="manToggle" class="btnav__content__submenu">
-                <div class="btnav__content__submenu__title with-submenus">{{ 'Bijoux homme'|gTrans }}</div>
-                <div class="btnav__content__submenu__content">
-                    {% for category in categories %}
-                        {% if category.customers == 'homme' %}
-                            {% set url = path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) %}
-                            <div>
-                                <a class="bt-underline{% if url == currentUrl %} current{% endif %}" href="{{ url }}">{{ category.name|gTrans|capitalize }}</a>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="btnav__content__submenu">
-                <div class="btnav__content__submenu__title">
-                    <a class="bt-underline{% if path('app_blog_index') == currentUrl %} current{% endif %}" href="{{ path('app_blog_index') }}">{{ 'Blog'|gTrans }}</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{ include(shop_settings.template ~ '/modules/mainnav.html.twig') }}
     <div class="btbreadcrumb">
         <span class="btbreadcrumb__head">Accueil</span>
         <span class="btbreadcrumb__body">bagues</span>
@@ -65,19 +29,19 @@
                 <label id="search-form" for="bt-search" class="bt-search">
                     <span class="sr-only">{{ 'Rechercher sur le site'|gTrans }}</span>
                     <input class="bt-search__input" id="search-input" name="bt-search" type="text">
-                    <i id="search-trigger" class="fas fa-search bt-search__button"></i>
+                    <i title="{{ 'Rechercher'|gTrans }}" id="search-trigger" class="fas fa-search bt-search__button"></i>
                     <button class="sr-only" id="search-button">{{ 'OK'|gTrans }}</button>
                 </label>
             </form>
         </div>
         <div class="btheader__tools__item">
-            <a href="{{ path('fos_user_profile_show') }}"><i class="fas fa-user"></i></a>
+            <a title="{{ 'Mon compte'|gTrans }}" href="{{ path('fos_user_profile_show') }}"><i class="fas fa-user"></i></a>
         </div>
         <div
             class="btheader__tools__item navcart {% if not app.session.get('cart')|length %}empty{% endif %}"
             data-quantity="{{ app.session.get('cart')|length }}"
         >
-            <a href="{{ path('app_cart_show') }}" class="navcart__hover"><i class="fas fa-shopping-bag"></i></a href="{{ path('app_cart_show') }}">
+            <a title="{{ 'Panier'|gTrans }}" href="{{ path('app_cart_show') }}" class="navcart__hover"><i class="fas fa-shopping-bag"></i></a href="{{ path('app_cart_show') }}">
             {{ include(shop_settings.template ~ '/modules/cart-hover.html.twig') }}
         </div>
     </div>
