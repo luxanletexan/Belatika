@@ -1,25 +1,33 @@
+$navbar-bg: lighten(grey, 43%);
+
 .btheader {
-  margin-bottom: 1rem;
   display: grid;
-  //background-color: lighten($gold, 20%);
-  //animation: debug 1s ease-in-out infinite alternate-reverse;
+  background-color: $navbar-bg;
   grid-template-columns: 120px calc(100% - 160px) 40px;
   grid-template-rows: 20px 20px;
   height: 40px;
-  position: relative;
+  position: fixed;
+  top: 0;
+  width: calc(100% - .5rem);
+  z-index: 100;
+  transition: opacity .2s ease-in-out;
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
   @include media-breakpoint-up(sm) {
     grid-template-columns: 120px calc(100% - 240px) 120px;
-    grid-template-rows: 30px 30px;
+    grid-template-rows: 40px 20px;
     height: 60px;
   }
   @include media-breakpoint-up(md) {
     grid-template-columns: 180px calc(100% - 300px) 120px;
-    grid-template-rows: 30px 30px;
+    grid-template-rows: 40px 20px;
     height: 60px;
   }
   @include media-breakpoint-up(lg) {
     grid-template-columns: 240px calc(100% - 360px) 120px;
-    grid-template-rows: 30px 30px;
+    grid-template-rows: 40px 20px;
     height: 60px;
   }
   &__logo {
@@ -43,8 +51,6 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    //background-color: #0f7b9f;
-    //animation: debug 1s .66s ease-in-out infinite alternate-reverse;
     grid-column-start: 2;
     grid-row-start: 1;
     grid-row-end: 3;
@@ -87,20 +93,18 @@
     opacity: 1;
     pointer-events: auto;
   }
-  &__hover {
-    //padding: 6px 12px;
-  }
 }
 
 .btnav {
-  //background-color: #4cae4c;
-  //animation: debug 1s 1.33s ease-in-out infinite alternate-reverse;
   grid-column-start: 3;
   grid-row-start: 1;
   grid-row-end: 3;
   display: flex;
   justify-content: center;
   align-items: center;
+  & a {
+    color: black;
+  }
   @include media-breakpoint-up(sm) {
     grid-column-start: 2;
     grid-row-end: 2;
@@ -109,13 +113,75 @@
     position: absolute;
     z-index: 100;
     width: 100%;
-    //background-color: #aacd4e;
-    //animation: debug 1s ease-in-out infinite alternate-reverse;
     top: 40px;
     left: 0;
+    max-height: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform .2s ease-in-out;
+    &.show {
+      max-height: none;
+      transform: scaleY(1);
+      background-color: $navbar-bg;
+    }
     @include media-breakpoint-up(sm) {
       position: static;
       height: 100%;
+      max-height: none;
+      transform: scaleY(1);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    &__submenu {
+      position: relative;
+      cursor: pointer;
+      &:hover,
+      &.show {
+        & .btnav__content__submenu__content {
+          max-height: none;
+          transform: scaleY(1);
+        }
+      }
+      &__title {
+        padding: 0 .75rem;
+        font-weight: bold;
+        @include media-breakpoint-up(xl) {
+          padding: 0;
+        }
+      }
+      @include media-breakpoint-up(xl) {
+        display: flex;
+        cursor: default;
+      }
+      &__content {
+        padding-left: 1.5rem;
+        @include media-breakpoint-up(sm) {
+          max-height: 0;
+          transform-origin: top;
+          transform: scaleY(0);
+          transition: transform .2s ease-in-out;
+          position: absolute;
+          background-color: $navbar-bg;
+          padding: .25rem .75rem;
+          white-space: nowrap;
+          font-size: .85rem;
+          & a {
+            margin: .25rem 0;
+          }
+        }
+        @include media-breakpoint-up(xl) {
+          padding: 0.1rem 0 0 0;
+          max-height: none;
+          transform: scaleY(1);
+          position: static;
+          display: flex;
+          align-items: center;
+          &>div {
+            margin: 0 .5rem;
+          }
+        }
+      }
     }
   }
   &__toggle {
@@ -127,6 +193,14 @@
   }
 }
 
+.with-submenus {
+  @include media-breakpoint-up(xl) {
+    &::after {
+      content: ':';
+    }
+  }
+}
+
 .btbreadcrumb {
   //background-color: #4cae9f;
   grid-column-start: 2;
@@ -134,20 +208,24 @@
   grid-row-start: 2;
   grid-row-end: 3;
   display: none;
+  padding-left: 1rem;
   @include media-breakpoint-up(sm) {
-    display: block;
+    display: flex;
+    align-items: center;
+    font-size: .75rem;
   }
-}
-
-@keyframes debug {
-  0% {
-    background-color: transparent;
+  &__head,
+  &__body {
+    @include media-breakpoint-up(sm) {
+      &::after {
+        content: '/';
+        margin: 0 .3rem;
+      }
+    }
   }
-
-  75% {
-    background-color: transparent;
-  }
-  100% {
-    background-color: #aacd4e;
+  &__head {
+    @include media-breakpoint-up(sm) {
+      font-weight: bold;
+    }
   }
 }

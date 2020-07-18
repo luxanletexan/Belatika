@@ -1,12 +1,13 @@
 {% set salesCount = getSalesCount() %}
+{% set categories = categories() %}
 {% set ratings = getRatings() %}
 {% set rate = 0 %}
 {% for rating in ratings %}
     {% set rate = rate + rating %}
 {% endfor %}
 {% set rate = rate / ratings|length %}
-
-<header class="btheader">
+{% set currentUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+<header id="bt-navbar" class="btheader">
 {#    {{ include(shop_settings.template ~ '/modules/mainnav.html.twig') }}#}
     <div class="btheader__logo">
         {% if is_granted('ROLE_ADMIN') %}
@@ -18,13 +19,45 @@
         {% endif %}
     </div>
     <div class="btnav">
-        <div class="btnav__toggle box-shadow"><i class="fas fa-bars"></i></div>
-        <div class="btnav__content">
-            navigation
+        <div id="navbarToggle" class="btnav__toggle box-shadow"><i class="fas fa-bars"></i></div>
+        <div id="navbarContent" class="btnav__content">
+            <div id="womanToggle" class="btnav__content__submenu">
+                <div class="btnav__content__submenu__title with-submenus">{{ 'Bijoux femme'|gTrans }}</div>
+                <div class="btnav__content__submenu__content">
+                    {% for category in categories %}
+                        {% if category.customers == 'femme' %}
+                            {% set url = path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) %}
+                            <div>
+                                <a class="bt-underline{% if url == currentUrl %} current{% endif %}" href="{{ url }}">{{ category.name|gTrans|capitalize }}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div id="manToggle" class="btnav__content__submenu">
+                <div class="btnav__content__submenu__title with-submenus">{{ 'Bijoux homme'|gTrans }}</div>
+                <div class="btnav__content__submenu__content">
+                    {% for category in categories %}
+                        {% if category.customers == 'homme' %}
+                            {% set url = path('app_shop_category', {'customer' : category.customers, 'slug' : category.slug}) %}
+                            <div>
+                                <a class="bt-underline{% if url == currentUrl %} current{% endif %}" href="{{ url }}">{{ category.name|gTrans|capitalize }}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="btnav__content__submenu">
+                <div class="btnav__content__submenu__title">
+                    <a class="bt-underline{% if path('app_blog_index') == currentUrl %} current{% endif %}" href="{{ path('app_blog_index') }}">{{ 'Blog'|gTrans }}</a>
+                </div>
+            </div>
         </div>
     </div>
     <div class="btbreadcrumb">
-        Fil ariane
+        <span class="btbreadcrumb__head">Accueil</span>
+        <span class="btbreadcrumb__body">bagues</span>
+        <span class="btbreadcrumb__tail">bague Light Turquoise</span>
     </div>
     <div class="btheader__tools">
         <div class="btheader__tools__item">

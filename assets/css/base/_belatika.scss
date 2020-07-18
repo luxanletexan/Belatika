@@ -2,7 +2,7 @@
   @include text-font;
   min-height: 100vh;
   position: relative;
-  padding: 0 .25rem 330px .25rem;
+  padding: 40px .25rem 330px .25rem;
   @include media-breakpoint-up('sm') {
     padding: 0 0 250px 0;
   }
@@ -93,6 +93,41 @@ h2 {
         color: $color;
         text-decoration: none;
       }
+    }
+  }
+}
+
+.bt-underline {
+  position: relative;
+  &::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: darken($gold, 5%);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: all .3s ease-in-out;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  &:hover {
+    text-decoration: none;
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+  &.current {
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 2px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-color: lighten(grey, 20%);
     }
   }
 }

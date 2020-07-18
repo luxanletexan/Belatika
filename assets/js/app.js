@@ -15,6 +15,7 @@ import Lazyloader from "./class/_Lazyloader";
 import Cart from "./class/_Cart";
 import Popup from "./class/_Popup";
 import Search from "./class/_Search";
+import Navigation from "./class/_Navigation";
 
 document.addEventListener('DOMContentLoaded', () => {
     new Lazyloader();
@@ -33,4 +34,23 @@ document.addEventListener('DOMContentLoaded', () => {
         new Cart();
     }
     // new Search();
+    new Navigation({
+        toggleButton: document.getElementById('navbarToggle'),
+        navContent: document.getElementById('navbarContent'),
+        collapseOnOuterClick: false,
+    });
+    const womanToggle = document.getElementById('womanToggle');
+    new Navigation({toggleButton: womanToggle, navContent: womanToggle});
+    const manToggle = document.getElementById('manToggle');
+    new Navigation({toggleButton: manToggle, navContent: manToggle});
+    const nav = document.getElementById('bt-navbar');
+    let YOffset = window.pageYOffset;
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > YOffset) {
+            nav.classList.add('hide');
+        } else {
+            nav.classList.remove('hide');
+        }
+        YOffset = window.pageYOffset;
+    });
 });
