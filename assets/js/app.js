@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         new Cart();
     }
-    // new Search();
+    new Search();
     new Navigation({
         toggleButton: document.getElementById('navbarToggle'),
         navContent: document.getElementById('navbarContent'),

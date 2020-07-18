@@ -5,7 +5,6 @@
         "/build/runtime.js",
         "/build/vendors~app~app_blog_article~app_order_index~app_shop_index~app_user_address~app_user_profile.js",
         "/build/vendors~app~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/vendors~app.js",
         "/build/app.js"
       ],
       "css": [

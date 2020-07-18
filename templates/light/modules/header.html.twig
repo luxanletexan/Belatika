@@ -61,7 +61,14 @@
     </div>
     <div class="btheader__tools">
         <div class="btheader__tools__item">
-            <i class="fas fa-search"></i>
+            <form method="POST" action="{{ path('app_shop_search') }}">
+                <label id="search-form" for="bt-search" class="bt-search">
+                    <span class="sr-only">{{ 'Rechercher sur le site'|gTrans }}</span>
+                    <input class="bt-search__input" id="search-input" name="bt-search" type="text">
+                    <i id="search-trigger" class="fas fa-search bt-search__button"></i>
+                    <button class="sr-only" id="search-button">{{ 'OK'|gTrans }}</button>
+                </label>
+            </form>
         </div>
         <div class="btheader__tools__item">
             <a href="{{ path('fos_user_profile_show') }}"><i class="fas fa-user"></i></a>
