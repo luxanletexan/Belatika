@@ -114,6 +114,21 @@ class ItemRepository extends AbstractRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findCustomerItems($customers)
+    {
+        $qb = $this->createQueryBuilder('it')
+            ->where('it.quantity > 0')
+            ->innerJoin('it.images', 'im')
+            ->addSelect('im')
+            ->innerJoin('it.category', 'c')
+            ->addSelect('c')
+            ->andWhere('c.customers = :customers')
+            ->setParameter('customers', $customers)
+            ->orderBy('it.created_at', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
     /**
      * @param string $search
      * @return Item[]

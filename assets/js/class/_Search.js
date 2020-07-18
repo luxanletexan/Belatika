@@ -27,7 +27,7 @@ export default class Search
 
     onOuterClick(e)
     {
-        if (e.target === this.searchTrigger || e.target === this.searchInput) {
+        if (e.target === this.searchTrigger || e.target === this.searchInput || e.target === this.searchButton) {
             return;
         }
         this.searchForm.classList.remove('expanded');

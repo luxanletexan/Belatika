@@ -74,6 +74,12 @@ class ShopController extends ParentController
     {
         $items = $this->getDoctrine()->getRepository(Item::class)->findCategoryWithImages($category);
 
+        $this->breadcrumb[] = [
+            'title' => 'bijoux '.$category->getCustomers(),
+            'url' => $this->generateUrl('app_shop_customer', ['customer' => $category->getCustomers()])
+        ];
+        $this->breadcrumb[] = ['title' => $category->getName()];
+
         return $this->render($this->getTemplate('shop/category.html.twig'), ['category' => $category, 'items' => $items]);
     }
 
@@ -85,7 +91,23 @@ class ShopController extends ParentController
     {
         $items = $this->getDoctrine()->getRepository(Item::class)->findSales();
 
+        $this->breadcrumb[] = ['title' => 'Soldes'];
+
         return $this->render($this->getTemplate('shop/sales.html.twig'), ['items' => $items]);
+    }
+
+    /**
+     * @Route("/bijoux/{customer<femme|homme>}", name="app_shop_customer")
+     * @param string $customer
+     * @return Response
+     */
+    public function customer($customer):Response
+    {
+        $items = $this->getDoctrine()->getRepository(Item::class)->findCustomerItems($customer);
+
+        $this->breadcrumb[] = ['title' => 'Bijoux '.$customer];
+
+        return $this->render($this->getTemplate('shop/customers.html.twig'), ['items' => $items, 'customers' => 'bijoux '.$customer]);
     }
 
     /**
@@ -99,6 +121,8 @@ class ShopController extends ParentController
 
         $items = $this->getDoctrine()->getRepository(Item::class)->searchWithImages(trim($search));
 
+        $this->breadcrumb[] = ['title' => trim($search)];
+
         return $this->render($this->getTemplate('shop/search.html.twig'), ['items' => $items]);
     }
 
@@ -110,6 +134,8 @@ class ShopController extends ParentController
     public function range(Range $range):Response
     {
         $items = $this->getDoctrine()->getRepository(Item::class)->findRangeWithImages($range);
+
+        $this->breadcrumb[] = ['title' => 'Bijoux ' . $range->getName()];
 
         return $this->render($this->getTemplate('shop/range.html.twig'), ['range' => $range, 'items' => $items]);
     }
@@ -129,6 +155,19 @@ class ShopController extends ParentController
 
         $facebookShareUrl = 'https://www.facebook.com/sharer.php?u=' . urlencode($itemUrl);
 
+        $this->breadcrumb[] = [
+            'title' => 'bijoux '.$item->getCategory()->getCustomers(),
+            'url' => $this->generateUrl('app_shop_customer', ['customer' => $item->getCategory()->getCustomers()])
+        ];
+        $this->breadcrumb[] = [
+            'title' => $item->getCategory()->getName(),
+            'url' => $this->generateUrl('app_shop_category', [
+                'customer' => $item->getCategory()->getCustomers(),
+                'slug' => $item->getCategory()->getSlug(),
+            ]),
+        ];
+        $this->breadcrumb[] = ['title' => $item->getName()];
+
         return $this->render($this->getTemplate('shop/item.html.twig'), [
             'item' => $item,
             'facebookShareUrl' => $facebookShareUrl
@@ -140,6 +179,8 @@ class ShopController extends ParentController
      */
     public function cgv(): Response
     {
+        $this->breadcrumb[] = ['title' => 'Conditions générales de vente'];
+
         return $this->render($this->getTemplate('shop/cgv.html.twig'));
     }
 
@@ -148,6 +189,8 @@ class ShopController extends ParentController
      */
     public function legals(): Response
     {
+        $this->breadcrumb[] = ['title' => 'Mentions légales'];
+
         return $this->render($this->getTemplate('shop/legals.html.twig'));
     }
 
@@ -156,6 +199,8 @@ class ShopController extends ParentController
      */
     public function bloginfos(): Response
     {
+        $this->breadcrumb[] = ['title' => "Conditions d'utilisation du blog"];
+
         return $this->render($this->getTemplate('shop/bloginfos.html.twig'));
     }
 
@@ -177,6 +222,8 @@ class ShopController extends ParentController
             }
             return $aDate > $bDate ? -1 : 1;
         });
+
+        $this->breadcrumb[] = ['title' => "Avis des clients"];
 
         return $this->render($this->getTemplate('shop/avis.html.twig'), ['reviews' => $reviews]);
     }

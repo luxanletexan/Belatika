@@ -9,19 +9,26 @@
 {% set currentUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
 <header id="bt-navbar" class="btheader">
     <div class="btheader__logo">
-        {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('app_shop_index') }}">
-        {% endif %}
                 <img src="{{ asset('img/resources/brand.png') }}" alt="Logo Belatika">
-        {% if is_granted('ROLE_ADMIN') %}
             </a>
-        {% endif %}
     </div>
     {{ include(shop_settings.template ~ '/modules/mainnav.html.twig') }}
     <div class="btbreadcrumb">
-        <span class="btbreadcrumb__head">Accueil</span>
-        <span class="btbreadcrumb__body">bagues</span>
-        <span class="btbreadcrumb__tail">bague Light Turquoise</span>
+        {% if breadcrumb is defined %}
+            <span class="btbreadcrumb__head"><a class="bt-underline" href="{{ path('app_shop_index') }}">Accueil</a></span>
+            {% for element in breadcrumb %}
+                {% if loop.last %}
+                    <span class="btbreadcrumb__tail">{{ element.title|gTrans|lower }}</span>
+                {% else %}
+                    <span class="btbreadcrumb__body">
+                        {% if element.url is defined %}<a class="bt-underline" href="{{ element.url }}">{% endif %}
+                            {{ element.title|gTrans|lower }}
+                        {% if element.url is defined %}</a>{% endif %}
+                    </span>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
     <div class="btheader__tools">
         <div class="btheader__tools__item">

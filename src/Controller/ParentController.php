@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use \Swift_Mailer;
 use \Swift_Message;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\SessionUnavailableException;
 use Doctrine\ORM\NonUniqueResultException;
@@ -27,6 +28,8 @@ abstract class ParentController extends Controller
      * @var Swift_Mailer
      */
     private $mailer;
+
+    protected $breadcrumb = [];
 
     public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer)
     {
@@ -200,5 +203,13 @@ abstract class ParentController extends Controller
             $manager->remove($unusedAddress);
         }
         $manager->flush();
+    }
+
+    protected function render($view, array $parameters = [], Response $response = null)
+    {
+        if (count($this->breadcrumb) > 0) {
+            $parameters['breadcrumb'] = $this->breadcrumb;
+        }
+        return parent::render($view, $parameters, $response);
     }
 }

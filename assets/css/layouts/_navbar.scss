@@ -168,7 +168,6 @@ $search-size: 15px;
 }
 
 .btbreadcrumb {
-  //background-color: #4cae9f;
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 2;
@@ -179,6 +178,9 @@ $search-size: 15px;
     display: flex;
     align-items: center;
     font-size: .75rem;
+  }
+  & a {
+    color: black;
   }
   &__head,
   &__body {

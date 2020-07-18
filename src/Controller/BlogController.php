@@ -28,6 +28,8 @@ class BlogController extends ParentController
     {
         $blogArticles = $this->getDoctrine()->getManager()->getRepository(BlogArticle::class)->findAllWithComments();
 
+        $this->breadcrumb[] = ['title' => 'Blog'];
+
         return $this->render($this->getTemplate('blog/index.html.twig'), ['blogArticles' => $blogArticles]);
     }
 
@@ -57,6 +59,10 @@ class BlogController extends ParentController
                 $participants[$blogComment->getUser()->getId()] = true;
             }
         }
+
+        $this->breadcrumb[] = ['title' => 'Blog', 'url' => $this->generateUrl('app_blog_index')];
+        $this->breadcrumb[] = ['title' => $blogArticle->getTitle()];
+
 
         return $this->render($this->getTemplate('blog/article.html.twig'), [
             'blogArticle' => $blogArticle,
