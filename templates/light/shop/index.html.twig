@@ -41,16 +41,11 @@
         </div>
     </section>
 
-    {% if deliveryDelay > 1 %}
     <section class="text-center">
         <p class="displayer">
-{#            <span class="displayer__text">{{ 'LIVRAISON OFFERTE'|gTrans }}!</span><br>#}
-            <span class="displayer__text">
-                {{ "Exceptionnellement et pour une courte période, les délais d'expédition de la boutique sont de " ~ deliveryDelay ~ " jours"|gTrans }}
-            </span>
+            <span class="displayer__text">{{ 'LIVRAISON OFFERTE'|gTrans }}!</span><br>
         </p>
     </section>
-    {% endif %}
 
     <section>
         <h2 class="hidden">{{ 'Les catégories'|gTrans }}</h2>

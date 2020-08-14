@@ -53,10 +53,6 @@ class ShopController extends ParentController
         shuffle($reviews);
         $reviews = array_slice($reviews, 0, 2);
 
-        $now = date_create();
-        $open = date_create()->setDate(2020, 8, 10);
-        $deliveryDelay = $open->diff($now)->days * ($now < $open ? 1 : -1);
-
         return $this->render(
             $this->getTemplate('shop/index.html.twig'),
             [
@@ -65,7 +61,6 @@ class ShopController extends ParentController
                 'blogArticle' => $blogArticle,
                 'reviews' => $reviews,
                 'customerCountries' => implode(',', $customerCountries),
-                'deliveryDelay' => $deliveryDelay,
             ]
         );
     }
