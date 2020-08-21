@@ -104,6 +104,9 @@
             {{ "Merci de votre confiance 🙏"|gTrans }}
         </p>
         <div class="customer-map__map">
+            <div class="customer-map__map__legend">
+                {{ 'Clients Belatika'|gTrans }}
+            </div>
             <div
                     style="height:600px;max-width: 1100px;margin:auto" id="sales-map"
                     data-app_id="{{ env('ALGOLIA_PLACES_ID') }}"
