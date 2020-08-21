@@ -63,18 +63,24 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  margin: auto;
+  max-width: 900px;
 }
 
 .ranges-preview {
-  width: 48%;
+  width: 65%;
   &--ranges {
     @include media-breakpoint-up(lg) {
       width: 24%;
     }
   }
   &--categories {
+    @include media-breakpoint-up(sm) {
+      width: 30%;
+    }
     @include media-breakpoint-up(lg) {
-      width: 32%;
+      width: 23%;
+      margin: 10px 20px;
     }
     & figcaption {
       @include media-breakpoint-up(lg) {
@@ -107,7 +113,7 @@
     margin: 0;
     background-color: rgba(0,0,0,0.2);
     color: black;
-    @include title-font;
+    @include text-font;
     @include text-outline(white);
   }
 }
@@ -196,7 +202,7 @@ hr.separator {
       position: absolute;
       left: calc(10% + 2rem);
       top: calc(100% - 2.5rem);
-      z-index: 100;
+      z-index: 99;
     }
   }
 }
@@ -205,7 +211,12 @@ hr.separator {
   max-width: 1200px;
   margin: 3rem auto;
   padding: 2rem;
-  background-color: lighten($gold, 40%);
+  &:nth-child(2n + 1) {
+    background-color: lighten($gold, 40%);
+  }
+  &:nth-child(2n) {
+    background-color: lighten($gold, 10%);
+  }
   &__intro {
     margin: 2rem 0;
     text-align: center;
@@ -236,6 +247,7 @@ hr.separator {
     text-align: justify;
   }
   &::after {
+    display: block;
     content: '';
     clear: both;
   }
@@ -265,6 +277,7 @@ hr.separator {
   display: flex;
   flex-direction: column;
   background-color: lighten($gold, 40%);
+  margin-bottom: 50px;
   @include media-breakpoint-up(xl) {
     flex-direction: row;
     align-items: flex-start;

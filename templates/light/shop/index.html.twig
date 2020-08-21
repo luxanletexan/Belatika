@@ -17,39 +17,38 @@
 {% endblock %}
 {% block content %}
 
-    {% if onSales %}
-        <section class="text-center">
-            <p class="displayer">
-                <span class="displayer__text">{{ "SOLDES D'ÉTÉ"|gTrans }}!</span><br>
-                <span class="displayer__text">
-                    {{ 'du 15 juillet au 11 août'|gTrans }}
-                </span><br>
-                <a class="btn bt-btn--primary" href="{{ path('app_shop_sales') }}">{{ "J'en profite!"|gTrans }}</a>
-            </p>
-        </section>
-    {% endif %}
+    <section class="about">
+        <h2>{{ "Présentation"|gTrans }}</h2>
+        <article>
+            <p class="about__intro">{{ "Belatika est une marque de bijoux qui vous fait suivre la tendance."|gTrans }}</p>
+            <figure class="about__image">
+                <img src="{{ asset('img/resources/belatika_profile.jpg') }}" alt="{{ 'Profil créatrice bijoux tendance Belatika'|gTrans }}">
+            </figure>
+            <p class="about__paragraph">{{ "J’imagine et assemble des apprêts pour créer des bijoux fins et chics."|gTrans }}</p>
+            <p class="about__paragraph">{{ "Des bijoux qui vous accompagneront au quotidien ou pour une soirée très spéciale."|gTrans }}</p>
+            <p class="about__paragraph">{{ "Vous pouvez me contacter par mail ou téléphone pour toute demande de personnalisation, je serais ravie de vous aider à créer le bijou de vos rêves."|gTrans }}</p>
+            <p class="about__paragraph">{{ "Dans ma boutique vous allez retrouver des bagues, des bracelets en argent ou en acier inoxydable, mais aussi des colliers et boucles d’oreilles en gold-filled 14k ou en laiton. J'utilise aussi les pierres naturelles et les cristaux Swarovski pour le coté chic et décontracté."|gTrans }}</p>
+            <p class="about__paragraph">{{ "De couleur argent ou doré vous allez trouver votre bonheur dans ma collection de bijoux."|gTrans }}</p>
+            <p class="about__paragraph">{{ "Vous aurez également dans la boutique des bijoux réalisés par des fournisseurs de qualité, oui oui... j'aime le travail de certains fournisseurs alors je vous les partage également, et je suis sûre que cela va vous plaire!"|gTrans }}</p>
+            <p class="about__paragraph">{{ "Je vous laisse découvrir mon univers tendance et chic que je propose dans la boutique."|gTrans }}</p>
+        </article>
+    </section>
+
+    <section class="about">
+        <h2>{{ "La créatrice"|gTrans }}</h2>
+        <figure class="about__image">
+            <img src="{{ asset('img/resources/belatika_profile_2.jpg'|imagine_filter('thumb')) }}" alt="{{ 'Profil créatrice bijoux tendance Belatika'|gTrans }}">
+        </figure>
+        <p class="about__paragraph">{{ "Je m’appelle Isabelle et je suis la créatrice de Belatika."|gTrans }}</p>
+        <p class="about__paragraph">{{ "Belatika est une marque déposée auprès de l’INPI depuis 2016."|gTrans }}</p>
+        <p class="about__paragraph">{{ "Je suis installée dans le sud-ouest de la France avec ma famille non loin de Bayonne."|gTrans }}</p>
+        <p class="about__paragraph">{{ "Je réalise depuis chez moi l’assemblage des bijoux que vous allez découvrir dans ma boutique."|gTrans }}</p>
+        <p class="about__paragraph">{{ "J’utilise des matières de qualité comme l’argent, l’acier inoxydable ou le gold filled 14k et le laiton mais aussi des cristaux Swarovski et des pierres naturelles pour leur coté chic et décontracté."|gTrans }}</p>
+    </section>
 
     <section>
-        <h2 class="hidden">{{ 'Les gammes'|gTrans }}</h2>
+        <h2>{{ 'La collection'|gTrans }}</h2>
         <div class="shop-ranges">
-            {% for range in ranges %}
-                <figure class="ranges-preview ranges-preview--ranges">
-                    <figcaption class="ranges-preview__figcaption">{{ range.name|gTrans }}</figcaption>
-                    <a href="{{ path('app_shop_range', {'slug':range.slug}) }}"><img class="ranges-preview__image" src="{{ asset(range.imageWebPath)|imagine_filter('large') }}" alt="{{ range.name|gTrans }}"></a>
-                </figure>
-            {% endfor %}
-        </div>
-    </section>
-
-    <section class="text-center">
-        <p class="displayer">
-            <span class="displayer__text">{{ 'LIVRAISON OFFERTE'|gTrans }}!</span><br>
-        </p>
-    </section>
-
-    <section>
-        <h2 class="hidden">{{ 'Les catégories'|gTrans }}</h2>
-        <div class="shop-ranges categories">
             {% for category in categories %}
                 <figure class="ranges-preview ranges-preview--categories">
                     <figcaption class="ranges-preview__figcaption">{{ category.name|gTrans }}{% if category.customers == 'homme' %} homme{% endif %}</figcaption>
@@ -58,66 +57,6 @@
             {% endfor %}
         </div>
     </section>
-
-    <hr class="separator separator--left">
-
-    <section class="mb-5">
-        <h2 class="mb-3">{{ 'Les dernières nouveautés'|gTrans }}</h2>
-        <div id="carousel" class="slider">
-            {% for sliderItem in sliderItems %}
-                <figure class="slider__item">
-                    <a href="{{ path('app_shop_item', {'customer' : sliderItem.category.customers, 'category_slug' : sliderItem.category.slug, 'slug' : sliderItem.slug}) }}">
-                        <img class="img-responsive" src="{{ sliderItem.images|first.webPath|imagine_filter('slide') }}" alt="{{ sliderItem.images|first.alt }}">
-                    </a>
-                </figure>
-            {% endfor %}
-        </div>
-    </section>
-
-    <hr class="separator separator--right">
-
-    <section class="about">
-        <h2>Belatika {{ "bijoux"|gTrans }}</h2>
-        <article>
-            <p class="about__intro">{{ "Belatika, ce sont des bijoux chics et modernes qui suivent la tendance."|gTrans }}</p>
-            <figure class="about__image">
-                <img src="{{ asset('img/resources/belatika_profile.jpg') }}" alt="{{ 'Profil créatrice bijoux tendance Belatika'|gTrans }}">
-            </figure>
-            <p class="about__paragraph">{{ "En portant nos <strong>bijoux</strong> vous vous démarquez et vous montrez votre personnalité."|gTrans }}</p>
-            <p class="about__paragraph">{{ "Que vous aimiez le sobre, le chic, l’étincelant, ou le lumineux, le décalé, ou l’extravagance, un bijou Belatika est fait pour vous."|gTrans }}</p>
-            <p class="about__paragraph">{{ "Ils sont réalisés en <strong>un seul exemplaire ou petite série</strong> pour garder un côté <strong>unique et privilégié</strong>."|gTrans }}</p>
-            <p class="about__paragraph">{{ "Un grand choix de <strong>bijoux tendance et moderne</strong> s’offre à vous : <strong>Boucles d’oreilles, colliers, bracelets, bagues</strong>."|gTrans }}</p>
-            <p class="about__paragraph">{{ "Il y en a pour tous les goûts et de toutes les matières : <strong>acier</strong>, <strong>argent</strong>, <strong>laiton</strong>, <strong>gold filled</strong>."|gTrans }}</p>
-            <p class="about__paragraph">{{ "Découvrez <strong>l’univers tendance et moderne</strong> que propose la boutique belatika.com"|gTrans }}</p>
-        </article>
-    </section>
-
-    <hr class="separator separator--left">
-
-    <section class="mt-5 customer-map">
-        <p class="customer-map__introduction">
-            {{ "Belatika est une auto entreprise du sud ouest de la France."|gTrans }}<br>
-            {{ "Des <strong>bijoux tendance</strong> réalisés dans mon petit atelier avec la plus grande délicatesse."|gTrans }}<br>
-            {{ "Pour vous satisfaire au mieux 😊 je m'occupe de votre commande <strong>le jour même</strong> et l'expedie dans la foulée."|gTrans }}<br>
-            {{ "Je suis heureuse de voir s'envoler les <strong>bijoux Belatika</strong> vers d'autres destinations."|gTrans }}<br>
-            {{ "Regardez où les <strong>bijoux tendance</strong> de Belatika ont déjà été livrés!"|gTrans }}<br>
-            {{ "Merci de votre confiance 🙏"|gTrans }}
-        </p>
-        <div class="customer-map__map">
-            <div class="customer-map__map__legend">
-                {{ 'Clients Belatika'|gTrans }}
-            </div>
-            <div
-                    style="height:600px;max-width: 1100px;margin:auto" id="sales-map"
-                    data-app_id="{{ env('ALGOLIA_PLACES_ID') }}"
-                    data-app_key="{{ env('ALGOLIA_PLACES_KEY') }}"
-                    data-customer_countries="{{ customerCountries }}"
-                    data-geojson="{{ app.request.getSchemeAndHttpHost ~ asset('json/world.geo.json') }}"
-            ></div>
-        </div>
-    </section>
-
-    <hr class="separator separator--right">
 
     {% if blogArticle %}
         <section class="blog-article">
@@ -141,40 +80,60 @@
                 <a class="btn bt-btn--primary" href="{{ path('app_blog_index') }}">~~ {{ 'Lire le blog'|gTrans }} ~~</a>
             </div>
         </section>
-
-        <hr class="separator separator--left">
-
-        <section class="home-reviews">
-            <h2>{{ 'Les avis des clients Belatika'|gTrans }}</h2>
-            <p class="home-reviews__intro">
-                {{ "Votre satisfaction, c'est ma priorité."|gTrans }} 😊<br>
-                {{ "C'est parceque je tiens à vous faire plaisir à travers mes <strong>créations de bijoux tendance</strong> que je tiens compte de chacun de vos avis pour toujours chercher à vous proposer le meilleur service possible."|gTrans }}<br>
-                {{ "Préparation soignée, minutieuse.✨ Commande traitée dans l'heure, expédition dans les délais les plus brefs.🚀 Toutes ces attentions sont une priorité pour moi, vos avis le prouvent au quotidien et je vous en remercie!"|gTrans }}🙏
-            </p>
-            <div class="home-reviews__reviews">
-                {% for review in reviews %}
-                    <div class="reviews__review">
-                        <span class="reviews__review__date">{{ review.datetime|date('d/m/Y H:i') }}</span>
-                        <span class="reviews__review__rate">
-                    {% for i in 1..5 %}
-                        {% if review.rate >= i - 0.25 %}
-                            <i class="fas fa-star"></i>
-                        {% elseif review.rate >= i - 0.75 %}
-                            <i class="fas fa-star-half-alt"></i>
-                        {% else %}
-                            <i class="far fa-star"></i>
-                        {% endif %}
-                    {% endfor %}
-                </span>
-                        <div>{{ review.review|raw }}</div>
-                    </div>
-                {% endfor %}
-                <div class="text-right"><a class="btn btn-sm bt-btn--primary m-1" href="{{ path('app_shop_avis') }}">{{ "Voir tous les avis"|gTrans }}</a></div>
-            </div>
-        </section>
-
-        <hr class="separator separator--right">
     {% endif %}
+
+    <section class="home-reviews">
+        <h2>{{ 'Les avis des clients Belatika'|gTrans }}</h2>
+        <p class="home-reviews__intro">
+            {{ "Votre satisfaction, c'est ma priorité."|gTrans }} 😊<br>
+            {{ "C'est parceque je tiens à vous faire plaisir à travers mes <strong>créations de bijoux tendance</strong> que je tiens compte de chacun de vos avis pour toujours chercher à vous proposer le meilleur service possible."|gTrans }}<br>
+            {{ "Préparation soignée, minutieuse.✨ Commande traitée dans l'heure, expédition dans les délais les plus brefs.🚀 Toutes ces attentions sont une priorité pour moi, vos avis le prouvent au quotidien et je vous en remercie!"|gTrans }}🙏
+        </p>
+        <div class="home-reviews__reviews">
+            {% for review in reviews %}
+                <div class="reviews__review">
+                    <span class="reviews__review__date">{{ review.datetime|date('d/m/Y H:i') }}</span>
+                    <span class="reviews__review__rate">
+                {% for i in 1..5 %}
+                    {% if review.rate >= i - 0.25 %}
+                        <i class="fas fa-star"></i>
+                    {% elseif review.rate >= i - 0.75 %}
+                        <i class="fas fa-star-half-alt"></i>
+                    {% else %}
+                        <i class="far fa-star"></i>
+                    {% endif %}
+                {% endfor %}
+            </span>
+                    <div>{{ review.review|raw }}</div>
+                </div>
+            {% endfor %}
+            <div class="text-right"><a class="btn btn-sm bt-btn--primary m-1" href="{{ path('app_shop_avis') }}">{{ "Voir tous les avis"|gTrans }}</a></div>
+        </div>
+    </section>
+
+    <section class="mt-5">
+        <h2>{{ "Où sont les clients Belatika?"|gTrans }} ✈</h2>
+        <div class="customer-map">
+            <p class="customer-map__introduction">
+                {{ "Pour vous satisfaire au mieux 😊 je m'occupe de votre commande <strong>le jour même</strong> et l'expedie dans la foulée."|gTrans }}<br>
+                {{ "Je suis heureuse de voir s'envoler les <strong>bijoux Belatika</strong> vers d'autres destinations."|gTrans }}<br>
+                {{ "Regardez où les <strong>bijoux tendance</strong> de Belatika ont déjà été livrés!"|gTrans }}<br>
+                {{ "Merci de votre confiance 🙏"|gTrans }}
+            </p>
+            <div class="customer-map__map">
+                <div class="customer-map__map__legend">
+                    {{ 'Clients Belatika'|gTrans }}
+                </div>
+                <div
+                        style="height:600px;max-width: 1100px;margin:auto" id="sales-map"
+                        data-app_id="{{ env('ALGOLIA_PLACES_ID') }}"
+                        data-app_key="{{ env('ALGOLIA_PLACES_KEY') }}"
+                        data-customer_countries="{{ customerCountries }}"
+                        data-geojson="{{ app.request.getSchemeAndHttpHost ~ asset('json/world.geo.json') }}"
+                ></div>
+            </div>
+        </div>
+    </section>
 
     {% if app.user and not app.user.newsletter and app.user.suggestNewsletter %}
         <div id="newsletter-popup" class="popup">

@@ -2,82 +2,75 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors~app~app_blog_article~app_order_index~app_shop_index~app_user_address~app_user_profile.js",
-        "/build/vendors~app~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/app.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/0.825edf6f.js",
+        "/build/1.59290398.js",
+        "/build/app.3f23e121.js"
       ],
       "css": [
-        "/build/app.css"
+        "/build/app.76f6b9ca.css"
       ]
     },
     "app_shop_index": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors~app~app_blog_article~app_order_index~app_shop_index~app_user_address~app_user_profile.js",
-        "/build/vendors~app~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/vendors~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/vendors~app_shop_index~app_user_address.js",
-        "/build/app_shop_index~app_user_address.js",
-        "/build/app_shop_index.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/0.825edf6f.js",
+        "/build/1.59290398.js",
+        "/build/app_shop_index.c65265b1.js"
       ]
     },
     "app_blog_article": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors~app~app_blog_article~app_order_index~app_shop_index~app_user_address~app_user_profile.js",
-        "/build/vendors~app~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/vendors~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/app_blog_article.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/0.825edf6f.js",
+        "/build/1.59290398.js",
+        "/build/app_blog_article.186d79ff.js"
       ]
     },
     "app_user_address": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors~app~app_blog_article~app_order_index~app_shop_index~app_user_address~app_user_profile.js",
-        "/build/vendors~app~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/vendors~app_blog_article~app_shop_index~app_user_address.js",
-        "/build/vendors~app_shop_index~app_user_address.js",
-        "/build/app_shop_index~app_user_address.js",
-        "/build/app_user_address.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/0.825edf6f.js",
+        "/build/1.59290398.js",
+        "/build/app_user_address.094425de.js"
       ]
     },
     "app_user_order": {
       "js": [
-        "/build/runtime.js",
-        "/build/app_user_order.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/app_user_order.f50d9d88.js"
       ]
     },
     "app_user_profile": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors~app~app_blog_article~app_order_index~app_shop_index~app_user_address~app_user_profile.js",
-        "/build/app_user_profile.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/0.825edf6f.js",
+        "/build/app_user_profile.f7ef2122.js"
       ]
     },
     "app_cart_index": {
       "js": [
-        "/build/runtime.js",
-        "/build/app_cart_index.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/app_cart_index.b3196e12.js"
       ],
       "css": [
-        "/build/app_cart_index.css"
+        "/build/app_cart_index.7794134c.css"
       ]
     },
     "app_order_index": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors~app~app_blog_article~app_order_index~app_shop_index~app_user_address~app_user_profile.js",
-        "/build/app_order_index.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/0.825edf6f.js",
+        "/build/app_order_index.09f877b1.js"
       ]
     },
     "app_admin": {
       "js": [
-        "/build/runtime.js",
-        "/build/app_admin.js"
+        "/build/runtime.0c796a0d.js",
+        "/build/app_admin.379f0543.js"
       ],
       "css": [
-        "/build/app_admin.css"
+        "/build/app_admin.1f98f179.css"
       ]
     }
   }
