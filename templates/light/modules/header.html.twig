@@ -53,6 +53,11 @@
             <a title="{{ 'Panier'|gTrans }}" href="{{ path('app_cart_show') }}" class="navcart__hover"><i class="fas fa-shopping-bag"></i></a href="{{ path('app_cart_show') }}">
             {{ include(shop_settings.template ~ '/modules/cart-hover.html.twig') }}
         </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="btheader__tools__item">
+                <a title="Administration" href="{{ path('app_admin_index') }}"><i class="fas fa-tools"></i></a>
+            </div>
+        {% endif %}
     </div>
 </header>
 {% if title is defined %}
