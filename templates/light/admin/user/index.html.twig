@@ -15,6 +15,9 @@
                         <th>Inscrit le</th>
                         <th>Dernière connection</th>
                     </tr>
+                    <tr>
+                        <th colspan="5"><a onclick="return confirm('Supprimer tous les utilisateurs inactifs?\n(Cette action est irréversible.)')" href="{{ path('app_admin_user_clearinactive') }}">Supprimer les utilisateurs inactifs</a></th>
+                    </tr>
                     {% for user in users %}
                         <tr {% if not user.enabled %}style="background-color: red;color: white"{% endif %}>
                             <td>
