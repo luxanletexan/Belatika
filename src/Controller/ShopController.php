@@ -31,7 +31,6 @@ class ShopController extends ParentController
         if (is_array($sliderItems)) {
             $sliderItems = array_slice($sliderItems, 0, $limit);
         }
-        $ranges = $doctrine->getRepository(Range::class)->findAll();
         $blogArticle = $doctrine->getRepository(BlogArticle::class)->findLastWithComments();
 
         $orders = $this->getDoctrine()->getRepository(CustomerOrder::class)->findBy(['rating' => [1,2,3,4,5]]);
@@ -57,7 +56,6 @@ class ShopController extends ParentController
             $this->getTemplate('shop/index.html.twig'),
             [
                 'sliderItems' => $sliderItems,
-                'ranges' => $ranges,
                 'blogArticle' => $blogArticle,
                 'reviews' => $reviews,
                 'customerCountries' => implode(',', $customerCountries),

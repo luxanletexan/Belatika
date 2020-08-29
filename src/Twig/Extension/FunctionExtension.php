@@ -33,7 +33,7 @@ class FunctionExtension extends AbstractExtension
 
     public function getCategories()
     {
-        return $this->manager->getRepository(Category::class)->findBy([], ['name' => 'ASC']);
+        return $this->manager->getRepository(Category::class)->findBy([], ['id' => 'ASC']);
     }
 
     public function getSalesCount()
