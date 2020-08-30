@@ -81,18 +81,18 @@ class ShopController extends ParentController
         return $this->render($this->getTemplate('shop/category.html.twig'), ['category' => $category, 'items' => $items]);
     }
 
-    /**
-     * @Route("/bijoux/soldes", name="app_shop_sales")
-     * @return Response
-     */
-    public function sales():Response
-    {
-        $items = $this->getDoctrine()->getRepository(Item::class)->findSales();
-
-        $this->breadcrumb[] = ['title' => 'Soldes'];
-
-        return $this->render($this->getTemplate('shop/sales.html.twig'), ['items' => $items]);
-    }
+//    /**
+//     * @Route("/bijoux/soldes", name="app_shop_sales")
+//     * @return Response
+//     */
+//    public function sales():Response
+//    {
+//        $items = $this->getDoctrine()->getRepository(Item::class)->findSales();
+//
+//        $this->breadcrumb[] = ['title' => 'Soldes'];
+//
+//        return $this->render($this->getTemplate('shop/sales.html.twig'), ['items' => $items]);
+//    }
 
     /**
      * @Route("/bijoux/{customer<femme|homme>}", name="app_shop_customer")
