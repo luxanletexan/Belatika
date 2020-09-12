@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Address;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,18 +18,12 @@ class AddressType extends AbstractType
         $builder
             ->add('firstname', TextType::class, ['label' => false])
             ->add('lastname', TextType::class, ['label' => false])
-            ->add('fullAddress', SearchType::class)
-            ->add('administrative', HiddenType::class)
-            ->add('city', HiddenType::class)
-            ->add('country', HiddenType::class)
-            ->add('countryCode', HiddenType::class)
-            ->add('county', HiddenType::class)
-            ->add('lat', HiddenType::class)
-            ->add('lng', HiddenType::class)
-            ->add('name', HiddenType::class)
-            ->add('value', HiddenType::class)
-            ->add('postcode', HiddenType::class)
-            ->add('additional')
+            ->add('email', EmailType::class, ['label' => false])
+            ->add('address', SearchType::class, ['label' => false])
+            ->add('additional', TextType::class, ['label' => false])
+            ->add('city', TextType::class, ['label' => false])
+            ->add('country', TextType::class, ['label' => false])
+            ->add('postcode', TextType::class, ['label' => false])
         ;
     }
 

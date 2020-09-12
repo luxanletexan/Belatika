@@ -9,14 +9,13 @@ use App\Entity\CustomerOrderLine;
 use App\Entity\Payment;
 use App\Entity\User;
 use App\Service\GoogleTranslator;
-use Doctrine\Common\Persistence\ObjectManager;
-use Stripe\Error\InvalidRequest;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Swift_Mailer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -26,18 +25,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class OrderController extends ParentController
 {
     /**
-     * @var ObjectManager
-     */
-    private $em;
-    /**
      * @var User
      */
     private $user;
 
-    public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer, ObjectManager $em, TokenStorageInterface $tokenStorage)
+    public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer, TokenStorageInterface $tokenStorage)
     {
         parent::__construct($googleTranslator, $mailer);
-        $this->em = $em;
         $this->user = $tokenStorage->getToken()->getUser();
     }
 
@@ -60,12 +54,10 @@ class OrderController extends ParentController
         );
         if ($pendingOrder === null) {
             $session = $this->getSessionFrom($request);
-            $items = $session->get('cart');
-            $gift = $session->get('gift');
 
-            $order = $this->createOrder($items, $gift);
-            $this->em->persist($order);
-            $this->em->flush();
+            $order = $this->createOrder($session);
+            $this->getEm()->persist($order);
+            $this->getEm()->flush();
             $session->remove('cart');
             $session->remove('gift');
         } else {
@@ -102,9 +94,9 @@ class OrderController extends ParentController
             $payment
                 ->setMethod('Stripe intent')
                 ->setIdentifier($intent->id);
-            $this->em->persist($payment);
+            $this->getEm()->persist($payment);
             $order->setPayment($payment);
-            $this->em->flush();
+            $this->getEm()->flush();
         }
 
         return $this->render($this->getTemplate('order/index.html.twig'), [
@@ -124,21 +116,32 @@ class OrderController extends ParentController
     }
 
     /**
-     * @param Item[] $items
-     * @param Gift $gift
+     * @param SessionInterface $session
      * @return CustomerOrder
      */
-    private function createOrder(Array $items, ?Gift $gift): CustomerOrder
+    private function createOrder(SessionInterface $session): CustomerOrder
     {
+
+        $items = $session->get('cart');
+        $gift = $session->get('gift');
+        $address = $session->get('guestAddress');
+
         $gift = $this->checkGift($gift);
         $order = new CustomerOrder();
         $order
-            ->setUser($this->user)
-            ->setDeliveryAddress(clone $this->user->getDeliveryAddress())
-            ->setBillingAddress(clone $this->user->getBillingAddress())
+//            ->setUser($this->user)
+//            ->setDeliveryAddress(clone $this->user->getDeliveryAddress())
+//            ->setBillingAddress(clone $this->user->getBillingAddress())
             ->setGift($gift);
+
+        if ($this->user instanceof User) {
+            $order->setUser($this->user)->setAddress(clone $this->user->getAddress());
+        } else {
+            $order->setAddress($address);
+        }
+
         foreach ($items as $cartItem) {
-            $item = $this->em->getRepository(Item::class)->find($cartItem->getId());
+            $item = $this->getEm()->getRepository(Item::class)->find($cartItem->getId());
             $orderLine = new CustomerOrderLine();
             $orderLine
                 ->setItem($item)

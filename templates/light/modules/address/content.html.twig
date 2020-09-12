@@ -1,84 +1,65 @@
 {{ form_start(form, {attr: {id: 'addresses-form', class: 'col-12', action: validate.url}}) }}
 <div class="row">
-    <div class="col-12 col-md-6 col-lg-4 bg-belatika text-pink pt-2 rounded">
-        <p>{{ 'Indiquez-moi votre adresse de livraison ci-dessous et cette carte interactive vous aidera à vérifier que l\'adresse est correcte.'|gTrans|capitalize }}</p>
-        <p>{{ 'Ce serait dommage que votre commande n\'arrive pas au bon endroit, ma priorité étant que vous receviez vos achats dans les meilleurs délais et dans les meilleures conditions.'|gTrans|capitalize }}</p>
-        <p>{{ 'Vous pouvez aussi préciser ici une adresse de facturation différente.'|gTrans|capitalize }}</p>
-    </div>
-    <div
-            class="col-12 col-md-6 col-lg-8 rounded"
-            style="height: 300px;" id="map-container"
-            data-app_id="{{ env('ALGOLIA_PLACES_ID') }}"
-            data-app_key="{{ env('ALGOLIA_PLACES_KEY') }}"
-            data-img_path="{{ app.request.getSchemeAndHttpHost ~ asset('img/') }}"
-            {% if app.user.deliveryAddress and app.user.deliveryAddress.lat and app.user.deliveryAddress.lng %}
-                data-lat="{{ app.user.deliveryAddress.lat }}"
-                data-lng="{{ app.user.deliveryAddress.lng }}"
-            {% endif %}
-    ></div>
+{#    <div class="col-12 col-md-6 col-lg-4 bg-belatika text-pink pt-2 rounded">#}
+{#        <p>{{ 'Indiquez-moi votre adresse de livraison ci-dessous et cette carte interactive vous aidera à vérifier que l\'adresse est correcte.'|gTrans|capitalize }}</p>#}
+{#        <p>{{ 'Ce serait dommage que votre commande n\'arrive pas au bon endroit, ma priorité étant que vous receviez vos achats dans les meilleurs délais et dans les meilleures conditions.'|gTrans|capitalize }}</p>#}
+{#        <p>{{ 'Vous pouvez aussi préciser ici une adresse de facturation différente.'|gTrans|capitalize }}</p>#}
+{#    </div>#}
+
+
+{#    <input type="search" id="address-input" placeholder="Addresse">#}
+{#    <input type="search" id="zipcode-input" placeholder="Code postal">#}
+{#    <input type="search" id="city-input" placeholder="Ville">#}
+{#    <input type="search" id="country-input" placeholder="Pays">#}
+
 </div>
 <fieldset>
-    <legend>{{ 'Choisissez votre adresse de livraison:'|gTrans }}</legend>
     <div class="form-group row">
-            <div class="col-sm-6">
-                {{ form_widget(form.deliveryAddress.firstname, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'|gTrans|capitalize}}) }}
-                {{ form_errors(form.deliveryAddress.firstname) }}
-            </div>
-            <div class="col-sm-6">
-                {{ form_widget(form.deliveryAddress.lastname, {'attr': {'class': 'form-control', 'placeholder': 'Nom de famille'|gTrans|capitalize}}) }}
-                {{ form_errors(form.deliveryAddress.lastname) }}
-            </div>
+        <div class="col-sm-4">
+            {{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'|gTrans|capitalize}}) }}
+            {{ form_errors(form.firstname) }}
+        </div>
+        <div class="col-sm-4">
+            {{ form_widget(form.lastname, {'attr': {'class': 'form-control', 'placeholder': 'Nom de famille'|gTrans|capitalize}}) }}
+            {{ form_errors(form.lastname) }}
+        </div>
+        <div class="col-sm-4">
+            {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'email'|gTrans|capitalize}}) }}
+            {{ form_errors(form.email) }}
+        </div>
     </div>
     <div class="address-field mt-2">
-        {{ form_label(form.deliveryAddress.fullAddress, 'Adresse de livraison'|gTrans, {'label_attr': {'class': 'address-label'}}) }}
-        {{ form_widget(form.deliveryAddress.fullAddress, {'attr': {'class': 'form-control', 'placeholder': 'Votre adresse de livraison'|gTrans|capitalize}}) }}
-        {{ form_errors(form.deliveryAddress.fullAddress) }}
+        {{ form_widget(form.address, {'attr': {
+            'class': 'form-control',
+            'placeholder': 'Votre adresse'|gTrans|capitalize},
+            'data-app-id': env('ALGOLIA_PLACES_ID'),
+            'data-app-key': env('ALGOLIA_PLACES_KEY'),
+        }) }}
+        {{ form_errors(form.address) }}
     </div>
-    <div class="address-field">
-        {{ form_label(form.deliveryAddress.additional, 'Complément d\'adresse'|gTrans, {'label_attr': {'class': 'address-label'}}) }}
-        {{ form_widget(form.deliveryAddress.additional, {'attr': {'class': 'form-control', 'placeholder': 'Votre complément d\'adresse'|gTrans|capitalize}}) }}
-        {{ form_errors(form.deliveryAddress.additional) }}
+    <div class="address-field mt-2">
+        {{ form_widget(form.additional, {'attr': {'class': 'form-control', 'placeholder': 'Votre complément d\'adresse'|gTrans|capitalize}}) }}
+        {{ form_errors(form.additional) }}
+    </div>
+    <div class="form-group row mt-2">
+        <div class="col-sm-4">
+            {{ form_widget(form.postcode, {'attr': {'class': 'form-control', 'placeholder': 'Code postal'|gTrans|capitalize}}) }}
+            {{ form_errors(form.postcode) }}
+        </div>
+        <div class="col-sm-4">
+            {{ form_widget(form.city, {'attr': {'class': 'form-control', 'placeholder': 'Ville'|gTrans|capitalize}}) }}
+            {{ form_errors(form.city) }}
+        </div>
+        <div class="col-sm-4">
+            {{ form_widget(form.country, {'attr': {'class': 'form-control', 'placeholder': 'Pays'|gTrans|capitalize}}) }}
+            {{ form_errors(form.country) }}
+        </div>
     </div>
 </fieldset>
-<fieldset id="billing-fieldset">
-    <legend>{{ 'Choisissez votre adresse de facturation:'|gTrans }}</legend>
-    <div class="form-group row">
-        <div class="col-sm-6">
-            {{ form_widget(form.billingAddress.firstname, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'|gTrans|capitalize}}) }}
-            {{ form_errors(form.billingAddress.firstname) }}
-        </div>
-        <div class="col-sm-6">
-            {{ form_widget(form.billingAddress.lastname, {'attr': {'class': 'form-control', 'placeholder': 'Nom de famille'|gTrans|capitalize}}) }}
-            {{ form_errors(form.billingAddress.lastname) }}
-        </div>
-    </div>
-    <div class="address-field">
-        {{ form_label(form.billingAddress.fullAddress, 'Adresse de facturation'|gTrans, {'label_attr': {'class': 'address-label'}}) }}
-        {{ form_widget(form.billingAddress.fullAddress, {'attr': {'class': 'form-control', 'placeholder': 'Votre adresse de facturation'|gTrans|capitalize}}) }}
-        {{ form_errors(form.billingAddress.fullAddress) }}
-    </div>
-    <div class="address-field">
-        {{ form_label(form.billingAddress.additional, 'Complément d\'adresse'|gTrans, {'label_attr': {'class': 'address-label'}}) }}
-        {{ form_widget(form.billingAddress.additional, {'attr': {'class': 'form-control', 'placeholder': 'Votre complément d\'adresse'|gTrans|capitalize}}) }}
-        {{ form_errors(form.billingAddress.additional) }}
-    </div>
-</fieldset>
-<p id="address-alert" style="display: none"
-   class="alert alert-warning col-12"><i class="fas fa-exclamation-triangle"></i> {{ "Nous ne trouvons pas cette adresse sur la carte, mais si vous êtes certain qu'elle est correcte, vous pouvez la valider!"|gTrans }}</p>
-<div class="row">
-    <input
-            class="m-2"
-            id="same-address"
-            name="same-address"
-            type="checkbox"
-            {% if not app.user.deliveryAddress or (app.user.sameAddress) %}checked{% endif %}
-    >
-    <label for="same-address">{{ 'Utiliser la même adresse pour la facturation'|gTrans|capitalize }}</label>
-</div>
 <div class="row mb-5">
-    <div class="col-12">
-        <a href="{{ back.url }}" class="btn btn-sm bt-btn--secondary">{{ back.name|gTrans|capitalize }}</a>
-        <button class="btn btn-sm bt-btn--primary">{{ validate.name|gTrans|capitalize }}</button>
+    <div class="col-12 d-flex justify-content-between">
+        <a href="{{ back.url }}" class="btn bt-btn--secondary">{{ back.name|gTrans|capitalize }}</a>
+        <button class="btn bt-btn--primary">{{ validate.name|gTrans|capitalize }}</button>
     </div>
 </div>
 {{ form_widget(form) }}

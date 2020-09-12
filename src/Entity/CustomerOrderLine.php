@@ -23,7 +23,7 @@ class CustomerOrderLine
     private $item;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CustomerOrder", inversedBy="customerOrderLines")
+     * @ORM\ManyToOne(targetEntity="CustomerOrder", inversedBy="customerOrderLines", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $customerOrder;

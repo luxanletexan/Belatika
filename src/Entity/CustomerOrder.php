@@ -20,21 +20,15 @@ class CustomerOrder
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="customerOrders")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="deliveryCustomerOrder", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="customerOrder", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $deliveryAddress;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="billingCustomerOrder", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $billingAddress;
+    private $address;
 
     /**
      * @ORM\Column(type="boolean")
@@ -140,26 +134,14 @@ class CustomerOrder
         return $this;
     }
 
-    public function getDeliveryAddress(): ?Address
+    public function getAddress(): ?Address
     {
-        return $this->deliveryAddress;
+        return $this->address;
     }
 
-    public function setDeliveryAddress(Address $deliveryAddress): self
+    public function setAddress(Address $address): self
     {
-        $this->deliveryAddress = $deliveryAddress;
-
-        return $this;
-    }
-
-    public function getBillingAddress(): ?Address
-    {
-        return $this->billingAddress;
-    }
-
-    public function setBillingAddress(Address $billingAddress): self
-    {
-        $this->billingAddress = $billingAddress;
+        $this->address = $address;
 
         return $this;
     }

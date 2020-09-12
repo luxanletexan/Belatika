@@ -8,6 +8,7 @@ use App\Entity\CustomerOrder;
 use App\Entity\Gift;
 use App\Entity\User;
 use App\Service\GoogleTranslator;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use \Swift_Mailer;
@@ -30,6 +31,7 @@ abstract class ParentController extends Controller
     private $mailer;
 
     protected $breadcrumb = [];
+    protected $em;
 
     public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer)
     {
@@ -145,8 +147,16 @@ abstract class ParentController extends Controller
         return $session;
     }
 
-    protected function getPendingOrder(User $user, $joins = []):?CustomerOrder
+    /**
+     * @param User? $user
+     * @param array $joins
+     * @return CustomerOrder|null
+     */
+    protected function getPendingOrder($user, $joins = []):?CustomerOrder
     {
+        if (!$user instanceof User) {
+            return null;
+        }
         try {
             return $this
                 ->getDoctrine()
@@ -211,5 +221,16 @@ abstract class ParentController extends Controller
             $parameters['breadcrumb'] = $this->breadcrumb;
         }
         return parent::render($view, $parameters, $response);
+    }
+
+    /**
+     * @return ObjectManager
+     */
+    protected function getEm()
+    {
+        if (!$this->em instanceof ObjectManager) {
+            $this->em = $this->getDoctrine()->getManager();
+        }
+        return $this->em;
     }
 }

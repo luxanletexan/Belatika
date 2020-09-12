@@ -21,53 +21,28 @@ class User extends BaseUser
 
     /**
      * @var Address
-     * @ORM\OneToOne(targetEntity="App\Entity\Address", inversedBy="deliveryUser", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Address", inversedBy="user", cascade={"persist", "remove"})
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
-    private $deliveryAddress;
+    private $address;
 
     /**
      * @return Address
      */
-    public function getBillingAddress(): ?Address
+    public function getAddress(): ?Address
     {
-        return $this->billingAddress;
+        return $this->address;
     }
 
     /**
-     * @param Address $billingAddress
+     * @param Address $address
      * @return User
      */
-    public function setBillingAddress(Address $billingAddress):User
+    public function setAddress(Address $address):User
     {
-        $this->billingAddress = $billingAddress;
+        $this->address = $address;
         return $this;
     }
-
-    /**
-     * @return Address
-     */
-    public function getDeliveryAddress(): ?Address
-    {
-        return $this->deliveryAddress;
-    }
-
-    /**
-     * @param Address $deliveryAddress
-     * @return User
-     */
-    public function setDeliveryAddress(Address $deliveryAddress):User
-    {
-        $this->deliveryAddress = $deliveryAddress;
-        return $this;
-    }
-
-    /**
-     * @var Address
-     * @ORM\OneToOne(targetEntity="App\Entity\Address", inversedBy="billingUser", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(onDelete="SET NULL")
-     */
-    private $billingAddress;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

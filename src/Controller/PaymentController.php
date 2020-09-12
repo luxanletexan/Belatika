@@ -39,18 +39,13 @@ class PaymentController extends ParentController
     const STRIPE_METHOD = 'Stripe';
 
     /**
-     * @var ObjectManager
-     */
-    private $em;
-    /**
      * @var User
      */
     private $user;
 
-    public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer, ObjectManager $em, TokenStorageInterface $tokenStorage)
+    public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer, TokenStorageInterface $tokenStorage)
     {
         parent::__construct($googleTranslator, $mailer);
-        $this->em = $em;
         $this->user = $tokenStorage->getToken()->getUser();
     }
 
@@ -80,7 +75,7 @@ class PaymentController extends ParentController
         }
 
         $intent = $event->data->object;
-        $order = $this->em->getRepository(CustomerOrder::class)->getOrderByIntentId($intent->id);
+        $order = $this->getEm()->getRepository(CustomerOrder::class)->getOrderByIntentId($intent->id);
         if (!$order instanceof CustomerOrder) {
             $this->alertAdmin(
                 'Problème site ou client - erreur paiement',
@@ -181,8 +176,8 @@ class PaymentController extends ParentController
             $item = $this->getDoctrine()->getRepository(Item::class)->find($line->getItem()->getId());
             $item->setQuantity($item->getQuantity() - $line->getQuantity());
         }
-        $this->em->persist($order);
-        $this->em->flush();
+        $this->getEm()->persist($order);
+        $this->getEm()->flush();
         $this->fastMail($this->gTrans('Votre commande Belatika'), $order->getUser()->getEmail(), 'mail/confirmedOrder.html.twig', ['order' => $order]);
         $this->fastMail(
             'Nouvelle commande!',

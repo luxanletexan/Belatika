@@ -2,17 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\CustomerOrder;
 use App\Entity\Gift;
 use App\Entity\Item;
+use App\Form\AddressType;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use App\Form\UserAddressesType;
 use App\Entity\Address;
 
 /**
@@ -22,7 +22,6 @@ class CartController extends ParentController
 {
     /**
      * @Route("/")
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
      * @param Request $request
      * @return Response
      */
@@ -53,26 +52,32 @@ class CartController extends ParentController
 
     /**
      * @Route("/livraison/")
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
      * @param Request $request
      * @return Response
      */
     public function delivering(Request $request): Response
     {
-        $form = $this->createForm(UserAddressesType::class, $this->getUser());
+        $em = $this->getEm();
+        $address = new Address();
+        $user = $this->getUser();
+        if ($user) {
+            $lastOrder = $em->getRepository(CustomerOrder::class)->findOneBy(['user' => $user], ['ordered_at' => 'desc']);
+            if ($lastOrder instanceof CustomerOrder && $lastOrder->getAddress() instanceof Address) {
+                $address = clone $lastOrder->getAddress();
+            }
+            $address->setEmail($user->getEmail());
+        }
+
+        $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $sameAddress = $request->get('same-address') === 'on';
-            if ($sameAddress) {
-                $user->setBillingAddress(clone $user->getDeliveryAddress());
-            }
-            $em->persist($user);
-            $em->flush();
+            $address = $form->getData();
+            $session = $request->getSession();
 
-            $this->clearUnusedAddresses();
+            $session->set('guestAddress', $address);
+//            echo '<pre>';
+//            dump($address, $session->get('guestAddress'), $_SESSION);die;
 
             return $this->redirectToRoute('app_order_index');
         }

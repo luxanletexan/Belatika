@@ -12,8 +12,7 @@ class UserAddressesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('deliveryAddress', AddressType::class, ['label' => false])
-            ->add('billingAddress', AddressType::class, ['required' => false, 'label' => false])
+            ->add('address', AddressType::class, ['label' => false])
         ;
     }
 

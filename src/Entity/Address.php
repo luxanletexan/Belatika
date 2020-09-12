@@ -22,84 +22,39 @@ class Address
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="deliveryAddress")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="address")
      */
-    private $deliveryUser;
+    private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="billingAddress")
+     * @ORM\OneToMany(targetEntity="App\Entity\CustomerOrder", mappedBy="address")
      */
-    private $billingUser;
+    private $customerOrder;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CustomerOrder", mappedBy="deliveryAddress")
+     * @ORM\Column(type="string", length=255)
      */
-    private $deliveryCustomerOrder;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CustomerOrder", mappedBy="billingAddress")
-     */
-    private $billingCustomerOrder;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $fullAddress;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $administrative;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $city;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $country;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $countryCode;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $county;
-
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $lat;
-
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $lng;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $value;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $postcode;
+    private $address;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $additional;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $postcode;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $country;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -111,39 +66,19 @@ class Address
      */
     private $lastname;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
     public function __construct()
     {
-        $this->deliveryCustomerOrder = new ArrayCollection();
-        $this->billingCustomerOrder = new ArrayCollection();
+        $this->customerOrder = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getFullAddress(): ?string
-    {
-        return $this->fullAddress;
-    }
-
-    public function setFullAddress(?string $fullAddress): self
-    {
-        $this->fullAddress = $fullAddress;
-
-        return $this;
-    }
-
-    public function getAdministrative(): ?string
-    {
-        return $this->administrative;
-    }
-
-    public function setAdministrative(?string $administrative): self
-    {
-        $this->administrative = $administrative;
-
-        return $this;
     }
 
     public function getCity(): ?string
@@ -170,74 +105,14 @@ class Address
         return $this;
     }
 
-    public function getCountryCode(): ?string
+    public function getAddress(): ?string
     {
-        return $this->countryCode;
+        return $this->address;
     }
 
-    public function setCountryCode(?string $countryCode): self
+    public function setAddress(?string $address): self
     {
-        $this->countryCode = $countryCode;
-
-        return $this;
-    }
-
-    public function getCounty(): ?string
-    {
-        return $this->county;
-    }
-
-    public function setCounty(?string $county): self
-    {
-        $this->county = $county;
-
-        return $this;
-    }
-
-    public function getLat(): ?float
-    {
-        return $this->lat;
-    }
-
-    public function setLat(?float $lat): self
-    {
-        $this->lat = $lat;
-
-        return $this;
-    }
-
-    public function getLng(): ?float
-    {
-        return $this->lng;
-    }
-
-    public function setLng(?float $lng): self
-    {
-        $this->lng = $lng;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
-
-    public function setValue(?string $value): self
-    {
-        $this->value = $value;
+        $this->address = $address;
 
         return $this;
     }
@@ -254,26 +129,14 @@ class Address
         return $this;
     }
 
-    public function getDeliveryUser(): ?User
+    public function getUser(): ?User
     {
-        return $this->deliveryUser;
+        return $this->user;
     }
 
-    public function setDeliveryUser(?User $deliveryUser): self
+    public function setUser(?User $user): self
     {
-        $this->deliveryUser = $deliveryUser;
-
-        return $this;
-    }
-
-    public function getBillingUser(): ?User
-    {
-        return $this->billingUser;
-    }
-
-    public function setBillingUser(?User $billingUser): self
-    {
-        $this->billingUser = $billingUser;
+        $this->user = $user;
 
         return $this;
     }
@@ -288,19 +151,6 @@ class Address
         $this->additional = $additional;
 
         return $this;
-    }
-
-    public function isFullyFilled()
-    {
-        $requiredFields = ['city', 'country', 'countryCode', 'county', 'value', 'postcode'];
-
-        foreach ($requiredFields as $field) {
-            if (is_null($this->$field)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public function getFirstname(): ?string
@@ -330,61 +180,42 @@ class Address
     /**
      * @return Collection|CustomerOrder[]
      */
-    public function getDeliveryCustomerOrder(): Collection
+    public function getCustomerOrder(): Collection
     {
-        return $this->deliveryCustomerOrder;
+        return $this->customerOrder;
     }
 
-    public function addDeliveryCustomerOrder(CustomerOrder $deliveryCustomerOrder): self
+    public function addCustomerOrder(CustomerOrder $customerOrder): self
     {
-        if (!$this->deliveryCustomerOrder->contains($deliveryCustomerOrder)) {
-            $this->deliveryCustomerOrder[] = $deliveryCustomerOrder;
-            $deliveryCustomerOrder->setDeliveryAddress($this);
+        if (!$this->customerOrder->contains($customerOrder)) {
+            $this->customerOrder[] = $customerOrder;
+            $customerOrder->setDeliveryAddress($this);
         }
 
         return $this;
     }
 
-    public function removeDeliveryCustomerOrder(CustomerOrder $deliveryCustomerOrder): self
+    public function removeCustomerOrder(CustomerOrder $customerOrder): self
     {
-        if ($this->deliveryCustomerOrder->contains($deliveryCustomerOrder)) {
-            $this->deliveryCustomerOrder->removeElement($deliveryCustomerOrder);
+        if ($this->customerOrder->contains($customerOrder)) {
+            $this->customerOrder->removeElement($customerOrder);
             // set the owning side to null (unless already changed)
-            if ($deliveryCustomerOrder->getDeliveryAddress() === $this) {
-                $deliveryCustomerOrder->setDeliveryAddress(null);
+            if ($customerOrder->getDeliveryAddress() === $this) {
+                $customerOrder->setDeliveryAddress(null);
             }
         }
 
         return $this;
     }
 
-    /**
-     * @return Collection|CustomerOrder[]
-     */
-    public function getBillingCustomerOrder(): Collection
+    public function getEmail(): ?string
     {
-        return $this->billingCustomerOrder;
+        return $this->email;
     }
 
-    public function addBillingCustomerOrder(CustomerOrder $billingCustomerOrder): self
+    public function setEmail(string $email): self
     {
-        if (!$this->billingCustomerOrder->contains($billingCustomerOrder)) {
-            $this->billingCustomerOrder[] = $billingCustomerOrder;
-            $billingCustomerOrder->setBillingAddress($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBillingCustomerOrder(CustomerOrder $billingCustomerOrder): self
-    {
-        if ($this->billingCustomerOrder->contains($billingCustomerOrder)) {
-            $this->billingCustomerOrder->removeElement($billingCustomerOrder);
-            // set the owning side to null (unless already changed)
-            if ($billingCustomerOrder->getBillingAddress() === $this) {
-                $billingCustomerOrder->setBillingAddress(null);
-            }
-        }
+        $this->email = $email;
 
         return $this;
     }
