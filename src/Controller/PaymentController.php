@@ -91,12 +91,11 @@ class PaymentController extends ParentController
         } elseif ($event->type === "payment_intent.payment_failed") {
             $intent = $event->data->object;
             $error_message = $intent->last_payment_error ? $intent->last_payment_error->message : "";
-            $user = $order->getUser();
             $this->alertAdmin(
                 'Problème site ou client - echec paiement',
-                'L\erreur suivante est survenue lorque l\'utilisateur '.$user->getRealname().' a voulu payer: '.$error_message
+                'L\erreur suivante est survenue lorque l\'utilisateur '.$order->getAddress()->getFirstname().' '.$order->getAddress()->getLastname().' a voulu payer: '.$error_message
             );
-            $this->fastMail('Echec de paiement', $user->getEmail(), 'mail/failPayment.html.twig');
+            $this->fastMail('Echec de paiement', $order->getAddress()->getEmail(), 'mail/failPayment.html.twig');
             return new Response("Failed: ".$intent->id.", ".$error_message, 200);
         }
         return $this->redirectToRoute('app_order_index');
