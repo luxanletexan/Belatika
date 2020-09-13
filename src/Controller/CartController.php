@@ -75,9 +75,7 @@ class CartController extends ParentController
             $address = $form->getData();
             $session = $request->getSession();
 
-            $session->set('guestAddress', $address);
-//            echo '<pre>';
-//            dump($address, $session->get('guestAddress'), $_SESSION);die;
+            $session->set('address', $address);
 
             return $this->redirectToRoute('app_order_index');
         }

@@ -32,7 +32,8 @@ class OrderController extends ParentController
     public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer, TokenStorageInterface $tokenStorage)
     {
         parent::__construct($googleTranslator, $mailer);
-        $this->user = $tokenStorage->getToken()->getUser();
+        $user = $tokenStorage->getToken()->getUser();
+        $this->user = $user instanceof User ? $user : null;
     }
 
     /**
@@ -58,8 +59,8 @@ class OrderController extends ParentController
             $order = $this->createOrder($session);
             $this->getEm()->persist($order);
             $this->getEm()->flush();
-            $session->remove('cart');
-            $session->remove('gift');
+
+            $session->set('orderId', $order->getId());
         } else {
             $order = $pendingOrder;
         }
@@ -121,24 +122,13 @@ class OrderController extends ParentController
      */
     private function createOrder(SessionInterface $session): CustomerOrder
     {
-
         $items = $session->get('cart');
         $gift = $session->get('gift');
-        $address = $session->get('guestAddress');
+        $address = $session->get('address');
 
         $gift = $this->checkGift($gift);
         $order = new CustomerOrder();
-        $order
-//            ->setUser($this->user)
-//            ->setDeliveryAddress(clone $this->user->getDeliveryAddress())
-//            ->setBillingAddress(clone $this->user->getBillingAddress())
-            ->setGift($gift);
-
-        if ($this->user instanceof User) {
-            $order->setUser($this->user)->setAddress(clone $this->user->getAddress());
-        } else {
-            $order->setAddress($address);
-        }
+        $order->setUser($this->user)->setAddress($address)->setGift($gift);
 
         foreach ($items as $cartItem) {
             $item = $this->getEm()->getRepository(Item::class)->find($cartItem->getId());
@@ -150,6 +140,10 @@ class OrderController extends ParentController
                 ->setDiscount($this->onSales() ? $item->getDiscount() : 0);
             $order->addCustomerOrderLine($orderLine);
         }
+
+        $session->remove('cart');
+        $session->remove('gift');
+        $session->remove('address');
 
         return $order;
     }
