@@ -71,9 +71,15 @@ class Address
      */
     private $email;
 
+    /**
+     * @ORM\Column(type="string", length=2)
+     */
+    private $CountryCode;
+
     public function __construct()
     {
         $this->customerOrder = new ArrayCollection();
+        $this->CountryCode = 'FR';
     }
 
     public function getId(): ?int
@@ -189,7 +195,7 @@ class Address
     {
         if (!$this->customerOrder->contains($customerOrder)) {
             $this->customerOrder[] = $customerOrder;
-            $customerOrder->setDeliveryAddress($this);
+            $customerOrder->setAddress($this);
         }
 
         return $this;
@@ -200,8 +206,8 @@ class Address
         if ($this->customerOrder->contains($customerOrder)) {
             $this->customerOrder->removeElement($customerOrder);
             // set the owning side to null (unless already changed)
-            if ($customerOrder->getDeliveryAddress() === $this) {
-                $customerOrder->setDeliveryAddress(null);
+            if ($customerOrder->getAddress() === $this) {
+                $customerOrder->setAddress(null);
             }
         }
 
@@ -216,6 +222,18 @@ class Address
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getCountryCode(): ?string
+    {
+        return $this->CountryCode;
+    }
+
+    public function setCountryCode(string $CountryCode): self
+    {
+        $this->CountryCode = $CountryCode;
 
         return $this;
     }

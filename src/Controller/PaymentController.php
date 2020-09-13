@@ -45,7 +45,8 @@ class PaymentController extends ParentController
     public function __construct(GoogleTranslator $googleTranslator, Swift_Mailer $mailer, TokenStorageInterface $tokenStorage)
     {
         parent::__construct($googleTranslator, $mailer);
-        $this->user = $tokenStorage->getToken()->getUser();
+        $user = $tokenStorage->getToken()->getUser();
+        $this->user = $user instanceof User ? $user : null;
     }
 
     /**
@@ -108,7 +109,13 @@ class PaymentController extends ParentController
      */
     public function paypal(Request $request)
     {
-        $order = $this->getPendingOrder($this->user, ['gift', 'payment', ['customerOrderLines', 'item']]);
+        if ($this->user) {
+            $order = $this->getPendingOrder($this->user, ['gift', 'payment', ['customerOrderLines', 'item']]);
+        } else {
+            $session = $this->getSessionFrom($request);
+            $orderId = $session->get('orderId');
+            $order = $this->getEm()->getRepository(CustomerOrder::class)->find($orderId);
+        }
 
         if ($order === null) {
             $this->addFlash('danger', $this->gTrans('Une erreur est survenue au moment de vérifier votre commande. Aucun paiement n\'a été effectué.'));
@@ -156,6 +163,7 @@ class PaymentController extends ParentController
                 $paypalPayment->create($apiContext);
                 return $this->redirect($paypalPayment->getApprovalLink());
             } catch (\Exception $e) {
+                dump($e);die;
                 $message = $e instanceof PayPalConnectionException ? json_decode($e->getData())->message : $e->getMessage();
                 $this->addFlash('warning', $this->gTrans($message, true));
                 return $this->redirectToRoute('app_order_index');
@@ -177,7 +185,7 @@ class PaymentController extends ParentController
         }
         $this->getEm()->persist($order);
         $this->getEm()->flush();
-        $this->fastMail($this->gTrans('Votre commande Belatika'), $order->getUser()->getEmail(), 'mail/confirmedOrder.html.twig', ['order' => $order]);
+        $this->fastMail($this->gTrans('Votre commande Belatika'), $order->getAddress()->getEmail(), 'mail/confirmedOrder.html.twig', ['order' => $order]);
         $this->fastMail(
             'Nouvelle commande!',
             [getenv('ADMIN_MAIL'), getenv('DEV_MAIL')],
@@ -189,21 +197,20 @@ class PaymentController extends ParentController
 
     private function getTransaction(CustomerOrder $order): Transaction
     {
-        $deliveryAddress = $order->getDeliveryAddress();
+        $address = $order->getAddress();
         $itemList = new ItemList();
-        if ($deliveryAddress->isFullyFilled()) {
-            $shippingAddress = new ShippingAddress();
-            $shippingAddress
-                ->setLine1($deliveryAddress->getValue())
-                ->setLine2($deliveryAddress->getAdditional())
-                ->setCity($deliveryAddress->getCity())
-                ->setCountryCode(strtoupper($deliveryAddress->getCountryCode()))
-                ->setPostalCode($deliveryAddress->getPostcode())
-                ->setState($deliveryAddress->getCountry())
-                ->setRecipientName($order->getUser()->getRealname());
+        $shippingAddress = new ShippingAddress();
 
-            $itemList->setShippingAddress($shippingAddress);
-        }
+        $shippingAddress
+            ->setLine1($address->getAddress())
+            ->setLine2($address->getAdditional())
+            ->setPostalCode($address->getPostcode())
+            ->setCity($address->getCity())
+            ->setState($address->getCountry())
+            ->setCountryCode($address->getCountryCode())
+            ->setRecipientName($address->getFirstname() . ' ' . $address->getLastname());
+
+        $itemList->setShippingAddress($shippingAddress);
 
         $customerOrderLines = $order->getCustomerOrderLines();
         $subTotal = 0;

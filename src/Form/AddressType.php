@@ -20,10 +20,11 @@ class AddressType extends AbstractType
             ->add('lastname', TextType::class, ['label' => false])
             ->add('email', EmailType::class, ['label' => false])
             ->add('address', SearchType::class, ['label' => false])
-            ->add('additional', TextType::class, ['label' => false])
+            ->add('additional', TextType::class, ['label' => false, 'required' => false])
             ->add('city', TextType::class, ['label' => false])
             ->add('country', TextType::class, ['label' => false])
             ->add('postcode', TextType::class, ['label' => false])
+            ->add('countryCode', HiddenType::class)
         ;
     }
 

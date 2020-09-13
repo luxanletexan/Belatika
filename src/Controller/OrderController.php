@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Gift;
 use App\Entity\Item;
 use App\Entity\CustomerOrder;
 use App\Entity\CustomerOrderLine;
@@ -109,10 +108,15 @@ class OrderController extends ParentController
 
     /**
      * @Route("/confirmation")
+     * @param Request $request
      * @return Response
      */
-    public function confirmation()
+    public function confirmation(Request $request)
     {
+        $session = $this->getSessionFrom($request);
+        $session->remove('cart');
+        $session->remove('gift');
+        $session->remove('address');
         return $this->render($this->getTemplate('order/confirmation.html.twig'));
     }
 
@@ -140,10 +144,6 @@ class OrderController extends ParentController
                 ->setDiscount($this->onSales() ? $item->getDiscount() : 0);
             $order->addCustomerOrderLine($orderLine);
         }
-
-        $session->remove('cart');
-        $session->remove('gift');
-        $session->remove('address');
 
         return $order;
     }

@@ -27,9 +27,12 @@
 {% block title %}Nouvelle commande{% endblock %}
 {% block content %}
     <ul>
-        <li>Client: {{ order.billingAddress.firstname }} {{ order.billingAddress.lastname }}</li>
-        <li>Mail: {{ order.user.email }}</li>
-        <li>Adresse de livraison: {{ order.billingAddress.fullAddress }} {{ order.billingAddress.postcode }} {{ order.billingAddress.city }}</li>
+        <li>Client: {{ order.address.firstname }} {{ order.address.lastname }}</li>
+        <li>Mail: {{ order.address.email }}</li>
+        <li>{{ order.address.address }}</li>
+        <li>{{ order.address.additional }}</li>
+        <li>{{ order.address.postcode }} {{ order.address.city }}</li>
+        <li>{{ order.address.country }}</li>
     </ul>
     <table class="table">
         <thead>
