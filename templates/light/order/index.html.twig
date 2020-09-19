@@ -32,6 +32,13 @@
                             </td>
                         </tr>
                     {% endfor %}
+                    <tr>
+                        <td data-label="{{ 'Article'|gTrans }}">{{ 'Frais de port'|gTrans }}</td>
+                        <td data-label="{{ 'Référence'|gTrans }}"></td>
+                        <td data-label="{{ 'Quantité'|gTrans }}">1</td>
+                        <td data-label="{{ 'Prix unitaire'|gTrans }}">0,00€</td>
+                        <td data-label="{{ 'Sous-total'|gTrans }}">0,00€</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -58,7 +65,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <h2>Choisir mon moyen de paiement</h2>
+                <h2>{{ "Choisir mon moyen de paiement"|gTrans }} - Total: {{ (order.total - order.giftValueUsed)|number_format(2, ',') }}€</h2>
             </div>
             <div class="col-12">
                 <div class="payment-method payment-method--stripe selected">

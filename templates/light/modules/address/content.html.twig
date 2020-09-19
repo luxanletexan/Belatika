@@ -38,7 +38,7 @@
         {{ form_errors(form.address) }}
     </div>
     <div class="address-field mt-2">
-        {{ form_widget(form.additional, {'attr': {'class': 'form-control', 'placeholder': 'Votre complément d\'adresse'|gTrans|capitalize}}) }}
+        {{ form_widget(form.additional, {'attr': {'class': 'form-control', 'autocomplete': 'no', 'placeholder': 'Votre complément d\'adresse'|gTrans|capitalize}}) }}
         {{ form_errors(form.additional) }}
     </div>
     <div class="form-group row mt-2">

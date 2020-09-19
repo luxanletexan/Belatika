@@ -128,6 +128,8 @@ export default class Cart {
             this.shoppingBag.appendChild(itemListElt);
             count += item.quantity;
         });
+        let shippingFeeListElt = this.createShoppingBagItem({isShippingFee: true, name: 'Frais de port'});
+        this.shoppingBag.appendChild(shippingFeeListElt);
         if (total > 0) {
             let shoppingBagTotal = this.createShoppingBagTotal(total);
             this.shoppingBag.appendChild(shoppingBagTotal);
@@ -151,32 +153,45 @@ export default class Cart {
     createShoppingBagItem(item)
     {
         let itemContainer = this.createElementWithClasses('div', this.options.shopping_bag_item_class);
-        let itemLink = this.createElementWithClasses('a', this.options.shopping_bag_item_class+'__link');
-        itemLink.href = item.link;
-        itemLink.setAttribute('title', item.name);
-        let itemImage = this.createElementWithClasses('img');
-        itemImage.src = item.images[0].cachePath;
-        itemImage.alt = item.images[0].alt;
+        if (item.isShippingFee) {
+            let span = this.createElementWithClasses('span', this.options.shopping_bag_item_class+'__link');
+            let itemImage = this.createElementWithClasses('i', ['fas', 'fa-shipping-fast']);
+            span.appendChild(itemImage);
+            span.appendChild(document.createTextNode(' '+item.name));
+            itemContainer.appendChild(span);
+        } else {
+            let itemImage = this.createElementWithClasses('img');
+            itemImage.src = item.images[0].cachePath;
+            itemImage.alt = item.images[0].alt;
+
+            let itemLink = this.createElementWithClasses('a', this.options.shopping_bag_item_class+'__link');
+            itemLink.href = item.link;
+            itemLink.setAttribute('title', item.name);
+            itemLink.appendChild(itemImage);
+            itemLink.appendChild(document.createTextNode(' '+item.name));
+            itemContainer.appendChild(itemLink);
+        }
         let itemPrice = this.createElementWithClasses('span', this.options.shopping_bag_item_class+'__price');
-        let price = this.onSales ? item.discountPrice : item.price;
+        let price = item.isShippingFee ? 0 : this.onSales ? item.discountPrice : item.price;
         itemPrice.innerText = new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(price);
         let itemRemove = this.createElementWithClasses('i', ['remove-item', 'far', 'fa-window-close']);
         itemRemove.setAttribute('data-item_id', item.id);
         itemRemove.setAttribute('data-remove_item_url', item.removeLink);
         itemRemove.addEventListener('click', this.onShoppingBagButtonClick.bind(this, itemRemove));
 
-        itemLink.appendChild(itemImage);
-        itemLink.appendChild(document.createTextNode(' '+item.name));
-        itemContainer.appendChild(itemLink);
         itemContainer.appendChild(itemPrice);
         if (this.options.popup) {
             let clonedItem = itemContainer.cloneNode(true);
-            let clonedItemRemove = itemRemove.cloneNode(true);
-            clonedItemRemove.addEventListener('click', this.onShoppingBagButtonClick.bind(this, clonedItemRemove));
-            clonedItem.appendChild(clonedItemRemove);
+            if (!item.isShippingFee) {
+                let clonedItemRemove = itemRemove.cloneNode(true);
+                clonedItemRemove.addEventListener('click', this.onShoppingBagButtonClick.bind(this, clonedItemRemove));
+                clonedItem.appendChild(clonedItemRemove);
+            }
             this.options.popup.import(clonedItem);
         }
-        itemContainer.appendChild(itemRemove);
+        if (!item.isShippingFee) {
+            itemContainer.appendChild(itemRemove);
+        }
         return itemContainer;
     }
 

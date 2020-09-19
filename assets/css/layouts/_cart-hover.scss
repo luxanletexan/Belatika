@@ -1,7 +1,7 @@
 .cart-hover {
   position: absolute;
   top: 100%;
-  right: 0;
+  right: -45px;
   max-width: 90vw;
   background-color: white;
   z-index: 100;
@@ -9,6 +9,9 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity .2s ease-in-out;
+  @include media-breakpoint-up(sm) {
+    right: 0;
+  }
   &__item {
     display: flex;
     justify-content: flex-end;

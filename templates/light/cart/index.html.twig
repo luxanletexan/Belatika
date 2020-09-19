@@ -63,6 +63,12 @@
                                 <td class="cart-content__item__remove"><a class="text-dark" href="{{ path('app_cart_removegift') }}" title="{{ 'Retirer cette carte cadeau.'|gTrans }}"><i class="fas fa-trash-alt"></i></a></td>
                             </tr>
                         {% endif %}
+                            <tr class="cart-content__item">
+                                <td class="cart-content__item__image"><i class="fas fa-shipping-fast"></i></td>
+                                <td>{{ 'Frais de port'|gTrans }}</td>
+                                <td class="cart-content__item__price">0,00€</td>
+                                <td class="cart-content__item__remove"></td>
+                            </tr>
                         </tbody>
                         <tfoot>
                             <tr class="cart-content__item total">
