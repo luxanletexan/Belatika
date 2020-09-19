@@ -25,18 +25,12 @@ class ShopController extends ParentController
     public function index():Response
     {
         $doctrine = $this->getDoctrine();
-
-        $sliderItems = $doctrine->getRepository(Item::class)->findAllWithImages(['forSlider' => true]);
-        $limit = 12;
-        if (is_array($sliderItems)) {
-            $sliderItems = array_slice($sliderItems, 0, $limit);
-        }
         $blogArticle = $doctrine->getRepository(BlogArticle::class)->findLastWithComments();
 
-        $orders = $this->getDoctrine()->getRepository(CustomerOrder::class)->findBy(['rating' => [1,2,3,4,5]]);
-        $etsyFeedbacks = $this->getDoctrine()->getRepository(EtsyFeedback::class)->findBy(['value' => 1]);
+        $orders = $doctrine->getRepository(CustomerOrder::class)->findBy(['rating' => [1,2,3,4,5]]);
+        $etsyFeedbacks = $doctrine->getRepository(EtsyFeedback::class)->findBy(['value' => 1]);
 
-        $etsySales = $this->getDoctrine()->getRepository(EtsySale::class)->findAll();
+        $etsySales = $doctrine->getRepository(EtsySale::class)->findAll();
         $customerCountries = [
             'GP',
             'NG',
@@ -55,7 +49,6 @@ class ShopController extends ParentController
         return $this->render(
             $this->getTemplate('shop/index.html.twig'),
             [
-                'sliderItems' => $sliderItems,
                 'blogArticle' => $blogArticle,
                 'reviews' => $reviews,
                 'customerCountries' => implode(',', $customerCountries),
