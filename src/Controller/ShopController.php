@@ -10,6 +10,7 @@ use App\Entity\EtsyFeedback;
 use App\Entity\EtsySale;
 use App\Entity\Item;
 use App\Entity\Range;
+use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,12 +21,19 @@ class ShopController extends ParentController
 {
     /**
      * @Route("/")
+     * @param FilterService $filterService
      * @return Response
      */
-    public function index():Response
+    public function index(FilterService $filterService):Response
     {
         $doctrine = $this->getDoctrine();
         $blogArticle = $doctrine->getRepository(BlogArticle::class)->findLastWithComments();
+        $blogContent = $blogArticle->getContent();
+        if (preg_match('#(https?://(?:local)?belatika.com/)(img/blog/[^"]*)"#', $blogContent, $matches)) {
+            $resized = $filterService->getUrlOfFilteredImage($matches[2], 'large');
+            $blogContent = str_replace($matches[1].$matches[2], $resized, $blogContent);
+            $blogArticle->setContent($blogContent);
+        }
 
         $orders = $doctrine->getRepository(CustomerOrder::class)->findBy(['rating' => [1,2,3,4,5]]);
         $etsyFeedbacks = $doctrine->getRepository(EtsyFeedback::class)->findBy(['value' => 1]);

@@ -77,6 +77,9 @@ services:
     Liip\ImagineBundle\Imagine\Cache\CacheManager:
         alias: 'liip_imagine.cache.manager'
 
+    Liip\ImagineBundle\Service\FilterService:
+        alias: 'liip_imagine.service.filter'
+
     App\EventListener\RequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
