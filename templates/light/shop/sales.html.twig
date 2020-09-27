@@ -1,9 +1,0 @@
-{% extends shop_settings.template ~ "/layout.html.twig" %}
-{% block meta_title %}{{ 'Soldes'|gTrans }}{% endblock %}
-{% block title %}{{ 'Soldes'|gTrans }}{% endblock %}
-{% block head %}
-    <meta name="description" content="{{ "Profitez des bijoux en solde: bagues, bracelets, boucles d'oreilles, colliers à prix réduits!"|gTransDB }}">
-{% endblock %}
-{% block content %}
-    {{ include(shop_settings.template ~ '/modules/items.html.twig') }}
-{% endblock %}

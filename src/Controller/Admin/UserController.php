@@ -22,7 +22,7 @@ class UserController extends AdminController
     {
         $users = $this->getDoctrine()->getManager()->getRepository(User::class)->findBy([], ['id' => 'desc']);
 
-        return $this->render($this->getTemplate('admin/user/index.html.twig'), ['users' => $users]);
+        return $this->render('admin/user/index.html.twig', ['users' => $users]);
     }
 
     /**

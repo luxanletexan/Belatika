@@ -91,7 +91,7 @@ class ItemController extends AdminController
             ->setCurrentPage($page)
             ->setMaxPerPage(100);
 
-        return $this->render($this->getTemplate('admin/item/index.html.twig'), [
+        return $this->render('admin/item/index.html.twig', [
             'items' => $items,
         ]);
     }
@@ -114,7 +114,7 @@ class ItemController extends AdminController
             return $this->redirectToRoute('app_admin_item_items');
         }
 
-        return $this->render($this->getTemplate('admin/item/edit.html.twig'), [
+        return $this->render('admin/item/edit.html.twig', [
             'form' => $form->createView(),
             'title' => 'Créer un bijou'
         ]);
@@ -138,7 +138,7 @@ class ItemController extends AdminController
             $em->flush();
         }
 
-        return $this->render($this->getTemplate('admin/item/edit.html.twig'), [
+        return $this->render('admin/item/edit.html.twig', [
             'form' => $form->createView(),
             'item' => $item,
             'title' => 'Modifier un bijou'

@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 /**
  * @Route("/commande")
  */
-class OrderController extends ParentController
+class OrderController extends AbstractController
 {
     /**
      * @var User
@@ -99,7 +99,7 @@ class OrderController extends ParentController
             $this->getEm()->flush();
         }
 
-        return $this->render($this->getTemplate('order/index.html.twig'), [
+        return $this->render('order/index.html.twig', [
             'order' => $order,
             'stripe_public_key' => getenv('APP_ENV') === 'prod' ? getenv('STRIPE_PUBLIC_KEY') : getenv('STRIPE_PUBLIC_KEY_TEST'),
             'stripe_intent_secret' => $intent->client_secret
@@ -117,7 +117,7 @@ class OrderController extends ParentController
         $session->remove('cart');
         $session->remove('gift');
         $session->remove('address');
-        return $this->render($this->getTemplate('order/confirmation.html.twig'));
+        return $this->render('order/confirmation.html.twig');
     }
 
     /**

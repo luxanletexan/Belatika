@@ -1,9 +1,0 @@
-{% extends shop_settings.template ~ "/layout.html.twig" %}
-{% block meta_title %}{{ customers|gTrans }}{% endblock %}
-{% block title %}{{ customers|gTrans }}{% endblock %}
-{% block head %}
-    <meta name="description" content="{{ "Tous les " ~ customers ~ " de la boutique Belatika"|gTransDB }}">
-{% endblock %}
-{% block content %}
-    {{ include(shop_settings.template ~ '/modules/items.html.twig') }}
-{% endblock %}

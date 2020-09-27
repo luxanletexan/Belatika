@@ -1,0 +1,50 @@
+{% extends "/layout.admin.html.twig" %}
+{% block meta_title %}Commandes{% endblock %}
+{% block content %}
+    <div class="dashboard-item">
+        <div class="dashboard-item__heading">
+            Commandes
+        </div>
+        <div class="dashboard-item__content">
+            <table  class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>Ref</th>
+                        <th>Date</th>
+                        <th>Montant</th>
+                        <th>Commande</th>
+                        <th>Envoi</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.reference }}</td>
+                            <td>{{ order.orderedAt|date('d/m/Y H:i') }}</td>
+                            <td class="text-right">{{ order.total|number_format(2, ',') }}€</td>
+                            <td class="text-right">
+                                {% if order.reference %}
+                                    <a href="{{ path('app_user_order', {'reference':order.reference}) }}" target="_blank"><i class="fas fa-file-export"></i></a>
+                                {% else %}
+
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if order.isValid and not order.isSent %}
+                                    <form action="{{ path('app_admin_order_send', {'reference':order.reference}) }}" method="POST">
+                                        <input type="text" name="tracking_number" placeholder="Numéro suivi">
+                                        <button onclick="return confirm('Envoyer le mail au client?')">Valider</button>
+                                    </form>
+                                {% elseif order.isValid and order.isSent and order.trackingNumber %}
+                                    <a target="_blank" href="https://www.laposte.fr/outils/suivre-vos-envois?code={{ order.trackingNumber }}">{{ order.trackingNumber }}</a>
+                                {% endif %}
+                            </td>
+                            <td>{{ order.shippingStatus }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

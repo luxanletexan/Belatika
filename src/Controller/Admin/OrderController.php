@@ -36,7 +36,7 @@ class OrderController extends AdminController
             }
         }
 
-        return $this->render($this->getTemplate('admin/order/index.html.twig'), ['orders' => $orders]);
+        return $this->render('admin/order/index.html.twig', ['orders' => $orders]);
     }
 
 

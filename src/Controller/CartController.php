@@ -18,7 +18,7 @@ use App\Entity\Address;
 /**
  * @Route("/panier")
  */
-class CartController extends ParentController
+class CartController extends AbstractController
 {
     /**
      * @Route("/")
@@ -47,7 +47,7 @@ class CartController extends ParentController
         $cart = $session->get('cart');
         $total = $this->getTotal($cart, $gift);
 
-        return $this->render($this->getTemplate('cart/index.html.twig'), ['isOrdering' => $isOrdering, 'gift' => $gift, 'total' => $total]);
+        return $this->render('cart/index.html.twig', ['isOrdering' => $isOrdering, 'gift' => $gift, 'total' => $total]);
     }
 
     /**
@@ -80,7 +80,7 @@ class CartController extends ParentController
             return $this->redirectToRoute('app_order_index');
         }
 
-        return $this->render($this->getTemplate('cart/delivering.html.twig'), [
+        return $this->render('cart/delivering.html.twig', [
             'form' => $form->createView(),
         ]);
     }

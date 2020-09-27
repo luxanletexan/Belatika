@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * @Route("/blog")
  */
-class BlogController extends ParentController
+class BlogController extends AbstractController
 {
     /**
      * @Route("/")
@@ -30,7 +30,7 @@ class BlogController extends ParentController
 
         $this->breadcrumb[] = ['title' => 'Blog'];
 
-        return $this->render($this->getTemplate('blog/index.html.twig'), ['blogArticles' => $blogArticles]);
+        return $this->render('blog/index.html.twig', ['blogArticles' => $blogArticles]);
     }
 
     /**
@@ -64,7 +64,7 @@ class BlogController extends ParentController
         $this->breadcrumb[] = ['title' => $blogArticle->getTitle()];
 
 
-        return $this->render($this->getTemplate('blog/article.html.twig'), [
+        return $this->render('blog/article.html.twig', [
             'blogArticle' => $blogArticle,
             'participants' => $participants,
         ]);

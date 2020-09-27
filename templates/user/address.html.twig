@@ -1,0 +1,14 @@
+{% extends "/layout.html.twig" %}
+{% block head %}
+    {{ block('head', '/modules/address/head.html.twig') }}
+{% endblock %}
+{% block title %}{{ 'Gérer mes adresses'|gTrans|capitalize }}{% endblock %}
+{% block meta_title %}{{ 'Gérer mes adresses'|gTrans|capitalize }}{% endblock %}
+{% block content %}
+    <div class="container my-3">
+        {% include '/modules/address/content.html.twig' with {
+            validate : { url : path('app_user_address'), name : 'Enregistrer' },
+            back : { url : path('fos_user_profile_show'), name : 'Retour' }
+        } %}
+    </div>
+{% endblock %}

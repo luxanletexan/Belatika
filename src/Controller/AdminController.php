@@ -12,7 +12,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * @Route("/admin")
  */
-class AdminController extends ParentController
+class AdminController extends AbstractController
 {
     private $settingsFile;
 
@@ -22,7 +22,7 @@ class AdminController extends ParentController
      */
     public function index()
     {
-        return $this->render($this->getTemplate('admin/index.html.twig'));
+        return $this->render('admin/index.html.twig');
     }
 
     /**

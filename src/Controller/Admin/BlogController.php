@@ -28,7 +28,7 @@ class BlogController extends AdminController
 
         $blogArticles = $manager->getRepository(BlogArticle::class)->findAllWithComments(false);
 
-        return $this->render($this->getTemplate('admin/blog/index.html.twig'), [
+        return $this->render('admin/blog/index.html.twig', [
             'blogArticles' => $blogArticles,
         ]);
     }
@@ -65,7 +65,7 @@ class BlogController extends AdminController
         }
 
 
-        return $this->render($this->getTemplate('admin/blog/edit.html.twig'), [
+        return $this->render('admin/blog/edit.html.twig', [
             'blogArticle' => $blogArticle,
             'form' => $form->createView()
         ]);
@@ -89,7 +89,7 @@ class BlogController extends AdminController
             return $this->redirectToRoute('app_admin_blog_blog');
         }
 
-        return $this->render($this->getTemplate('admin/blog/add.html.twig'), [
+        return $this->render('admin/blog/add.html.twig', [
             'form' => $form->createView()
         ]);
     }

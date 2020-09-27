@@ -1,0 +1,30 @@
+{% extends "/layout.html.twig" %}
+{% block meta_title %}{{ 'Blog'|gTrans }}{% endblock %}
+{% block head %}
+    <meta name="description" content="{{ "Je vous parle ici de tous les sujets autour des bijoux ainsi que des évènements spéciaux dans la boutique Belatika."|gTransDB }}">
+    <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/fr.js"></script>
+{% endblock %}
+{% block title %}{{ 'Blog'|gTrans }}{% endblock %}
+{% block content %}
+    <div class="blog-overview">
+        {% for blogArticle in blogArticles %}
+            {% if blogArticle.isPublished or is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_blog_article', {'slug' : blogArticle.slug}) }}" class="blog-overview__article">
+                    <article>
+                        <figure class="blog-overview__article__main-image"><img src="{{ asset(blogArticle.mainImage.src) }}" alt="{{ blogArticle.mainImage.alt }}"></figure>
+                        <div class="blog-overview__article__date">{{ blogArticle.postedAt|date('d/m/Ys') }}</div>
+                        <div class="blog-overview__article__summary">
+                            <h2 class="blog-overview__article__summary__heading">{{ blogArticle.title }}</h2>
+                            <p class="blog-overview__article__summary__content">{{ blogArticle.contentPreview(200)|raw }}...</p>
+                        </div>
+                        <div class="blog-overview__article__footer">
+                            <span class="blog-overview__article__footer__comments"><i class="far fa-comment"></i> {{ blogArticle.blogComments|length }}</span>
+                        </div>
+                    </article>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

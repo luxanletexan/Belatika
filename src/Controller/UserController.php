@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/user")
  */
-class UserController extends ParentController
+class UserController extends AbstractController
 {
     /**
      * @Route("/address")
@@ -44,7 +44,7 @@ class UserController extends ParentController
             return $this->redirectToRoute('fos_user_profile_show');
         }
 
-        return $this->render($this->getTemplate('user/address.html.twig'), [
+        return $this->render('user/address.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -78,7 +78,7 @@ class UserController extends ParentController
         }
 
         if ($pdf) {
-            $html = $this->renderView($this->getTemplate('order/order.pdf.twig'), [
+            $html = $this->renderView('order/order.pdf.twig', [
                 'order' => $customerOrder,
             ]);
 
@@ -95,7 +95,7 @@ class UserController extends ParentController
 
             return $response;
         } else {
-            return $this->render($this->getTemplate('order/order.html.twig'), [
+            return $this->render('order/order.html.twig', [
                 'order' => $customerOrder,
             ]);
         }

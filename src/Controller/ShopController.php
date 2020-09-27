@@ -9,7 +9,6 @@ use App\Entity\CustomerOrder;
 use App\Entity\EtsyFeedback;
 use App\Entity\EtsySale;
 use App\Entity\Item;
-use App\Entity\Range;
 use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
-class ShopController extends ParentController
+class ShopController extends AbstractController
 {
     /**
      * @Route("/")
@@ -55,7 +54,7 @@ class ShopController extends ParentController
         $reviews = array_slice($reviews, 0, 2);
 
         return $this->render(
-            $this->getTemplate('shop/index.html.twig'),
+            'shop/index.html.twig',
             [
                 'blogArticle' => $blogArticle,
                 'reviews' => $reviews,
@@ -79,34 +78,38 @@ class ShopController extends ParentController
         ];
         $this->breadcrumb[] = ['title' => $category->getName()];
 
-        return $this->render($this->getTemplate('shop/category.html.twig'), ['category' => $category, 'items' => $items]);
+        return $this->render('shop/category.html.twig', ['category' => $category, 'items' => $items]);
     }
 
-//    /**
-//     * @Route("/bijoux/soldes", name="app_shop_sales")
-//     * @return Response
-//     */
-//    public function sales():Response
-//    {
-//        $items = $this->getDoctrine()->getRepository(Item::class)->findSales();
-//
-//        $this->breadcrumb[] = ['title' => 'Soldes'];
-//
-//        return $this->render($this->getTemplate('shop/sales.html.twig'), ['items' => $items]);
-//    }
+    /**
+     * @Route("/bijoux/soldes", name="app_shop_sales")
+     * @return Response
+     */
+    public function sales():Response
+    {
+        if (!$this->onSales()) {
+            return $this->redirectToRoute('app_shop_index');
+        }
+
+        $items = $this->getDoctrine()->getRepository(Item::class)->findSales();
+
+        $this->breadcrumb[] = ['title' => 'Soldes'];
+
+        return $this->render('shop/sales.html.twig', ['items' => $items]);
+    }
 
     /**
      * @Route("/bijoux/{customer<femme|homme>}", name="app_shop_customer")
      * @param string $customer
      * @return Response
      */
-    public function customer($customer):Response
+    public function customer(string $customer):Response
     {
         $items = $this->getDoctrine()->getRepository(Item::class)->findCustomerItems($customer);
 
         $this->breadcrumb[] = ['title' => 'Bijoux '.$customer];
 
-        return $this->render($this->getTemplate('shop/customers.html.twig'), ['items' => $items, 'customers' => 'bijoux '.$customer]);
+        return $this->render('shop/customers.html.twig', ['items' => $items, 'customers' => 'bijoux '.$customer]);
     }
 
     /**
@@ -122,21 +125,7 @@ class ShopController extends ParentController
 
         $this->breadcrumb[] = ['title' => trim($search)];
 
-        return $this->render($this->getTemplate('shop/search.html.twig'), ['items' => $items]);
-    }
-
-    /**
-     * @Route("/gamme/{slug}", name="app_shop_range")
-     * @param Range $range
-     * @return Response
-     */
-    public function range(Range $range):Response
-    {
-        $items = $this->getDoctrine()->getRepository(Item::class)->findRangeWithImages($range);
-
-        $this->breadcrumb[] = ['title' => 'Bijoux ' . $range->getName()];
-
-        return $this->render($this->getTemplate('shop/range.html.twig'), ['range' => $range, 'items' => $items]);
+        return $this->render('shop/search.html.twig', ['items' => $items]);
     }
 
     /**
@@ -167,7 +156,7 @@ class ShopController extends ParentController
         ];
         $this->breadcrumb[] = ['title' => $item->getName()];
 
-        return $this->render($this->getTemplate('shop/item.html.twig'), [
+        return $this->render('shop/item.html.twig', [
             'item' => $item,
             'facebookShareUrl' => $facebookShareUrl
         ]);
@@ -180,7 +169,7 @@ class ShopController extends ParentController
     {
         $this->breadcrumb[] = ['title' => 'Conditions générales de vente'];
 
-        return $this->render($this->getTemplate('shop/cgv.html.twig'));
+        return $this->render('shop/cgv.html.twig');
     }
 
     /**
@@ -190,7 +179,7 @@ class ShopController extends ParentController
     {
         $this->breadcrumb[] = ['title' => 'Mentions légales'];
 
-        return $this->render($this->getTemplate('shop/legals.html.twig'));
+        return $this->render('shop/legals.html.twig');
     }
 
     /**
@@ -200,7 +189,7 @@ class ShopController extends ParentController
     {
         $this->breadcrumb[] = ['title' => "Conditions d'utilisation du blog"];
 
-        return $this->render($this->getTemplate('shop/bloginfos.html.twig'));
+        return $this->render('shop/bloginfos.html.twig');
     }
 
     /**
@@ -224,7 +213,7 @@ class ShopController extends ParentController
 
         $this->breadcrumb[] = ['title' => "Avis des clients"];
 
-        return $this->render($this->getTemplate('shop/avis.html.twig'), ['reviews' => $reviews]);
+        return $this->render('shop/avis.html.twig', ['reviews' => $reviews]);
     }
 
     /**

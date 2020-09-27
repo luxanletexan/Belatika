@@ -33,7 +33,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/paiement")
  */
-class PaymentController extends ParentController
+class PaymentController extends AbstractController
 {
     const STRIPE_METHOD = 'Stripe';
 

@@ -1,0 +1,25 @@
+{% extends "/layout.html.twig" %}
+{% block meta_title %}{{ "Conditions d'utilisation du blog"|gTrans }}{% endblock %}
+{% block title %}{{ "Conditions d'utilisation du blog"|gTrans }}{% endblock %}
+{% block head %}
+    <link rel="canonical" href="{{ absolute_url(path('app_shop_bloginfos')) }}">
+    <meta name="description" content="{{ "Condition d'utilisation du blog de la boutique en ligne de bijoux Belatika"|gTrans }}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2>{{ "L'utilisateur ne doit pas"|gTrans }}:</h2>
+        <ul>
+            <li>{{ "porter atteinte ou être contraire à l'ordre public, aux bonnes mœurs ou pouvoir heurter la sensibilité des mineurs"|gTrans|raw }}</li>
+            <li>{{ "porter atteinte de quelque manière que ce soit aux droits à la réputation, à la vie privée, à l'image d'un tiers"|gTrans|raw }}</li>
+            <li>{{ "être dénigrant, diffamatoire, porter atteinte à l'image, à la réputation d'une marque ou d'une quelconque personne physique ou morale, de quelque manière que ce soit"|gTrans|raw }}</li>
+            <li>{{ "présenter un caractère pornographique ou pédophile"|gTrans|raw }}</li>
+            <li>{{ "porter atteinte aux droits de propriété intellectuelle de quelque personne que ce soit"|gTrans|raw }}</li>
+            <li>{{ "inciter à la haine, à la violence, au suicide, au racisme, à l'antisémitisme, à la xénophobie, à l'homophobie, faire l'apologie des crimes de guerre ou des crimes contre l'humanité"|gTrans|raw }}</li>
+            <li>{{ "inciter à commettre un crime, un délit ou un acte de terrorisme"|gTrans|raw }}</li>
+            <li>{{ "inciter à la discrimination d'une personne ou d'un groupe de personnes en raison de son appartenance à une ethnie, à une religion, à une race, ou du fait de son orientation sexuelle ou de son handicap"|gTrans|raw }}</li>
+            <li>{{ "conseiller une pratique douteuse ou frauduleuse"|gTrans|raw }}</li>
+            <li>{{ "partager de lien hypertexte ou faire la publicité ou la promotion d'une société, d'une marque, d'un site, d'un blog ou d'un forum"|gTrans|raw }}</li>
+        </ul>
+        <p>{{ "Belatika se réserve le droit de supprimer tout commentaire inapproprié et si nécessaire la suppression du compte d’un utilisateur irrespectueux de ces règles."|gTrans|raw }}</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "/layout.html.twig" %}
+{% block title %}{{ 'Votre commande'|gTrans }}{% endblock %}
+{% block meta_title %}{{ 'Votre commande'|gTrans }}{% endblock %}
+{% block head %}
+    {{ encore_entry_script_tags('app_user_order') }}
+{% endblock %}
+{% block content %}
+    <div class="container mb-5">
+        <div class="row mt-5">
+            <div>{{ ('Récapitulatif de votre commande du ' ~ order.orderedAt|date('d/m/Y'))|gTrans }}</div>
+            <table class="col-12 table">
+                <thead>
+                    <tr>
+                        <th colspan="2">{{ 'Article'|gTrans }}</th>
+                        <th class="text-right">{{ 'Quantité'|gTrans }}</th>
+                        <th class="text-right">{{ 'Prix'|gTrans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in order.customerOrderLines %}
+                        <tr>
+                            <td><img src="{{ line.item.images|first.webPath|imagine_filter('icon') }}" alt="{{ line.item.images|first.alt }}"></td>
+                            <td>{{ line.item.name }}</td>
+                            <td class="text-right">{{ line.quantity }}</td>
+                            <td class="text-right">{{ line.discountPrice|number_format(2, ',') }}€</td>
+                        </tr>
+                    {% endfor %}
+                    {% if order.gift and order.giftValueUsed %}
+                        <tr>
+                            <td></td>
+                            <td>{{ 'Carte Cadeau' }}</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right">-{{ order.giftValueUsed|number_format(2, ',') }}€</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">{{ 'Total'|gTrans }}</td>
+                        <td class="text-right">{{ order.total|number_format(2, ',') }}€</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="col-12">
+                <a class="btn btn-sm bt-btn--primary float-right" target="_blank" href="{{ path('app_user_order', {'reference' : order.reference}) }}?mode=pdf"><i class="far fa-eye"></i> {{ 'Voir au format PDF'|gTrans }}</a>
+            </div>
+        </div>
+        <div class="row mt-3">
+            {% if not order.rating %}
+                <form id="rate-form" class="col-12" method="post">
+                    <div class="d-flex align-items-center">
+                        <div>{{ 'Laissez un avis'|gTrans }}</div>
+                        <div class="rate-area">
+                            <input type="radio" id="5-star" name="rating" value=5 ><label for="5-star" title="{{ 'Excellent'|gTrans }}">5 stars</label>
+                            <input type="radio" id="4-star" name="rating" value=4 ><label for="4-star" title="{{ 'Super'|gTrans }}">4 stars</label>
+                            <input type="radio" id="3-star" name="rating" value=3 ><label for="3-star" title="{{ 'Bien'|gTrans }}">3 stars</label>
+                            <input type="radio" id="2-star" name="rating" value=2 ><label for="2-star" title="{{ 'Pas'|gTrans }} terrible">2 stars</label>
+                            <input type="radio" id="1-star" name="rating" value=1 ><label for="1-star" title="{{ 'Décevant'|gTrans }}">1 star</label>
+                        </div>
+                        <div id="no-rate-error" class="d-none alert alert-danger">
+                            {{ "Veuillez sélectionner le nombre d'étoiles"|gTrans }}
+                        </div>
+                        <div id="no-comment-error" class="d-none alert alert-danger">
+                            {{ "Vous devez laisser un commentaire"|gTrans }}
+                        </div>
+                    </div>
+                    <textarea autofocus id="content" name="content" class="col-12" rows="10">{% if content is defined %}{{ content }}{% endif %}</textarea>
+
+                    <button type="submit" class="btn bt-btn--primary btn-sm float-right">Envoyer mon avis</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{%  endblock %}
