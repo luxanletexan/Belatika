@@ -14,6 +14,16 @@
     <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('img/resources/og_200829.jpg') }}">
     <meta property="og:image:secure_url" content="{{ app.request.getSchemeAndHttpHost() ~ asset('img/resources/og_200829.jpg') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1/leaflet.css"/>
+    <script type="application/ld+json">
+        {
+            "@type":"Organization",
+            "name":"Belatika bijoux",
+            "logo":"{{ app.request.getSchemeAndHttpHost() ~ asset('img/resources/belatika_logo.png') }}",
+            "@context":"http://schema.org",
+            "url":"{{ app.request.getSchemeAndHttpHost() }}",
+            "email":"contact@belatika.com"
+        }
+    </script>
 {% endblock %}
 {% block content %}
 
