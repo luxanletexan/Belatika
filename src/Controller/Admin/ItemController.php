@@ -146,6 +146,21 @@ class ItemController extends AdminController
     }
 
     /**
+     * @Route("/delete/{id<\d+>}")
+     * @param Item $item
+     * @return Response
+     */
+    public function delete(Item $item)
+    {
+        if ($item->getCustomerOrderLines()->isEmpty()) {
+            $this->getEm()->remove($item);
+            $this->getEm()->flush();
+        }
+
+        return $this->redirectToRoute('app_admin_item_items');
+    }
+
+    /**
      * @Route("/remove/image/{id<\d+>}", methods={"POST"})
      * @param Image $image
      * @return Response

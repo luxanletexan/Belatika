@@ -41,6 +41,11 @@ class Item
     private $ranges;
 
     /**
+     * @ORM\OneToMany(targetEntity="CustomerOrderLine", mappedBy="item")
+     */
+    private $customerOrderLines;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"item"})
      */
@@ -117,6 +122,7 @@ class Item
         $this->created_at = date_create();
         $this->discount = 0;
         $this->ranges = new ArrayCollection();
+        $this->customerOrderLines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -377,5 +383,36 @@ class Item
             . "€ parmis nos "
             . lcfirst($category) . ' ' . lcfirst($customers) .$rangesText
             . ' dans la boutique de bijoux Belatika. Paiement sécurisé et livraison gratuite.';
+    }
+
+    /**
+     * @return Collection|CustomerOrderLine[]
+     */
+    public function getCustomerOrderLines(): Collection
+    {
+        return $this->customerOrderLines;
+    }
+
+    public function addCustomerOrderLine(CustomerOrderLine $customerOrderLine): self
+    {
+        if (!$this->customerOrderLines->contains($customerOrderLine)) {
+            $this->customerOrderLines[] = $customerOrderLine;
+            $customerOrderLine->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerOrderLine(CustomerOrderLine $customerOrderLine): self
+    {
+        if ($this->customerOrderLines->contains($customerOrderLine)) {
+            $this->customerOrderLines->removeElement($customerOrderLine);
+            // set the owning side to null (unless already changed)
+            if ($customerOrderLine->getItem() === $this) {
+                $customerOrderLine->setItem(null);
+            }
+        }
+
+        return $this;
     }
 }
