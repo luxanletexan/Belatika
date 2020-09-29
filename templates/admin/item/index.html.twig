@@ -38,6 +38,8 @@
                                 <td>
                                     {% if item.customerOrderLines.empty %}
                                         <a class="bt-btn bt-btn--danger" title="Supprimer" href="{{ path('app_admin_item_delete', {'id' : item.id, 'page' : items.currentPage}) }}" onclick="return confirm('Supprimer définitivement ce bijoux')"><i class="far fa-trash-alt"></i></a>
+                                    {% else %}
+                                        <a class="bt-btn bt-btn--info" title="Voir les commandes" href="{{ path('app_admin_item_orders', {'id' : item.id}) }}"><i class="fas fa-list"></i></a>
                                     {% endif %}
                                 </td>
                                 <td><a class="bt-btn bt-btn--info" title="Modifier" href="{{ path('app_admin_item_edit', {'id' : item.id}) }}"><i class="far fa-edit"></i></a></td>

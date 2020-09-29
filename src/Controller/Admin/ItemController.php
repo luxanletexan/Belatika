@@ -182,4 +182,26 @@ class ItemController extends AdminController
 
         return $this->json($dataResponse);
     }
+
+    /**
+     * @Route("/orders/{id<\d+>}")
+     * @param Item $item
+     * @return Response
+     */
+    public function orders(Item $item)
+    {
+
+        $lines = $item->getCustomerOrderLines();
+        $orders = [];
+
+        foreach ($lines as $line) {
+            $order = $line->getCustomerOrder();
+            $orders[$order->getId()] = $order;
+        }
+
+        return $this->render('admin/item/orders.html.twig', [
+            'item' => $item,
+            'orders' => $orders,
+        ]);
+    }
 }
