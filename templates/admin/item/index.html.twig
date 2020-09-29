@@ -10,7 +10,7 @@
                 <table class="dashboard-table">
                     <tbody>
                         {% for item in items %}
-                            <tr>
+                            <tr id="row-{{ loop.index }}">
                                 <td class="dashboard-table__image">
                                     <figure>
                                         <img title="Image principale" width="120" src="{{ item.images|first.webPath|imagine_filter('square') }}" alt="{{ item.images|first.alt }}">
@@ -37,7 +37,7 @@
                                 </td>
                                 <td>
                                     {% if item.customerOrderLines.empty %}
-                                        <a class="bt-btn bt-btn--danger" title="Supprimer" href="{{ path('app_admin_item_delete', {'id' : item.id, 'page' : items.currentPage}) }}" onclick="return confirm('Supprimer définitivement ce bijoux')"><i class="far fa-trash-alt"></i></a>
+                                        <a class="bt-btn bt-btn--danger" title="Supprimer" href="{{ path('app_admin_item_delete', {'id' : item.id, 'page' : items.currentPage, 'row' : loop.index}) }}" onclick="return confirm('Supprimer définitivement ce bijoux')"><i class="far fa-trash-alt"></i></a>
                                     {% else %}
                                         <a class="bt-btn bt-btn--info" title="Voir les commandes" href="{{ path('app_admin_item_orders', {'id' : item.id}) }}"><i class="fas fa-list"></i></a>
                                     {% endif %}
