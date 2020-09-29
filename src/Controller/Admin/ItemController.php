@@ -146,18 +146,19 @@ class ItemController extends AdminController
     }
 
     /**
-     * @Route("/delete/{id<\d+>}")
+     * @Route("/delete/{id<\d+>}/{page<\d+>?1}")
      * @param Item $item
+     * @param int $page
      * @return Response
      */
-    public function delete(Item $item)
+    public function delete(Item $item, $page)
     {
         if ($item->getCustomerOrderLines()->isEmpty()) {
             $this->getEm()->remove($item);
             $this->getEm()->flush();
         }
 
-        return $this->redirectToRoute('app_admin_item_items');
+        return $this->redirectToRoute('app_admin_item_items', ['page' => $page]);
     }
 
     /**

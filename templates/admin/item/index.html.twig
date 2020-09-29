@@ -39,7 +39,7 @@
                                 <td><button class="bt-btn bt-btn--success" title="Enregistrer" onclick="return confirm('Enregistrer tous les changements?')"><i class="far fa-save"></i></button></td>
                                 <td>
                                     {% if item.customerOrderLines.empty %}
-                                        <a class="bt-btn bt-btn--danger" title="Supprimer" href="{{ path('app_admin_item_delete', {'id' : item.id}) }}" onclick="return confirm('Supprimer définitivement ce bijoux')"><i class="far fa-trash-alt"></i></a>
+                                        <a class="bt-btn bt-btn--danger" title="Supprimer" href="{{ path('app_admin_item_delete', {'id' : item.id, 'page' : items.currentPage}) }}" onclick="return confirm('Supprimer définitivement ce bijoux')"><i class="far fa-trash-alt"></i></a>
                                     {% endif %}
                                 </td>
                             </tr>
