@@ -89,6 +89,7 @@ class ItemRepository extends AbstractRepository
     {
         $qb = $this->createQueryBuilder('it')
             ->where('it.quantity > 0')
+            ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
             ->innerJoin('it.category', 'c')
@@ -104,6 +105,7 @@ class ItemRepository extends AbstractRepository
     {
         $qb = $this->createQueryBuilder('it')
             ->where('it.quantity > 0')
+            ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
             ->innerJoin('it.category', 'c')
@@ -118,6 +120,7 @@ class ItemRepository extends AbstractRepository
     {
         $qb = $this->createQueryBuilder('it')
             ->where('it.quantity > 0')
+            ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
             ->innerJoin('it.category', 'c')
@@ -137,6 +140,7 @@ class ItemRepository extends AbstractRepository
     {
         $qb = $this->createQueryBuilder('it')
             ->where('it.quantity > 0')
+            ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
             ->innerJoin('it.category', 'c')

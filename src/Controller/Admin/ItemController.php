@@ -163,6 +163,22 @@ class ItemController extends AdminController
     }
 
     /**
+     * @Route("/toggle-visible/{id<\d+>}/{page<\d+>?1}/{row<\d+>?1}")
+     * @param Item $item
+     * @param int $page
+     * @param int $row
+     * @return Response
+     */
+    public function toggleVisible(Item $item, int $page, int $row)
+    {
+        $item->setVisible(!$item->getVisible());
+        $this->getEm()->persist($item);
+        $this->getEm()->flush();
+
+        return $this->redirectToRoute('app_admin_item_items', ['page' => $page, '_fragment' => 'row-'.$row]);
+    }
+
+    /**
      * @Route("/remove/image/{id<\d+>}", methods={"POST"})
      * @param Image $image
      * @return Response

@@ -44,6 +44,7 @@
                                 </td>
                                 <td><a class="bt-btn bt-btn--info" title="Modifier" href="{{ path('app_admin_item_edit', {'id' : item.id}) }}"><i class="far fa-edit"></i></a></td>
                                 <td><button class="bt-btn bt-btn--success" title="Enregistrer" onclick="return confirm('Enregistrer tous les changements?')"><i class="far fa-save"></i></button></td>
+                                <td><a class="bt-btn {% if item.visible %}bt-btn--success{% else %}bt-btn--danger{% endif %}" title="{% if item.visible %}Visible{% else %}Masqué{% endif %}" href="{{ path('app_admin_item_togglevisible', {'id' : item.id}) }}"><i class="far fa-eye"></i></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

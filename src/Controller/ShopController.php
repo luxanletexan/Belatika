@@ -135,6 +135,8 @@ class ShopController extends AbstractController
      */
     public function item(Item $item):Response
     {
+        if (!$item->getVisible()) return $this->redirectToRoute('app_shop_index');
+
         $itemUrl = $this->generateUrl('app_shop_item', [
             'category_slug' => $item->getCategory()->getSlug(),
             'customer' => $item->getCategory()->getCustomers(),
