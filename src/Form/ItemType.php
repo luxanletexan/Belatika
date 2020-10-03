@@ -34,7 +34,7 @@ class ItemType extends AbstractType
             ->add('metaDescription', TextareaType::class, ['required' => false, 'label' => 'Meta Description', 'attr' => ['rows' => 6]])
             ->add('price', NumberType::class, ['label' => 'Prix'])
             ->add('quantity', HiddenType::class, ['attr' => ['value' => 1]])
-            ->add('highlighted', CheckboxType::class, ['label' => 'Mettre en avant', 'required' => false])
+            ->add('visible', CheckboxType::class, ['label' => 'Visible', 'required' => false])
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
                 'block_name' => 'images',

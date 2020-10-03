@@ -103,7 +103,7 @@ class Item
     /**
      * @ORM\Column(type="boolean")
      */
-    private $highlighted = false;
+    private $visible = true;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -269,14 +269,14 @@ class Item
         return $this->discountPrice;
     }
 
-    public function getHighlighted(): ?bool
+    public function getVisible(): ?bool
     {
-        return $this->highlighted;
+        return $this->visible;
     }
 
-    public function setHighlighted(bool $highlighted): self
+    public function setVisible(bool $visible): self
     {
-        $this->highlighted = $highlighted;
+        $this->visible = $visible;
 
         return $this;
     }
