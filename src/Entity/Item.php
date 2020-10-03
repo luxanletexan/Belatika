@@ -115,7 +115,6 @@ class Item
         $this->images = new ArrayCollection();
         $this->created_at = date_create();
         $this->discount = 0;
-        $this->ranges = new ArrayCollection();
         $this->customerOrderLines = new ArrayCollection();
     }
 
