@@ -35,14 +35,6 @@ class ItemType extends AbstractType
             ->add('price', NumberType::class, ['label' => 'Prix'])
             ->add('quantity', HiddenType::class, ['attr' => ['value' => 1]])
             ->add('highlighted', CheckboxType::class, ['label' => 'Mettre en avant', 'required' => false])
-            ->add('ranges', EntityType::class, [
-                'class' => Range::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-                'label' => 'Gammes',
-                'expanded' => true,
-                'required' => false
-            ])
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
                 'block_name' => 'images',

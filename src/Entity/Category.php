@@ -13,6 +13,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Category
 {
+    const IMAGE_PATH = 'img/resources/categories/';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -161,6 +163,6 @@ class Category
 
     public function getImageWebPath()
     {
-        return Range::IMAGE_PATH.$this->image;
+        return self::IMAGE_PATH.$this->image;
     }
 }

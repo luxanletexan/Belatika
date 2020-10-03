@@ -35,12 +35,6 @@ class Item
     private $images;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Range", inversedBy="items", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $ranges;
-
-    /**
      * @ORM\OneToMany(targetEntity="CustomerOrderLine", mappedBy="item")
      */
     private $customerOrderLines;
@@ -288,34 +282,6 @@ class Item
     }
 
     /**
-     * @return Collection|Range[]
-     */
-    public function getRanges(): Collection
-    {
-        return $this->ranges;
-    }
-
-    public function addRange(Range $range): self
-    {
-        if (!$this->ranges->contains($range)) {
-            $this->ranges[] = $range;
-            $range->addItem($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRange(Range $range): self
-    {
-        if ($this->ranges->contains($range)) {
-            $this->ranges->removeElement($range);
-            $range->removeItem($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getLink()
@@ -368,12 +334,6 @@ class Item
         $price = $onSale ? $this->getDiscountPrice() : $this->getPrice();
         $category = $this->getCategory()->getName();
         $customers = $this->getCategory()->getCustomers();
-        $rangesText = '';
-        $ranges = $this->getRanges();
-        if ($ranges->count() > 0) {
-            $range = $ranges[0];
-            $rangesText = ' de la gamme '. lcfirst($range->getName());
-        }
 
         return
             "Découvrez "
@@ -381,7 +341,7 @@ class Item
             ." à "
             . number_format($price, 2, ',', ' ')
             . "€ parmis nos "
-            . lcfirst($category) . ' ' . lcfirst($customers) .$rangesText
+            . lcfirst($category) . ' ' . lcfirst($customers)
             . ' dans la boutique de bijoux Belatika. Paiement sécurisé et livraison gratuite.';
     }
 
