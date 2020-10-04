@@ -37,6 +37,7 @@ class ItemRepository extends AbstractRepository
 
         $qb = $this
             ->createQueryBuilder('it')
+            ->where('it.quantity > 0')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
             ->innerJoin('it.category', 'c')
@@ -83,7 +84,7 @@ class ItemRepository extends AbstractRepository
     public function findCategoryWithImages(Category $category): array
     {
         $qb = $this->createQueryBuilder('it')
-//            ->where('it.quantity > 0')
+            ->where('it.quantity > 0')
             ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
@@ -99,7 +100,7 @@ class ItemRepository extends AbstractRepository
     public function findSales()
     {
         $qb = $this->createQueryBuilder('it')
-//            ->where('it.quantity > 0')
+            ->where('it.quantity > 0')
             ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
@@ -114,7 +115,7 @@ class ItemRepository extends AbstractRepository
     public function findCustomerItems($customers)
     {
         $qb = $this->createQueryBuilder('it')
-//            ->where('it.quantity > 0')
+            ->where('it.quantity > 0')
             ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
@@ -134,7 +135,7 @@ class ItemRepository extends AbstractRepository
     public function searchWithImages($search): array
     {
         $qb = $this->createQueryBuilder('it')
-//            ->where('it.quantity > 0')
+            ->where('it.quantity > 0')
             ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
