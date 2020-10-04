@@ -11,7 +11,7 @@
                     <tbody>
                         {% for item in items %}
                             <tr id="row-{{ loop.index }}">
-                                <td class="dashboard-table__image">
+                                <td id="ITEM_{{ item.id }}" class="dashboard-table__image">
                                     <figure>
                                         <img title="Image principale" width="120" src="{{ item.images|first.webPath|imagine_filter('square') }}" alt="{{ item.images|first.alt }}">
                                         <figcaption><input title="Texte alternatif" name="ITEM_{{ item.id }}_FIRST_IMAGE_ALT" type="text" value="{{ item.images|first.alt }}"></figcaption>
@@ -44,7 +44,7 @@
                                 </td>
                                 <td><a class="bt-btn bt-btn--info" title="Modifier" href="{{ path('app_admin_item_edit', {'id' : item.id}) }}"><i class="far fa-edit"></i></a></td>
                                 <td><button class="bt-btn bt-btn--success" title="Enregistrer" onclick="return confirm('Enregistrer tous les changements?')"><i class="far fa-save"></i></button></td>
-                                <td><a class="bt-btn {% if item.visible %}bt-btn--success{% else %}bt-btn--danger{% endif %}" title="{% if item.visible %}Visible{% else %}Masqué{% endif %}" href="{{ path('app_admin_item_togglevisible', {'id' : item.id}) }}"><i class="far fa-eye"></i></a></td>
+                                <td><a class="bt-btn {% if item.visible %}bt-btn--success{% else %}bt-btn--danger{% endif %}" title="{% if item.visible %}Visible{% else %}Masqué{% endif %}" href="{{ path('app_admin_item_togglevisible', {'id' : item.id, 'page': items.currentPage}) }}"><i class="far fa-eye"></i></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

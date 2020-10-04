@@ -29,9 +29,9 @@ class ItemRepository extends AbstractRepository
     public function findAllWithImages($params = [])
     {
         $params = array_merge([
-            'forSlider' => false,
+            'onlyVisible' => true,
             'paginate' => false,
-            'filters' => ['it.quantity > 0'],
+            'filters' => [],
             'order' => ['it.created_at' => 'DESC'],
         ], $params);
 
@@ -42,17 +42,12 @@ class ItemRepository extends AbstractRepository
             ->innerJoin('it.category', 'c')
             ->addSelect('c');
 
-        foreach ($params['order'] as $orderBy => $order) {
-            $qb->orderBy($orderBy, $order);
+        if ($params['onlyVisible']) {
+            $qb->where('it.visible = 1');
         }
 
-        if ($params['forSlider']) {
-            $qb
-                ->where('it.highlighted = 1')
-                ->orWhere('it.created_at > :date')
-                ->setParameter('date', date_create()->modify('-1 month'))
-                ->andWhere('it.quantity > 0');
-            return $qb->getQuery()->getResult();
+        foreach ($params['order'] as $orderBy => $order) {
+            $qb->orderBy($orderBy, $order);
         }
 
         foreach ($params['filters'] as $filter) {
@@ -88,7 +83,7 @@ class ItemRepository extends AbstractRepository
     public function findCategoryWithImages(Category $category): array
     {
         $qb = $this->createQueryBuilder('it')
-            ->where('it.quantity > 0')
+//            ->where('it.quantity > 0')
             ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
@@ -104,7 +99,7 @@ class ItemRepository extends AbstractRepository
     public function findSales()
     {
         $qb = $this->createQueryBuilder('it')
-            ->where('it.quantity > 0')
+//            ->where('it.quantity > 0')
             ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
@@ -119,7 +114,7 @@ class ItemRepository extends AbstractRepository
     public function findCustomerItems($customers)
     {
         $qb = $this->createQueryBuilder('it')
-            ->where('it.quantity > 0')
+//            ->where('it.quantity > 0')
             ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
@@ -139,7 +134,7 @@ class ItemRepository extends AbstractRepository
     public function searchWithImages($search): array
     {
         $qb = $this->createQueryBuilder('it')
-            ->where('it.quantity > 0')
+//            ->where('it.quantity > 0')
             ->where('it.visible = 1')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
@@ -151,25 +146,6 @@ class ItemRepository extends AbstractRepository
             ->setParameter('ref', $search)
             ->orWhere('c.name like :catname')
             ->setParameter('catname', '%'.$search.'%')
-            ->orderBy('it.created_at', 'DESC');
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * @param Range $range
-     * @return Item[]
-     */
-    public function findRangeWithImages(Range $range): array
-    {
-        $qb = $this->createQueryBuilder('it')
-            ->where('it.quantity > 0')
-            ->innerJoin('it.images', 'im')
-            ->addSelect('im')
-            ->innerJoin('it.ranges', 'r')
-            ->addSelect('r')
-            ->andWhere(':range MEMBER OF it.ranges')
-            ->setParameter('range', $range)
             ->orderBy('it.created_at', 'DESC');
 
         return $qb->getQuery()->getResult();

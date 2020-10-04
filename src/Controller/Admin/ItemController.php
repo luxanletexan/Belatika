@@ -85,7 +85,7 @@ class ItemController extends AdminController
             $manager->flush();
         }
 
-        $items = $itemRepository->findAllWithImages(['paginate' => true, 'filters' => [], 'order' => ['it.reference' => 'DESC']]);
+        $items = $itemRepository->findAllWithImages(['onlyVisible' => false, 'paginate' => true, 'filters' => [], 'order' => ['it.reference' => 'DESC']]);
 
         $items
             ->setCurrentPage($page)
@@ -163,19 +163,17 @@ class ItemController extends AdminController
     }
 
     /**
-     * @Route("/toggle-visible/{id<\d+>}/{page<\d+>?1}/{row<\d+>?1}")
+     * @Route("/toggle-visible/{id<\d+>}/{page<\d+>?1}")
      * @param Item $item
      * @param int $page
-     * @param int $row
      * @return Response
      */
-    public function toggleVisible(Item $item, int $page, int $row)
+    public function toggleVisible(Item $item, int $page)
     {
         $item->setVisible(!$item->getVisible());
-        $this->getEm()->persist($item);
         $this->getEm()->flush();
 
-        return $this->redirectToRoute('app_admin_item_items', ['page' => $page, '_fragment' => 'row-'.$row]);
+        return $this->redirectToRoute('app_admin_item_items', ['page' => $page, '_fragment' => 'ITEM_'.$item->getId()]);
     }
 
     /**
