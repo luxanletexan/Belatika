@@ -94,11 +94,21 @@ export default class Popup {
         if (!button.datas) {
             button.datas = {}
         }
+        const spinner = button.element.querySelector('.fas.fa-spinner');
         button.element.addEventListener('click', () => {
+            if (spinner) spinner.classList.remove('d-none');
+            //Récupération dynamique valeur si la data est un input
+            for (let [key, value] of Object.entries(button.datas)) {
+                if(value instanceof HTMLElement) {
+                    button.datas[key] = value.value;
+                }
+            }
+
             if (button.element.dataset.cancel !== undefined) {
                 this.onOverlayClick();
             } else {
                 ajax(button.url, (response) => {
+                    if (spinner) spinner.classList.add('d-none');
                     if (button.callback) {
                         button.callback(response);
                     }

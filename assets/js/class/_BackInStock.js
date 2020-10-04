@@ -30,10 +30,10 @@ export default class BackInStock
                 Votre email
             </div>
             <div class="popup__text">
-                <input class="form-control" type="email">
+                <input class="input-email form-control" type="email">
             </div>
             <div class="my-3 text-center">
-                <button class="valid-email btn btn-success float-sm-right">Valider</button>
+                <button class="valid-email btn btn-success float-sm-right"><i class="d-none fas fa-spinner"></i> Valider</button>
             </div>
         `;
         return popupElt;
@@ -69,7 +69,7 @@ export default class BackInStock
             callback: this.callback.bind(this),
             datas: {
                 id: this.itemId,
-                email: this.popupElt.querySelector('input[type="email"]').value
+                email: this.popupElt.querySelector('.input-email')
             }
         }
 
