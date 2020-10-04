@@ -107,7 +107,7 @@ abstract class AbstractController extends Controller
         }
         $message = (new Swift_Message($subject))
             ->setFrom('noreply@belatika.com')
-            ->setTo(getenv('ADMIN_MAIL'), 'Admin Belatika')
+            ->setTo(['contact@belatika.com', 'patxi064@mail.com'], 'Admin Belatika')
             ->setBody($body);
         $this->mailer->send($message);
     }

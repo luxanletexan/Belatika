@@ -48,7 +48,18 @@
             <div class="item__content__reference">{{ 'Référence'|gTrans }} n°{{ item.reference }}</div>
             <div class="item__content__cart clearfix">
                 {% if not item.quantity %}
-                    <p>{{ 'Cet article n\'est plus disponible'|gTrans }}</p>
+                    <div>
+                        <p class="alert alert-bt-info">
+                            {{ "Victime de son succés, cet article n'est plus disponible pour le moment"|gTrans }}
+                            <button
+                                    class="backinstock bt-btn bt-btn--primary mb-2"
+                                    data-id="{{ item.id }}"
+                                    data-url="{{ path('app_shop_backinstock') }}"
+                                    data-callback-text="{{ "Merci, je vous tiens au courant du retour en stock 😉"|gTrans }}"
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}data-email="{{ app.user.email }}"{% endif %}
+                            ><i class="d-none fas fa-spinner"></i> {{ "M'alerter du retour en stock"|gTrans }}</button>
+                        </p>
+                    </div>
                 {% else %}
                     <button
                             id="cart-button-{{ item.id }}"

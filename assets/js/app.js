@@ -16,6 +16,7 @@ import Cart from "./class/_Cart";
 import Popup from "./class/_Popup";
 import Search from "./class/_Search";
 import Navigation from "./class/_Navigation";
+import BackInStock from "./class/_BackInStock";
 
 document.addEventListener('DOMContentLoaded', () => {
     new Lazyloader();
@@ -53,4 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         YOffset = window.pageYOffset;
     });
+    const backinstockElts = [].slice.call(document.getElementsByClassName('backinstock'));
+    backinstockElts.forEach(backinstockElt => new BackInStock(backinstockElt));
 });

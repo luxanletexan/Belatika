@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\BackInStock;
 use App\Entity\BlogArticle;
 use App\Entity\Category;
 use App\Entity\CustomerOrder;
@@ -10,6 +11,7 @@ use App\Entity\EtsyFeedback;
 use App\Entity\EtsySale;
 use App\Entity\Item;
 use Liip\ImagineBundle\Service\FilterService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -216,6 +218,43 @@ class ShopController extends AbstractController
         $this->breadcrumb[] = ['title' => "Avis des clients"];
 
         return $this->render('shop/avis.html.twig', ['reviews' => $reviews]);
+    }
+
+    /**
+     * @Route("/backinstock", name="app_shop_backinstock")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function backinstock(Request $request)
+    {
+        $response = [];
+        if ($request->isMethod('POST')) {
+            $item = $this->getEm()->getRepository(Item::class)->find($request->get('id'));
+            $email = $request->get('email');
+
+            $backInstock = $this->getEm()->getRepository(BackInStock::class)->findBy(['item' => $item, 'email' => $email]);
+            if (!$backInstock) {
+                $backInstock = new BackInStock();
+                $backInstock->setEmail($email)->setItem($item);
+                $this->getEm()->persist($backInstock);
+                $this->getEm()->flush();
+                $url = $this->generateUrl('app_shop_item', [
+                    'slug' => $item->getSlug(),
+                    'category_slug' => $item->getCategory()->getSlug(),
+                    'customer' => $item->getCategory()->getCustomers(),
+                ]);
+                $name = $item->getName();
+                $this->alertAdmin('Demande de remise en stock', "
+                    <h1>Demande de remise en stock</h1>
+                    <p><a href='mailto:$email'>$email</a> a demandé la remise en stock du bijou suivant: <a href='$url'>$name</a></p>
+                ");
+            }
+            $response['success'] = true;
+        } else {
+            $response['error'] = 'Erreur méthode HTTP';
+        }
+
+        return $this->json($response);
     }
 
     /**

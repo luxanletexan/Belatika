@@ -85,7 +85,7 @@ class ItemController extends AdminController
             $manager->flush();
         }
 
-        $items = $itemRepository->findAllWithImages(['withStock' => false, 'onlyVisible' => false, 'paginate' => true, 'filters' => [], 'order' => ['it.reference' => 'DESC']]);
+        $items = $itemRepository->findAllWithImages(['onlyVisible' => false, 'paginate' => true, 'filters' => [], 'order' => ['it.reference' => 'DESC']]);
 
         $items
             ->setCurrentPage($page)
