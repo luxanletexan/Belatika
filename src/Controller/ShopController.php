@@ -221,17 +221,17 @@ class ShopController extends AbstractController
     }
 
     /**
-     * @Route("/backinstock", name="app_shop_backinstock")
+     * @Route("/backinstock", name="app_shop_backinstock", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
      */
     public function backinstock(Request $request)
     {
         $response = [];
-        if ($request->isMethod('POST')) {
-            $item = $this->getEm()->getRepository(Item::class)->find($request->get('id'));
-            $email = $request->get('email');
 
+        $item = $this->getEm()->getRepository(Item::class)->find($request->get('id'));
+        $email = $request->get('email');
+        if ($email && $item) {
             $backInstock = $this->getEm()->getRepository(BackInStock::class)->findBy(['item' => $item, 'email' => $email]);
             if (!$backInstock) {
                 $backInstock = new BackInStock();
@@ -243,15 +243,20 @@ class ShopController extends AbstractController
                     'category_slug' => $item->getCategory()->getSlug(),
                     'customer' => $item->getCategory()->getCustomers(),
                 ], UrlGeneratorInterface::ABSOLUTE_PATH);
-                $name = $item->getName();
-                $this->alertAdmin('Demande de remise en stock', "
-                    <h1>Demande de remise en stock</h1>
-                    <p><a href='mailto:$email'>$email</a> a demandé la remise en stock du bijou suivant: <a href='$url'>$name</a></p>
-                ");
+                $this->fastMail(
+                    'Demande de remise en stock',
+                    [getenv('ADMIN_MAIL'), getenv('DEV_MAIL')],
+                    'mail/backinstockSeller.html.twig',
+                    [
+                        'email' => $email,
+                        'url' => $url,
+                        'name' => $item->getName(),
+                   ]
+                );
             }
             $response['success'] = true;
         } else {
-            $response['error'] = 'Erreur méthode HTTP';
+            $response['error'] = 'Requête incorrecte: paramètres manquants';
         }
 
         return $this->json($response);

@@ -1,0 +1,20 @@
+{% extends "mail/layout.html.twig" %}
+
+{% block meta_title %}Demande de remise en stock{% endblock %}
+{% block style %}
+    .gift-code {
+        font-weight: bold;
+        font-size: 2rem;
+    }
+    .gift-value {
+        font-size: 1.5rem;
+        color: yellowgreen;
+        font-weight: bold;
+    }
+{% endblock %}
+{% block title %}Demande de remise en stock{% endblock %}
+{% block content %}
+    <p>
+        <a href='mailto:{{ email }}'>{{ email }}</a> a demandé la remise en stock du bijou suivant: <a href='{{ url }}'>{{ name }}</a>
+    </p>
+{% endblock %}
