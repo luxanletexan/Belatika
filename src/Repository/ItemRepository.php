@@ -30,6 +30,7 @@ class ItemRepository extends AbstractRepository
     {
         $params = array_merge([
             'onlyVisible' => true,
+            'withStock' => true,
             'paginate' => false,
             'filters' => [],
             'order' => ['it.created_at' => 'DESC'],
@@ -37,7 +38,6 @@ class ItemRepository extends AbstractRepository
 
         $qb = $this
             ->createQueryBuilder('it')
-            ->where('it.quantity > 0')
             ->innerJoin('it.images', 'im')
             ->addSelect('im')
             ->innerJoin('it.category', 'c')
@@ -45,6 +45,9 @@ class ItemRepository extends AbstractRepository
 
         if ($params['onlyVisible']) {
             $qb->where('it.visible = 1');
+        }
+        if ($params['withStock']) {
+            $qb->where('it.quantity > 0');
         }
 
         foreach ($params['order'] as $orderBy => $order) {
