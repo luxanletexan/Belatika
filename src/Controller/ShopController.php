@@ -242,7 +242,7 @@ class ShopController extends AbstractController
                     'slug' => $item->getSlug(),
                     'category_slug' => $item->getCategory()->getSlug(),
                     'customer' => $item->getCategory()->getCustomers(),
-                ]);
+                ], UrlGeneratorInterface::ABSOLUTE_PATH);
                 $name = $item->getName();
                 $this->alertAdmin('Demande de remise en stock', "
                     <h1>Demande de remise en stock</h1>
